@@ -1,5 +1,12 @@
 /* global */
 
+:root{
+    --redColor : rgb(255, 94, 94);
+    --lightBlueColor : #87a9ba;
+}
+
+
+
 /* Les boutons des différents menu */
 button.btn-menu{
     text-align: center;
@@ -14,6 +21,30 @@ div.btn-menu{
     padding: 10px 2px 10px 2px;
     text-align: center;
 }
+
+
+
+button.delete{
+    background-color: var(--redColor);
+}
+
+/* commun à tous les menus (paramètre, new, about etc) */
+.div-interface{
+    display: none;
+    z-index: 1;
+    position: fixed;
+    top: 60px;
+    width: 95%; height: 550px;         
+    background-color: #87a9ba; 
+    padding-left: 5px;
+}
+
+p.interface-title{
+    text-align: center;
+    font-weight: bold;
+}
+
+
 
 /* ------------------------------  DIV HOME ----------------------------------*/
 
@@ -124,7 +155,7 @@ select.item-category-selector{
 /* Style pour la partie image (bleue) */
 .item-image-container {
     width: 50px;
-    background-color: rgb(57, 57, 255);
+    background-color: var(--lightBlueColor);
     border-radius: 8px;
 }
 
@@ -194,19 +225,8 @@ button.new-item{
 
 
 
-div.item-editor{
-    display: none;
-    z-index: 1;
-    position: fixed;
-    top: 60px;
-    width: 95%; height: 550px;         
-    background-color: #87a9ba; 
-}
 
-p.editor-title{
-    text-align: center;
-    font-weight: bold;
-}
+
 
 
 
@@ -236,4 +256,15 @@ div.main-menu{
 
 p.release{
     display: inline;
+}
+
+
+
+
+
+
+/* pour afficher des items pendant un devellopement qui sont caché par défaut */
+
+.dev{
+    display: inline-block;
 }
