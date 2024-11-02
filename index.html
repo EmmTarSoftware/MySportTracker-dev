@@ -29,9 +29,9 @@
                 </div>
                 <div class="item-data-container">
                     <div class="item-data-area1">
-                        <button>Distance</button>
-                        <button>Chrono</button>
-                        <button>Date</button>
+                        <button class="btn-sort">Distance</button>
+                        <button class="btn-sort">Chrono</button>
+                        <button class="btn-sort">Date</button>
                     </div>
                 </div>
             </div>
@@ -41,7 +41,7 @@
         <div class="items-list">
             <!-- item 1 -->
             <div class="item-container" onclick="onClickOnActivity()">
-                <div class="item-image-container"><img src="./images/Icon-Natation.png" alt="" srcset=""></div>
+                <div class="item-image-container"><img class="activity" src="./images/Icon-Natation.png" alt="" srcset=""></div>
                 <div class="item-data-container">
                     <div class="item-data-area1">
                         <p class="item-data-distance">0,8 km</p>
@@ -52,10 +52,10 @@
                         <p class="item-data-location">PISCINE ST MANDE</p>
                     </div>
                 </div>
-            </div>
+            </div>   
             <!-- item 1 -->
             <div class="item-container" onclick="onClickOnActivity()">
-                <div class="item-image-container"><img src="./images/Icon-intense-running.png" alt="" srcset=""></div>
+                <div class="item-image-container"><img class="activity"  src="./images/Icon-intense-running.png" alt="" srcset=""></div>
                 <div class="item-data-container">
                     <div class="item-data-area1">
                         <p class="item-data-distance">3,5 km</p>
@@ -69,7 +69,7 @@
             </div>
             <!-- item 1 -->
             <div class="item-container" onclick="onClickOnActivity()">
-                <div class="item-image-container"><img src="./images/Icon-Crossfit.png" alt="" srcset=""></div>
+                <div class="item-image-container"><img class="activity"  src="./images/Icon-Crossfit.png" alt="" srcset=""></div>
                 <div class="item-data-container">
                     <div class="item-data-area1">
                         <p class="item-data-distance">---</p>
@@ -83,7 +83,7 @@
             </div>
             <!-- item 1 -->
             <div class="item-container" onclick="onClickOnActivity()">
-                <div class="item-image-container"><img src="./images/icone-cap.png" alt="" srcset=""></div>
+                <div class="item-image-container"><img class="activity"  src="./images/icone-cap.png" alt="" srcset=""></div>
                 <div class="item-data-container">
                     <div class="item-data-area1">
                         <p class="item-data-distance">12,5 km</p>
@@ -97,7 +97,7 @@
             </div>
             <!-- item 1 -->
             <div class="item-container" onclick="onClickOnActivity()">
-                <div class="item-image-container"><img src="./images/Icon-Velo.png" alt="" srcset=""></div>
+                <div class="item-image-container"><img class="activity"  src="./images/Icon-Velo.png" alt="" srcset=""></div>
                 <div class="item-data-container">
                     <div class="item-data-area1">
                         <p class="item-data-distance">135,8 km</p>
@@ -124,7 +124,7 @@
                 </div>
             </div>            <!-- item 1 -->
             <div class="item-container" onclick="onClickOnActivity()">
-                <div class="item-image-container"><img src="./images/Icon-Natation.png" alt="" srcset=""></div>
+                <div class="item-image-container"><img class="activity"  src="./images/Icon-Natation.png" alt="" srcset=""></div>
                 <div class="item-data-container">
                     <div class="item-data-area1">
                         <p class="item-data-distance">0,8 km</p>
@@ -138,7 +138,7 @@
             </div>
             <!-- item 1 -->
             <div class="item-container" onclick="onClickOnActivity()">
-                <div class="item-image-container"><img src="./images/Icon-intense-running.png" alt="" srcset=""></div>
+                <div class="item-image-container"><img class="activity"  src="./images/Icon-intense-running.png" alt="" srcset=""></div>
                 <div class="item-data-container">
                     <div class="item-data-area1">
                         <p class="item-data-distance">3,5 km</p>
@@ -152,7 +152,7 @@
             </div>
             <!-- item 1 -->
             <div class="item-container" onclick="onClickOnActivity()">
-                <div class="item-image-container"><img src="./images/Icon-Crossfit.png" alt="" srcset=""></div>
+                <div class="item-image-container"><img class="activity"  src="./images/Icon-Crossfit.png" alt="" srcset=""></div>
                 <div class="item-data-container">
                     <div class="item-data-area1">
                         <p class="item-data-distance">---</p>
@@ -166,7 +166,7 @@
             </div>
             <!-- item 1 -->
             <div class="item-container" onclick="onClickOnActivity()">
-                <div class="item-image-container"><img src="./images/icone-cap.png" alt="" srcset=""></div>
+                <div class="item-image-container"><img class="activity"  src="./images/icone-cap.png" alt="" srcset=""></div>
                 <div class="item-data-container">
                     <div class="item-data-area1">
                         <p class="item-data-distance">12,5 km</p>
@@ -180,7 +180,7 @@
             </div>
             <!-- item 1 -->
             <div class="item-container" onclick="onClickOnActivity()">
-                <div class="item-image-container"><img src="./images/Icon-Velo.png" alt="" srcset=""></div>
+                <div class="item-image-container"><img class="activity"  src="./images/Icon-Velo.png" alt="" srcset=""></div>
                 <div class="item-data-container">
                     <div class="item-data-area1">
                         <p class="item-data-distance">135,8 km</p>
@@ -206,6 +206,7 @@
                     </div>
                 </div>
             </div>
+
 
         <!-- Fin listes des items -->
         </div>
@@ -306,7 +307,7 @@
     <!------------------------------------- DIV Main Menu ------------------------------------------------------>
     <div id="divMainBtnMenu" class="main-menu btn-menu">
        <button class="btn-menu" onclick="onChangeMenu('Profil')"><img src="./Icons/Icon-Profil.png" alt="Icone"></button>
-       Prototype v 2
+       Release 0.0.3
        <button class="btn-menu new-item" onclick="onClickNewActivity()" id="btnNewActivity"><img src="./Icons/Icon-New.png" alt="Icone"></button>
     </div>
     <!------------------------------------- FIN DIV Main Menu ------------------------------------------------------>

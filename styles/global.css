@@ -1,8 +1,13 @@
 /* global */
 
 :root{
-    --redColor : rgb(255, 94, 94);
-    --lightBlueColor : #87a9ba;
+    --colorLightRed : rgb(255, 151, 151);
+    --colorLightBlue : #87a9ba;
+    --colorLightGreen :  rgb(145, 255, 145);
+    --colorHardPurple :#7d51ff;
+    --colorLightPurple : #d0c3f7;
+    --colorLightGray : rgba(245, 245, 245);
+    --boxShadow : rgba(0, 0, 0, 0.15) 1px 1px 2px;
 }
 
 
@@ -12,20 +17,23 @@ button.btn-menu{
     text-align: center;
     margin-left: 20px;margin-right: 20px;
     width: 40px; height: 40px;
+    border: none;
+    border-radius: 5px;
+    box-shadow: var(--boxShadow);
 }
 
 div.btn-menu{
     width: 95%;height: 40px;
     bottom: 10px;
-    background-color: #e5e5e5; 
     padding: 10px 2px 10px 2px;
     text-align: center;
+    border-radius: 0px 0px 10px 10px;
 }
 
 
 
 button.delete{
-    background-color: var(--redColor);
+    background-color: var(--colorLightRed);
 }
 
 /* commun à tous les menus (paramètre, new, about etc) */
@@ -37,8 +45,9 @@ button.delete{
     width: 95%; 
     /* height: 550px;          */
     height: 90%;
-    background-color: #87a9ba; 
+    background-color:var(--colorLightBlue); 
     padding-left: 5px;
+    border-radius: 0px 0px 10px 10px;
 }
 
 p.interface-title{
@@ -46,6 +55,11 @@ p.interface-title{
     font-weight: bold;
 }
 
+
+/* Les images des activités */
+img.activity{
+    width: 80%;
+}
 
 
 /* ------------------------------  DIV HOME ----------------------------------*/
@@ -64,7 +78,7 @@ div.header{
 p.app-title{
     display: inline;
     text-align: left;
-    color:  rgb(57, 57, 255);
+    color:  var(--colorHardPurple);
     font-weight: bold;
     font-size: 18px;
     margin-left: 10px;
@@ -95,7 +109,7 @@ p.user-name{
 .item-container-head {
     width: 95%;          
     display: flex;       
-    background-color: #7d51ff; 
+    background-color: var(--colorHardPurple); 
     padding: 5px;
     margin-bottom: 10px;
     border-radius: 8px;
@@ -105,18 +119,22 @@ p.user-name{
 /* Selecteur de catégorie */
 div.item-category-selector{
     width: 50px;
+    border-radius: 5px;
 }
 
 select.item-category-selector{
     white-space: nowrap; /* Pour éviter le retour à la ligne */
 	overflow: hidden; /*Cache le texte qui dépasse */
-
-  	/* text-overflow: ellipsis; Ajoute des points de suspension (...) pour indiquer que du texte est masqué */
     width: 50px;
+    border-radius: 5px;
 }
 
 
-
+button.btn-sort{
+    border: none;
+    border-radius: 5px;
+    box-shadow: var(--boxShadow);
+}
 
 
 
@@ -142,6 +160,7 @@ select.item-category-selector{
     height: 450px;
     overflow: auto; /* Ajoute une barre de défilement si le contenu dépasse la taille de la div */
     position: relative;
+    border-radius: 0px 0px 20px 20px;
 }
 
 
@@ -149,16 +168,18 @@ select.item-category-selector{
 .item-container {
     width: 95%;          
     display: flex;       
-    background-color: #d0c3f7; 
+    background-color: var(--colorLightPurple); 
     padding: 5px;
     border-radius: 8px;
+    box-shadow: var(--boxShadow);
 }
 
 /* Style pour la partie image (bleue) */
 .item-image-container {
     width: 50px;
-    background-color: var(--lightBlueColor);
+    background-color: var(--colorLightBlue);
     border-radius: 8px;
+    text-align: center;
 }
 
 /* Style pour la partie texte (verte) */
@@ -173,7 +194,7 @@ select.item-category-selector{
 .item-data-area1 , .item-data-area2{
     display: flex;                  /* Pour aligner les paragraphes horizontalement */
     justify-content: space-between; /* Espace entre chaque paragraphe */
-    background-color: rgb(145, 255, 145);
+    background-color: var(--colorLightGreen);
     border-radius: 4px;
 }
 
@@ -207,7 +228,7 @@ p.item-data-location{
 /* Bouton New Items */
 
 button.new-item{
-    background-color: orange;
+    background-color: var(--colorLightGreen);
 }
 
 
@@ -251,6 +272,7 @@ textarea {
 
 div.main-menu{
     position: fixed;
+    background-color: var(--colorLightGray);
 }
 
 p.release{
