@@ -96,7 +96,7 @@ function onClickOnActivity() {
 
 // Genere une fausse activité pour le prototype
 function onGenerateFakeActivityView() {
-    document.getElementById("pInterfaceActivityTitle").innerHTML = "Modifier une activité";
+    document.getElementById("pInterfaceActivityTitle").innerHTML = "Editer une activité";
     document.getElementById("inputDate").value = "2024-10-12";
     document.getElementById("inputLocation").value = "PARIS";
     document.getElementById("inputDistance").value = 3.5;
