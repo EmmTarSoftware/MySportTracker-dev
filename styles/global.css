@@ -34,7 +34,9 @@ button.delete{
     z-index: 1;
     position: fixed;
     top: 60px;
-    width: 95%; height: 550px;         
+    width: 95%; 
+    /* height: 550px;          */
+    height: 90%;
     background-color: #87a9ba; 
     padding-left: 5px;
 }
@@ -205,10 +207,7 @@ p.item-data-location{
 /* Bouton New Items */
 
 button.new-item{
-    position: sticky;
-    left: 80%;bottom: 20px;
     background-color: orange;
-    
 }
 
 

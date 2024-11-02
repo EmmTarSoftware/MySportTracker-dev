@@ -90,7 +90,7 @@ onGenerateActivityOptionChoice();
 function onClickOnActivity() {
 
     onGenerateFakeActivityView();
-    onChangeDisplay([],["divActivityEditor"],["divHome"],[]);
+    onChangeDisplay(["divMainBtnMenu"],["divActivityEditor"],["divHome"],[]);
 };
 
 
@@ -106,7 +106,7 @@ function onGenerateFakeActivityView() {
 
 
 
-function onGenerateFakeNewActivity() {
+function onClickNewActivity() {
     document.getElementById("pInterfaceActivityTitle").innerHTML = "Créer une activité";
     document.getElementById("inputDate").value = "";
     document.getElementById("inputLocation").value = "";
@@ -114,22 +114,24 @@ function onGenerateFakeNewActivity() {
     document.getElementById("inputDuration").value = "";
     document.getElementById("textareaComment").value = "";
 
-    onChangeDisplay([],["divActivityEditor"],["divHome"],[]);
+    onChangeDisplay(["divMainBtnMenu"],["divActivityEditor"],["divHome"],[]);
 }
 
 
-
-
-
-// Ferme l'editeur d'item
-
-function onCloseItemEditor() {
-    onChangeDisplay(["divActivityEditor"],[],[],["divHome"]);
-
-}
 
 
 
 
 // ---------------------------------  EDITEUR d'activité ---------------------
 
+function onClickReturnFromActivityEditor() {
+    onChangeDisplay(["divActivityEditor"],["divMainBtnMenu"],[],["divHome"]);
+}
+
+function onClickDeleteFromActivityEditor() {
+    onChangeDisplay(["divActivityEditor"],["divMainBtnMenu"],[],["divHome"]);
+}
+
+function onClickSaveFromActivityEditor() {
+    onChangeDisplay(["divActivityEditor"],["divMainBtnMenu"],[],["divHome"]);
+}
