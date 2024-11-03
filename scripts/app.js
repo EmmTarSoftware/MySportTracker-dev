@@ -17,7 +17,8 @@ function onChangeMenu(menuTarget) {
     switch (menuTarget) {
         case "Profil":
             console.log("[ NAVIGATION ] Traitement pour nouveau menu : Profil");
-             onChangeDisplay(["divMainBtnMenu","divHome"],["divProfil"],[],[]);
+            onChangeDisplay(["divMainBtnMenu","divHome"],["divProfil"],[],[]);
+            onOpenMenuProfil();
         break;
         default:
             console.log("[ NAVIGATION ] Erreur : Aucune correspondance pour le nouveau menu");

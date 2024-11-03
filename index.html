@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="./Icons/MSS-Logo.ico" type="image/x-icon">
     <link rel="stylesheet" href="./styles/global.css">
     <title>Mon Suivit Sportif</title>
 </head>
@@ -12,7 +13,7 @@
             Mon Suivit Sportif
         </p>
         
-        <p class="user-name">
+        <p id="userName" class="user-name">
             Morgane
         </p>
     </div>
@@ -272,27 +273,29 @@
         <p class="interface-title">Profil</p>
 
         <p>
-            <label for="inputUserName">Prénom : </label>
-            <input id="inputUserName" type="text" maxlength="20">
+            <label for="inputProfilUserName">Prénom : </label>
+            <input id="inputProfilUserName" type="text" maxlength="20">
         </p>
         <p>
-            Genre :
-            <label for="inputUserGenderH">Homme : </label>
-            <input id="inputUserGenderH" type="checkbox">
-            <label for="inputUserGenderF">Femme : </label>
-            <input id="inputUserGenderF" type="checkbox">
+            <label for="selectorProfilGender">
+                Genre :
+                <select name="" id="selectorProfilGender">
+                    <option value="HOMME">HOMME</option>
+                    <option value="FEMME">FEMME</option>
+                </select>
+            </label>
         </p>
         <p>
-            <label for="inputUserAge">Age : </label>
-            <input id="inputUserAge" type="number" max="99">
+            <label for="inputProfilUserAge">Age : </label>
+            <input id="inputProfilUserAge" type="number" max="99">
         </p>
         <p>
-            <label for="inputUserSize">Taille (cm): </label>
-            <input id="inputUserSize" type="number" placeholder="ex 175" max="250" maxlength="3">
+            <label for="inputProfilUserSize">Taille (cm): </label>
+            <input id="inputProfilUserSize" type="number" placeholder="ex 175" max="250" maxlength="3">
         </p>
         <p>
-            <label for="inputUserWeight">Poids (kg): </label>
-            <input id="inputUserWeight" type="number" placeholder="ex 58.3" max="250" maxlength="3">
+            <label for="inputProfilUserWeight">Poids (kg): </label>
+            <input id="inputProfilUserWeight" type="number" placeholder="ex 58.3" max="250" maxlength="3">
         </p>
         <div class="button-editor btn-menu">
             <button class="btn-menu" onclick="onClickReturnFromProfil()"><img src="./Icons/Icon-Return-cancel.png" alt="Icone"></button>
@@ -307,14 +310,13 @@
     <!------------------------------------- DIV Main Menu ------------------------------------------------------>
     <div id="divMainBtnMenu" class="main-menu btn-menu">
        <button class="btn-menu" onclick="onChangeMenu('Profil')"><img src="./Icons/Icon-Profil.png" alt="Icone"></button>
-       Release 0.0.4
+       Release 0.0.5
        <button class="btn-menu new-item" onclick="onClickNewActivity()" id="btnNewActivity"><img src="./Icons/Icon-New.png" alt="Icone"></button>
     </div>
     <!------------------------------------- FIN DIV Main Menu ------------------------------------------------------>
 
-
-    <script src="./scripts/activitySystem.js"></script>
     <script src="./scripts/profil.js"></script>
+    <script src="./scripts/activitySystem.js"></script>
     <script src="./scripts/app.js"></script>
 </body>
 </html>
