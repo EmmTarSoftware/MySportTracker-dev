@@ -17,7 +17,7 @@ function onChangeMenu(menuTarget) {
     switch (menuTarget) {
         case "Profil":
             console.log("[ NAVIGATION ] Traitement pour nouveau menu : Profil");
-            onChangeDisplay(["divMainBtnMenu","divHome"],["divProfil"],[],[]);
+            onChangeDisplay(["divMainBtnMenu","divHome"],["divProfil"],[],[],[],[]);
             onOpenMenuProfil();
         break;
         default:
@@ -33,7 +33,7 @@ function onChangeMenu(menuTarget) {
 
 
 // fonction de gestion de l'affichage
-function onChangeDisplay(toHide,toDisplay,toDisable,toEnable) {
+function onChangeDisplay(toHide,toDisplay,toDisable,toEnable,visibilityOFF,visibilityON) {
     // Cache les items
     toHide.forEach(id=>{
         let itemRef = document.getElementById(id);
@@ -45,6 +45,7 @@ function onChangeDisplay(toHide,toDisplay,toDisable,toEnable) {
         let itemRef = document.getElementById(id);
         itemRef.style.display = "block";
     });
+
 
     // Desactive les items
     toDisable.forEach(id=>{
@@ -58,7 +59,21 @@ function onChangeDisplay(toHide,toDisplay,toDisable,toEnable) {
         let itemRef = document.getElementById(id);
         itemRef.style.opacity = 1;
         itemRef.style.pointerEvents = "all";
-     });
+    });
+
+
+
+    // Visibilité OFF pour les items
+    visibilityOFF.forEach(id=>{
+        let itemRef = document.getElementById(id);
+        itemRef.style.visibility = "hidden";
+    });
+
+    // Visibilité ON pour les items
+    visibilityON.forEach(id=>{
+        let itemRef = document.getElementById(id);
+        itemRef.style.visibility = "visible";
+    });
 
 
 };

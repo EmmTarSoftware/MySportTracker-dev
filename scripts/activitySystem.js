@@ -1,22 +1,25 @@
 // Tableau des activités
 let activityArray = [
-    {dataName : "RUNNING", displayName: "Course à pied", color : "", imgRef :"./images/"},
-    {dataName : "INTERVAL", displayName:"Fractionné",color : "", imgRef :"./images/"},
-    {dataName : "HIKING", displayName:"Marche/Randonnée",color : "", imgRef :"./images/"},
-    {dataName : "CYCLING", displayName:"Vélo",color : "", imgRef :"./images/"},
-    {dataName : "SWIMMING", displayName:"Natation",color : "", imgRef :"./images/"},
-    {dataName : "CROSSFIT", displayName:"Crossfit",color : "", imgRef :"./images/"},
-    {dataName : "YOGA", displayName:"Yoga",color : "", imgRef :"./images/"},
-    {dataName : "SPORT-CO", displayName:"Sport-co",color : "", imgRef :"./images/"},
-    {dataName : "CLIMBING", displayName:"Escalade",color : "", imgRef :"./images/"},
-    {dataName : "MARTIAL-ART", displayName:"Arts martiaux",color : "", imgRef :"./images/"},
-    {dataName : "WINTER-SPORT", displayName:"Ski/Snowboard",color : "", imgRef :"./images/"},
-    {dataName : "TRIATHLON", displayName:"Triathlon",color : "", imgRef :"./images/"},
-    {dataName : "WATER-ACTIVITY", displayName:"Activité nautique",color : "", imgRef :"./images/"},
-    {dataName : "STRETCHING", displayName:"Etirements",color : "", imgRef :"./images/"},
-    {dataName : "GOLF", displayName:"Golf",color : "", imgRef :"./images/"},
-    {dataName : "TENNIS", displayName:"Tennis/Badminton",color : "", imgRef :"./images/"},
-    {dataName : "PATIN", displayName:"Patinage/Roller",color : "", imgRef :"./images/"}
+    {dataName : "C.A.P", displayName: "Course à pied", color : "", imgRef :"./images/icone-cap.png"},
+    {dataName : "FRACTIONNE", displayName:"Fractionné",color : "", imgRef :"./images/Icon-intense-running.png"},
+    {dataName : "MARCHE-RANDO", displayName:"Marche/Randonnée",color : "", imgRef :"./images/Icon-Marche.png"},
+    {dataName : "VELO", displayName:"Vélo",color : "", imgRef :"./images/Icon-Velo.png"},
+    {dataName : "NATATION", displayName:"Natation",color : "", imgRef :"./images/Icon-Natation.png"},
+    {dataName : "CROSSFIT", displayName:"Crossfit",color : "", imgRef :"./images/Icon-Crossfit.png"},
+    {dataName : "YOGA", displayName:"Yoga",color : "", imgRef :"./images/Icon-Yoga.png"},
+    {dataName : "SPORT-CO", displayName:"Sport-co",color : "", imgRef :"./images/Icon-Sport-Co.png"},
+    {dataName : "ESCALADE", displayName:"Escalade",color : "", imgRef :"./images/Icon-Escalade.png"},
+    {dataName : "ARTS-MARTIAUX", displayName:"Arts martiaux",color : "", imgRef :"./images/Icon-Boxe.png"},
+    {dataName : "SKI-SNOW", displayName:"Ski/Snowboard",color : "", imgRef :"./images/Icon-ski.png"},
+    {dataName : "TRIATHLON", displayName:"Triathlon",color : "", imgRef :"./images/Icon-Triathlon.png"},
+    {dataName : "ACTIVITE-NAUTIQUE", displayName:"Activité nautique",color : "", imgRef :"./images/Icon-Nautique.png"},
+    {dataName : "STRETCHING", displayName:"Etirements",color : "", imgRef :"./images/Icon-Stretching.png"},
+    {dataName : "GOLF", displayName:"Golf",color : "", imgRef :"./images/Icon-Golf.png"},
+    {dataName : "TENNIS-BAD", displayName:"Tennis/Badminton",color : "", imgRef :"./images/Icon-Tennis.png"},
+    {dataName : "PATIN-ROLLER", displayName:"Patinage/Roller",color : "", imgRef :"./images/Icon-Patin.png"},
+    {dataName : "DANSE", displayName:"Danse",color : "", imgRef :"./images/Icon-Danse.png"},
+    {dataName : "MUSCULATION", displayName:"Musculation",color : "", imgRef :"./images/Icon-Musculation.png"}
+
 ];
 
 
@@ -90,7 +93,8 @@ onGenerateActivityOptionChoice();
 function onClickOnActivity() {
 
     onGenerateFakeActivityView();
-    onChangeDisplay(["divMainBtnMenu"],["divActivityEditor"],["divHome"],[]);
+    onChangeDisplay(["divMainBtnMenu"],["divActivityEditor"],["divHome"],[],[],["btnDeleteActivity"]);
+
 };
 
 
@@ -114,8 +118,8 @@ function onClickNewActivity() {
     document.getElementById("inputDuration").value = "";
     document.getElementById("textareaComment").value = "";
 
-    onChangeDisplay(["divMainBtnMenu"],["divActivityEditor"],["divHome"],[]);
-}
+    onChangeDisplay(["divMainBtnMenu" ],["divActivityEditor"],["divHome"],[],["btnDeleteActivity"],[]);
+};
 
 
 
@@ -125,13 +129,13 @@ function onClickNewActivity() {
 // ---------------------------------  EDITEUR d'activité ---------------------
 
 function onClickReturnFromActivityEditor() {
-    onChangeDisplay(["divActivityEditor"],["divMainBtnMenu"],[],["divHome"]);
-}
+    onChangeDisplay(["divActivityEditor"],["divMainBtnMenu"],[],["divHome"],[],[]);
+};
 
 function onClickDeleteFromActivityEditor() {
-    onChangeDisplay(["divActivityEditor"],["divMainBtnMenu"],[],["divHome"]);
-}
+    onChangeDisplay(["divActivityEditor"],["divMainBtnMenu"],[],["divHome"],[],[]);
+};
 
 function onClickSaveFromActivityEditor() {
-    onChangeDisplay(["divActivityEditor"],["divMainBtnMenu"],[],["divHome"]);
-}
+    onChangeDisplay(["divActivityEditor"],["divMainBtnMenu"],[],["divHome"],[],[]);
+};
