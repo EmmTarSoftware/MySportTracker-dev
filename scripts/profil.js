@@ -3,7 +3,7 @@
 let userInfo = {
     name :"",
     gender : "",
-    age : "",
+    birthDate : "",
     size :"",
     weight :""
 };
@@ -11,7 +11,7 @@ let userInfo = {
 // Référencement
 let inputProfilUserNameRef,
 selectorProfilUserGenderRef,
-inputProfilUserAgeRef,
+inputProfilUserBirthDateRef,
 inputProfilUserSizeRef,
 inputProfilUserWeightRef;
 
@@ -19,7 +19,7 @@ inputProfilUserWeightRef;
 // Les noms des cookies
 let cookieUserName_KeyName = "MonSuivitSportif-userName",
 cookieUserGenger_KeyName = "MonSuivitSportif-userGender",
-cookieUserAge_KeyName = "MonSuivitSportif-userAge",
+cookieUserBirthDate_KeyName = "MonSuivitSportif-userBirthDate",
 cookieUserSize_KeyName = "MonSuivitSportif-userSize",
 cookieUserWeight_KeyName = "MonSuivitSportif-userWeight";
 
@@ -35,27 +35,28 @@ cookieUserWeight_KeyName = "MonSuivitSportif-userWeight";
 
 function onCheckCookieOnstartAPP() {
     console.log(" [ PROFIL ] Vérification de l'existance des cookies du profil");
-    if (!localStorage.getItem(cookieUserName_KeyName)) {
+
+    if (localStorage.getItem(cookieUserName_KeyName) === null) {
         localStorage.setItem(cookieUserName_KeyName,"");
         console.log(" [ PROFIL ] Creation du cookies : " + cookieUserName_KeyName);
     };
 
-    if (!localStorage.getItem(cookieUserGenger_KeyName)) {
+    if (localStorage.getItem(cookieUserGenger_KeyName) === null) {
         localStorage.setItem(cookieUserGenger_KeyName,"");
         console.log(" [ PROFIL ] Creation du cookies : " + cookieUserGenger_KeyName);
     };
 
-    if (!localStorage.getItem(cookieUserAge_KeyName)) {
-        localStorage.setItem(cookieUserAge_KeyName,"");
-        console.log(" [ PROFIL ] Creation du cookies : " + cookieUserAge_KeyName);
+    if (localStorage.getItem(cookieUserBirthDate_KeyName) === null) {
+        localStorage.setItem(cookieUserBirthDate_KeyName,"");
+        console.log(" [ PROFIL ] Creation du cookies : " + cookieUserBirthDate_KeyName);
     };
 
-    if (!localStorage.getItem(cookieUserSize_KeyName)) {
+    if (localStorage.getItem(cookieUserSize_KeyName) === null) {
         localStorage.setItem(cookieUserSize_KeyName,"");
         console.log(" [ PROFIL ] Creation du cookies : " + cookieUserSize_KeyName);
     };
 
-    if (!localStorage.getItem(cookieUserWeight_KeyName)) { 
+    if (localStorage.getItem(cookieUserWeight_KeyName) === null) { 
         localStorage.setItem(cookieUserWeight_KeyName,"");
         console.log(" [ PROFIL ] Creation du cookies : " + cookieUserWeight_KeyName);
     };
@@ -71,7 +72,7 @@ function onUpdateUserInfo() {
     userInfo = {
         name : localStorage.getItem(cookieUserName_KeyName),
         gender : localStorage.getItem(cookieUserGenger_KeyName),
-        age : localStorage.getItem(cookieUserAge_KeyName),
+        birthDate : localStorage.getItem(cookieUserBirthDate_KeyName),
         size : localStorage.getItem(cookieUserSize_KeyName),
         weight : localStorage.getItem(cookieUserWeight_KeyName)   
     };
@@ -102,7 +103,7 @@ function onOpenMenuProfil() {
 function onSetProfilItems() {
     inputProfilUserNameRef.value = localStorage.getItem(cookieUserName_KeyName);
     selectorProfilUserGenderRef.value = localStorage.getItem(cookieUserGenger_KeyName);
-    inputProfilUserAgeRef.value = localStorage.getItem(cookieUserAge_KeyName);
+    inputProfilUserBirthDateRef.value = localStorage.getItem(cookieUserBirthDate_KeyName);
     inputProfilUserSizeRef.value = localStorage.getItem(cookieUserSize_KeyName);
     inputProfilUserWeightRef.value = localStorage.getItem(cookieUserWeight_KeyName);
 
@@ -114,7 +115,7 @@ function onSetProfilItems() {
 function onReferenceItemsProfils() {
     inputProfilUserNameRef = document.getElementById("inputProfilUserName");
     selectorProfilUserGenderRef = document.getElementById("selectorProfilGender");
-    inputProfilUserAgeRef = document.getElementById("inputProfilUserAge");
+    inputProfilUserBirthDateRef = document.getElementById("inputProfilUserBirthDate");
     inputProfilUserSizeRef = document.getElementById("inputProfilUserSize");
     inputProfilUserWeightRef = document.getElementById("inputProfilUserWeight");
 
@@ -131,7 +132,7 @@ function onSaveUserInfo() {
 
     localStorage.setItem(cookieUserName_KeyName,inputProfilUserNameRef.value);
     localStorage.setItem(cookieUserGenger_KeyName,selectorProfilUserGenderRef.value);
-    localStorage.setItem(cookieUserAge_KeyName,inputProfilUserAgeRef.value);
+    localStorage.setItem(cookieUserBirthDate_KeyName,inputProfilUserBirthDateRef.value);
     localStorage.setItem(cookieUserSize_KeyName,inputProfilUserSizeRef.value);
     localStorage.setItem(cookieUserWeight_KeyName,inputProfilUserWeightRef.value);
 
