@@ -1,6 +1,6 @@
 // Tableau des activités
 let activityArray = [
-    {dataName : "C.A.P", displayName: "Course à pied", color : "", imgRef :"./images/icone-cap.png"},
+    {dataName : "C.A.P", displayName: "Course à pied", color : "", imgRef :"./images/icon-cap.png"},
     {dataName : "FRACTIONNE", displayName:"Fractionné",color : "", imgRef :"./images/Icon-intense-running.png"},
     {dataName : "MARCHE-RANDO", displayName:"Marche/Randonnée",color : "", imgRef :"./images/Icon-Marche.png"},
     {dataName : "VELO", displayName:"Vélo",color : "", imgRef :"./images/Icon-Velo.png"},
@@ -115,7 +115,7 @@ function onClickNewActivity() {
     document.getElementById("inputDate").value = "";
     document.getElementById("inputLocation").value = "";
     document.getElementById("inputDistance").value = "";
-    document.getElementById("inputDuration").value = "";
+    document.getElementById("inputDuration").value = "00:00:00";
     document.getElementById("textareaComment").value = "";
 
     onChangeDisplay(["divMainBtnMenu" ],["divActivityEditor"],["divHome"],[],["btnDeleteActivity"],[]);

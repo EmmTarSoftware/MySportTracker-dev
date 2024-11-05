@@ -20,6 +20,11 @@ function onChangeMenu(menuTarget) {
             onChangeDisplay(["divMainBtnMenu","divHome"],["divProfil"],[],[],[],[]);
             onOpenMenuProfil();
         break;
+        case "Info":
+            console.log("[ NAVIGATION ] Traitement pour nouveau menu : Info");
+            onChangeDisplay(["divMainBtnMenu","divHome"],["divInfo"],[],[],[],[]);
+            onOpenMenuInfo();
+        break;
         default:
             console.log("[ NAVIGATION ] Erreur : Aucune correspondance pour le nouveau menu");
         break;

@@ -56,6 +56,21 @@ p.interface-title{
 }
 
 
+div.scrollable{
+    width: 100%;              /* Peut prendre toute la largeur du parent */
+    padding-bottom: 5px;
+    padding-top: 5px;
+    overflow: auto; /* Ajoute une barre de défilement si le contenu dépasse la taille de la div */
+    position: relative;
+    border-radius: 0px 0px 20px 20px;
+}
+
+
+
+
+
+
+
 /* Les images des activités */
 img.activity{
     width: 80%;
@@ -153,13 +168,7 @@ button.btn-sort{
     flex-direction: column;   /* Empile les items verticalement */
     gap: 15px;                /* Espace entre chaque item-container */
     align-items: flex-start;  /* Aligne les items en haut */
-    width: 100%;              /* Peut prendre toute la largeur du parent */
-    padding-bottom: 5px;
-    padding-top: 5px;
     height: 450px;
-    overflow: auto; /* Ajoute une barre de défilement si le contenu dépasse la taille de la div */
-    position: relative;
-    border-radius: 0px 0px 20px 20px;
 }
 
 
@@ -287,4 +296,40 @@ p.release{
 
 .dev{
     display: inline-block;
+}
+
+
+
+
+/*---------------------------  MENU INFO -------------------------------*/
+
+div.div-info-list{
+    height: 350px;background-color: rgb(236, 236, 236);
+}
+
+
+
+.info-list{
+    display: inline-block;
+}
+
+
+img.info-list{
+    width: 30px;
+}
+
+p.info-list{
+    margin-top: 2px; margin-bottom: 2px;
+}
+
+.release-licence{
+    text-align: center;
+    padding : 0px; margin: 0px;
+}
+
+div.release-licence{
+    position: absolute;
+    bottom: 70px;
+    /* background-color: orange; */
+    width: 95%;
 }

@@ -39,7 +39,7 @@
         </div>
 
 
-        <div class="items-list">
+        <div class="items-list scrollable">
             <!-- item 1 -->
             <div class="item-container" onclick="onClickOnActivity()">
                 <div class="item-image-container"><img class="activity" src="./images/Icon-Natation.png" alt="" srcset=""></div>
@@ -84,7 +84,7 @@
             </div>
             <!-- item 1 -->
             <div class="item-container" onclick="onClickOnActivity()">
-                <div class="item-image-container"><img class="activity"  src="./images/icone-cap.png" alt="" srcset=""></div>
+                <div class="item-image-container"><img class="activity"  src="./images/icon-cap.png" alt="" srcset=""></div>
                 <div class="item-data-container">
                     <div class="item-data-area1">
                         <p class="item-data-distance">12,5 km</p>
@@ -167,7 +167,7 @@
             </div>
             <!-- item 1 -->
             <div class="item-container" onclick="onClickOnActivity()">
-                <div class="item-image-container"><img class="activity"  src="./images/icone-cap.png" alt="" srcset=""></div>
+                <div class="item-image-container"><img class="activity"  src="./images/icon-cap.png" alt="" srcset=""></div>
                 <div class="item-data-container">
                     <div class="item-data-area1">
                         <p class="item-data-distance">12,5 km</p>
@@ -306,17 +306,60 @@
     <!-- ----------------------------------  FIN    DIV PROFIL     ------------------------------------------------>
 
 
+    <!-- ----------------------------------      DIV INFO        ------------------------------------------------>
+    <div id="divInfo" class="div-interface">
+
+        <p class="interface-title">Info</p>
+
+        <label for="">Liste des activités : </label>
+        <!-- Liste -->
+        
+
+        <div class="scrollable div-info-list">
+            <ul id="ulActivityListParent">
+                <!-- Injection de la liste d'activité -->
+            </ul>
+        </div>
+
+        
+
+
+        <div class="release-licence">
+            <p class="release-licence">Release : 0.0.8</p>
+            <h4 class="release-licence">
+                Licence : 
+            </h4>
+            <p class="release-licence">
+                Emmanuel TARACONAT
+            </p>
+            <p class="release-licence">
+                © 2024 EmmTarSoftware. Tous droits réservés.
+            </p>    
+        </div>
+        
+
+
+        <div class="button-editor btn-menu">
+            <button class="btn-menu" onclick="onClickReturnFromInfo()"><img src="./Icons/Icon-Return-cancel.png" alt="Icone"></button>  
+        </div>
+    </div>
+    <!-- ----------------------------------  FIN    DIV INFO     ------------------------------------------------>
+
 
     <!------------------------------------- DIV Main Menu ------------------------------------------------------>
     <div id="divMainBtnMenu" class="main-menu btn-menu">
        <button class="btn-menu" onclick="onChangeMenu('Profil')"><img src="./Icons/Icon-Profil.png" alt="Icone"></button>
-       Release 0.0.7
+       <button class="btn-menu" onclick="onChangeMenu('Info')"><img src="./Icons/Icon-Info.png" alt="Icone"></button>
+
+
+       Release 0.0.8
        <button class="btn-menu new-item" onclick="onClickNewActivity()" id="btnNewActivity"><img src="./Icons/Icon-New.png" alt="Icone"></button>
     </div>
     <!------------------------------------- FIN DIV Main Menu ------------------------------------------------------>
 
     <script src="./scripts/profil.js"></script>
     <script src="./scripts/activitySystem.js"></script>
+    <script src="./scripts/info.js"></script>
     <script src="./scripts/app.js"></script>
 </body>
 </html>
