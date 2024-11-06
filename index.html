@@ -18,6 +18,8 @@
         </p>
     </div>
 
+
+
     <!-------------------------------------- div accueil  -------------------------------------------------->
     <div id="divHome" class="home">
 
@@ -217,6 +219,8 @@
 
         
 
+
+
     <!-- ---------------------------------- DIV POPUP edit activity ------------------------------------------------>
     <div id="divActivityEditor" class="div-interface">
 
@@ -268,6 +272,8 @@
     <!-- ---------------------------------- FIN div POPUP edit activity ------------------------------------------------>
 
 
+
+
     <!-- ----------------------------------      DIV PROFIL        ------------------------------------------------>
     <div id="divProfil" class="div-interface">
         <p class="interface-title">Profil</p>
@@ -306,6 +312,8 @@
     <!-- ----------------------------------  FIN    DIV PROFIL     ------------------------------------------------>
 
 
+
+
     <!-- ----------------------------------      DIV SETTING        ------------------------------------------------>
     <div id="divSetting" class="div-interface">
         <p class="interface-title">Paramètres</p>
@@ -337,7 +345,7 @@
 
 
         <div class="release-licence">
-            <p class="release-licence">Release : 0.0.9</p>
+            <p class="release-licence">Release : 0.1.0</p>
             <h4 class="release-licence">
                 Licence : 
             </h4>
@@ -358,6 +366,34 @@
     <!-- ----------------------------------  FIN    DIV INFO     ------------------------------------------------>
 
 
+
+
+    <!-- ----------------------------------      DIV CONDITION ACCEPTATION      ------------------------------------------------>
+    <div id="divConditionUtilisation" class="div-interface">
+
+        <div class="entete-condition">
+            <img class="logo" src="./images/Logo_MSS.png" alt="" srcset="">
+            <h3>Bienvenue sur "Mon Suivit Sportif"</h3>
+        </div>
+        
+        <h4>Lis attentivement les éléments ci-dessous avant de continuer.</h4>
+
+        <h4>Données :</h4>
+        <p>Tes données seront sauvegardées dans votre navigateur. Tu dois donc savoir que si tu vides ton navigateur ou utilise des outils de nettoyage, tu risques de tout perdre.</p>
+        <h4>Statistiques :</h4>
+        <p>Pour bénéficier de statistiques personnalisées, je t'invite à compléter ton profil avant de créer ta première activité. Tu devras te rendre dans le menu "Profil" pour effectuer cette action.</p>
+        <label for="accept-checkbox">
+            <input type="checkbox" id="accept-checkbox" onchange="toggleLaunchButton(this)"> J'ai compris et j'accepte.
+        </label>
+
+        <div class="button-editor btn-menu">
+            <button  id="launch-btn" class="btn-menu" disabled onclick="onClickAcceptCondition()"><img src="./Icons/Icon-Accepter.png" alt="Icone"></button>  
+        </div>
+
+    </div>
+    <!-- ----------------------------------  FIN   DIV CONDITION ACCEPTATION    ------------------------------------------------>
+
+
     <!------------------------------------- DIV Main Menu ------------------------------------------------------>
     <div id="divMainBtnMenu" class="main-menu btn-menu">
        <button class="btn-menu" onclick="onChangeMenu('Profil')"><img src="./Icons/Icon-Profil.png" alt="Icone"></button>
@@ -367,6 +403,8 @@
     </div>
     <!------------------------------------- FIN DIV Main Menu ------------------------------------------------------>
 
+
+    
     <script src="./scripts/profil.js"></script>
     <script src="./scripts/setting.js"></script>
     <script src="./scripts/activitySystem.js"></script>

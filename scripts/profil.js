@@ -33,7 +33,7 @@ cookieUserWeight_KeyName = "MonSuivitSportif-userWeight";
 // Vérification des cookies au démarrage de l'application
 // Création si besoin
 
-function onCheckCookieOnstartAPP() {
+function onCheckCookieProfilOnstartAPP() {
     console.log(" [ PROFIL ] Vérification de l'existance des cookies du profil");
 
     if (localStorage.getItem(cookieUserName_KeyName) === null) {
@@ -62,7 +62,7 @@ function onCheckCookieOnstartAPP() {
     };
 };
 
-onCheckCookieOnstartAPP();
+onCheckCookieProfilOnstartAPP();
 
 
 

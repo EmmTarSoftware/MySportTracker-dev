@@ -93,3 +93,50 @@ function onChangeDisplay(toHide,toDisplay,toDisable,toEnable,visibilityOFF,visib
 
 
 
+// LANCEMENT DE L'APPLICATION
+
+
+
+
+
+// ------------------------- CONDITION D'UTILISATION ---------------------------
+
+
+
+let cookiesConditionUtilisation_keyName = "MonSuivitSportif-ConditionAccepted";
+
+function onCheckConditionUtilisation() {
+    if (localStorage.getItem(cookiesConditionUtilisation_keyName) === null) {
+        localStorage.setItem(cookiesConditionUtilisation_keyName,false);
+        console.log(" Creation du cookies : " + cookiesConditionUtilisation_keyName);
+    };
+
+    console.log(localStorage.getItem(cookiesConditionUtilisation_keyName));
+    if (localStorage.getItem(cookiesConditionUtilisation_keyName) === "false") {
+        onGenerateConditionUtilisation();
+    };
+};
+
+
+
+function onGenerateConditionUtilisation() {
+    onChangeDisplay(["divHome","divMainBtnMenu"],["divConditionUtilisation"],[],[],[],[]);
+    console.log("Génération du popup des conditions d'utilisation");
+
+};
+
+// Acceptation des conditions d'utilisations
+
+function onClickAcceptCondition() {
+    localStorage.setItem(cookiesConditionUtilisation_keyName,true);
+    console.log("Acceptation des conditions d'utilisation");
+    onChangeDisplay(["divConditionUtilisation"],["divHome","divMainBtnMenu"],[],[],[],[]);
+};
+
+// gestion de la Checkbox d'acceptation
+function toggleLaunchButton(checkbox) {
+    let launchBtn = document.getElementById("launch-btn");
+    launchBtn.disabled = !checkbox.checked;
+};
+
+onCheckConditionUtilisation();
