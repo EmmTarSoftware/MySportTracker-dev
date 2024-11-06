@@ -20,6 +20,13 @@ function onChangeMenu(menuTarget) {
             onChangeDisplay(["divMainBtnMenu","divHome"],["divProfil"],[],[],[],[]);
             onOpenMenuProfil();
         break;
+        case "Setting":
+            console.log("[ NAVIGATION ] Traitement pour nouveau menu : Setting");
+            onChangeDisplay(["divMainBtnMenu","divHome"],["divSetting"],[],[],[],[]);
+            onOpenMenuSetting();
+        break;
+
+
         case "Info":
             console.log("[ NAVIGATION ] Traitement pour nouveau menu : Info");
             onChangeDisplay(["divMainBtnMenu","divHome"],["divInfo"],[],[],[],[]);

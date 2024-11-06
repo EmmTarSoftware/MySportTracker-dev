@@ -25,8 +25,8 @@ function onLoadingActivityList() {
         newActivityImg.className = "info-list";
 
         // Insertion
-        newLi.appendChild(newActivityName);
         newLi.appendChild(newActivityImg);
+        newLi.appendChild(newActivityName);
 
         ulActivityListParentRef.appendChild(newLi);
 
