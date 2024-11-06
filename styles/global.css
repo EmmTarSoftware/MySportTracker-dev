@@ -312,8 +312,13 @@ p.release{
 /*---------------------------  MENU INFO -------------------------------*/
 
 div.div-info-list{
-    height: 350px;;
+    height: 350px;
+    box-shadow: inset 0 -10px 10px -10px rgba(0, 0, 0, 0.5);
+    
 }
+
+
+
 
 
 
