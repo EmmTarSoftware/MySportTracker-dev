@@ -85,6 +85,13 @@ img.activity{
 }
 
 
+
+/* Style pour les champs requis */
+.fieldRequired{
+    border : solid 3px red;
+}
+
+
 /* ------------------------------  DIV HOME ----------------------------------*/
 
 
@@ -356,3 +363,6 @@ div.release-licence{
 div.entete-condition{
      text-align: center;
 }
+
+
+

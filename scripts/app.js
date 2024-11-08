@@ -91,11 +91,42 @@ function onChangeDisplay(toHide,toDisplay,toDisable,toEnable,visibilityOFF,visib
 };
 
 
+//formatage =  tout en majuscule
+function onSetToUppercase(e) {
+    let upperCase = e.toUpperCase();
+    return upperCase;
+};
+
+// detection des champs vides obligatoires
+function onCheckEmptyField(e) {
+    if (e === "") {
+        console.log("Champ vide obligatoire détecté !");
+    };
+    return e === ""? true :false;
+};
 
 
-// LANCEMENT DE L'APPLICATION
 
 
+
+
+
+
+
+// Conversion du format time en seconde
+function onConvertTimeToSecond(stringValue) {
+    const [hours, minutes, seconds] = stringValue.split(':').map(Number);
+    return hours * 3600 + minutes * 60 + seconds;
+};
+
+
+
+
+// Fonction de recherche d'une image via le nom de l'activité
+function getImageRefByDataName(dataName) {
+    const activity = activityArray.find(item => item.dataName === dataName);
+    return activity ? activity.imgRef : null; // Retourne l'imgRef ou null si non trouvé
+};
 
 
 
@@ -140,3 +171,65 @@ function toggleLaunchButton(checkbox) {
 };
 
 onCheckConditionUtilisation();
+
+
+
+
+
+
+
+// ------------------------------  LANCEMENT création de la base de donnée ------------------------------
+
+let db,
+    dbName = "MSS-DataBase",
+    activityStoreName = "activityList",
+    currentBaseVersion = 1,
+    cookiesBddVersion_KeyName = "Mind2Task-bddVersion";
+
+
+function onStartDataBase() {
+    let openRequest = indexedDB.open(dbName,currentBaseVersion);
+
+    // Traitement selon résultat
+
+   
+    // Mise à jour ou création requise
+    openRequest.onupgradeneeded = function () {
+        console.log(" [ DATABASE] Initialisation de la base de donnée");
+
+        db = openRequest.result;
+        if(!db.objectStoreNames.contains(activityStoreName)){
+            // si le l'object store n'existe pas
+            let activityStore = db.createObjectStore(activityStoreName, {keyPath:'key', autoIncrement: true});
+            console.log("[ DATABASE] Creation du magasin " + activityStoreName);
+
+            activityStore.createIndex('date','date',{unique:false});
+            activityStore.createIndex('distance','distance',{unique:false});
+            activityStore.createIndex('duration','duration',{unique:false});
+
+        };
+
+
+
+        // Stoque le numéro de version de base de l'application
+        localStorage.setItem(cookiesBddVersion_KeyName, currentBaseVersion.toString());
+
+    };
+
+    openRequest.onerror = function(){
+        console.error("Error",openRequest.error);
+    };
+
+    openRequest.onsuccess = function(){
+        db = openRequest.result
+        console.log("[ DATABASE] Base ready");
+
+        // Premiere remplissage de la base avec le formation de trie par défaut
+        onUpdateActivityList("date+");
+    };
+
+
+};
+
+
+onStartDataBase();
