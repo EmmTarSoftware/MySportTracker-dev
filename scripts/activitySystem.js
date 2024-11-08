@@ -23,6 +23,14 @@ let activityArray = [
 ];
 
 
+
+// Fonction pour extraire un objet dans l'array activityArray (ci-dessus) via son "dataName"
+function getActivityArrayRefByDataName(dataName) {
+    let activity = activityArray.find(item => item.dataName === dataName);
+    return activity ? activity : null; // Retourne l'imgRef ou null si non trouvé
+};
+
+
 // Format de l'objet pour une nouvelle activité
 let newActivityFormat = {
     name :"",
@@ -240,6 +248,8 @@ function onSortData(sortType) {
 };
 
 
+
+
 // Insertion des activités dans la liste
 
 function onInsertActivityInList() {
@@ -251,6 +261,9 @@ function onInsertActivityInList() {
 
 
     allActivityArray.forEach(activity=>{
+
+        // Recupère les éléments du type d'activité dans le tableau "activityArray"
+        let activityArrayItem = getActivityArrayRefByDataName(activity.name);
 
 
         // La div de l'item
@@ -268,7 +281,7 @@ function onInsertActivityInList() {
 
         let newImage = document.createElement("img");
         newImage.className = "activity";
-        newImage.src = getImageRefByDataName(activity.name);
+        newImage.src = activityArrayItem.imgRef;
 
         newImageContainer.appendChild(newImage);
 
@@ -286,7 +299,7 @@ function onInsertActivityInList() {
 
         let newItemDistance = document.createElement("p");
         newItemDistance.className = "item-data-distance";
-        newItemDistance.innerHTML = activity.distance + " km";
+        newItemDistance.innerHTML = activity.distance != "" ? activity.distance + " km": "---";
 
         let newItemDuration = document.createElement("p");
         newItemDuration.className = "item-data-duration";
@@ -294,7 +307,15 @@ function onInsertActivityInList() {
 
         let newItemDate = document.createElement("p");
         newItemDate.className = "item-data-date";
-        newItemDate.innerHTML = activity.date;
+        if (activity.date === dateToday) {
+            newItemDate.innerHTML = "Aujourd'hui";
+        }else if (activity.date === dateYesterday) {
+            newItemDate.innerHTML = "Hier";
+        }else{
+            newItemDate.innerHTML = onFormatDateToFr(activity.date);
+        };
+
+        
 
         newDivDataArea1.appendChild(newItemDistance);
         newDivDataArea1.appendChild(newItemDuration);
@@ -306,7 +327,7 @@ function onInsertActivityInList() {
 
         let newItemLocation = document.createElement("p");
         newItemLocation.className = "item-data-location";
-        newItemLocation.innerHTML = activity.location;
+        newItemLocation.innerHTML = activity.location != "" ? activity.location : "---";
 
         newDivDataArea2.appendChild(newItemLocation);
         

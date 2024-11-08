@@ -238,6 +238,7 @@ p.item-data-duration {
 }
 p.item-data-date {
     text-align: right;
+    margin-right: 5px;
 }
 
 p.item-data-location{

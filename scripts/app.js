@@ -1,7 +1,32 @@
 // Variable globales
 
 
+// Récupère les date du jours et de la veille
 
+function onFindDateTodayUS() {
+    let today = new Date();
+    let year = today.getFullYear();
+    let month = String(today.getMonth() + 1).padStart(2, '0');
+    let day = String(today.getDate()).padStart(2, '0');
+    
+    return `${year}-${month}-${day}`;
+};
+
+// La date d'hier
+function onFindDateYesterdayUS() {
+    let yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1); // Soustrait un jour à la date actuelle
+    
+    let year = yesterday.getFullYear();
+    let month = String(yesterday.getMonth() + 1).padStart(2, '0');
+    let day = String(yesterday.getDate()).padStart(2, '0');
+    
+    return `${year}-${month}-${day}`;
+};
+
+
+let dateToday = onFindDateTodayUS(),
+    dateYesterday = onFindDateYesterdayUS();
 
 
 
@@ -38,7 +63,6 @@ function onChangeMenu(menuTarget) {
     };
 
 };
-
 
 
 
@@ -115,19 +139,31 @@ function onCheckEmptyField(e) {
 
 // Conversion du format time en seconde
 function onConvertTimeToSecond(stringValue) {
-    const [hours, minutes, seconds] = stringValue.split(':').map(Number);
+    let [hours, minutes, seconds] = stringValue.split(':').map(Number);
     return hours * 3600 + minutes * 60 + seconds;
 };
 
 
+// Convertion des dates stocké en US vers le format FR
 
+function onFormatDateToFr(dateString) {
+    // Créer un objet Date en analysant la chaîne de date
+    let date = new Date(dateString);
 
-// Fonction de recherche d'une image via le nom de l'activité
-function getImageRefByDataName(dataName) {
-    const activity = activityArray.find(item => item.dataName === dataName);
-    return activity ? activity.imgRef : null; // Retourne l'imgRef ou null si non trouvé
+    // Obtenir les composants de la date
+    let jour = date.getDate();
+    let mois = date.getMonth() + 1; // Les mois vont de 0 à 11, donc ajouter 1
+    let annee = date.getFullYear();
+
+    // Ajouter un zéro devant le jour et le mois si nécessaire
+    jour = (jour < 10) ? '0' + jour : jour;
+    mois = (mois < 10) ? '0' + mois : mois;
+
+    // Créer la nouvelle chaîne de date au format "dd-mm-yyyy"
+    let dateFormatee = jour + '-' + mois + '-' + annee;
+
+    return dateFormatee;
 };
-
 
 
 // ------------------------- CONDITION D'UTILISATION ---------------------------
