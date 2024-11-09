@@ -53,9 +53,12 @@ button.delete{
     width: 95%; 
     /* height: 550px;          */
     height: 90%;
-    background-color:var(--colorLightBlue); 
+    background-color:var(--colorLightGray); 
     padding-left: 5px;
     border-radius:10px 10px;
+
+    border: solid 1px;
+    border-color: var(--colorLightPurple);
 }
 
 p.interface-title{
@@ -81,7 +84,7 @@ div.scrollable{
 
 /* Les images des activités */
 img.activity{
-    width: 80%;
+    width: 70%;
 }
 
 
@@ -97,6 +100,20 @@ img.activity{
 }
 
 
+
+input{
+    border-radius: 5px;
+    border: solid 2px;
+    border-color: var(--colorHardPurple);
+}
+
+
+select{
+
+    border-radius: 5px;
+    border: solid 2px;
+    border-color: var(--colorHardPurple);
+}
 /* ------------------------------  DIV HOME ----------------------------------*/
 
 
@@ -123,6 +140,7 @@ p.user-name{
     display: inline;
     text-align: right;
     margin-right: 20px;
+    color: rgb(78, 78, 78);
 }
 
 
@@ -146,7 +164,7 @@ p.user-name{
     background-color: var(--colorHardPurple); 
     padding: 5px;
     margin-bottom: 10px;
-    border-radius: 8px;
+    border-radius: 12px;
 }
 
 
@@ -202,16 +220,16 @@ button.btn-sort-Selected{
 .item-container {
     width: 95%;          
     display: flex;       
-    background-color: var(--colorLightPurple); 
+    background-color: var(--colorLightGray); 
     padding: 5px;
-    border-radius: 8px;
+    border-radius: 20px;
     box-shadow: var(--boxShadow);
 }
 
 /* Style pour la partie image (bleue) */
 .item-image-container {
     width: 50px;
-    background-color: var(--colorLightBlue);
+    /* background-color: var(--colorLightBlue); */
     border-radius: 8px;
     text-align: center;
 }
@@ -228,7 +246,7 @@ button.btn-sort-Selected{
 .item-data-area1 , .item-data-area2{
     display: flex;                  /* Pour aligner les paragraphes horizontalement */
     justify-content: space-between; /* Espace entre chaque paragraphe */
-    background-color: var(--colorLightGreen);
+    /* background-color: var(--colorLightGreen); */
     border-radius: 4px;
 }
 
@@ -266,7 +284,7 @@ p.item-data-location{
 /* Bouton New Items */
 
 button.new-item{
-    background-color: var(--colorLightGreen);
+    background-color: var(--colorLightPurple);
 }
 
 

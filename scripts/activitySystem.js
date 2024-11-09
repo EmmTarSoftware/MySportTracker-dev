@@ -357,7 +357,7 @@ let currentKeyActivityInView = 0;
 
 // clique sur un item
 function onClickOnActivity(keyRef) {
-
+    onResetActivityInputs();
     onSearchActivityInBaseToDisplay(keyRef);
     onChangeDisplay(["divMainBtnMenu"],["divActivityEditor"],["divHome"],[],[],["btnDeleteActivity"]);
 
