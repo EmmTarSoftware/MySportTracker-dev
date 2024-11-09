@@ -171,7 +171,13 @@ button.btn-sort{
 }
 
 
-
+button.btn-sort-Selected{
+    border: none;
+    border-radius: 5px;
+    box-shadow: var(--boxShadow);
+    color: #7d51ff;
+    font-weight: bold;
+}
 
 /*  ----------- Listes des items ---------------- */
 
@@ -249,6 +255,9 @@ p.item-data-date {
 p.item-data-location{
     white-space: nowrap; /* Pour éviter le retour à la ligne */
 	overflow: hidden; /*Cache le texte qui dépasse */
+
+    font-style: italic;
+    font-size: 0.8rem;
 
   	text-overflow: ellipsis; /*Ajoute des points de suspension (...) pour indiquer que du texte est masqué*/
     width: 100px;

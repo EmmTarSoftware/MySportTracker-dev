@@ -31,7 +31,7 @@ function getActivityArrayRefByDataName(dataName) {
 
 
 // Format de l'objet pour une nouvelle activité
-let newActivityFormat = {
+let activityToInsertFormat = {
     name :"",
     date : "",
     location : "",
@@ -104,30 +104,16 @@ onGenerateActivityOptionChoice();
 
 
 
-// clique sur un item
 
-function onClickOnActivity() {
-
-    onGenerateFakeActivityView();
-    onChangeDisplay(["divMainBtnMenu"],["divActivityEditor"],["divHome"],[],[],["btnDeleteActivity"]);
-
-};
-
-
-// Genere une fausse activité pour le prototype
-function onGenerateFakeActivityView() {
-    pInterfaceActivityTitleRef.innerHTML = "Editer une activité";
-    inputDateRef.value = "2024-10-12";
-    inputLocationRef.value = "PARIS";
-    inputDistanceRef.value = 3.5;
-    inputDurationRef.value = "01:20:00";
-    textareaCommentRef.value = "J'étais fatigué ce jour là.";
-};
 
 
 
 function onClickNewActivity() {
     pInterfaceActivityTitleRef.innerHTML = "Créer une activité";
+
+
+    activityEditorMode = "creation";
+    console.log("ouverture de l'editeur d'activité en mode " + activityEditorMode);
 
     // Initialise les éléments
     onResetActivityInputs();
@@ -218,6 +204,12 @@ function onUpdateActivityBddList() {
 function onInsertActivityInList(activityToDisplay) {
 
     divItemListRef.innerHTML = "";
+
+    if (activityToDisplay.length === 0) {
+        divItemListRef.innerHTML = "Aucune activité à afficher !";
+        return
+    };
+
 
     console.log("Insertion des activités dans la liste");
 
@@ -320,7 +312,8 @@ function onInsertActivityInList(activityToDisplay) {
 
 // ---------------------------------  EDITEUR d'activité ---------------------
 
-
+// Variable pour connaitre dans quel mode l'editeur d'activité est ouvert
+let activityEditorMode; // creation ou modification
 
 
 
@@ -335,25 +328,131 @@ function onClickReturnFromActivityEditor() {
     onChangeDisplay(["divActivityEditor"],["divMainBtnMenu"],[],["divHome"],[],[]);
 };
 
-function onClickDeleteFromActivityEditor() {
-    onChangeDisplay(["divActivityEditor"],["divMainBtnMenu"],[],["divHome"],[],[]);
-};
+
+
+
+
 
 function onClickSaveFromActivityEditor() {
 
-    // Création de la nouvelle activité
-    onCreateNewActivity();
+    // Lancement du formatage de l'activité
+    onFormatActivity();
+};
 
+
+
+
+
+
+
+
+
+
+
+// ------------------------------------- Modification d'activité --------------------------------
+let currentKeyActivityInView = 0;
+
+
+
+
+// clique sur un item
+function onClickOnActivity(keyRef) {
+
+    onSearchActivityInBaseToDisplay(keyRef);
+    onChangeDisplay(["divMainBtnMenu"],["divActivityEditor"],["divHome"],[],[],["btnDeleteActivity"]);
 
 };
+
+
+
+
+
+
+
+
+function onSearchActivityInBaseToDisplay(keyRef) {
+    console.log("Affichage de l'activité avec la key :  " + keyRef);
+    
+
+    // recupere les éléments correspondant à la clé recherché et la stoque dans une variable
+    console.log("lecture de la Base de Données");
+    let transaction = db.transaction(activityStoreName);//readonly
+    let objectStore = transaction.objectStore(activityStoreName);
+    let request = objectStore.getAll(IDBKeyRange.only(keyRef));
+    
+    
+    request.onsuccess = function (){
+        console.log("Requete de recherche réussit");
+        console.log(request.result);
+
+        // Affiche la note voulue
+        let tempResult = request.result;
+        console.log(tempResult[0]);
+        onEditActivity(tempResult[0]);
+    };
+
+    request.onerror = function (){
+        console.log("Erreur lors de la recherche");
+    };
+
+};
+
+
+
+// Genere une fausse activité pour le prototype
+function onEditActivity(activityTarget) {
+
+    // Set le mode d'edition de l'activité
+    activityEditorMode = "modification";
+
+
+    console.log("ouverture de l'editeur d'activité en mode " + activityEditorMode);
+
+
+
+    // set la variable qui stocke la key de l'activité en cours de visualisation
+    currentKeyActivityInView = activityTarget.key;
+
+
+    pInterfaceActivityTitleRef.innerHTML = "Editer une activité";
+
+    selectorCategoryChoiceRef.value = activityTarget.name;
+    inputDateRef.value = activityTarget.date;
+    inputLocationRef.value = activityTarget.location;
+    inputDistanceRef.value = activityTarget.distance;
+    inputDurationRef.value = activityTarget.duration;
+    textareaCommentRef.value = activityTarget.comment;
+
+};
+
+
+// Enregistrement de l'activité modifié
+function onSaveModifiedActivity() {
+    console.log("Demande de sauvegarde de la modification de l'activité");
+}
+
+// -------------------------- Création d'activité ---------------------------------
+
+
+
+
 
 
 
 
 // formatage de la nouvelle activité avant insertion dans la base
-function onCreateNewActivity() {
-    console.log("Demande de création nouvelle activité");
-  
+function onFormatActivity() {
+
+
+    if (activityEditorMode === "creation") {
+        console.log("Demande de création nouvelle activité");
+    }else if(activityEditorMode === "modification"){
+        console.log("Demande d'enregistrement d'une modification d'activité");
+    };
+    
+
+
+
     // Verification des champs requis
     console.log("[ NEW ACTIVITE ] controle des champs requis");
     let emptyField = onCheckEmptyField(inputDateRef.value);
@@ -367,20 +466,25 @@ function onCreateNewActivity() {
 
 
     //  met tous les éléments dans l'objet
-    newActivityFormat.name = selectorCategoryChoiceRef.value;
-    newActivityFormat.date = inputDateRef.value;
-    newActivityFormat.distance = inputDistanceRef.value;
-    newActivityFormat.location = onSetToUppercase(inputLocationRef.value);
-    newActivityFormat.comment = textareaCommentRef.value;
-    newActivityFormat.duration = inputDurationRef.value;
-    newActivityFormat.userInfo = userInfo;
-    newActivityFormat.divers = {};
+    activityToInsertFormat.name = selectorCategoryChoiceRef.value;
+    activityToInsertFormat.date = inputDateRef.value;
+    activityToInsertFormat.distance = inputDistanceRef.value;
+    activityToInsertFormat.location = onSetToUppercase(inputLocationRef.value);
+    activityToInsertFormat.comment = textareaCommentRef.value;
+    activityToInsertFormat.duration = inputDurationRef.value;
+    activityToInsertFormat.userInfo = userInfo;
+    activityToInsertFormat.divers = {};
 
 
-    console.log(newActivityFormat.location);
-    // Demande d'insertion dans la base
 
-    onInsertNewActivity(newActivityFormat);
+    // Demande d'insertion dans la base soit en creation ou en modification
+
+
+    if (activityEditorMode === "creation") {
+        onInsertNewActivity(activityToInsertFormat);
+    }else if(activityEditorMode === "modification"){
+        onInsertModification(activityToInsertFormat);
+    };
 
 };
 
@@ -419,10 +523,125 @@ function onInsertNewActivity(dataToInsert) {
 
 
         // Remet à jour les éléments
-
         onUpdateActivityBddList("dateRecente");
 
         //Gestion de l'affichage 
         onChangeDisplay(["divActivityEditor"],["divMainBtnMenu"],[],["divHome"],[],[]);
     };
+};
+
+
+
+
+
+
+// Insertion d'une modification d'une activité
+function onInsertModification(e) {
+    console.log("fonction d'insertion de la donnée modifié");
+
+    let transaction = db.transaction(activityStoreName,"readwrite");
+    let store = transaction.objectStore(activityStoreName);
+    let modifyRequest = store.getAll(IDBKeyRange.only(currentKeyActivityInView));
+
+    
+
+    modifyRequest.onsuccess = function () {
+        console.log("modifyRequest = success");
+
+        let modifiedData = modifyRequest.result[0];
+
+        modifiedData.name = e.name;
+        modifiedData.date = e.date;
+        modifiedData.distance = e.distance;
+        modifiedData.location = e.location;
+        modifiedData.comment = e.comment;
+        modifiedData.duration = e.duration;
+        modifiedData.userInfo = e.userInfo;
+        modifiedData.divers = e.divers;
+
+
+        let insertModifiedData = store.put(modifiedData);
+
+        insertModifiedData.onsuccess = function (){
+            console.log("insertModifiedData = success");
+
+        };
+
+        insertModifiedData.onerror = function (){
+            console.log("insertModifiedData = error",insertModifiedData.error);
+
+            
+        };
+
+
+    };
+
+    modifyRequest.onerror = function(){
+        console.log("ModifyRequest = error");
+    };
+
+    transaction.oncomplete = function(){
+        console.log("transaction complete");
+        // Remet à jour les éléments
+        onUpdateActivityBddList("dateRecente");
+
+        //Gestion de l'affichage 
+        onChangeDisplay(["divActivityEditor"],["divMainBtnMenu"],[],["divHome"],[],[]);
+
+    };
+};
+
+
+
+
+
+
+
+// --------------------- SUPPRESSION ACTIVITE --------------------------
+
+
+// Suppression d'activité
+function onClickDeleteFromActivityEditor() {
+    
+
+    console.log("demande de suppression d'activité ");
+    onDeleteActivity(currentKeyActivityInView);
+};
+
+
+
+
+
+
+
+function onDeleteActivity(keyTarget) {
+    // recupere les éléments correspondant à la clé recherché et la stoque dans une variable
+    console.log("Suppression de l'activité avec la key : " + keyTarget);
+    let transaction = db.transaction(activityStoreName,"readwrite");//transaction en écriture
+    let objectStore = transaction.objectStore(activityStoreName);
+    let request = objectStore.delete(IDBKeyRange.only(keyTarget));
+    
+    
+    request.onsuccess = function (){
+        console.log("Requete de suppression réussit");
+
+
+    };
+
+    request.onerror = function (){
+        console.log("Erreur lors de la requete de suppression");
+                
+    };
+
+
+    transaction.oncomplete = function(){
+        console.log("transaction complete");
+        // Remet à jour les éléments
+        onUpdateActivityBddList("dateRecente");
+
+        //Gestion de l'affichage 
+        onChangeDisplay(["divActivityEditor"],["divMainBtnMenu"],[],["divHome"],[],[]);
+
+    };
+
 };

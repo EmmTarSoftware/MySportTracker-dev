@@ -1,4 +1,11 @@
 
+// Référencement des icones de tries
+
+let btnSortDistanceRef = document.getElementById("btnSortDistance"),
+    btnSortDuration = document.getElementById("btnSortDuration"),
+    btnSortDate = document.getElementById("btnSortDate");
+
+
 // Remet les tries et filtres par défaut
 function onResetSortAndFilter(){
     console.log("Réinitialiser les filtres et trie par défaut");
@@ -6,13 +13,20 @@ function onResetSortAndFilter(){
     currentFilter = defaultFilter;
     currentSortType = "dateRecente";
 
-
-    // Mettre à jour le style également
 };
 
 
+// Set les icones de trie selon le trie en cours
+function onSetIconSort() {
+
+    console.log("modifie de style des icones de filtre");
+
+    btnSortDistanceRef.className = currentSortType === "distanceCroissante"  || currentSortType === "distanceDecroissante"? "btn-sort-Selected" : "btn-sort";
+    btnSortDuration.className = currentSortType === "chronoCroissant"  || currentSortType === "chronoDecroissant"? "btn-sort-Selected" : "btn-sort";
+    btnSortDate.className = currentSortType === "dateRecente"  || currentSortType === "dateAncienne"? "btn-sort-Selected" : "btn-sort";
 
 
+};
 
 
 //---------------------------------------- LES FILTRES ----------------------------
@@ -91,9 +105,6 @@ function onFilterActivity(sortType,filterType,activityArray) {
     console.log("type de trie = " + sortType + " type de filtre = " + filterType);
 
     let allDataFiltered = [];
-
-    console.log("Valeur de paramètre activityArray");
-    console.log(activityArray);
 
 
     // si le filtre est réglé sur "tous" affiche tous
@@ -181,6 +192,9 @@ function onUserChangeSortType(sortCategory) {
 
     console.log(`Changement du type de trie sur ${sortCategory}  pour ${currentSortType}`);
 
+
+
+
     onFilterActivity(currentSortType,currentFilter,allActivityArray);
 
 
@@ -207,7 +221,13 @@ function onSortActivity(sortType,filteredData) {
         filteredData.sort((a, b) => onConvertTimeToSecond(b.duration) - onConvertTimeToSecond(a.duration)); // Tri par distance décroissante
     };
 
-    console.log(filteredData);
+
+    // Mettre à jour le style également
+
+    console.log("appel la fonction de trie");
+    onSetIconSort();
+
+
 
     // Insert uniquement les activités du filtre
     onInsertActivityInList(filteredData);
