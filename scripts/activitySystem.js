@@ -23,7 +23,6 @@ let activityArray = [
 ];
 
 
-
 // Fonction pour extraire un objet dans l'array activityArray (ci-dessus) via son "dataName"
 function getActivityArrayRefByDataName(dataName) {
     let activity = activityArray.find(item => item.dataName === dataName);
@@ -67,32 +66,8 @@ let pInterfaceActivityTitleRef = document.getElementById("pInterfaceActivityTitl
 
 
 
-// Génération des options d'activité pour le filtre avec tri
-function onGenerateActivityOptionFilter() {
 
-    let selectorRef = document.getElementById("selectorCategoryFilter");
-    selectorRef.innerHTML = "";
 
-    // Trier le tableau par ordre alphabétique du displayName
-    activityArray.sort((a, b) => a.displayName.localeCompare(b.displayName));
-
-    // Ajouter l'option "Tous" au début
-    let allOption = document.createElement("option");
-    allOption.value = "ALL";
-    allOption.innerHTML = "Tous";
-    selectorRef.appendChild(allOption);
-
-    // Ajouter les autres options triées
-    activityArray.forEach(activity => {
-        let newOption = document.createElement("option");
-        newOption.value = activity.dataName;
-        newOption.innerHTML = activity.displayName;
-        selectorRef.appendChild(newOption);
-    });
-
-};
-
-onGenerateActivityOptionFilter();
 
 
 
@@ -181,7 +156,7 @@ function onResetActivityInputs() {
 
 // actualisation de la liste d'activité
 
-function onUpdateActivityList(sortType) {
+function onUpdateActivityBddList() {
 
     console.log("Actualisation de la liste d'activité");
     allActivityArray = [];
@@ -211,48 +186,36 @@ function onUpdateActivityList(sortType) {
 
         console.log("stockage des données dans allActivityArray")
         allActivityArray = requestTask.result;
-        
+
+        // Remet les tries et filtres par défaut
+        onResetSortAndFilter();
+
+        // Generation du trie dynamique
+        onGenerateDynamiqueFilter(allActivityArray);
+
+        // Lancement de l'actualisation sur le filtre en cours
+        onFilterActivity(currentSortType,currentFilter,allActivityArray);
 
 
-
-        // Lancement du trie selon le format par défaut ( date plus récente)
-        onSortData(sortType);
     };
 };
 
 
 
-// Fonction du trie 
-function onSortData(sortType) {
 
-    console.log("trie par : " + sortType );
 
-    if (sortType === "date+") {
-        allActivityArray.sort((a, b) => new Date(b.date) - new Date(a.date)); // Tri par date décroissante
-    }else if (sortType === "date-") {
-        allActivityArray.sort((a, b) => new Date(a.date) - new Date(b.date)); // Tri par date croissante
-    }else if (sortType === "distance-") {
-        allActivityArray.sort((a, b) => a.distance - b.distance); // Tri par distance croissante
-    }else if (sortType === "distance+") {
-        allActivityArray.sort((a, b) => b.distance - a.distance); // Tri par distance décroissante
-    }else if (sortType === "duration-") {
-        allActivityArray.sort((a, b) => onConvertTimeToSecond(a.duration) - onConvertTimeToSecond(b.duration)); // Tri par distance croissante
-    }else if (sortType === "duration+") {
-        allActivityArray.sort((a, b) => onConvertTimeToSecond(b.duration) - onConvertTimeToSecond(a.duration)); // Tri par distance décroissante
-    };
 
-    console.log(allActivityArray);
 
-    // Insertion des activités dans la liste
-    onInsertActivityInList();
-};
+
+
+
 
 
 
 
 // Insertion des activités dans la liste
 
-function onInsertActivityInList() {
+function onInsertActivityInList(activityToDisplay) {
 
     divItemListRef.innerHTML = "";
 
@@ -260,7 +223,7 @@ function onInsertActivityInList() {
 
 
 
-    allActivityArray.forEach(activity=>{
+    activityToDisplay.forEach(activity=>{
 
         // Recupère les éléments du type d'activité dans le tableau "activityArray"
         let activityArrayItem = getActivityArrayRefByDataName(activity.name);
@@ -457,7 +420,7 @@ function onInsertNewActivity(dataToInsert) {
 
         // Remet à jour les éléments
 
-        onUpdateActivityList("date+");
+        onUpdateActivityBddList("dateRecente");
 
         //Gestion de l'affichage 
         onChangeDisplay(["divActivityEditor"],["divMainBtnMenu"],[],["divHome"],[],[]);

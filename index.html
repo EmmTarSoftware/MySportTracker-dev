@@ -26,15 +26,15 @@
         <div>
             <div class="item-container-head">
                 <div class="item-category-selector">
-                    <select  class="item-category-selector" name="category" id="selectorCategoryFilter">
+                    <select  class="item-category-selector" name="category" id="selectorCategoryFilter" onchange="onChangeSelectorFilter()">
                         <!-- Injection des options-->
                     </select>
                 </div>
                 <div class="item-data-container">
                     <div class="item-data-area1">
-                        <button class="btn-sort">Distance</button>
-                        <button class="btn-sort">Chrono</button>
-                        <button class="btn-sort">Date</button>
+                        <button class="btn-sort" onclick="onUserChangeSortType('distance')"><img class="filter" src="./Icons/icon-Distance-Sel.png" alt="iconeFiltreDistance" srcset=""></button>
+                        <button class="btn-sort" onclick="onUserChangeSortType('duration')"><img class="filter" src="./Icons/Icon-Duration-Sel.png" alt="iconeFiltreDuree" srcset=""></button>
+                        <button class="btn-sort" onclick="onUserChangeSortType('date')"><img class="filter" src="./Icons/Icon-Date-Sel.png" alt="iconeFiltreDate" srcset=""></button>
                     </div>
                 </div>
             </div>
@@ -193,7 +193,7 @@
 
 
         <div class="release-licence">
-            <p class="release-licence">Release : 0.1.3</p>
+            <p class="release-licence">Release : 0.1.4</p>
             <h4 class="release-licence">
                 Licence : 
             </h4>
@@ -255,6 +255,7 @@
     
     <script src="./scripts/profil.js"></script>
     <script src="./scripts/setting.js"></script>
+    <script src="./scripts/sortAndFilter.js"></script>
     <script src="./scripts/activitySystem.js"></script>
     <script src="./scripts/info.js"></script>
     <script src="./scripts/app.js"></script>

@@ -261,7 +261,7 @@ function onStartDataBase() {
         console.log("[ DATABASE] Base ready");
 
         // Premiere remplissage de la base avec le formation de trie par défaut
-        onUpdateActivityList("date+");
+        onUpdateActivityBddList();
     };
 
 
