@@ -119,7 +119,7 @@ function onClickNewActivity() {
     onResetActivityInputs();
 
     // Gestion de l'affichage
-    onChangeDisplay(["divMainBtnMenu" ],["divActivityEditor"],["divHome"],[],["btnDeleteActivity"],[]);
+    onChangeDisplay(["divMainBtnMenu","divHome"],["divActivityEditor"],[],[],["btnDeleteActivity"],[]);
 };
 
 
@@ -325,7 +325,7 @@ let activityEditorMode; // creation ou modification
 
 
 function onClickReturnFromActivityEditor() {
-    onChangeDisplay(["divActivityEditor"],["divMainBtnMenu"],[],["divHome"],[],[]);
+    onChangeDisplay(["divActivityEditor"],["divMainBtnMenu","divHome"],[],[],[],[]);
 };
 
 
@@ -359,7 +359,7 @@ let currentKeyActivityInView = 0;
 function onClickOnActivity(keyRef) {
     onResetActivityInputs();
     onSearchActivityInBaseToDisplay(keyRef);
-    onChangeDisplay(["divMainBtnMenu"],["divActivityEditor"],["divHome"],[],[],["btnDeleteActivity"]);
+    onChangeDisplay(["divMainBtnMenu","divHome"],["divActivityEditor"],[],[],[],["btnDeleteActivity"]);
 
 };
 
@@ -526,7 +526,7 @@ function onInsertNewActivity(dataToInsert) {
         onUpdateActivityBddList("dateRecente");
 
         //Gestion de l'affichage 
-        onChangeDisplay(["divActivityEditor"],["divMainBtnMenu"],[],["divHome"],[],[]);
+        onChangeDisplay(["divActivityEditor"],["divMainBtnMenu","divHome"],[],[],[],[]);
     };
 };
 
@@ -586,7 +586,7 @@ function onInsertModification(e) {
         onUpdateActivityBddList("dateRecente");
 
         //Gestion de l'affichage 
-        onChangeDisplay(["divActivityEditor"],["divMainBtnMenu"],[],["divHome"],[],[]);
+        onChangeDisplay(["divActivityEditor"],["divMainBtnMenu","divHome"],[],[],[],[]);
 
     };
 };
@@ -640,7 +640,7 @@ function onDeleteActivity(keyTarget) {
         onUpdateActivityBddList("dateRecente");
 
         //Gestion de l'affichage 
-        onChangeDisplay(["divActivityEditor"],["divMainBtnMenu"],[],["divHome"],[],[]);
+        onChangeDisplay(["divActivityEditor"],["divMainBtnMenu","divHome"],[],[],[],[]);
 
     };
 

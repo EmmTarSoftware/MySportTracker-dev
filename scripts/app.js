@@ -187,7 +187,7 @@ function onCheckConditionUtilisation() {
 
 
 function onGenerateConditionUtilisation() {
-    onChangeDisplay(["divHome","divMainBtnMenu"],["divConditionUtilisation"],[],[],[],[]);
+    onChangeDisplay(["divHome","divMainBtnMenu"],["divConditionUtilisation"],[],[],["launch-btn"],[]);
     console.log("Génération du popup des conditions d'utilisation");
 
 };
@@ -203,7 +203,7 @@ function onClickAcceptCondition() {
 // gestion de la Checkbox d'acceptation
 function toggleLaunchButton(checkbox) {
     let launchBtn = document.getElementById("launch-btn");
-    launchBtn.disabled = !checkbox.checked;
+    launchBtn.style.visibility = checkbox.checked ? "visible" : "hidden";
 };
 
 onCheckConditionUtilisation();
