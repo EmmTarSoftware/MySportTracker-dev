@@ -2,10 +2,10 @@
 
 :root{
     --colorLightRed : rgb(255, 151, 151);
-    --colorLightBlue : #87a9ba;
-    --colorLightGreen :  rgb(145, 255, 145);
-    --colorHardPurple :#7d51ff;
-    --colorLightPurple : #d0c3f7;
+    --colorMainTheme1 :#0081C9;
+    --colorMainTheme2 : #FFC93C;
+    --colorMainTheme3 : #86E5FF;
+    --colorMainTheme4 : #5BC0F8;
     --colorLightGray : rgba(245, 245, 245);
     --boxShadow : rgba(0, 0, 0, 0.15) 1px 1px 2px;
 }
@@ -121,7 +121,7 @@ img.activity{
 input, select, textarea{
     border-radius: 5px;
     border: solid 1px;
-    border-color: var(--colorHardPurple);
+    border-color: var(--colorMainTheme1);
 }
 
 
@@ -142,7 +142,7 @@ div.header{
 p.app-title{
     display: inline;
     text-align: left;
-    color:  var(--colorHardPurple);
+    color:  var(--colorMainTheme1);
     font-weight: bold;
     font-size: 18px;
     margin-left: 10px;
@@ -173,7 +173,7 @@ p.user-name{
 .item-container-head {
     width: 87%;  /*TEST*/        
     display: flex;       
-    background-color: var(--colorHardPurple); 
+    background-color: var(--colorMainTheme1); 
     padding: 5px;
     margin-bottom: 15px;
     margin-left: 15px;/*TEST*/
@@ -206,7 +206,7 @@ button.btn-sort-Selected{
     border: none;
     border-radius: 5px;
     box-shadow: var(--boxShadow);
-    color: #7d51ff;
+    color: var(--colorMainTheme1);
     font-weight: bold;
 }
 
@@ -241,7 +241,6 @@ button.btn-sort-Selected{
 /* Style pour la partie image (bleue) */
 .item-image-container {
     width: 50px;
-    /* background-color: var(--colorLightBlue); */
     border-radius: 8px;
     text-align: center;
 }
@@ -258,7 +257,6 @@ button.btn-sort-Selected{
 .item-data-area1 , .item-data-area2{
     display: flex;                  /* Pour aligner les paragraphes horizontalement */
     justify-content: space-between; /* Espace entre chaque paragraphe */
-    /* background-color: var(--colorLightGreen); */
     border-radius: 4px;
 }
 
@@ -295,8 +293,8 @@ p.item-data-location{
 
 /* Bouton New Items */
 
-button.new-item{
-    background-color: var(--colorLightPurple);
+button.btnFocus{
+    background-color: var(--colorMainTheme1);
 }
 
 
