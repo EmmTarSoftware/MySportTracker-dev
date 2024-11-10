@@ -108,7 +108,7 @@ onGenerateActivityOptionChoice();
 
 
 
-function onClickNewActivity() {
+function onOpenNewActivity() {
     pInterfaceActivityTitleRef.innerHTML = "Créer une activité";
 
 
@@ -118,8 +118,6 @@ function onClickNewActivity() {
     // Initialise les éléments
     onResetActivityInputs();
 
-    // Gestion de l'affichage
-    onChangeDisplay(["divMainBtnMenu","divHome"],["divActivityEditor"],[],[],["btnDeleteActivity"],[]);
 };
 
 
@@ -202,6 +200,9 @@ function onUpdateActivityBddList() {
 // Insertion des activités dans la liste
 
 function onInsertActivityInList(activityToDisplay) {
+
+
+    console.log("nbre d'activité total à afficher = " + activityArray.length);
 
     divItemListRef.innerHTML = "";
 
@@ -556,9 +557,8 @@ function onInsertModification(e) {
         modifiedData.location = e.location;
         modifiedData.comment = e.comment;
         modifiedData.duration = e.duration;
-        modifiedData.userInfo = e.userInfo;
         modifiedData.divers = e.divers;
-
+        // modifiedData.userInfo = e.userInfo; Les userInfo stockés dans la base lors de la création de l'activité ne doivent pas être modifiés
 
         let insertModifiedData = store.put(modifiedData);
 
@@ -645,3 +645,7 @@ function onDeleteActivity(keyTarget) {
     };
 
 };
+
+
+
+

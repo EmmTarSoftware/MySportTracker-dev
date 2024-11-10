@@ -11,7 +11,11 @@
 }
 
 
+body{
+    margin: 0;/*TEST*/
+    padding: 0;/*TEST*/
 
+}
 
 /* Logo d'application */
 
@@ -32,7 +36,8 @@ button.btn-menu{
 }
 
 div.btn-menu{
-    width: 95%;height: 40px;
+    width: 100%;/*TEST 95*/
+    height: 40px;
     bottom: 10px;
     padding: 10px 2px 10px 2px;
     text-align: center;
@@ -78,12 +83,14 @@ p.interface-title{
 
 
 div.scrollable{
-    width: 100%;              /* Peut prendre toute la largeur du parent */
+    width: 95%;              /* Peut prendre toute la largeur du parent */
     padding-bottom: 5px;
     padding-top: 5px;
     overflow: auto; /* Ajoute une barre de défilement si le contenu dépasse la taille de la div */
     position: relative;
     border-radius: 0px 0px 20px 20px;
+    padding-left: 10px; /*TEST*/
+
 }
 
 
@@ -127,7 +134,7 @@ input, select, textarea{
 
 
 div.header{
-    width: 95%;          
+    width: 100%;/*TEST 95*/   
     display: flex;
     justify-content: space-between; /* Espace entre chaque paragraphe */
 }
@@ -164,11 +171,12 @@ p.user-name{
 
 
 .item-container-head {
-    width: 95%;          
+    width: 87%;  /*TEST*/        
     display: flex;       
     background-color: var(--colorHardPurple); 
     padding: 5px;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+    margin-left: 15px;/*TEST*/
     border-radius: 12px;
 }
 
@@ -203,7 +211,6 @@ button.btn-sort-Selected{
 }
 
 /*  ----------- Listes des items ---------------- */
-
 
 
 

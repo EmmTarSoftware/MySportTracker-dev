@@ -57,6 +57,12 @@ function onChangeMenu(menuTarget) {
             onChangeDisplay(["divMainBtnMenu","divHome"],["divInfo"],[],[],[],[]);
             onOpenMenuInfo();
         break;
+
+        case "NewActivity":
+            console.log("[ NAVIGATION ] Traitement pour nouveau menu : New Activity");
+            onChangeDisplay(["divMainBtnMenu","divHome"],["divActivityEditor"],[],[],["btnDeleteActivity",],[]);
+            onOpenNewActivity();
+        break;
         default:
             console.log("[ NAVIGATION ] Erreur : Aucune correspondance pour le nouveau menu");
         break;
