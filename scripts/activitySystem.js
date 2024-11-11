@@ -262,7 +262,7 @@ function onInsertActivityInList(activityToDisplay) {
         let newItemDate = document.createElement("p");
         newItemDate.className = "item-data-date";
         if (activity.date === dateToday) {
-            newItemDate.innerHTML = "Aujourd'hui";
+            newItemDate.innerHTML = "Auj.";
         }else if (activity.date === dateYesterday) {
             newItemDate.innerHTML = "Hier";
         }else{

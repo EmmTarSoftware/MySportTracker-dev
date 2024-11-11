@@ -208,7 +208,7 @@ function onFormatDateToFr(dateString) {
     // Obtenir les composants de la date
     let jour = date.getDate();
     let mois = date.getMonth() + 1; // Les mois vont de 0 à 11, donc ajouter 1
-    let annee = date.getFullYear();
+    let annee = date.getFullYear() % 100; // 100% permet d'obtenir les deux derniers digit de l'année
 
     // Ajouter un zéro devant le jour et le mois si nécessaire
     jour = (jour < 10) ? '0' + jour : jour;
