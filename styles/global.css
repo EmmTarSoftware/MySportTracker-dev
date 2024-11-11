@@ -294,7 +294,7 @@ button.btn-sort-Selected{
     flex: 1;  
     display: flex;
     flex-direction: column; 
-    gap: 10px;             
+    /* gap: 10px;              */
     padding-left: 10px;    
 }
 

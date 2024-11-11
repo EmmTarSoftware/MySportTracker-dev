@@ -523,7 +523,7 @@ function onInsertNewActivity(dataToInsert) {
         onUpdateActivityBddList("dateRecente");
 
         //Gestion de l'affichage 
-        onLeaveMenu("activity");
+        onLeaveMenu("Activity");
     };
 };
 
