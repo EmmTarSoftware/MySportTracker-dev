@@ -234,6 +234,7 @@ select.item-category-selector{
 	overflow: hidden; /*Cache le texte qui dépasse */
     width: 50px;
     border-radius: 5px;
+    color: var(--colorMainTheme1);
 }
 
 

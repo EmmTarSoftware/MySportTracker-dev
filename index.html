@@ -42,7 +42,7 @@
 
 
         <div id="divItemList" class="items-list scrollable">
-            <!-- item 1 -->
+            <!-- item Modèle -->
             <div class="item-container" onclick="onClickOnActivity()">
                 <div class="item-image-container"><img class="activity" src="./images/Icon-Natation.png" alt="" srcset=""></div>
                 <div class="item-data-container">
@@ -174,6 +174,29 @@
     <div id="divSetting" class="div-interface">
 
 
+        <!-- Exporter des donnes -->
+        <p>
+            <label class="labelSetting" for="fileInputJsonTask">Exporter ses données :</label>
+            
+        </p>
+        <div class=" btn-menu">
+            <button class="btn-menu" onclick="exportData()"><img src="./Icons/Icon-Download.png" alt="Icone"></button>
+        </div>
+
+
+
+         <!-- Import des données -->
+         <p>
+            <label class="labelSetting" for="fileInputJsonTask">Importer des données :</label>
+            <input type="file" id="fileInputJsonTask" accept=".json">
+        </p>
+
+        <div class="btn-menu">
+            <button class="btn-menu" onclick="importTask('fileInputJsonTask','pImportActivityResult')"><img src="./Icons/Icon-Upload.png" alt="" srcset=""></button>
+        </div>
+        <p id="pImportActivityResult">
+
+        </p>
 
         <div class="button-editor btn-menu">
             <button class="btn-menu" onclick="onClickReturnFromSetting()"><img src="./Icons/Icon-Return-cancel.png" alt="Icone"></button>  
@@ -202,7 +225,7 @@
 
 
         <div class="release-licence">
-            <p class="release-licence">Release : 0.2.6</p>
+            <p class="release-licence">Release : 0.2.7</p>
             <h4 class="release-licence">
                 Licence : 
             </h4>
@@ -275,6 +298,7 @@
     <script src="./scripts/sortAndFilter.js"></script>
     <script src="./scripts/activitySystem.js"></script>
     <script src="./scripts/info.js"></script>
+    <script src="./scripts/importExport.js"></script>
     <script src="./scripts/app.js"></script>
 </body>
 </html>
