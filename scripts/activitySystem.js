@@ -599,16 +599,22 @@ function onInsertModification(e) {
 // Suppression d'activité
 function onClickDeleteFromActivityEditor() {
     
-
     console.log("demande de suppression d'activité ");
+    onChangeDisplay([],["divConfirmDeleteActivity"],["divActivityEditor"],[],[],[]);
+
+};
+
+
+function onConfirmDeleteActivity(){
+    console.log("Confirmation de suppression d'activité ");
     onDeleteActivity(currentKeyActivityInView);
 };
 
 
-
-
-
-
+function onAnnulDeleteActivity() {
+    console.log("annulation de la suppression d'activité ");
+    onChangeDisplay(["divConfirmDeleteActivity"],[],[],["divActivityEditor"],[],[]);
+};
 
 function onDeleteActivity(keyTarget) {
     // recupere les éléments correspondant à la clé recherché et la stoque dans une variable

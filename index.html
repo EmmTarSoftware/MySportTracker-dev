@@ -71,7 +71,7 @@
     <div id="divActivityEditor" class="div-interface">
 
 
-        <div class="div-interface-content-area">
+        <div id="divActivityEditorContent" class="div-interface-content-area">
             <p>
                 <label for="inputDate">Date : </label>
                 <input type="date" id="inputDate">
@@ -110,9 +110,7 @@
         </div>
 
 
-        
-
-        <div class="button-editor btn-menu">
+        <div id="divBtnActivity" class="button-editor btn-menu">
             <button class="btn-menu" onclick="onClickReturnFromActivityEditor()"><img src="./Icons/Icon-Return-cancel.png" alt="Icone"></button>
             <button id="btnDeleteActivity" class="btn-menu delete" onclick="onClickDeleteFromActivityEditor()"><img src="./Icons/Icon-Delete.png" alt="Icone"></button>
             <button class="btn-menu btnFocus" onclick="onClickSaveFromActivityEditor()"><img src="./Icons/Icon-Valider.png" alt="Icone"></button>            
@@ -122,7 +120,12 @@
     <!-- ---------------------------------- FIN div POPUP edit activity ------------------------------------------------>
 
 
-
+    <!-- ----------------------------Div confirmation suppression activité --------------------------------------------->
+    <div id="divConfirmDeleteActivity"  class="confirmationDelete">
+        <button class="btn-menu deleteAnnul" onclick="onAnnulDeleteActivity()"><img class="confirmSuppr" src="./Icons/Icon-Return-cancel.png" alt="Icone"></button>
+        <button id="btnConfirmDelete" class="btn-menu deleteConfirm" onclick="onConfirmDeleteActivity()"><img class="confirmSuppr" src="./Icons/Icon-Delete.png" alt="Icone"></button>
+    </div>
+    <!---------------------------  FIN Div confirmation suppression activité ------------------------------------------->
 
     <!-- ----------------------------------      DIV PROFIL        ------------------------------------------------>
     <div id="divProfil" class="div-interface">
@@ -199,7 +202,7 @@
 
 
         <div class="release-licence">
-            <p class="release-licence">Release : 0.2.3</p>
+            <p class="release-licence">Release : 0.2.4</p>
             <h4 class="release-licence">
                 Licence : 
             </h4>

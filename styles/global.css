@@ -46,8 +46,36 @@ div.btn-menu{
 
 
 
+
 button.delete{
-    background-color: var(--colorLightRed);
+    background-color: var(--colorMainTheme2);
+    transition: 1s;
+}
+
+
+div.confirmationDelete{
+    z-index: 2;
+    display: none;
+    width: 100%;/*TEST 95*/
+    position: absolute;
+    bottom: 100px;
+    text-align: center;
+}
+
+button.deleteConfirm{
+    background-color: var(--colorMainTheme2);
+    width: 50px;
+    height: 50px;
+}
+
+
+button.deleteAnnul{
+    width: 50px;
+    height: 50px;
+}
+
+img.confirmSuppr{
+    width: 30px;
 }
 
 /* commun à tous les menus (paramètre, new, about etc) */
@@ -388,7 +416,9 @@ div.div-info-list{
 
 
 li.info-list{
-   border-bottom: solid 1px var(--colorMainTheme1);
+    margin-top: 10px; 
+    height: 40px;
+    border-bottom: solid 1px var(--colorMainTheme1);
 }
 
 img.info-list{
