@@ -21,5 +21,5 @@ function onClickReturnFromSetting() {
 
 
     // ferme le menu
-    onChangeDisplay(["divSetting"],["divMainBtnMenu","divHome"],[],[],[],[]);
+    onLeaveMenu("Setting");
 };

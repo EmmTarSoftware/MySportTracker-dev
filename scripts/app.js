@@ -38,15 +38,20 @@ function onChangeMenu(menuTarget) {
 
     console.log(" [ NAVIGATION ] Demande de changement menu : " + menuTarget);
 
+    // reference le "p" qui contient le titre du menu pour le changer
+    let pMenuTitleRef = document.getElementById("pMenuTitle");
+
 
     switch (menuTarget) {
         case "Profil":
             console.log("[ NAVIGATION ] Traitement pour nouveau menu : Profil");
+            pMenuTitleRef.innerHTML = "Mon profil";
             onChangeDisplay(["divMainBtnMenu","divHome"],["divProfil"],[],[],[],[]);
             onOpenMenuProfil();
         break;
         case "Setting":
             console.log("[ NAVIGATION ] Traitement pour nouveau menu : Setting");
+            pMenuTitleRef.innerHTML = "Paramètres";
             onChangeDisplay(["divMainBtnMenu","divHome"],["divSetting"],[],[],[],[]);
             onOpenMenuSetting();
         break;
@@ -54,23 +59,67 @@ function onChangeMenu(menuTarget) {
 
         case "Info":
             console.log("[ NAVIGATION ] Traitement pour nouveau menu : Info");
+            pMenuTitleRef.innerHTML = "Information";
             onChangeDisplay(["divMainBtnMenu","divHome"],["divInfo"],[],[],[],[]);
             onOpenMenuInfo();
         break;
 
         case "NewActivity":
             console.log("[ NAVIGATION ] Traitement pour nouveau menu : New Activity");
+            pMenuTitleRef.innerHTML = "Créer une activité";
             onChangeDisplay(["divMainBtnMenu","divHome"],["divActivityEditor"],[],[],["btnDeleteActivity",],[]);
             onOpenNewActivity();
         break;
+
+        case "EditActivity":
+            console.log("[ NAVIGATION ] Traitement pour nouveau menu : EditActivity");
+            pMenuTitleRef.innerHTML = "Editer une activité";
+            onChangeDisplay(["divMainBtnMenu","divHome"],["divActivityEditor"],[],[],[],["btnDeleteActivity"]);
         default:
-            console.log("[ NAVIGATION ] Erreur : Aucune correspondance pour le nouveau menu");
+            console.log("[ NAVIGATION ] Erreur : Aucune correspondance pour le nouveau menu = " + menuTarget);
         break;
     };
 
 };
 
 
+
+
+
+
+function onLeaveMenu(menuTarget) {
+
+    console.log(" [ NAVIGATION ] Demande de changement menu : " + menuTarget);
+
+    // remet le titre initial du menu
+    // reference le "p" qui contient le titre du menu pour le changer
+    let pMenuTitleRef = document.getElementById("pMenuTitle");
+    pMenuTitleRef.innerHTML = "Mon suivit Sportif";
+
+    switch (menuTarget) {
+        case "Profil":
+            console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Profil");
+            onChangeDisplay(["divProfil"],["divMainBtnMenu","divHome"],[],[],[],[]);
+        break;
+        case "Setting":
+            console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Setting");
+            onChangeDisplay(["divSetting"],["divMainBtnMenu","divHome"],[],[],[],[]);
+        break;
+        case "Info":
+            console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Info");
+            onChangeDisplay(["divInfo"],["divMainBtnMenu","divHome"],[],[],[],[]);
+
+        break;
+        case "Activity":
+            console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Activity");
+            onChangeDisplay(["divActivityEditor"],["divMainBtnMenu","divHome"],[],[],[],[]);
+        break;
+        default:
+            console.log("[ NAVIGATION ] Erreur : Aucune correspondance pour le menu = " + menuTarget);
+        break;
+    };
+
+};
 
 
 
@@ -207,9 +256,10 @@ function onClickAcceptCondition() {
 };
 
 // gestion de la Checkbox d'acceptation
-function toggleLaunchButton(checkbox) {
+function toggleLaunchButton() {
+    let selectStatusConditionRef = document.getElementById("selectStatusCondition");
     let launchBtn = document.getElementById("launch-btn");
-    launchBtn.style.visibility = checkbox.checked ? "visible" : "hidden";
+    launchBtn.style.visibility = selectStatusConditionRef.value === "Accepted" ? "visible" : "hidden";
 };
 
 onCheckConditionUtilisation();

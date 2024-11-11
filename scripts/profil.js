@@ -153,10 +153,10 @@ function onClickSaveProfil() {
     // sauvegarde les données
     onSaveUserInfo();
     // ferme le menu
-    onChangeDisplay(["divProfil"],["divMainBtnMenu","divHome"],[],[],[],[]);
+    onLeaveMenu("Profil");
 };
 
 function onClickReturnFromProfil() {
     // ferme le menu
-    onChangeDisplay(["divProfil"],["divMainBtnMenu","divHome"],[],[],[],[]);
+    onLeaveMenu("Profil");
 };

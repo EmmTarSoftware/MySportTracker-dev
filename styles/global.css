@@ -3,7 +3,7 @@
 :root{
     --colorLightRed : rgb(255, 151, 151);
     --colorMainTheme1 :#0081C9;
-    --colorMainTheme2 : #FFC93C;
+    --colorMainTheme2 : #ffbd17;
     --colorMainTheme3 : #86E5FF;
     --colorMainTheme4 : #5BC0F8;
     --colorLightGray : rgba(245, 245, 245);
@@ -60,21 +60,7 @@ button.delete{
     height: 90%;
     padding-left: 5px;
     border-radius:10px 10px;
-    text-align: center;
 
-}
-
-p.interface-title{
-    text-align: center;
-    font-weight: bold;
-}
-
-
-.div-interface-content-area{
-    background-color: var(--colorMainTheme4);
-    border-radius: 20px;
-    padding: 20px;
-    box-shadow: var(--boxShadow);
 }
 
 
@@ -118,11 +104,34 @@ img.activity{
 
 
 
-input, select, textarea{
-    border-radius: 5px;
-    border: solid 1px;
-    border-color: var(--colorMainTheme1);
+
+
+input, textarea{
+    width: 95%;
+    height: 25px;
+    margin-left: 10px;
+    /* box-shadow: var(--boxShadow); */
+    border: none;
+    border-bottom: solid 1px var(--colorMainTheme1);
 }
+
+label{
+    margin-left: 10px;
+    color: var(--colorMainTheme2);
+    display: block;
+    font-weight: bold;
+}
+
+select.profil, select.activity, select.conditionUtilisation{
+    margin-left: 10px;
+    width: 95%;
+    border: none;
+    border-bottom: solid 1px var(--colorMainTheme1);
+}
+
+textarea:focus, input:focus, select:focus{
+    outline: none;
+    }
 
 
 
@@ -137,12 +146,14 @@ div.header{
     width: 100%;/*TEST 95*/   
     display: flex;
     justify-content: space-between; /* Espace entre chaque paragraphe */
+    background-color: var(--colorMainTheme1);
+    margin-bottom: 10px;
 }
 
 p.app-title{
     display: inline;
     text-align: left;
-    color:  var(--colorMainTheme1);
+    color:  white;
     font-weight: bold;
     font-size: 18px;
     margin-left: 10px;
@@ -152,7 +163,7 @@ p.user-name{
     display: inline;
     text-align: right;
     margin-right: 30px;
-    color: rgb(78, 78, 78);
+    color: white;
 }
 
 
@@ -173,7 +184,7 @@ p.user-name{
 .item-container-head {
     width: 87%;  /*TEST*/        
     display: flex;       
-    background-color: var(--colorMainTheme1); 
+    background-color: var(--colorMainTheme2); 
     padding: 5px;
     margin-bottom: 15px;
     margin-left: 15px;/*TEST*/
@@ -199,6 +210,7 @@ button.btn-sort{
     border: none;
     border-radius: 5px;
     box-shadow: var(--boxShadow);
+    color: var(--colorMainTheme1);
 }
 
 
@@ -206,7 +218,8 @@ button.btn-sort-Selected{
     border: none;
     border-radius: 5px;
     box-shadow: var(--boxShadow);
-    color: var(--colorMainTheme1);
+    background-color: var(--colorMainTheme1);
+    color: white;
     font-weight: bold;
 }
 
@@ -325,7 +338,7 @@ div.button-editor{
 
 
 textarea {
-    width: 90%;height: 150px;
+    height: 150px;
     resize: none;
 }
 
@@ -363,29 +376,29 @@ p.release{
 /*---------------------------  MENU INFO -------------------------------*/
 
 div.div-info-list{
+    width: 100%;
     height: 350px;
     box-shadow: inset 0 -10px 10px -10px rgba(0, 0, 0, 0.5);
     text-align: left;
-    background-color: var(--colorLightGray);
 }
 
 
 
-
-
-
-.info-list{
-    display: inline-block;
+li.info-list{
+   border-bottom: solid 1px var(--colorMainTheme1);
 }
-
 
 img.info-list{
     width: 30px;
+    display: inline-block;
 }
 
 p.info-list{
     margin-top: 2px; margin-bottom: 2px; margin-left: 10px;
+    display: inline-block;
 }
+
+
 
 .release-licence{
     text-align: center;

@@ -109,8 +109,6 @@ onGenerateActivityOptionChoice();
 
 
 function onOpenNewActivity() {
-    pInterfaceActivityTitleRef.innerHTML = "Créer une activité";
-
 
     activityEditorMode = "creation";
     console.log("ouverture de l'editeur d'activité en mode " + activityEditorMode);
@@ -326,7 +324,7 @@ let activityEditorMode; // creation ou modification
 
 
 function onClickReturnFromActivityEditor() {
-    onChangeDisplay(["divActivityEditor"],["divMainBtnMenu","divHome"],[],[],[],[]);
+    onLeaveMenu("Activity");
 };
 
 
@@ -360,7 +358,7 @@ let currentKeyActivityInView = 0;
 function onClickOnActivity(keyRef) {
     onResetActivityInputs();
     onSearchActivityInBaseToDisplay(keyRef);
-    onChangeDisplay(["divMainBtnMenu","divHome"],["divActivityEditor"],[],[],[],["btnDeleteActivity"]);
+    onChangeMenu("EditActivity");
 
 };
 
@@ -414,8 +412,6 @@ function onEditActivity(activityTarget) {
     // set la variable qui stocke la key de l'activité en cours de visualisation
     currentKeyActivityInView = activityTarget.key;
 
-
-    pInterfaceActivityTitleRef.innerHTML = "Editer une activité";
 
     selectorCategoryChoiceRef.value = activityTarget.name;
     inputDateRef.value = activityTarget.date;
@@ -527,7 +523,7 @@ function onInsertNewActivity(dataToInsert) {
         onUpdateActivityBddList("dateRecente");
 
         //Gestion de l'affichage 
-        onChangeDisplay(["divActivityEditor"],["divMainBtnMenu","divHome"],[],[],[],[]);
+        onLeaveMenu("activity");
     };
 };
 
@@ -586,7 +582,7 @@ function onInsertModification(e) {
         onUpdateActivityBddList("dateRecente");
 
         //Gestion de l'affichage 
-        onChangeDisplay(["divActivityEditor"],["divMainBtnMenu","divHome"],[],[],[],[]);
+       onLeaveMenu("Activity");
 
     };
 };
@@ -640,7 +636,7 @@ function onDeleteActivity(keyTarget) {
         onUpdateActivityBddList("dateRecente");
 
         //Gestion de l'affichage 
-        onChangeDisplay(["divActivityEditor"],["divMainBtnMenu","divHome"],[],[],[],[]);
+        onLeaveMenu("Activity");        
 
     };
 

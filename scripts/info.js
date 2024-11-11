@@ -15,6 +15,7 @@ function onLoadingActivityList() {
 
         // Création
         let newLi = document.createElement("li");
+        newLi.className = "info-list";
 
         let newActivityName = document.createElement("p");
         newActivityName.innerHTML = activity.displayName;
@@ -38,24 +39,11 @@ function onLoadingActivityList() {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 // Retour depuis info
 function onClickReturnFromInfo() {
     // Vide la liste :
     document.getElementById("ulActivityListParent").innerHTML = "";
 
     // ferme le menu
-    onChangeDisplay(["divInfo"],["divMainBtnMenu","divHome"],[],[],[],[]);
+    onLeaveMenu("Info");
 };

@@ -9,7 +9,7 @@
 </head>
 <body>
     <div id="divHeader" class="header">
-        <p class="app-title">
+        <p id="pMenuTitle" class="app-title">
             Mon Suivit Sportif
         </p>
         
@@ -70,8 +70,6 @@
     <!-- ---------------------------------- DIV POPUP edit activity ------------------------------------------------>
     <div id="divActivityEditor" class="div-interface">
 
-        <p id="pInterfaceActivityTitle" class="interface-title">Créer une activité</p>
-
 
         <div class="div-interface-content-area">
             <p>
@@ -87,7 +85,7 @@
            
             <p>
                 <label for="selectorCategoryChoice">Activité : </label>
-                <select name="category" id="selectorCategoryChoice">
+                <select class="activity" name="category" id="selectorCategoryChoice">
                     <!-- Injection des options -->
                 </select>
             </p>
@@ -128,36 +126,35 @@
 
     <!-- ----------------------------------      DIV PROFIL        ------------------------------------------------>
     <div id="divProfil" class="div-interface">
-        <p class="interface-title">Profil</p>
+
+        <p>
+            <label for="inputProfilUserName">Prénom : </label>
+            <input id="inputProfilUserName" type="text" maxlength="20">
+        </p>
+        <p>
+            <label for="selectorProfilGender">Genre :</label>
+            <select class="profil" name="" id="selectorProfilGender">
+                <option value="HOMME">HOMME</option>
+                <option value="FEMME">FEMME</option>
+            </select>
+
+        </p>
+        <p>
+            <label for="inputProfilUserBirthDate">Date de naissance : </label>
+            <input id="inputProfilUserBirthDate" type="date">
+        </p>
+        <p>
+            <label for="inputProfilUserSize">Taille (cm): </label>
+            <input id="inputProfilUserSize" type="number" placeholder="ex 175" max="250" maxlength="3">
+        </p>
+        <p>
+            <label for="inputProfilUserWeight">Poids (kg): </label>
+            <input id="inputProfilUserWeight" type="number" placeholder="ex 58.3" max="250" maxlength="3">
+        </p>
 
 
-        <div class="div-interface-content-area">
-            <p>
-                <label for="inputProfilUserName">Prénom : </label>
-                <input id="inputProfilUserName" type="text" maxlength="20">
-            </p>
-            <p>
-                <label for="selectorProfilGender">
-                    Genre :
-                    <select name="" id="selectorProfilGender">
-                        <option value="HOMME">HOMME</option>
-                        <option value="FEMME">FEMME</option>
-                    </select>
-                </label>
-            </p>
-            <p>
-                <label for="inputProfilUserBirthDate">Date de naissance : </label>
-                <input id="inputProfilUserBirthDate" type="date">
-            </p>
-            <p>
-                <label for="inputProfilUserSize">Taille (cm): </label>
-                <input id="inputProfilUserSize" type="number" placeholder="ex 175" max="250" maxlength="3">
-            </p>
-            <p>
-                <label for="inputProfilUserWeight">Poids (kg): </label>
-                <input id="inputProfilUserWeight" type="number" placeholder="ex 58.3" max="250" maxlength="3">
-            </p>
-        </div>
+            
+
         
         <div class="button-editor btn-menu">
             <button class="btn-menu" onclick="onClickReturnFromProfil()"><img src="./Icons/Icon-Return-cancel.png" alt="Icone"></button>
@@ -172,11 +169,7 @@
 
     <!-- ----------------------------------      DIV SETTING        ------------------------------------------------>
     <div id="divSetting" class="div-interface">
-        <p class="interface-title">Paramètres</p>
 
-        <div class="div-interface-content-area">
-            <!-- Mettre mes éléments du menu ICI -->
-        </div>
 
 
         <div class="button-editor btn-menu">
@@ -190,29 +183,23 @@
     <!-- ----------------------------------      DIV INFO        ------------------------------------------------>
     <div id="divInfo" class="div-interface">
 
-        <p class="interface-title">Info</p>
 
-        <div class="div-interface-content-area">
-            <label for="">Liste des activités : </label>
-            <!-- Liste -->
-            
-    
-            <div class="scrollable div-info-list">
-    
-                <ul id="ulActivityListParent">
-                    <!-- Injection de la liste d'activité -->
-                </ul>
-    
-            </div>
-    
+        <label for="">Liste des activités : </label>
+        <!-- Liste -->
+        
+
+        <div class="scrollable div-info-list">
+
+            <ul id="ulActivityListParent">
+                <!-- Injection de la liste d'activité -->
+            </ul>
+
         </div>
-
-        
-        
+    
 
 
         <div class="release-licence">
-            <p class="release-licence">Release : 0.2.0</p>
+            <p class="release-licence">Release : 0.2.1</p>
             <h4 class="release-licence">
                 Licence : 
             </h4>
@@ -239,22 +226,25 @@
     <div id="divConditionUtilisation" class="div-interface">
 
 
-        <div class="div-interface-content-area">
-            <div class="entete-condition">
-                <img class="logo" src="./images/Logo_MSS.png" alt="" srcset="">
-                <h3>Bienvenue sur "Mon Suivit Sportif"</h3>
-            </div>
-            
-            <h4>Lis attentivement les éléments ci-dessous avant de continuer.</h4>
-    
-            <h4>Données :</h4>
-            <p>Tes données seront sauvegardées dans ton navigateur. Tu dois donc savoir que si tu vides ton navigateur ou utilise des outils de nettoyage, tu risques de tout perdre.</p>
-            <h4>Statistiques :</h4>
-            <p>Pour bénéficier de statistiques personnalisées, je t'invite à compléter ton profil avant de créer ta première activité. Tu devras te rendre dans le menu "Profil" pour effectuer cette action.</p>
-            <label for="accept-checkbox">
-                <input type="checkbox" id="accept-checkbox" onchange="toggleLaunchButton(this)"> J'ai compris et j'accepte.
-            </label>
+        <div class="entete-condition">
+            <img class="logo" src="./images/Logo_MSS.png" alt="" srcset="">
+            <h3>Bienvenue sur "Mon Suivit Sportif"</h3>
         </div>
+        
+        <h4>Lis attentivement les éléments ci-dessous avant de continuer.</h4>
+
+        <h4>Données :</h4>
+        <p>Tes données seront sauvegardées dans ton navigateur. Tu dois donc savoir que si tu vides ton navigateur ou utilise des outils de nettoyage, tu risques de tout perdre.</p>
+        <h4>Statistiques :</h4>
+        <p>Pour bénéficier de statistiques personnalisées, je t'invite à compléter ton profil avant de créer ta première activité. Tu devras te rendre dans le menu "Profil" pour effectuer cette action.</p>
+
+        <select class="conditionUtilisation" onchange="toggleLaunchButton()" name="" id="selectStatusCondition">
+            <option value="Refused">Je décline.</option>
+            <option value="Accepted">J'ai compris et j'accepte.</option>
+        </select>    
+
+
+
 
         
 
