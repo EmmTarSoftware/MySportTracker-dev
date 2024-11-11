@@ -113,6 +113,7 @@ input, textarea{
     /* box-shadow: var(--boxShadow); */
     border: none;
     border-bottom: solid 1px var(--colorMainTheme1);
+    /* background-color: var(--colorLightGray); */
 }
 
 label{
@@ -127,6 +128,9 @@ select.profil, select.activity, select.conditionUtilisation{
     width: 95%;
     border: none;
     border-bottom: solid 1px var(--colorMainTheme1);
+    /* background-color: var(--colorLightGray); */
+    height: 25px;
+    background: none;
 }
 
 textarea:focus, input:focus, select:focus{
