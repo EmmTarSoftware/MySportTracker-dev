@@ -96,6 +96,6 @@ function downloadJSON(data, filename) {
         reader.readAsText(selectedFile);
     } else {
         console.error('No file selected.');
-        textResultRef.innerHTML =  "Aucun fichier selectionné !";
+        textResultRef.innerHTML =  "Aucun fichier sélectionné !";
     };
 };
