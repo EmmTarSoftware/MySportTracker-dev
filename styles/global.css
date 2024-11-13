@@ -345,8 +345,22 @@ button.btnFocus{
 
 
 
+/* Style de texte pour le bouton "afficher plus" */
+div.moreItem{
+    width: 95%;          
+    /* display: flex;        */
+    background-color: var(--colorLightGray); 
+    padding: 5px;
+    border-radius: 20px;
+    box-shadow: var(--boxShadow);
+text-align: center;
+}
 
-
+p.moreItem{
+    margin: 0; padding: 0;
+    font-weight: bold;
+    color: var(--colorMainTheme1);
+}
 
 /* ----------------------------- DIV ITEM EDITOR -----------------------------------*/
 

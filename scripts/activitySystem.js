@@ -185,118 +185,194 @@ function onUpdateActivityBddList() {
 
 
 
-
-
-
-
-
-
-
-
-
-
 // Insertion des activités dans la liste
+let userActivityListToDisplay = [], // contient les activité trié et filtré à afficher
+    maxActivityPerCycle = 8,//Nbre d'élément maximale à afficher avant d'avoir le bouton "afficher plus"
+    userActivityListIndexToStart = 0; //Index de démarrage pour l'affichage d'activité
 
-function onInsertActivityInList(userActivityToDisplay) {
 
+function onInsertActivityInList(activityToDisplay) {
 
-    console.log("nbre d'activité total à afficher = " + userActivityToDisplay.length);
+    // Stock les activité à afficher dans un tableau
+    userActivityListToDisplay = activityToDisplay;
+    userActivityListIndexToStart = 0;
 
+    console.log("nbre d'activité total à afficher = " + userActivityListToDisplay.length);
+    console.log("Vide la liste des activités");
     divItemListRef.innerHTML = "";
 
-    if (userActivityToDisplay.length === 0) {
+    if (userActivityListToDisplay.length === 0) {
         divItemListRef.innerHTML = "Aucune activité à afficher !";
         return
+    }else{
+        console.log("Demande d'insertion du premier cycle d'activité dans la liste");
+        onInsertMoreActivity();
     };
 
 
-    console.log("Insertion des activités dans la liste");
+};
 
+// séquence d'insertion  d'activité dans la liste selon le nombre limite définit
+function onInsertMoreActivity() {
+    console.log("Lancement d'un cycle d'insertion d'activité.")
+    let cycleCount = 0;
 
+    console.log("Index de départ = " + userActivityListIndexToStart);
 
-    userActivityToDisplay.forEach(activity=>{
+    for (let i = userActivityListIndexToStart; i < userActivityListToDisplay.length; i++) {
 
-        // Recupère les éléments du type d'activité dans le tableau "activityChoiceArray"
-        let activityChoiceArrayItem = getActivityChoiceArrayRefByDataName(activity.name);
-
-
-        // La div de l'item
-        let newItemContainer = document.createElement("div");
-        newItemContainer.className = "item-container";
-
-        newItemContainer.onclick = function () {
-            onClickOnActivity(activity.key);
-        };
-
-
-        // La zone de l'image
-        let newImageContainer = document.createElement("div");
-        newImageContainer.className = "item-image-container";
-
-        let newImage = document.createElement("img");
-        newImage.className = "activity";
-        newImage.src = activityChoiceArrayItem.imgRef;
-
-        newImageContainer.appendChild(newImage);
-
-
-
-        // la done des données
-
-        let newDivDataContainer =  document.createElement("div");
-        newDivDataContainer.className = "item-data-container";
-
-
-        // Area 1
-        let newDivDataArea1 = document.createElement("div");
-        newDivDataArea1.className = "item-data-area1";
-
-        let newItemDistance = document.createElement("p");
-        newItemDistance.className = "item-data-distance";
-        newItemDistance.innerHTML = activity.distance != "" ? activity.distance + " km": "---";
-
-        let newItemDuration = document.createElement("p");
-        newItemDuration.className = "item-data-duration";
-        newItemDuration.innerHTML = activity.duration;
-
-        let newItemDate = document.createElement("p");
-        newItemDate.className = "item-data-date";
-        if (activity.date === dateToday) {
-            newItemDate.innerHTML = "Auj.";
-        }else if (activity.date === dateYesterday) {
-            newItemDate.innerHTML = "Hier";
+        if (cycleCount >= maxActivityPerCycle) {
+            console.log("Max par cycle atteinds = " + maxActivityPerCycle);
+            // Creation du bouton More
+            onCreateMoreActivityBtn();
+            userActivityListIndexToStart += maxActivityPerCycle;
+            console.log("mise a jour du prochain index to start = " + userActivityListIndexToStart);
+            // Arrete la boucle si lorsque le cycle est atteind
+            return
         }else{
-            newItemDate.innerHTML = onFormatDateToFr(activity.date);
+            onInsertOneActivity(userActivityListToDisplay[i]);
         };
+        cycleCount++;
+    };
 
-        
+    
+};
 
-        newDivDataArea1.appendChild(newItemDistance);
-        newDivDataArea1.appendChild(newItemDuration);
-        newDivDataArea1.appendChild(newItemDate);
 
-        // Area 2
-        let newDivDataArea2 = document.createElement("div");
-        newDivDataArea2.className = "item-data-area2";
 
-        let newItemLocation = document.createElement("p");
-        newItemLocation.className = "item-data-location";
-        newItemLocation.innerHTML = activity.location != "" ? activity.location : "---";
 
-        newDivDataArea2.appendChild(newItemLocation);
-        
+// Fonction d'insertion d'une activité dans la liste
+function onInsertOneActivity(activity) {
 
-        // Insertion totale
-        newDivDataContainer.appendChild(newDivDataArea1);
-        newDivDataContainer.appendChild(newDivDataArea2);
+    let activityArrayItem = getActivityChoiceArrayRefByDataName(activity.name);
 
-        newItemContainer.appendChild(newImageContainer);
-        newItemContainer.appendChild(newDivDataContainer);
 
-        divItemListRef.appendChild(newItemContainer);
-    });
+    // La div de l'item
+    let newItemContainer = document.createElement("div");
+    newItemContainer.className = "item-container";
+
+    newItemContainer.onclick = function () {
+        onClickOnActivity(activity.key);
+    };
+
+
+    // La zone de l'image
+    let newImageContainer = document.createElement("div");
+    newImageContainer.className = "item-image-container";
+
+    let newImage = document.createElement("img");
+    newImage.className = "activity";
+    newImage.src = activityArrayItem.imgRef;
+
+    newImageContainer.appendChild(newImage);
+
+
+
+    // la done des données
+
+    let newDivDataContainer =  document.createElement("div");
+    newDivDataContainer.className = "item-data-container";
+
+
+    // Area 1
+    let newDivDataArea1 = document.createElement("div");
+    newDivDataArea1.className = "item-data-area1";
+
+    let newItemDistance = document.createElement("p");
+    newItemDistance.className = "item-data-distance";
+    newItemDistance.innerHTML = activity.distance != "" ? activity.distance + " km": "---";
+
+    let newItemDuration = document.createElement("p");
+    newItemDuration.className = "item-data-duration";
+    newItemDuration.innerHTML = activity.duration;
+
+    let newItemDate = document.createElement("p");
+    newItemDate.className = "item-data-date";
+    if (activity.date === dateToday) {
+        newItemDate.innerHTML = "Auj.";
+    }else if (activity.date === dateYesterday) {
+        newItemDate.innerHTML = "Hier";
+    }else{
+        newItemDate.innerHTML = onFormatDateToFr(activity.date);
+    };
+
+    
+
+    newDivDataArea1.appendChild(newItemDistance);
+    newDivDataArea1.appendChild(newItemDuration);
+    newDivDataArea1.appendChild(newItemDate);
+
+    // Area 2
+    let newDivDataArea2 = document.createElement("div");
+    newDivDataArea2.className = "item-data-area2";
+
+    let newItemLocation = document.createElement("p");
+    newItemLocation.className = "item-data-location";
+    newItemLocation.innerHTML = activity.location != "" ? activity.location : "---";
+
+    newDivDataArea2.appendChild(newItemLocation);
+    
+
+    // Insertion totale
+    newDivDataContainer.appendChild(newDivDataArea1);
+    newDivDataContainer.appendChild(newDivDataArea2);
+
+    newItemContainer.appendChild(newImageContainer);
+    newItemContainer.appendChild(newDivDataContainer);
+
+    divItemListRef.appendChild(newItemContainer);
+};
+
+
+
+
+// Fonction pour le bouton MoreActivity pour afficher les activités utilisateurs suivantes
+
+function onCreateMoreActivityBtn() {
+
+
+    // La div de l'item
+    let newItemContainerBtnMore = document.createElement("div");
+    newItemContainerBtnMore.className = "moreItem";
+    newItemContainerBtnMore.id = "btnMoreItem";
+
+    newItemContainerBtnMore.onclick = function (){
+        onDeleteBtnMoreItem();
+        onInsertMoreActivity();
+    };
+
+
+    let newTextBtnMore = document.createElement("p");
+    newTextBtnMore.className = "moreItem";
+    newTextBtnMore.innerHTML = "Afficher plus d'activités";
+
+    // Insertion
+
+
+    newItemContainerBtnMore.appendChild(newTextBtnMore);
+
+    divItemListRef.appendChild(newItemContainerBtnMore);
 
 };
+
+
+
+
+// Fonction pour supprimer le bouton "more item"
+function onDeleteBtnMoreItem() {
+    // Sélection de l'élément avec l'ID "liToto"
+    let btnToDelete = document.getElementById("btnMoreItem");
+    
+    // Vérification si l'élément existe avant de le supprimer
+    if (btnToDelete) {
+        btnToDelete.remove();
+        console.log("Suppression du bouton More Item");
+    } else {
+        console.log("Le bouton more item n'est pas trouvé");
+    };
+};
+
+
 
 
 
