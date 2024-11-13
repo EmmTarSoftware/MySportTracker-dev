@@ -48,7 +48,14 @@ let activityToInsertFormat = {
 };
 
 
-let allUserActivityArray = []; //Contient toutes les activités créé par l'utilisateur
+let allUserActivityArray = [], //Contient toutes les activités créé par l'utilisateur
+    userActivityListToDisplay = [], // contient les activité trié et filtré à afficher
+    maxActivityPerCycle = 30,//Nbre d'élément maximale à afficher avant d'avoir le bouton "afficher plus"
+    userActivityListIndexToStart = 0; //Index de démarrage pour l'affichage d'activité
+
+
+
+
 
 // Reférencement
 
@@ -186,10 +193,6 @@ function onUpdateActivityBddList() {
 
 
 // Insertion des activités dans la liste
-let userActivityListToDisplay = [], // contient les activité trié et filtré à afficher
-    maxActivityPerCycle = 8,//Nbre d'élément maximale à afficher avant d'avoir le bouton "afficher plus"
-    userActivityListIndexToStart = 0; //Index de démarrage pour l'affichage d'activité
-
 
 function onInsertActivityInList(activityToDisplay) {
 
@@ -198,6 +201,7 @@ function onInsertActivityInList(activityToDisplay) {
     userActivityListIndexToStart = 0;
 
     console.log("nbre d'activité total à afficher = " + userActivityListToDisplay.length);
+    console.log("Nbre d'actiivté affichage pour cycle = " + maxActivityPerCycle);
     console.log("Vide la liste des activités");
     divItemListRef.innerHTML = "";
 
