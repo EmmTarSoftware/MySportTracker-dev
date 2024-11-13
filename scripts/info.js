@@ -11,7 +11,7 @@ function onOpenMenuInfo() {
 function onLoadingActivityList() {
     let ulActivityListParentRef = document.getElementById("ulActivityListParent");
 
-    activityArray.forEach(activity=>{
+    activityChoiceArray.forEach(activity=>{
 
         // Création
         let newLi = document.createElement("li");
@@ -32,9 +32,6 @@ function onLoadingActivityList() {
         ulActivityListParentRef.appendChild(newLi);
 
     });
-
-
-
 };
 
 

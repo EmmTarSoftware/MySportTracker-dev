@@ -1,5 +1,5 @@
 // Tableau des activités
-let activityArray = [
+let activityChoiceArray = [
     {dataName : "C.A.P", displayName: "Course à pied", color : "", imgRef :"./images/icon-cap.png"},
     {dataName : "FRACTIONNE", displayName:"Fractionné/interval",color : "", imgRef :"./images/Icon-intense-running.png"},
     {dataName : "MARCHE-RANDO", displayName:"Marche/Randonnée",color : "", imgRef :"./images/Icon-Marche.png"},
@@ -23,9 +23,9 @@ let activityArray = [
 ];
 
 
-// Fonction pour extraire un objet dans l'array activityArray (ci-dessus) via son "dataName"
-function getActivityArrayRefByDataName(dataName) {
-    let activity = activityArray.find(item => item.dataName === dataName);
+// Fonction pour extraire un objet dans l'array activityChoiceArray (ci-dessus) via son "dataName"
+function getActivityChoiceArrayRefByDataName(dataName) {
+    let activity = activityChoiceArray.find(item => item.dataName === dataName);
     return activity ? activity : null; // Retourne l'imgRef ou null si non trouvé
 };
 
@@ -48,7 +48,7 @@ let activityToInsertFormat = {
 };
 
 
-let allActivityArray = [];
+let allUserActivityArray = []; //Contient toutes les activités créé par l'utilisateur
 
 // Reférencement
 
@@ -79,10 +79,10 @@ function onGenerateActivityOptionChoice() {
     selectorRef.innerHTML = "";
 
     // Trier le tableau par ordre alphabétique du displayName
-    activityArray.sort((a, b) => a.displayName.localeCompare(b.displayName));
+    activityChoiceArray.sort((a, b) => a.displayName.localeCompare(b.displayName));
 
     // Ajouter les autres options triées
-    activityArray.forEach(activity => {
+    activityChoiceArray.forEach(activity => {
         let newOption = document.createElement("option");
         newOption.value = activity.dataName;
         newOption.innerHTML = activity.displayName;
@@ -141,7 +141,7 @@ function onResetActivityInputs() {
 function onUpdateActivityBddList() {
 
     console.log("Actualisation de la liste d'activité");
-    allActivityArray = [];
+    allUserActivityArray = [];
 
 
     // recupere les éléments dans la base et les stock dans un tableau temporaire
@@ -166,17 +166,17 @@ function onUpdateActivityBddList() {
     transaction.oncomplete = function (){
         // stockage des données dans l'array des activités
 
-        console.log("stockage des données dans allActivityArray")
-        allActivityArray = requestTask.result;
+        console.log("stockage des données dans allUserActivityArray")
+        allUserActivityArray = requestTask.result;
 
         // Remet les tries et filtres par défaut
         onResetSortAndFilter();
 
         // Generation du trie dynamique
-        onGenerateDynamiqueFilter(allActivityArray);
+        onGenerateDynamiqueFilter(allUserActivityArray);
 
         // Lancement de l'actualisation sur le filtre en cours
-        onFilterActivity(currentSortType,currentFilter,allActivityArray);
+        onFilterActivity(currentSortType,currentFilter,allUserActivityArray);
 
 
     };
@@ -197,14 +197,14 @@ function onUpdateActivityBddList() {
 
 // Insertion des activités dans la liste
 
-function onInsertActivityInList(activityToDisplay) {
+function onInsertActivityInList(userActivityToDisplay) {
 
 
-    console.log("nbre d'activité total à afficher = " + activityArray.length);
+    console.log("nbre d'activité total à afficher = " + userActivityToDisplay.length);
 
     divItemListRef.innerHTML = "";
 
-    if (activityToDisplay.length === 0) {
+    if (userActivityToDisplay.length === 0) {
         divItemListRef.innerHTML = "Aucune activité à afficher !";
         return
     };
@@ -214,10 +214,10 @@ function onInsertActivityInList(activityToDisplay) {
 
 
 
-    activityToDisplay.forEach(activity=>{
+    userActivityToDisplay.forEach(activity=>{
 
-        // Recupère les éléments du type d'activité dans le tableau "activityArray"
-        let activityArrayItem = getActivityArrayRefByDataName(activity.name);
+        // Recupère les éléments du type d'activité dans le tableau "activityChoiceArray"
+        let activityChoiceArrayItem = getActivityChoiceArrayRefByDataName(activity.name);
 
 
         // La div de l'item
@@ -235,7 +235,7 @@ function onInsertActivityInList(activityToDisplay) {
 
         let newImage = document.createElement("img");
         newImage.className = "activity";
-        newImage.src = activityArrayItem.imgRef;
+        newImage.src = activityChoiceArrayItem.imgRef;
 
         newImageContainer.appendChild(newImage);
 

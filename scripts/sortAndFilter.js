@@ -86,7 +86,7 @@ function onGenerateActivityOptionFilter(allActivityData) {
     allActivityData.forEach(activity => {
 
         // extraite tous les éléments de l'objet du tableau
-        let currentObject = getActivityArrayRefByDataName(activity);
+        let currentObject = getActivityChoiceArrayRefByDataName(activity);
 
         let newOption = document.createElement("option");
         newOption.value = currentObject.dataName;
@@ -115,7 +115,7 @@ function onFilterActivity(sortType,filterType,activityArray) {
         onSortActivity(sortType,activityArray);
     }else{
 
-        allDataFiltered = allActivityArray.filter(item =>{
+        allDataFiltered = allUserActivityArray.filter(item =>{
             return item.name === filterType;
         });
         console.log("Demande de trie sur les données filtré");
@@ -135,7 +135,7 @@ function onChangeSelectorFilter(){
     console.log("changement de selecteur du filtre pour = " + selectorRef.value);
     currentFilter = selectorRef.value;
 
-    onFilterActivity(currentSortType,currentFilter,allActivityArray);
+    onFilterActivity(currentSortType,currentFilter,allUserActivityArray);
 };
 
 
@@ -195,7 +195,7 @@ function onUserChangeSortType(sortCategory) {
 
 
 
-    onFilterActivity(currentSortType,currentFilter,allActivityArray);
+    onFilterActivity(currentSortType,currentFilter,allUserActivityArray);
 
 
 };
