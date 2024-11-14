@@ -12,8 +12,8 @@
 
 
 body{
-    margin: 0;/*TEST*/
-    padding: 0;/*TEST*/
+    margin: 0;
+    padding: 0;
 
 }
 
@@ -36,7 +36,7 @@ button.btn-menu{
 }
 
 div.btn-menu{
-    width: 100%;/*TEST 95*/
+    width: 100%;
     height: 40px;
     bottom: 10px;
     padding: 10px 2px 10px 2px;
@@ -56,27 +56,51 @@ button.delete{
 div.confirmationDelete{
     z-index: 2;
     display: none;
-    width: 100%;/*TEST 95*/
+    width: 100%;
     height:85%;
     position: absolute;
-    /* bottom: 100px; */
-    /* background-color: rgba(134, 134, 134, 0.5); */
-
 }
 
 div.confirmationDelete.show {
     display: flex; /* Change display pour l'afficher */
     flex-direction: column;
-    justify-content: center; /* Aligne les enfants au centre */
+    justify-content:center;
     align-items: center;
 }
 
 
 button.deleteConfirm{
     background-color: var(--colorMainTheme2);
+    margin-bottom: -200px;
     width: 70px;
     height: 70px;
 }
+
+
+/* --------------- ANIMATION DU BOUTON SUPPRIMER --------------------*/
+
+
+@keyframes grow {
+    from {
+        opacity: 0;
+        margin-bottom: -400px;
+    }
+    to {
+        opacity: 1;
+        margin-bottom: -200px;
+    }
+}
+
+/* Appliquez l'animation lorsque .show est présent */
+div.confirmationDelete.show button.deleteConfirm {
+    animation: grow 200ms forwards; /* Ajoute l'animation explicite */
+}
+
+
+
+
+
+
 
 
 button.deleteAnnul{
@@ -113,7 +137,7 @@ div.scrollable{
     overflow: auto; /* Ajoute une barre de défilement si le contenu dépasse la taille de la div */
     position: relative;
     border-radius: 0px 0px 20px 20px;
-    padding-left: 10px; /*TEST*/
+    padding-left: 10px; 
 
 }
 
@@ -184,7 +208,7 @@ textarea:focus, input:focus, select:focus{
 
 
 div.header{
-    width: 100%;/*TEST 95*/   
+    width: 100%;   
     display: flex;
     justify-content: space-between; /* Espace entre chaque paragraphe */
     background-color: var(--colorMainTheme1);
@@ -223,12 +247,12 @@ p.user-name{
 
 
 .item-container-head {
-    width: 87%;  /*TEST*/        
+    width: 87%;          
     display: flex;       
     background-color: var(--colorMainTheme2); 
     padding: 5px;
     margin-bottom: 15px;
-    margin-left: 15px;/*TEST*/
+    margin-left: 15px;
     border-radius: 12px;
 }
 
