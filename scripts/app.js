@@ -112,7 +112,7 @@ function onLeaveMenu(menuTarget) {
         break;
         case "Activity":
             console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Activity");
-            onChangeDisplay(["divActivityEditor","divConfirmDeleteActivity"],["divMainBtnMenu","divHome"],[],["divActivityEditor"],[],[]);
+            onChangeDisplay(["divActivityEditor"],["divMainBtnMenu","divHome"],[],["divActivityEditor"],[],[]);
         break;
         default:
             console.log("[ NAVIGATION ] Erreur : Aucune correspondance pour le menu = " + menuTarget);

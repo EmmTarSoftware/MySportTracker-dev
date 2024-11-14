@@ -680,20 +680,32 @@ function onInsertModification(e) {
 function onClickDeleteFromActivityEditor() {
     
     console.log("demande de suppression d'activité ");
-    onChangeDisplay([],["divConfirmDeleteActivity"],["divActivityEditor"],[],[],[]);
+    // L'affiche de la div doit se faire en "flex" donc je n'utilise pas le onChangeDisplay
+    document.getElementById("divConfirmDeleteActivity").classList.add("show");
+
+    onChangeDisplay([],[],["divActivityEditor"],[],[],[]);
 
 };
 
 
-function onConfirmDeleteActivity(){
+function onConfirmDeleteActivity(event){
+
+    event.stopPropagation();// Empêche la propagation du clic vers la div d'annulation
     console.log("Confirmation de suppression d'activité ");
+    // retire la class "show" pour la div de confirmation
+    document.getElementById("divConfirmDeleteActivity").classList.remove("show");
     onDeleteActivity(currentKeyActivityInView);
+
 };
 
 
-function onAnnulDeleteActivity() {
+function onAnnulDeleteActivity(event) {
+    
     console.log("annulation de la suppression d'activité ");
-    onChangeDisplay(["divConfirmDeleteActivity"],[],[],["divActivityEditor"],[],[]);
+    // retire la class "show" pour la div de confirmation
+    document.getElementById("divConfirmDeleteActivity").classList.remove("show");
+    onChangeDisplay([],[],[],["divActivityEditor"],[],[]);
+
 };
 
 function onDeleteActivity(keyTarget) {
