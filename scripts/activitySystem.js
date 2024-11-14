@@ -696,6 +696,9 @@ function onConfirmDeleteActivity(event){
     document.getElementById("divConfirmDeleteActivity").classList.remove("show");
     onDeleteActivity(currentKeyActivityInView);
 
+    // Notification
+    onShowNotifyPopup();
+
 };
 
 
@@ -707,6 +710,9 @@ function onAnnulDeleteActivity(event) {
     onChangeDisplay([],[],[],["divActivityEditor"],[],[]);
 
 };
+
+
+
 
 function onDeleteActivity(keyTarget) {
     // recupere les éléments correspondant à la clé recherché et la stoque dans une variable

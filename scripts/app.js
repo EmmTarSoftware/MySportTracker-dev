@@ -94,7 +94,7 @@ function onLeaveMenu(menuTarget) {
     // remet le titre initial du menu
     // reference le "p" qui contient le titre du menu pour le changer
     let pMenuTitleRef = document.getElementById("pMenuTitle");
-    pMenuTitleRef.innerHTML = "Mon suivit Sportif";
+    pMenuTitleRef.innerHTML = "Mon Suivit Sportif";
 
     switch (menuTarget) {
         case "Profil":
