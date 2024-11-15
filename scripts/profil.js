@@ -83,6 +83,9 @@ function onUpdateUserInfo() {
 
     console.log("[ PROFIL ] Mise à jours du nom de l'utilisateur dans l'application.");
     document.getElementById("userName").innerHTML = userInfo.name;
+
+    // Popup notification
+    onShowNotifyPopup(notifyTextArray.saveprofil);
 };
 
 onUpdateUserInfo();

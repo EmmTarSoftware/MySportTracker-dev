@@ -24,7 +24,7 @@ function exportData() {
     };
 
     transaction.oncomplete = function(){
-        
+        onShowNotifyPopup(notifyTextArray.exportSuccess);
     };
 
 
@@ -79,8 +79,10 @@ function downloadJSON(data, filename) {
                     });
 
                     transaction.oncomplete = function () {
-                        console.log('Imported JSON to IndexedDB successfully.');                        };
+                        console.log('Imported JSON to IndexedDB successfully.');                        
                         textResultRef.innerHTML =  "Import Réussit ! Veuillez relancer l'application.";
+                        onShowNotifyPopup(notifyTextArray.exportSuccess);
+                    };
                     transaction.onerror = function (error) {
                         console.error('Error adding items to IndexedDB:', error);
                         textResultRef.innerHTML =  "Erreur transaction import";

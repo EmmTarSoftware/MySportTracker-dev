@@ -4,7 +4,10 @@
 let notifyTextArray = {
     delete : "Activité supprimée !",
     creation : "Activité créée !",
-    modification : "Activité modifiée !"
+    modification : "Activité modifiée !",
+    saveprofil : "Profil sauvegardé !",
+    exportSuccess : "Données exportées !",
+    importSuccess : "Données importées"
 };
 
 
