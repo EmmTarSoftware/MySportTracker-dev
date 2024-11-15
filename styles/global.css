@@ -502,10 +502,10 @@ div.entete-condition{
 
 /* -------------------------------- NOTIFICATION -------------------- */
 
-.popupNotifyDelete {
+.popupNotify {
     width: 200px;height: 10px;
     padding: 20px;
-    background-color: var(--colorMainTheme4);
+    background-color: var(--colorMainTheme1);
     color: white;
     text-align: center;
     border-radius: 10px;
@@ -518,11 +518,14 @@ div.entete-condition{
     transition: transform 0.3s ease, opacity 0.3s ease;
     left: 0;
     right: 0;
+    box-shadow: var(--boxShadow);
+    z-index: 1000;
+
 }
 
 
 
-.popupNotifyDelete.show {
+.popupNotify.show {
     transform: translateY(20px);
     opacity: 1;
 }

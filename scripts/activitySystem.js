@@ -602,6 +602,9 @@ function onInsertNewActivity(dataToInsert) {
         // Remet à jour les éléments
         onUpdateActivityBddList("dateRecente");
 
+        // Popup notification
+        onShowNotifyPopup(notifyTextArray.creation);
+
         //Gestion de l'affichage 
         onLeaveMenu("Activity");
     };
@@ -661,6 +664,9 @@ function onInsertModification(e) {
         // Remet à jour les éléments
         onUpdateActivityBddList("dateRecente");
 
+        // Popup notification
+        onShowNotifyPopup(notifyTextArray.modification);
+
         //Gestion de l'affichage 
        onLeaveMenu("Activity");
 
@@ -696,8 +702,6 @@ function onConfirmDeleteActivity(event){
     document.getElementById("divConfirmDeleteActivity").classList.remove("show");
     onDeleteActivity(currentKeyActivityInView);
 
-    // Notification
-    onShowNotifyPopup();
 
 };
 
@@ -738,6 +742,10 @@ function onDeleteActivity(keyTarget) {
         console.log("transaction complete");
         // Remet à jour les éléments
         onUpdateActivityBddList("dateRecente");
+
+
+        // Popup notification
+        onShowNotifyPopup(notifyTextArray.delete);
 
         //Gestion de l'affichage 
         onLeaveMenu("Activity");        
