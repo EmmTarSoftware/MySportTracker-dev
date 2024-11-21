@@ -464,14 +464,34 @@ li.info-list{
     border-bottom: solid 1px var(--colorMainTheme1);
 }
 
-img.info-list{
-    width: 30px;
-    display: inline-block;
-}
 
-p.info-list{
+/* p.info-list{
     margin-top: 2px; margin-bottom: 2px; margin-left: 10px;
     display: inline-block;
+} */
+
+
+
+
+/* Container li pour utiliser flexbox */
+.info-list {
+    display: flex;           /* Utilise flexbox pour les éléments à l'intérieur */
+    align-items: center;     /* Aligne verticalement les éléments */
+    justify-content: flex-start; /* Aligne les éléments à gauche par défaut */
+    position: relative;
+    margin: 10px 0;          /* Ajouter un peu de marge pour espacer les items */
+}
+
+/* Style pour l'image principale de l'activité */
+.info-list img {
+    margin-right: 10px;      /* Marge entre l'image et le texte */
+    width: 30px;
+}
+
+/* Alignement spécifique pour l'icône de favoris */
+.favoris {
+    margin-left: auto;       /* Pousse l'icône de favoris à droite */
+    cursor: pointer;        /* Optionnel, pour indiquer que l'icône est cliquable */
 }
 
 
@@ -529,3 +549,7 @@ div.entete-condition{
     transform: translateY(20px);
     opacity: 1;
 }
+
+
+
+

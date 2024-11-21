@@ -25,9 +25,24 @@ function onLoadingActivityList() {
         newActivityImg.src = activity.imgRef;
         newActivityImg.className = "info-list";
 
+
+
+        // Favoris
+        let newFavorisImg = document.createElement("img");
+        newFavorisImg.src = onSearchActivityInUserFavoris(activity.dataName) ? "./icons/Icon-Favoris-Sel.png" : "./icons/Icon-Favoris.png";
+        newFavorisImg.className = "favoris";
+
+
+
+
+        newFavorisImg.onclick = function (){
+            onChangeFavorisStatus(this,activity.dataName); 
+        };
+
         // Insertion
         newLi.appendChild(newActivityImg);
         newLi.appendChild(newActivityName);
+        newLi.appendChild(newFavorisImg);
 
         ulActivityListParentRef.appendChild(newLi);
 

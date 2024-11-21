@@ -67,7 +67,7 @@ onCheckCookieProfilOnstartAPP();
 
 
 // Fonction de mise à jour du profils
-function onUpdateUserInfo() {
+function onUpdateUserInfo(needUserNotify) {
     
     userInfo = {
         name : localStorage.getItem(cookieUserName_KeyName),
@@ -85,10 +85,14 @@ function onUpdateUserInfo() {
     document.getElementById("userName").innerHTML = userInfo.name;
 
     // Popup notification
-    onShowNotifyPopup(notifyTextArray.saveprofil);
+    if (needUserNotify) {
+        onShowNotifyPopup(notifyTextArray.saveprofil);
+    };
+    
 };
 
-onUpdateUserInfo();
+// Met au jours les info du profil au lancement de l'application mais sans afficher de popup pour l'utilisateur
+onUpdateUserInfo(false);
 
 // Ouverture du menu profil
 
@@ -142,7 +146,7 @@ function onSaveUserInfo() {
     console.log( "[ PROFIL ] sauvegarde des users info dans les cookies.");
 
     // Met à jour la data userInfo
-    onUpdateUserInfo();
+    onUpdateUserInfo(true);
 };
 
 

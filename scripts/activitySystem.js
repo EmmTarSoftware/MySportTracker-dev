@@ -7,7 +7,7 @@ let activityChoiceArray = [
     {dataName : "NATATION", displayName:"Natation",color : "", imgRef :"./images/Icon-Natation.png"},
     {dataName : "CROSSFIT", displayName:"Crossfit",color : "", imgRef :"./images/Icon-Crossfit.png"},
     {dataName : "YOGA", displayName:"Yoga",color : "", imgRef :"./images/Icon-Yoga.png"},
-    {dataName : "SPORT-CO", displayName:"Sport-co",color : "", imgRef :"./images/Icon-Sport-Co.png"},
+    {dataName : "SPORT-CO", displayName:"Sport-co divers",color : "", imgRef :"./images/Icon-Sport-Co.png"},
     {dataName : "ESCALADE", displayName:"Escalade",color : "", imgRef :"./images/Icon-Escalade.png"},
     {dataName : "ARTS-MARTIAUX", displayName:"Arts martiaux",color : "", imgRef :"./images/Icon-Boxe.png"},
     {dataName : "SKI-SNOW", displayName:"Ski/Snowboard",color : "", imgRef :"./images/Icon-ski.png"},
@@ -15,10 +15,17 @@ let activityChoiceArray = [
     {dataName : "ACTIVITE-NAUTIQUE", displayName:"Activité nautique",color : "", imgRef :"./images/Icon-Nautique.png"},
     {dataName : "STRETCHING", displayName:"Etirements",color : "", imgRef :"./images/Icon-Stretching.png"},
     {dataName : "GOLF", displayName:"Golf",color : "", imgRef :"./images/Icon-Golf.png"},
-    {dataName : "TENNIS-BAD", displayName:"Tennis/Badminton",color : "", imgRef :"./images/Icon-Tennis.png"},
+    {dataName : "TENNIS", displayName:"Tennis",color : "", imgRef :"./images/Icon-Tennis.png"},
     {dataName : "PATIN-ROLLER", displayName:"Patinage/Roller",color : "", imgRef :"./images/Icon-Patin.png"},
     {dataName : "DANSE", displayName:"Danse",color : "", imgRef :"./images/Icon-Danse.png"},
-    {dataName : "MUSCULATION", displayName:"Musculation",color : "", imgRef :"./images/Icon-Musculation.png"}
+    {dataName : "MUSCULATION", displayName:"Musculation",color : "", imgRef :"./images/Icon-Musculation.png"},
+    {dataName : "BADMINTON", displayName:"Badminton",color : "", imgRef :"./images/Icon-Badminton.png"},
+    {dataName : "BASKETBALL", displayName:"Basketball",color : "", imgRef :"./images/Icon-Basket-Ball.png"},
+    {dataName : "FOOTBALL", displayName:"Football",color : "", imgRef :"./images/Icon-Football.png"},
+    {dataName : "HANDBALL", displayName:"Handball",color : "", imgRef :"./images/Icon-Hand-Ball.png"},
+    {dataName : "RUGBY", displayName:"Rugby",color : "", imgRef :"./images/Icon-Rugby.png"},
+    {dataName : "TENNIS-TABLE", displayName:"Tennis de table",color : "", imgRef :"./images/Icon-Tennis-de-Table.png"},
+    {dataName : "VOLLEYBALL", displayName:"Volleyball",color : "", imgRef :"./images/Icon-Volley.png"}
 
 ];
 
@@ -82,8 +89,31 @@ let pInterfaceActivityTitleRef = document.getElementById("pInterfaceActivityTitl
 // Génération des options d'activité dans l'éditeur d'activité
 function onGenerateActivityOptionChoice() {
 
+
+    // Traite d'abord les favoris
+    console.log("[Activity Choice] Lancement de la generation des choix des activités");
+
     let selectorRef = document.getElementById("selectorCategoryChoice");
+    console.log("[Activity Choice] Reset les éléments");
     selectorRef.innerHTML = "";
+
+    console.log("[Activity Choice] ajout des favoris si présent = " + userFavoris.length);
+    userFavoris.sort();
+
+    userFavoris.forEach(activity => {
+
+        // Recherche tout l'élément dans la base du choix des activité via son dataName
+        let fullActivityItem = getActivityChoiceArrayRefByDataName(activity);
+
+        let newOption = document.createElement("option");
+        newOption.value = fullActivityItem.dataName;
+        newOption.innerHTML = " * " +  fullActivityItem.displayName;
+        selectorRef.appendChild(newOption);
+        console.log("ajout");
+    });
+
+
+
 
     // Trier le tableau par ordre alphabétique du displayName
     activityChoiceArray.sort((a, b) => a.displayName.localeCompare(b.displayName));
@@ -478,7 +508,7 @@ function onSearchActivityInBaseToDisplay(keyRef) {
 
 
 
-// Genere une fausse activité pour le prototype
+
 function onEditActivity(activityTarget) {
 
     // Set le mode d'edition de l'activité
