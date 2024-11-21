@@ -32,11 +32,18 @@ function onChangeFavorisStatus(imgTarget,favorisDataName) {
         let indexToRemove = userFavoris.indexOf(favorisDataName);
         userFavoris.splice(indexToRemove,1);
         console.log("[FAVORIS] Suppression de l'élément =  " + favorisDataName);
+        console.log("[ FAVORIS DEBUG ]");
+        console.log(imgTarget.src);
         imgTarget.src = "./Icons/Icon-Favoris.png";
+        console.log(imgTarget.src);
     }else{
         userFavoris.push(favorisDataName);
         console.log("[FAVORIS] Ajout de l'élément =  " + favorisDataName);
+
+        console.log("[ FAVORIS DEBUG ]");
+        console.log(imgTarget.src);
         imgTarget.src = "./Icons/Icon-Favoris-Sel.png";
+        console.log(imgTarget.src);
     };
     
     // Sauvegarde du nouvel état
