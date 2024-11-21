@@ -32,7 +32,8 @@ function onLoadingActivityList() {
 
         let isFavoris = onSearchActivityInUserFavoris(activity.dataName);
 
-        newFavorisImg.src = isFavoris === true ? "./icons/Icon-Favoris-Sel.png" : "./icons/Icon-Favoris.png";
+        // newFavorisImg.src = isFavoris === true ? "./icons/Icon-Favoris-Sel.png" : "./icons/Icon-Favoris.png";
+        newFavorisImg.src = "./images/Icon-Stretching.png";
         newFavorisImg.className = "favoris";
 
 
