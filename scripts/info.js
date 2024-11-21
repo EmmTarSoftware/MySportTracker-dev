@@ -29,11 +29,8 @@ function onLoadingActivityList() {
 
         // Favoris
         let newFavorisImg = document.createElement("img");
-
-        let isFavoris = onSearchActivityInUserFavoris(activity.dataName);
-
-        // newFavorisImg.src = isFavoris === true ? "./icons/Icon-Favoris-Sel.png" : "./icons/Icon-Favoris.png";
-        newFavorisImg.src = "./images/Icon-Stretching.png";
+        // newFavorisImg.src = onSearchActivityInUserFavoris(activity.dataName) ? "./icons/Icon-Favoris-Sel.png" : "./icons/Icon-Favoris.png";
+        newFavorisImg.src = "./Icons/Icon-Profil.png";
         newFavorisImg.className = "favoris";
 
 
