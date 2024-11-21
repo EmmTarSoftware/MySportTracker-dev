@@ -29,7 +29,10 @@ function onLoadingActivityList() {
 
         // Favoris
         let newFavorisImg = document.createElement("img");
-        newFavorisImg.src = onSearchActivityInUserFavoris(activity.dataName) ? "./icons/Icon-Favoris-Sel.png" : "./icons/Icon-Favoris.png";
+
+        let isFavoris = onSearchActivityInUserFavoris(activity.dataName);
+
+        newFavorisImg.src = isFavoris === true ? "./icons/Icon-Favoris-Sel.png" : "./icons/Icon-Favoris.png";
         newFavorisImg.className = "favoris";
 
 
