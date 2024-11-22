@@ -9,11 +9,11 @@ let activityChoiceArray = [
     {dataName : "YOGA", displayName:"Yoga",color : "", imgRef :"./images/Icon-Yoga.png"},
     {dataName : "SPORT-CO", displayName:"Sport-co divers",color : "", imgRef :"./images/Icon-Sport-Co.png"},
     {dataName : "ESCALADE", displayName:"Escalade",color : "", imgRef :"./images/Icon-Escalade.png"},
-    {dataName : "ARTS-MARTIAUX", displayName:"Arts martiaux",color : "", imgRef :"./images/Icon-Boxe.png"},
-    {dataName : "SKI-SNOW", displayName:"Ski/Snowboard",color : "", imgRef :"./images/Icon-ski.png"},
+    {dataName : "BOXE", displayName:"Boxe",color : "", imgRef :"./images/Icon-Boxe.png"},
+    {dataName : "SKI", displayName:"Ski",color : "", imgRef :"./images/Icon-ski.png"},
     {dataName : "TRIATHLON", displayName:"Triathlon",color : "", imgRef :"./images/Icon-Triathlon.png"},
     {dataName : "ACTIVITE-NAUTIQUE", displayName:"Activité nautique",color : "", imgRef :"./images/Icon-Nautique.png"},
-    {dataName : "STRETCHING", displayName:"Etirements",color : "", imgRef :"./images/Icon-Stretching.png"},
+    {dataName : "ETIREMENT", displayName:"Etirements",color : "", imgRef :"./images/Icon-Stretching.png"},
     {dataName : "GOLF", displayName:"Golf",color : "", imgRef :"./images/Icon-Golf.png"},
     {dataName : "TENNIS", displayName:"Tennis",color : "", imgRef :"./images/Icon-Tennis.png"},
     {dataName : "PATIN-ROLLER", displayName:"Patinage/Roller",color : "", imgRef :"./images/Icon-Patin.png"},
@@ -25,7 +25,13 @@ let activityChoiceArray = [
     {dataName : "HANDBALL", displayName:"Handball",color : "", imgRef :"./images/Icon-Hand-Ball.png"},
     {dataName : "RUGBY", displayName:"Rugby",color : "", imgRef :"./images/Icon-Rugby.png"},
     {dataName : "TENNIS-TABLE", displayName:"Tennis de table",color : "", imgRef :"./images/Icon-Tennis-de-Table.png"},
-    {dataName : "VOLLEYBALL", displayName:"Volleyball",color : "", imgRef :"./images/Icon-Volley.png"}
+    {dataName : "VOLLEYBALL", displayName:"Volleyball",color : "", imgRef :"./images/Icon-Volley.png"},
+    {dataName : "EQUITATION", displayName:"Equitation",color : "", imgRef :"./images/Icon-Equitation.png"},
+    {dataName : "SNOWBOARD", displayName:"Snowboard",color : "", imgRef :"./images/Icon-Snowboard.png"},
+    {dataName : "BASEBALL", displayName:"Baseball",color : "", imgRef :"./images/Icon-Baseball.png"},
+    {dataName : "AUTRE", displayName:"Autre/divers",color : "", imgRef :"./images/Icon-Autre-Divers.png"},
+    {dataName : "ARTS-MARTIAUX", displayName:"Arts martiaux",color : "", imgRef :"./images/Icon-Art-Martiaux.png"},
+    {dataName : "BREAK-DANCE", displayName:"Break dance",color : "", imgRef :"./images/Icon-Break-Dance.png"}
 
 ];
 
@@ -104,6 +110,7 @@ function onGenerateActivityOptionChoice() {
 
         // Recherche tout l'élément dans la base du choix des activité via son dataName
         let fullActivityItem = getActivityChoiceArrayRefByDataName(activity);
+
 
         let newOption = document.createElement("option");
         newOption.value = fullActivityItem.dataName;
