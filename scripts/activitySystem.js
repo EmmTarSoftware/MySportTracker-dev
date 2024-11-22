@@ -1,6 +1,6 @@
 // Tableau des activités
 let activityChoiceArray = [
-    {dataName : "C.A.P", displayName: "Course à pied", color : "", imgRef :"./images/icon-cap.png"},
+    {dataName : "C.A.P", displayName: "Course à pied", color : "", imgRef :"./images/Icon-cap.png"},
     {dataName : "FRACTIONNE", displayName:"Fractionné/interval",color : "", imgRef :"./images/Icon-intense-running.png"},
     {dataName : "MARCHE-RANDO", displayName:"Marche/Randonnée",color : "", imgRef :"./images/Icon-Marche.png"},
     {dataName : "VELO", displayName:"Vélo",color : "", imgRef :"./images/Icon-Velo.png"},
