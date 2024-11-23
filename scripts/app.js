@@ -5,15 +5,32 @@
 // SERVICE WORKER pour mode HORS LIGNE
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-        navigator.serviceWorker.register('service-worker.js')
+      navigator.serviceWorker.register('service-worker.js')
         .then((registration) => {
           console.log('Service Worker enregistré avec succès:', registration);
+  
+          // Vérifier si un nouveau Service Worker est disponible
+          registration.update();
+  
+          // Lorsque le Service Worker est activé, vérifier si une nouvelle version est disponible
+          registration.onupdatefound = () => {
+            const newWorker = registration.installing;
+            if (newWorker) {
+              newWorker.onstatechange = () => {
+                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                  // Le Service Worker a été mis à jour, peux notifier l'utilisateur
+                  console.log('Nouvelle version disponible, recharger l\'application.');
+                  window.location.reload(); // Redémarre l'application pour activer la nouvelle version
+                }
+              };
+            }
+          };
         })
         .catch((error) => {
           console.log('Échec de l\'enregistrement du Service Worker:', error);
         });
     });
-};
+  }
   
 
 

@@ -1,6 +1,9 @@
+let pwa_cache_version = "MSS-cache-1.1.7";//version du dernier cache
+
+
 self.addEventListener('install', (event) => {
     event.waitUntil(
-      caches.open('my-app-cache').then((cache) => {
+      caches.open(pwa_cache_version).then((cache) => {
         return cache.addAll([
           '/',
           'index.html',
@@ -76,3 +79,24 @@ self.addEventListener('install', (event) => {
     );
   });
   
+
+
+
+
+
+  // Gestion de l'activation du Service Worker et nettoyage des anciens caches
+self.addEventListener('activate', (event) => {
+  let cacheWhitelist = [pwa_cache_version];
+
+  event.waitUntil(
+    caches.keys().then((cacheNames) => {
+      return Promise.all(
+        cacheNames.map((cacheName) => {
+          if (!cacheWhitelist.includes(cacheName)) {
+            return caches.delete(cacheName);
+          }
+        })
+      );
+    })
+  );
+});
