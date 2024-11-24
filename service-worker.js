@@ -1,7 +1,7 @@
 const base = location.protocol + "//" + location.host;//récupère l'url relative pour les éléments en cache
-const PREFIX = "V4";//Numero de version
+const PREFIX = "V5";//Numero de version
 const CACHED_FILES = [`${base}/Icons/Icon-No-Network.png`];
-
+console.log("LANCEMENT SERVICE WORKER");
 
 self.addEventListener('install',(event)=>{
   self.skipWaiting();//permet le remplacement du service worker dès que le nouveau existe
