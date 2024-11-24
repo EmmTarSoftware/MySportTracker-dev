@@ -1,5 +1,5 @@
 console.log(`[ SERVICE WORKER ]  : Lancement du js`);
-const PREFIX = "V10";//Numero de version
+const PREFIX = "V12";//Numero de version
 
 
 
