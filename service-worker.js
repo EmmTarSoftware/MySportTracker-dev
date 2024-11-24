@@ -6,7 +6,7 @@ self.addEventListener('install',(event)=>{
   event.waitUntil(
     (async () => {
       const cache = await caches.open(PREFIX);
-      cache.add(new Request('/offline.html'));
+      cache.add(new Request('offline.html'));
     })()
   );
   console.log(`Service worker mode :  ${PREFIX} Install`);
@@ -52,7 +52,7 @@ self.addEventListener('fetch', (event) => {
           return await fetch(event.request);
         } catch (e) {
           const cache = await caches.open(PREFIX);
-          return await cache.match('/offline.html');
+          return await cache.match('offline.html');
         }
       })()
     );
