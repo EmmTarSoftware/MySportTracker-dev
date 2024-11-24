@@ -1,15 +1,22 @@
+const base = location.protocol + "//" + location.host;//récupère l'url relative pour les éléments en cache
+const PREFIX = "V3";//Numero de version
+const CACHED_FILES = [`${base}/Icons/Icon-No-Network.png`];
 
-const PREFIX = "V2";//Numero de version
 
 self.addEventListener('install',(event)=>{
   self.skipWaiting();//permet le remplacement du service worker dès que le nouveau existe
   event.waitUntil(
     (async () => {
       const cache = await caches.open(PREFIX);
-      cache.add(new Request('offline.html'));
+
+      await Promise.all(
+        [...CACHED_FILES,'offline.html'].map((path)=>{
+          return cache.add(new Request(path));
+        })
+      );
     })()
   );
-  console.log(`Service worker mode :  ${PREFIX} Install`);
+  console.log(`Service worker :  ${PREFIX} Install`);
 });
 
 
@@ -31,14 +38,14 @@ self.addEventListener('activate', (event) => {
   );
 
 
-  console.log(`Service worker mode : ${PREFIX} Active`)
+  console.log(`Service worker : ${PREFIX} Active`);
 });
 
 
 
 
 self.addEventListener('fetch', (event) => {
-  console.log(`Service worker mode : ${PREFIX} Fetching : ${event.request.url}, Mode : ${event.request.mode}`);
+  // console.log(`Service worker mode : ${PREFIX} Fetching : ${event.request.url}, Mode : ${event.request.mode}`);
   if (event.request.mode === 'navigate'){
     event.respondWith(
       (async () => {
@@ -56,5 +63,7 @@ self.addEventListener('fetch', (event) => {
         }
       })()
     );
+  } else if (CACHED_FILES.includes(event.request.url)){
+    event.respondWith(caches.match(event.request));
   }
 });
