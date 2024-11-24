@@ -5,8 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="./Icons/MSS-Logo.ico" type="image/x-icon">
     <link rel="stylesheet" href="./styles/global.css">
-    <link rel="manifest" href="manifest.json">
+    <link rel="manifest" href="/manifest.json">
     <title>Mon Suivit Sportif</title>
+
+    <script>
+        window.addEventListener('load',()=>{
+            if ("serviceWorker" in navigator){
+                navigator.serviceWorker.register('/service-worker.js')
+            }
+        })
+    </script>
 </head>
 <body>
     <div id="divHeader" class="header">
@@ -224,7 +232,7 @@
 
 
         <div class="release-licence">
-            <p class="release-licence">Release : 1.1.7</p>
+            <p class="release-licence">Release : 1.1.8</p>
             <h4 class="release-licence">
                 Licence : 
             </h4>
