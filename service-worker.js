@@ -1,5 +1,5 @@
 
-const PREFIX = "V1";//Numero de version
+const PREFIX = "V2";//Numero de version
 
 self.addEventListener('install',(event)=>{
   self.skipWaiting();//permet le remplacement du service worker dès que le nouveau existe
