@@ -1,24 +1,17 @@
-const base = location.protocol + "//" + location.host;//récupère l'url relative pour les éléments en cache
-const PREFIX = "V7";//Numero de version
-const CACHED_FILES = [`${base}Icons/Icon-No-Network.png`];
-console.log("LANCEMENT SERVICE WORKER");
+console.log(`[ SERVICE WORKER ]  : Lancement du js`);
+const PREFIX = "V10";//Numero de version
 
-console.log(CACHED_FILES);
+
 
 self.addEventListener('install',(event)=>{
   self.skipWaiting();//permet le remplacement du service worker dès que le nouveau existe
   event.waitUntil(
     (async () => {
       const cache = await caches.open(PREFIX);
-
-      await Promise.all(
-        [...CACHED_FILES,'offline.html'].map((path)=>{
-          return cache.add(new Request(path));
-        })
-      );
+      cache.add(new Request('offline.html'));
     })()
   );
-  console.log(`Service worker :  ${PREFIX} Install`);
+  console.log(`[ SERVICE WORKER ] :  ${PREFIX} Install`);
 });
 
 
@@ -40,7 +33,7 @@ self.addEventListener('activate', (event) => {
   );
 
 
-  console.log(`Service worker : ${PREFIX} Active`);
+  console.log(`[ SERVICE WORKER ]  : ${PREFIX} Active`);
 });
 
 
@@ -65,7 +58,5 @@ self.addEventListener('fetch', (event) => {
         }
       })()
     );
-  } else if (CACHED_FILES.includes(event.request.url)){
-    event.respondWith(caches.match(event.request));
   }
 });
