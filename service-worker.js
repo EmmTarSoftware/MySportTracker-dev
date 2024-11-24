@@ -1,5 +1,5 @@
 const base = location.protocol + "//" + location.host;//récupère l'url relative pour les éléments en cache
-const PREFIX = "V3";//Numero de version
+const PREFIX = "V4";//Numero de version
 const CACHED_FILES = [`${base}/Icons/Icon-No-Network.png`];
 
 
