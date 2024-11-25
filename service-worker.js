@@ -12,7 +12,7 @@ console.log(basePath);
 
 
 console.log(`[ SERVICE WORKER ]  : Lancement du js`);
-const PREFIX = "V2";//Numero de version
+const PREFIX = "V3";//Numero de version
 
 
 
