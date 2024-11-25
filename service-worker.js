@@ -1,14 +1,18 @@
-console.log("TEST PROTOCOL = ");
-console.log(location.protocol);
-console.log(location.host);
-console.log(location.href);
-console.log(location.origin);
-console.log(location.pathname);
+// Récupère le chemin complet 
+
+// recupère l'URL du script du service worker
+const serviceWorkerUrl = self.location.href;
+
+// Extrait le chemin avant "service-worker.js"
+const basePath = serviceWorkerUrl.replace(/service-worker\.js$/, '');
+
+// Affichez le chemin dans la console
+console.log(basePath);
 
 
 
 console.log(`[ SERVICE WORKER ]  : Lancement du js`);
-const PREFIX = "V1";//Numero de version
+const PREFIX = "V2";//Numero de version
 
 
 
