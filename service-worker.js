@@ -2,18 +2,15 @@
 
 // recupère l'URL du script du service worker
 const serviceWorkerUrl = self.location.href;
-
 // Extrait le chemin avant "service-worker.js"
 const basePath = serviceWorkerUrl.replace(/service-worker\.js$/, '');
 
-// Affichez le chemin dans la console
-console.log(basePath);
 
-
+console.log("BasePath = " + basePath);
 
 console.log(`[ SERVICE WORKER ]  : Lancement du js`);
-const PREFIX = "V3";//Numero de version
-
+const PREFIX = "V4";//Numero de version
+const CACHED_FILES = [`${basePath}Icons/Icon-No-Network.png`];
 
 
 self.addEventListener('install',(event)=>{
@@ -21,7 +18,11 @@ self.addEventListener('install',(event)=>{
   event.waitUntil(
     (async () => {
       const cache = await caches.open(PREFIX);
-      cache.add(new Request('offline.html'));
+      await Promise.all(
+        [...CACHED_FILES,'offline.html'].map((path)=>{
+          return cache.add(new Request(path));
+        })
+      );
     })()
   );
   console.log(`[ SERVICE WORKER ] :  ${PREFIX} Install`);
@@ -71,5 +72,7 @@ self.addEventListener('fetch', (event) => {
         }
       })()
     );
+  } else if (CACHED_FILES.includes(event.request.url)){
+    event.respondWith(caches.match(event.request));
   }
 });
