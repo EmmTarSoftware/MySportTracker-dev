@@ -1,5 +1,14 @@
+console.log("TEST PROTOCOL = ");
+console.log(location.protocol);
+console.log(location.host);
+console.log(location.href);
+console.log(location.origin);
+console.log(location.pathname);
+
+
+
 console.log(`[ SERVICE WORKER ]  : Lancement du js`);
-const PREFIX = "V12";//Numero de version
+const PREFIX = "V1";//Numero de version
 
 
 
