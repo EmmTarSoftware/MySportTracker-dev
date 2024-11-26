@@ -238,7 +238,7 @@ function onInsertActivityInList(activityToDisplay) {
     userActivityListIndexToStart = 0;
 
     console.log("nbre d'activité total à afficher = " + userActivityListToDisplay.length);
-    console.log("Nbre d'actiivté affichage pour cycle = " + maxActivityPerCycle);
+    console.log("Nbre max d'activité affiché par cycle = " + maxActivityPerCycle);
     console.log("Vide la liste des activités");
     divItemListRef.innerHTML = "";
 

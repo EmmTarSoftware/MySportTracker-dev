@@ -45,13 +45,13 @@ function onChangeMenu(menuTarget) {
         case "Profil":
             console.log("[ NAVIGATION ] Traitement pour nouveau menu : Profil");
             pMenuTitleRef.innerHTML = "Mon profil";
-            onChangeDisplay(["divMainBtnMenu","divHome"],["divProfil"],[],[],[],[]);
+            onChangeDisplay(["divMainBtnMenu","btnNewActivity","divHome"],["divProfil"],[],[],[],[]);
             onOpenMenuProfil();
         break;
         case "Setting":
             console.log("[ NAVIGATION ] Traitement pour nouveau menu : Setting");
             pMenuTitleRef.innerHTML = "Paramètres";
-            onChangeDisplay(["divMainBtnMenu","divHome"],["divSetting"],[],[],[],[]);
+            onChangeDisplay(["divMainBtnMenu","btnNewActivity","divHome"],["divSetting"],[],[],[],[]);
             onOpenMenuSetting();
         break;
 
@@ -59,21 +59,30 @@ function onChangeMenu(menuTarget) {
         case "Info":
             console.log("[ NAVIGATION ] Traitement pour nouveau menu : Info");
             pMenuTitleRef.innerHTML = "Information";
-            onChangeDisplay(["divMainBtnMenu","divHome"],["divInfo"],[],[],[],[]);
+            onChangeDisplay(["divMainBtnMenu","btnNewActivity","divHome"],["divInfo"],[],[],[],[]);
             onOpenMenuInfo();
         break;
+
+
+        case "Stat":
+            console.log("[ NAVIGATION ] Traitement pour nouveau menu : Stat");
+            pMenuTitleRef.innerHTML = "Statistiques";
+            onChangeDisplay(["divMainBtnMenu","btnNewActivity","divHome"],["divStat"],[],[],[],[]);
+            onOpenMenuStat();
+        break;
+
 
         case "NewActivity":
             console.log("[ NAVIGATION ] Traitement pour nouveau menu : New Activity");
             pMenuTitleRef.innerHTML = "Créer une activité";
-            onChangeDisplay(["divMainBtnMenu","divHome"],["divActivityEditor"],[],[],["btnDeleteActivity",],[]);
+            onChangeDisplay(["divMainBtnMenu","btnNewActivity","divHome"],["divActivityEditor"],[],[],["btnDeleteActivity",],[]);
             onOpenNewActivity();
         break;
 
         case "EditActivity":
             console.log("[ NAVIGATION ] Traitement pour nouveau menu : EditActivity");
             pMenuTitleRef.innerHTML = "Editer une activité";
-            onChangeDisplay(["divMainBtnMenu","divHome"],["divActivityEditor"],[],[],[],["btnDeleteActivity"]);
+            onChangeDisplay(["divMainBtnMenu","btnNewActivity","divHome"],["divActivityEditor"],[],[],[],["btnDeleteActivity"]);
         default:
             console.log("[ NAVIGATION ] Erreur : Aucune correspondance pour le nouveau menu = " + menuTarget);
         break;
@@ -98,20 +107,25 @@ function onLeaveMenu(menuTarget) {
     switch (menuTarget) {
         case "Profil":
             console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Profil");
-            onChangeDisplay(["divProfil"],["divMainBtnMenu","divHome"],[],[],[],[]);
+            onChangeDisplay(["divProfil"],["divMainBtnMenu","btnNewActivity","divHome"],[],[],[],[]);
         break;
         case "Setting":
             console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Setting");
-            onChangeDisplay(["divSetting"],["divMainBtnMenu","divHome"],[],[],[],[]);
+            onChangeDisplay(["divSetting"],["divMainBtnMenu","btnNewActivity","divHome"],[],[],[],[]);
         break;
         case "Info":
             console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Info");
-            onChangeDisplay(["divInfo"],["divMainBtnMenu","divHome"],[],[],[],[]);
+            onChangeDisplay(["divInfo"],["divMainBtnMenu","btnNewActivity","divHome"],[],[],[],[]);
+
+        break;
+        case "Stat":
+            console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Stat");
+            onChangeDisplay(["divStat"],["divMainBtnMenu","btnNewActivity","divHome"],[],[],[],[]);
 
         break;
         case "Activity":
             console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Activity");
-            onChangeDisplay(["divActivityEditor"],["divMainBtnMenu","divHome"],[],["divActivityEditor"],[],[]);
+            onChangeDisplay(["divActivityEditor"],["divMainBtnMenu","btnNewActivity","divHome"],[],["divActivityEditor"],[],[]);
         break;
         default:
             console.log("[ NAVIGATION ] Erreur : Aucune correspondance pour le menu = " + menuTarget);
@@ -321,6 +335,32 @@ function onStartDataBase() {
 
 
 };
+
+
+
+//--------------------------------- BOUTON FLOTTANT ---------------------------
+
+
+
+const btnNewActivityRef = document.getElementById('btnNewActivity');
+let lastScrollTop = 0;
+let scrollTimeout;
+
+
+// Écoute de l'événement scroll sur la div
+divItemListRef.addEventListener('scroll', () => {
+    // Cache le bouton dès qu'il y a un mouvement de scroll
+    btnNewActivityRef.classList.add('hidden');
+
+    // Empêche le bouton de réapparaître immédiatement
+    clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(() => {
+        btnNewActivityRef.classList.remove('hidden');
+    }, 200); // Réapparaît après 200ms une fois le scroll arrêté
+});
+
+
+
 
 
 onStartDataBase();
