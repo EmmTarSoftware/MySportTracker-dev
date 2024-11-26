@@ -371,9 +371,14 @@ button.btnFocus{
 }
 
 button.btnFlottant{
+    background-color: var(--colorMainTheme1);
+    width: 45px; height: 45px;
+    border: none;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.30) 2px 2px 4px;;
     position: fixed;
     bottom: 100px;
-    left: 75%;
+    left: 80%;
     z-index: 4;
     transition: opacity 0.3s ease, transform 0.3s ease;
 }
