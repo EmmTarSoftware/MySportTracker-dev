@@ -1,4 +1,6 @@
-
+let allDivHomeToDisplayNone = ["divMainBtnMenu","btnNewActivity","divFilterSort","divItemList"],
+    allDivHomeToDisplayBlock = ["divMainBtnMenu","btnNewActivity"],
+    allDivHomeToDisplayFlex = ["divFilterSort","divItemList"];
 
 // Récupère les date du jours et de la veille
 
@@ -45,21 +47,21 @@ function onChangeMenu(menuTarget) {
         case "Profil":
             console.log("[ NAVIGATION ] Traitement pour nouveau menu : Profil");
             pMenuTitleRef.innerHTML = "Mon profil";
-            onChangeDisplay(["divMainBtnMenu","btnNewActivity","divHome"],["divProfil"],[],[],[],[]);
+            onChangeDisplay(allDivHomeToDisplayNone,["divBtnProfil"],["divProfil"],[],[],[],[]);
             onOpenMenuProfil();
         break;
         case "Setting":
             console.log("[ NAVIGATION ] Traitement pour nouveau menu : Setting");
             pMenuTitleRef.innerHTML = "Paramètres";
-            onChangeDisplay(["divMainBtnMenu","btnNewActivity","divHome"],["divSetting"],[],[],[],[]);
+            onChangeDisplay(allDivHomeToDisplayNone,["release-licence","divBtnSetting"],["divSetting"],[],[],[],[]);
             onOpenMenuSetting();
         break;
 
 
         case "Info":
             console.log("[ NAVIGATION ] Traitement pour nouveau menu : Info");
-            pMenuTitleRef.innerHTML = "Information";
-            onChangeDisplay(["divMainBtnMenu","btnNewActivity","divHome"],["divInfo"],[],[],[],[]);
+            pMenuTitleRef.innerHTML = "Liste des activités";
+            onChangeDisplay(allDivHomeToDisplayNone,["divInfo"],[],[],[],[],[]);
             onOpenMenuInfo();
         break;
 
@@ -67,7 +69,7 @@ function onChangeMenu(menuTarget) {
         case "Stat":
             console.log("[ NAVIGATION ] Traitement pour nouveau menu : Stat");
             pMenuTitleRef.innerHTML = "Statistiques";
-            onChangeDisplay(["divMainBtnMenu","btnNewActivity","divHome"],["divStat"],[],[],[],[]);
+            onChangeDisplay(allDivHomeToDisplayNone,["divStat"],[],[],[],[],[]);
             onOpenMenuStat();
         break;
 
@@ -75,14 +77,14 @@ function onChangeMenu(menuTarget) {
         case "NewActivity":
             console.log("[ NAVIGATION ] Traitement pour nouveau menu : New Activity");
             pMenuTitleRef.innerHTML = "Créer une activité";
-            onChangeDisplay(["divMainBtnMenu","btnNewActivity","divHome"],["divActivityEditor"],[],[],["btnDeleteActivity",],[]);
+            onChangeDisplay(allDivHomeToDisplayNone,["divBtnActivity"],["divActivityEditor"],[],[],["btnDeleteActivity"],[]);
             onOpenNewActivity();
         break;
 
         case "EditActivity":
             console.log("[ NAVIGATION ] Traitement pour nouveau menu : EditActivity");
             pMenuTitleRef.innerHTML = "Editer une activité";
-            onChangeDisplay(["divMainBtnMenu","btnNewActivity","divHome"],["divActivityEditor"],[],[],[],["btnDeleteActivity"]);
+            onChangeDisplay(allDivHomeToDisplayNone,["divBtnActivity"],["divActivityEditor"],[],[],[],["btnDeleteActivity"]);
         default:
             console.log("[ NAVIGATION ] Erreur : Aucune correspondance pour le nouveau menu = " + menuTarget);
         break;
@@ -107,26 +109,33 @@ function onLeaveMenu(menuTarget) {
     switch (menuTarget) {
         case "Profil":
             console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Profil");
-            onChangeDisplay(["divProfil"],["divMainBtnMenu","btnNewActivity","divHome"],[],[],[],[]);
+            onChangeDisplay(["divProfil","divBtnProfil"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
         break;
         case "Setting":
             console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Setting");
-            onChangeDisplay(["divSetting"],["divMainBtnMenu","btnNewActivity","divHome"],[],[],[],[]);
+            onChangeDisplay(["divSetting","release-licence","divBtnSetting"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
         break;
         case "Info":
             console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Info");
-            onChangeDisplay(["divInfo"],["divMainBtnMenu","btnNewActivity","divHome"],[],[],[],[]);
+            onChangeDisplay(["divInfo"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
 
         break;
         case "Stat":
             console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Stat");
-            onChangeDisplay(["divStat"],["divMainBtnMenu","btnNewActivity","divHome"],[],[],[],[]);
+            onChangeDisplay(["divStat"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
 
         break;
         case "Activity":
             console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Activity");
-            onChangeDisplay(["divActivityEditor"],["divMainBtnMenu","btnNewActivity","divHome"],[],["divActivityEditor"],[],[]);
+            onChangeDisplay(["divActivityEditor"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],["divActivityEditor","divBtnActivity"],[],[]);
         break;
+
+        case "userCondition":
+            console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : UserCondition");
+            onChangeDisplay(["divConditionUtilisation"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
+        break;
+
+        
         default:
             console.log("[ NAVIGATION ] Erreur : Aucune correspondance pour le menu = " + menuTarget);
         break;
@@ -137,17 +146,23 @@ function onLeaveMenu(menuTarget) {
 
 
 // fonction de gestion de l'affichage
-function onChangeDisplay(toHide,toDisplay,toDisable,toEnable,visibilityOFF,visibilityON) {
+function onChangeDisplay(toHide,toDisplayBlock,toDisplayFlex,toDisable,toEnable,visibilityOFF,visibilityON) {
     // Cache les items
     toHide.forEach(id=>{
         let itemRef = document.getElementById(id);
         itemRef.style.display = "none";
     });
 
-    // Affiche les items
-    toDisplay.forEach(id=>{
+    // Affiche les items en block
+    toDisplayBlock.forEach(id=>{
         let itemRef = document.getElementById(id);
         itemRef.style.display = "block";
+    });
+
+     // Affiche les items en flex
+     toDisplayFlex.forEach(id=>{
+        let itemRef = document.getElementById(id);
+        itemRef.style.display = "flex";
     });
 
 
@@ -255,7 +270,7 @@ function onCheckConditionUtilisation() {
 
 
 function onGenerateConditionUtilisation() {
-    onChangeDisplay(["divHome","divMainBtnMenu"],["divConditionUtilisation"],[],[],["launch-btn"],[]);
+    onChangeDisplay(allDivHomeToDisplayNone,["divConditionUtilisation"],[],[],[],["launch-btn"],[]);
     console.log("Génération du popup des conditions d'utilisation");
 
 };
@@ -265,7 +280,8 @@ function onGenerateConditionUtilisation() {
 function onClickAcceptCondition() {
     localStorage.setItem(cookiesConditionUtilisation_keyName,true);
     console.log("Acceptation des conditions d'utilisation");
-    onChangeDisplay(["divConditionUtilisation"],["divHome","divMainBtnMenu"],[],[],[],[]);
+
+    onLeaveMenu("userCondition");
 };
 
 // gestion de la Checkbox d'acceptation

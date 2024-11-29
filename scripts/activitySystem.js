@@ -726,7 +726,7 @@ function onClickDeleteFromActivityEditor() {
     // L'affiche de la div doit se faire en "flex" donc je n'utilise pas le onChangeDisplay
     document.getElementById("divConfirmDeleteActivity").classList.add("show");
 
-    onChangeDisplay([],[],["divActivityEditor"],[],[],[]);
+    onChangeDisplay([],[],[],["divActivityEditor","divBtnActivity"],[],[],[]);
 
 };
 
@@ -748,7 +748,7 @@ function onAnnulDeleteActivity(event) {
     console.log("annulation de la suppression d'activité ");
     // retire la class "show" pour la div de confirmation
     document.getElementById("divConfirmDeleteActivity").classList.remove("show");
-    onChangeDisplay([],[],[],["divActivityEditor"],[],[]);
+    onChangeDisplay([],[],[],[],["divActivityEditor","divBtnActivity"],[],[]);
 
 };
 
