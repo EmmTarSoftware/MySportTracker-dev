@@ -329,6 +329,7 @@ button.btn-sort-Selected{
     overflow-y: auto; /* Permet le défilement vertical si nécessaire */
     padding: 10px; /* Ajoute un petit espace intérieur */
     box-sizing: border-box; /* Inclut les bordures et padding dans les dimensions */
+    height: 100vh;
 }
 
 
@@ -531,10 +532,15 @@ p.release{
 
 div.div-info-list{
     display: none;
-    width: 100%;
-    height: 90vh;
-    box-shadow: inset 0 -10px 10px -10px rgba(0, 0, 0, 0.5);
+    height: 100vh;
     text-align: left;
+
+    flex-direction: column;   /* Empile les items verticalement */
+    align-items: flex-start;  /* Aligne les items en haut */
+    flex-grow: 1; /* Remplit l'espace restant entre header et footer */
+    overflow-y: auto; /* Permet le défilement vertical si nécessaire */
+    padding: 10px; /* Ajoute un petit espace intérieur */
+    box-sizing: border-box; /* Inclut les bordures et padding dans les dimensions */
 }
 
 

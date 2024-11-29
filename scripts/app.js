@@ -61,7 +61,7 @@ function onChangeMenu(menuTarget) {
         case "Info":
             console.log("[ NAVIGATION ] Traitement pour nouveau menu : Info");
             pMenuTitleRef.innerHTML = "Liste des activités";
-            onChangeDisplay(allDivHomeToDisplayNone,["divInfo"],[],[],[],[],[]);
+            onChangeDisplay(allDivHomeToDisplayNone,["divInfo","divBtnInfo"],[],[],[],[],[]);
             onOpenMenuInfo();
         break;
 
@@ -117,7 +117,7 @@ function onLeaveMenu(menuTarget) {
         break;
         case "Info":
             console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Info");
-            onChangeDisplay(["divInfo"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
+            onChangeDisplay(["divInfo","divBtnInfo"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
 
         break;
         case "Stat":
