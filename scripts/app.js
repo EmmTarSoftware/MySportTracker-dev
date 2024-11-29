@@ -69,7 +69,7 @@ function onChangeMenu(menuTarget) {
         case "Stat":
             console.log("[ NAVIGATION ] Traitement pour nouveau menu : Stat");
             pMenuTitleRef.innerHTML = "Statistiques";
-            onChangeDisplay(allDivHomeToDisplayNone,["divStat"],[],[],[],[],[]);
+            onChangeDisplay(allDivHomeToDisplayNone,["divBtnStat"],["divStat"],[],[],[],[]);
             onOpenMenuStat();
         break;
 
