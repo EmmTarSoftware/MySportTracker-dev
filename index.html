@@ -53,20 +53,7 @@
 
 
         <div id="divItemList" class="items-list ">
-            <!-- item Modèle -->
-            <div class="item-container" onclick="onClickOnActivity()">
-                <div class="item-image-container"><img class="activity" src="./images/icon-natation.png" alt="" srcset=""></div>
-                <div class="item-data-container">
-                    <div class="item-data-area1">
-                        <p class="item-data-distance">0,8 km</p>
-                        <p class="item-data-duration">00:50:00</p>
-                        <p class="item-data-date">12/10/2024</p>
-                    </div>
-                    <div class="item-data-area2">
-                        <p class="item-data-location">PISCINE ST MANDE</p>
-                    </div>
-                </div>
-            </div>   
+            <!-- Injection des items -->
 
         <!-- Fin listes des items -->
         </div>
@@ -130,6 +117,9 @@
     <button id="btnConfirmDelete" class="btn-menu deleteConfirm" onclick="onConfirmDeleteActivity(event)"><img class="confirmSuppr" src="./Icons/Icon-Delete.png" alt="Icone"></button>
     </div>
     <!---------------------------  FIN Div confirmation suppression activité ------------------------------------------->
+
+
+
 
     <!-- ----------------------------------      DIV PROFIL        ------------------------------------------------>
     <div id="divProfil" class="new-interface">
@@ -199,7 +189,7 @@
     </div>
 
     <div id="release-licence" class="release-licence">
-        <p class="release-licence">Release : 1.1.25</p>
+        <p class="release-licence">Release : 1.1.26</p>
         <h4 class="release-licence">
             Licence : 
         </h4>
@@ -243,13 +233,13 @@
 
 
    <!-- ----------------------------------      DIV STAT        ------------------------------------------------>
-   <div id="divStat" class="new-interface">
-
+    <div id="divStat" class="new-interface">
+    </div>
 
     <div id="divBtnStat" class="button-editor">
         <button class="btn-menu" onclick="onClickReturnFromStat()"><img src="./Icons/Icon-Return-cancel.png" alt="Icone"></button>  
     </div>
-   </div>
+
    <!-- ----------------------------------  FIN    DIV STAT     ------------------------------------------------>
 
 
@@ -260,7 +250,7 @@
 
 
     <!-- ----------------------------------      DIV CONDITION ACCEPTATION      ------------------------------------------------>
-    <div id="divConditionUtilisation" class="div-interface">
+    <div id="divConditionUtilisation" class="condition-interface">
 
 
         <div class="entete-condition">
@@ -303,7 +293,7 @@
     <div id="divMainBtnMenu" class="main-menu">
        <button class="btn-menu" onclick="onChangeMenu('Profil')"><img src="./Icons/Icon-Profil.png" alt="Icone"></button>
        <button class="btn-menu" onclick="onChangeMenu('Setting')"><img src="./Icons/Icon-Setting.png" alt="Icone"></button>
-       <button class="btn-menu" onclick="onChangeMenu('Stat')"><img src="./Icons/Icon-Stat.png" alt="Icone"></button>
+       <!-- <button class="btn-menu" onclick="onChangeMenu('Stat')"><img src="./Icons/Icon-Stat.png" alt="Icone"></button> -->
        <button class="btn-menu" onclick="onChangeMenu('Info')"><img src="./Icons/Icon-Favoris-Sel.png" alt="Icone"></button>
     </div>
     <!------------------------------------- FIN DIV Main Menu ------------------------------------------------------>

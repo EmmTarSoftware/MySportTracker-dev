@@ -105,17 +105,8 @@ img.confirmSuppr{
     width: 40px;
 }
 
-/* commun à tous les menus (paramètre, new, about etc) */
-.div-interface{
-    display: none;
-    position: fixed;
-    top: 60px;
-    width: 95%; 
-    height: 90%;
-    padding-left: 5px;
-    border-radius:10px 10px;
-    
-}
+
+
 
 div.new-interface {
     display: none;
@@ -142,21 +133,6 @@ div.new-interface select {
     padding: 0 10px; /* Ajoute un padding intérieur comme les autres champs */
     box-sizing: border-box; /* Assure que les dimensions incluent le padding et les bordures */
 }
-
-
-div.scrollable{
-    width: 95%;              /* Peut prendre toute la largeur du parent */
-    padding-bottom: 5px;
-    padding-top: 5px;
-    overflow: auto; /* Ajoute une barre de défilement si le contenu dépasse la taille de la div */
-    position: relative;
-    border-radius: 0px 0px 20px 20px;
-    padding-left: 10px; 
-
-}
-
-
-
 
 
 
@@ -396,6 +372,9 @@ p.item-data-location{
     width: 100px;
 }
 
+
+
+
 /* Bouton New Items */
 
 button.btnFocus{
@@ -503,20 +482,10 @@ div.main-menu{
     border-radius: 0px 0px 10px 10px;
 }
 
-p.release{
-    display: inline;
-}
 
 
 
 
-
-
-/* pour afficher des items pendant un devellopement qui sont caché par défaut */
-
-.dev{
-    display: inline-block;
-}
 
 
 
@@ -540,7 +509,7 @@ div.div-info-list{
     align-items: flex-start;  /* Aligne les items en haut */
     flex-grow: 1; /* Remplit l'espace restant entre header et footer */
     overflow-y: auto; /* Permet le défilement vertical si nécessaire */
-    padding: 10px; /* Ajoute un petit espace intérieur */
+    padding-right: 20px; /* Ajoute un petit espace intérieur */
     box-sizing: border-box; /* Inclut les bordures et padding dans les dimensions */
 }
 
@@ -584,18 +553,6 @@ li.info-list{
 
 
 
-.release-licence{
-    text-align: center;
-    padding : 0px; margin: 0px;
-}
-
-div.release-licence{
-    /* background-color: orange; */
-    text-align: center;
-    display: none;
-    width: 100%;
-}
-
 
 
 
@@ -613,6 +570,18 @@ div.btn-import-export{
 
 
 
+.release-licence{
+    text-align: center;
+    padding : 0px; margin: 0px;
+}
+
+div.release-licence{
+    /* background-color: orange; */
+    text-align: center;
+    display: none;
+    width: 100%;
+}
+
 
 
 
@@ -622,6 +591,20 @@ div.btn-import-export{
 
 
 /* -------------------------------- CONDITION D'UTILISATION -------------------- */
+
+.condition-interface{
+    display: none;
+    position: fixed;
+    top: 60px;
+    width: 95%; 
+    height: 90%;
+    padding-left: 5px;
+    border-radius:10px 10px;
+}
+
+
+
+
 
 div.entete-condition{
      text-align: center;
@@ -668,5 +651,12 @@ div.buttonAcceptation{
 }
 
 
+
+
+/* pour afficher des items pendant un devellopement qui sont caché par défaut */
+
+.dev{
+    display: inline-block;
+}
 
 
