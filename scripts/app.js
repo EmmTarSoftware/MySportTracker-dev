@@ -60,7 +60,7 @@ function onChangeMenu(menuTarget) {
 
         case "Info":
             console.log("[ NAVIGATION ] Traitement pour nouveau menu : Info");
-            pMenuTitleRef.innerHTML = "Liste des activités / Favoris";
+            pMenuTitleRef.innerHTML = "Activités / Favoris";
             onChangeDisplay(allDivHomeToDisplayNone,["divInfo","divBtnInfo"],[],[],[],[],[]);
             onOpenMenuInfo();
         break;

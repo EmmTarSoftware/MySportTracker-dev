@@ -16,7 +16,7 @@ function exportData() {
 
     exportRequest.onsuccess = function() {
         var data = exportRequest.result;
-        downloadJSON(data, `MonSuivitSportif_${exportDate}_exported_Activity.json`);
+        downloadJSON(data, `MSS_${exportDate}_Activity.json`);
     };
 
     exportRequest.onerror = function(error) {
@@ -26,8 +26,6 @@ function exportData() {
     transaction.oncomplete = function(){
         onShowNotifyPopup(notifyTextArray.exportSuccess);
     };
-
-
 
 };
 
