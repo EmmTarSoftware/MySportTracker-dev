@@ -483,6 +483,42 @@ div.main-menu{
 }
 
 
+.main-menu-sup{
+    width: 100%;
+    height: 100vh;
+    display: none;
+    position: fixed;
+}
+
+
+.main-menu-sup-button-area {
+    position: fixed;
+    bottom: 70px;
+    right: 20px;
+    display: flex; /* Utilisation de flexbox */
+    flex-direction: column; /* Les éléments sont disposés verticalement */
+    align-items: center; /* Centrer les boutons horizontalement */
+    padding: 10px;
+    background-color: var(--colorLightGray);
+    border-radius: 8px; 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Ombre subtile autour de la div */
+    width: auto; /* La div s'ajustera à la taille des boutons */
+    max-width: 200px; /* Limiter la largeur de la div si nécessaire */
+}
+
+.main-menu-sup button {
+    width: 100%; 
+    padding: 10px; 
+    margin-bottom: 10px;
+    color: var(--colorMainTheme1);
+    background-color: var(--colorLightGray);
+    text-align: left;
+    border: none;
+    border-bottom: solid 1px rgb(75, 75, 75);
+    cursor: pointer;
+    /* font-size: 16px; Taille du texte */
+    transition: background-color 0.3s ease; /* Transition pour un effet de survol fluide */
+}
 
 
 
@@ -492,15 +528,14 @@ div.main-menu{
 
 
 
-
-/*---------------------------  MENU INFO -------------------------------*/
-
+/*---------------------------  MENU FAVORIS -------------------------------*/
 
 
 
 
 
-div.div-info-list{
+
+div.div-favoris-list{
     display: none;
     height: 100vh;
     text-align: left;
@@ -515,14 +550,14 @@ div.div-info-list{
 
 
 
-li.info-list{
+li.favoris-list{
     margin-top: 10px; 
     height: 40px;
     border-bottom: solid 1px var(--colorMainTheme1);
 }
 
 
-/* p.info-list{
+/* p.favoris-list{
     margin-top: 2px; margin-bottom: 2px; margin-left: 10px;
     display: inline-block;
 } */
@@ -531,7 +566,7 @@ li.info-list{
 
 
 /* Container li pour utiliser flexbox */
-.info-list {
+.favoris-list {
     display: flex;           /* Utilise flexbox pour les éléments à l'intérieur */
     align-items: center;     /* Aligne verticalement les éléments */
     justify-content: flex-start; /* Aligne les éléments à gauche par défaut */
@@ -540,7 +575,7 @@ li.info-list{
 }
 
 /* Style pour l'image principale de l'activité */
-.info-list img {
+.favoris-list img {
     margin-right: 10px;      /* Marge entre l'image et le texte */
     width: 30px;
 }
@@ -570,16 +605,24 @@ div.btn-import-export{
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+/*---------------------- INFO ------------------------------------*/
+
+
 .release-licence{
     text-align: center;
     padding : 0px; margin: 0px;
-}
-
-div.release-licence{
-    /* background-color: orange; */
-    text-align: center;
-    display: none;
-    width: 100%;
 }
 
 

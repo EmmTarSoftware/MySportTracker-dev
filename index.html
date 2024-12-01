@@ -188,18 +188,7 @@
         </p>
     </div>
 
-    <div id="release-licence" class="release-licence">
-        <p class="release-licence">Release : 1.1.29</p>
-        <h4 class="release-licence">
-            Licence : 
-        </h4>
-        <p class="release-licence">
-            Emmanuel TARACONAT
-        </p>
-        <p class="release-licence">
-            © 2024 EmmTarSoftware. Tous droits réservés.
-        </p>    
-    </div>
+    
 
 
 
@@ -211,12 +200,12 @@
 
 
 
-    <!-- ----------------------------------      DIV INFO        ------------------------------------------------>
+    <!-- ----------------------------------      DIV FAVORIS        ------------------------------------------------>
 
 
         
 
-    <div id="divInfo" class="div-info-list">
+    <div id="divFavoris" class="div-favoris-list">
 
         <ul id="ulActivityListParent">
             <!-- Injection de la liste d'activité -->
@@ -225,11 +214,11 @@
     </div>
     
 
-    <div id="divBtnInfo" class="button-editor">
-        <button class="btn-menu" onclick="onClickReturnFromInfo()"><img src="./Icons/Icon-Return-cancel.png" alt="Icone"></button>  
+    <div id="divBtnFavoris" class="button-editor">
+        <button class="btn-menu" onclick="onClickReturnFromFavoris()"><img src="./Icons/Icon-Return-cancel.png" alt="Icone"></button>  
     </div>
 
-    <!-- ----------------------------------  FIN    DIV INFO     ------------------------------------------------>
+    <!-- ----------------------------------  FIN    DIV FAVORIS     ------------------------------------------------>
 
 
    <!-- ----------------------------------      DIV STAT        ------------------------------------------------>
@@ -240,8 +229,36 @@
         <button class="btn-menu" onclick="onClickReturnFromStat()"><img src="./Icons/Icon-Return-cancel.png" alt="Icone"></button>  
     </div>
 
-   <!-- ----------------------------------  FIN    DIV STAT     ------------------------------------------------>
+    <!-- ----------------------------------  FIN    DIV STAT     ------------------------------------------------>
 
+
+    <!-- ----------------------------------      DIV INFO        ------------------------------------------------>
+    <div id="divInfo" class="new-interface">
+            <p class="release-licence"><b>Release :</b> 1.1.30</p>
+            <p class="release-licence"><b>Licence : </b></p>
+            <p class="release-licence">
+                Emmanuel TARACONAT
+            </p>
+            <p class="release-licence">
+                © 2025 EmmTarSoftware. Tous droits réservés.
+            </p>    
+    </div>
+
+    <div id="divBtnInfo" class="button-editor">
+        <button class="btn-menu" onclick="onClickReturnFromInfo()"><img src="./Icons/Icon-Return-cancel.png" alt="Icone"></button>  
+    </div>
+
+    <!-- ----------------------------------  FIN    DIV INFO     ------------------------------------------------>
+
+    <!-- ----------------------------------      DIV INFO        ------------------------------------------------>
+    <div id="divTrophy" class="new-interface">
+    </div>
+
+    <div id="divBtnTrophy" class="button-editor">
+        <button class="btn-menu" onclick="onClickReturnFromTrophy()"><img src="./Icons/Icon-Return-cancel.png" alt="Icone"></button>  
+    </div>
+
+    <!-- ----------------------------------  FIN    DIV INFO     ------------------------------------------------>
 
 
 
@@ -291,11 +308,20 @@
     <!------------------------------------- DIV Main Menu ------------------------------------------------------>
     <button class="btnFlottant" onclick="onChangeMenu('NewActivity')" id="btnNewActivity"><img src="./Icons/Icon-New.png" alt="Icone"></button>
     <div id="divMainBtnMenu" class="main-menu">
-       <button class="btn-menu" onclick="onChangeMenu('Profil')"><img src="./Icons/Icon-Profil.png" alt="Icone"></button>
-       <button class="btn-menu" onclick="onChangeMenu('Setting')"><img src="./Icons/Icon-Setting.png" alt="Icone"></button>
-       <!-- <button class="btn-menu" onclick="onChangeMenu('Stat')"><img src="./Icons/Icon-Stat.png" alt="Icone"></button> -->
-       <!-- <button class="btn-menu" onclick="onChangeMenu('Trophy')"><img src="./Icons/Icon-Trophy.png" alt="Icone"></button> -->
-       <button class="btn-menu" onclick="onChangeMenu('Info')"><img src="./Icons/Icon-Favoris-Sel.png" alt="Icone"></button>
+        <button class="btn-menu" onclick="onChangeMenu('Favoris')"><img src="./Icons/Icon-Favoris-Sel.png" alt="Icone"></button>
+        <button class="btn-menu" onclick="onChangeMenu('Stat')"><img src="./Icons/Icon-Stat.png" alt="Icone"></button>
+        <button class="btn-menu" onclick="onChangeMenu('Trophy')"><img src="./Icons/Icon-Trophy.png" alt="Icone"></button>
+        <button class="btn-menu" onclick="onClickMainMenuSup()"><img src="./Icons/Icon-Autres.png" alt="Icone"></button>
+
+    </div>
+
+    <!-- DIV main menu supplémentaire -->
+    <div id="divMainMenuSup" class="main-menu-sup" onclick="onAnnulMenuSup(event)">
+        <div class="main-menu-sup-button-area">
+            <button onclick="onClickMenuSup(event,'Profil')">Profil</button>
+            <button onclick="onClickMenuSup(event,'Setting')">Paramètres</button>
+            <button onclick="onClickMenuSup(event,'Info')">A propos</button>
+        </div>
     </div>
     <!------------------------------------- FIN DIV Main Menu ------------------------------------------------------>
 
@@ -310,6 +336,7 @@
     <script src="./scripts/activitySystem.js"></script>
     <script src="./scripts/info.js"></script>
     <script src="./scripts/stat.js"></script>
+    <script src="./scripts/trophy.js"></script>
     <script src="./scripts/importExport.js"></script>
     <script src="./scripts/app.js"></script>
 </body>

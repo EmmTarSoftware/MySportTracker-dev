@@ -44,6 +44,39 @@ function onChangeMenu(menuTarget) {
 
 
     switch (menuTarget) {
+        case "Favoris":
+            console.log("[ NAVIGATION ] Traitement pour nouveau menu : Favoris");
+            pMenuTitleRef.innerHTML = "Activités / Favoris";
+            onChangeDisplay(allDivHomeToDisplayNone,["divFavoris","divBtnFavoris"],[],[],[],[],[]);
+            onOpenMenuFavoris();
+        break;
+        case "Stat":
+            console.log("[ NAVIGATION ] Traitement pour nouveau menu : Stat");
+            pMenuTitleRef.innerHTML = "Statistiques";
+            onChangeDisplay(allDivHomeToDisplayNone,["divBtnStat"],["divStat"],[],[],[],[]);
+            onOpenMenuStat();
+        break;
+        case "Trophy":
+            console.log("[ NAVIGATION ] Traitement pour nouveau menu : Trophy");
+            pMenuTitleRef.innerHTML = "Récompenses";
+            onChangeDisplay(allDivHomeToDisplayNone,["divBtnTrophy"],["divTrophy"],[],[],[],[]);
+            onOpenMenuTrophy();
+        break;
+        case "NewActivity":
+            console.log("[ NAVIGATION ] Traitement pour nouveau menu : New Activity");
+            pMenuTitleRef.innerHTML = "Créer une activité";
+            onChangeDisplay(allDivHomeToDisplayNone,["divBtnActivity"],["divActivityEditor"],[],[],["btnDeleteActivity"],[]);
+            onOpenNewActivity();
+        break;
+        case "EditActivity":
+            console.log("[ NAVIGATION ] Traitement pour nouveau menu : EditActivity");
+            pMenuTitleRef.innerHTML = "Editer une activité";
+            onChangeDisplay(allDivHomeToDisplayNone,["divBtnActivity"],["divActivityEditor"],[],[],[],["btnDeleteActivity"]);
+        break;
+
+        
+        // Menu supplémentaire
+
         case "Profil":
             console.log("[ NAVIGATION ] Traitement pour nouveau menu : Profil");
             pMenuTitleRef.innerHTML = "Mon profil";
@@ -53,38 +86,16 @@ function onChangeMenu(menuTarget) {
         case "Setting":
             console.log("[ NAVIGATION ] Traitement pour nouveau menu : Setting");
             pMenuTitleRef.innerHTML = "Paramètres";
-            onChangeDisplay(allDivHomeToDisplayNone,["release-licence","divBtnSetting"],["divSetting"],[],[],[],[]);
+            onChangeDisplay(allDivHomeToDisplayNone,["divBtnSetting"],["divSetting"],[],[],[],[]);
             onOpenMenuSetting();
         break;
-
-
         case "Info":
             console.log("[ NAVIGATION ] Traitement pour nouveau menu : Info");
-            pMenuTitleRef.innerHTML = "Activités / Favoris";
-            onChangeDisplay(allDivHomeToDisplayNone,["divInfo","divBtnInfo"],[],[],[],[],[]);
+            pMenuTitleRef.innerHTML = "A propos";
+            onChangeDisplay(allDivHomeToDisplayNone,["divBtnInfo"],["divInfo"],[],[],[],[]);
             onOpenMenuInfo();
         break;
 
-
-        case "Stat":
-            console.log("[ NAVIGATION ] Traitement pour nouveau menu : Stat");
-            pMenuTitleRef.innerHTML = "Statistiques";
-            onChangeDisplay(allDivHomeToDisplayNone,["divBtnStat"],["divStat"],[],[],[],[]);
-            onOpenMenuStat();
-        break;
-
-
-        case "NewActivity":
-            console.log("[ NAVIGATION ] Traitement pour nouveau menu : New Activity");
-            pMenuTitleRef.innerHTML = "Créer une activité";
-            onChangeDisplay(allDivHomeToDisplayNone,["divBtnActivity"],["divActivityEditor"],[],[],["btnDeleteActivity"],[]);
-            onOpenNewActivity();
-        break;
-
-        case "EditActivity":
-            console.log("[ NAVIGATION ] Traitement pour nouveau menu : EditActivity");
-            pMenuTitleRef.innerHTML = "Editer une activité";
-            onChangeDisplay(allDivHomeToDisplayNone,["divBtnActivity"],["divActivityEditor"],[],[],[],["btnDeleteActivity"]);
         default:
             console.log("[ NAVIGATION ] Erreur : Aucune correspondance pour le nouveau menu = " + menuTarget);
         break;
@@ -92,6 +103,23 @@ function onChangeMenu(menuTarget) {
 
 };
 
+
+
+
+// Les menus supplémentaires
+function onClickMainMenuSup(){
+    onChangeDisplay(["btnNewActivity"],[],["divMainMenuSup"],[],[],[],[]);
+};
+function onClickMenuSup(event,target) {
+    event.stopPropagation();
+    document.getElementById("divMainMenuSup").style.display = "none";
+
+    onChangeMenu(target);
+};
+function onAnnulMenuSup(){
+    console.log("[ NAVIGATION ] Annulation menu supplémentaire");
+    onChangeDisplay(["divMainMenuSup"],["btnNewActivity"],[],[],[],[],[]);
+};
 
 
 
@@ -107,28 +135,25 @@ function onLeaveMenu(menuTarget) {
     pMenuTitleRef.innerHTML = "Mon Suivit Sportif";
 
     switch (menuTarget) {
-        case "Profil":
-            console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Profil");
-            onChangeDisplay(["divProfil","divBtnProfil"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
-        break;
-        case "Setting":
-            console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Setting");
-            onChangeDisplay(["divSetting","release-licence","divBtnSetting"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
-        break;
-        case "Info":
-            console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Info");
-            onChangeDisplay(["divInfo","divBtnInfo"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
 
+        case "Favoris":
+            console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Favoris");
+            onChangeDisplay(["divFavoris","divBtnFavoris"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
         break;
         case "Stat":
             console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Stat");
             onChangeDisplay(["divStat","divBtnStat"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
-
+        break;
+        case "Trophy":
+            console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Trophy");
+            onChangeDisplay(["divTrophy","divBtnTrophy"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
         break;
         case "Activity":
             console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Activity");
             onChangeDisplay(["divActivityEditor"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],["divActivityEditor","divBtnActivity"],[],[]);
         break;
+
+        // Condition utilisateur
 
         case "userCondition":
             console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : UserCondition");
@@ -136,6 +161,22 @@ function onLeaveMenu(menuTarget) {
         break;
 
         
+        //  Menu supplementaire
+
+        case "Profil":
+            console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Profil");
+            onChangeDisplay(["divProfil","divBtnProfil"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
+        break;
+        case "Setting":
+            console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Setting");
+            onChangeDisplay(["divSetting","divBtnSetting"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
+        break;
+        case "Info":
+            console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Info");
+            onChangeDisplay(["divInfo","divBtnInfo"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
+        break;
+
+
         default:
             console.log("[ NAVIGATION ] Erreur : Aucune correspondance pour le menu = " + menuTarget);
         break;
@@ -196,6 +237,17 @@ function onChangeDisplay(toHide,toDisplayBlock,toDisplayFlex,toDisable,toEnable,
 
 
 };
+
+
+
+
+
+
+
+
+
+
+
 
 
 //formatage =  tout en majuscule
