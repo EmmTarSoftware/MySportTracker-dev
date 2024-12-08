@@ -356,12 +356,15 @@ onCheckConditionUtilisation();
 let db,
     dbName = "MSS-DataBase",
     activityStoreName = "activityList",
-    currentBaseVersion = 1,
+    profilStoreName = "profil",
+    currentBaseVersion = 3,
     cookiesBddVersion_KeyName = "Mind2Task-bddVersion";
 
 
 function onStartDataBase() {
     let openRequest = indexedDB.open(dbName,currentBaseVersion);
+
+    let isNewProfilRequiered = false;//boolean pour savoir si je créer un nouveau profils ou non
 
     // Traitement selon résultat
 
@@ -383,6 +386,17 @@ function onStartDataBase() {
         };
 
 
+        // Creation du store pour le profil
+
+        if (!db.objectStoreNames.contains(profilStoreName)) {
+            let profilStore = db.createObjectStore(profilStoreName, {keyPath:'key',autoIncrement: true});
+            console.log("[ DATABASE PROFIL] Creation du magasin " + profilStoreName);
+
+            profilStore.createIndex('userName', 'name',{unique:true});
+            isNewProfilRequiered = true;
+            
+            
+        };
 
         // Stoque le numéro de version de base de l'application
         localStorage.setItem(cookiesBddVersion_KeyName, currentBaseVersion.toString());
@@ -396,6 +410,20 @@ function onStartDataBase() {
     openRequest.onsuccess = function(){
         db = openRequest.result
         console.log("[ DATABASE] Base ready");
+
+
+        if (isNewProfilRequiered === true) {
+            // Creation d'un profil par defaut dans la base
+        console.log("[ DATABASE PROFIL] demande de création du profil par defaut");
+        onCreateDefaultProfilInBase(userInfo);
+
+        }else{
+            // Lancement des éléments du profil
+            onExtractProfilFromDB();
+        };
+        
+
+
 
         // Premiere remplissage de la base avec le formation de trie par défaut
         onUpdateActivityBddList();

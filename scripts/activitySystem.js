@@ -674,7 +674,7 @@ function onInsertModification(e) {
         modifiedData.comment = e.comment;
         modifiedData.duration = e.duration;
         modifiedData.divers = e.divers;
-        // modifiedData.userInfo = e.userInfo; Les userInfo stockés dans la base lors de la création de l'activité ne doivent pas être modifiés
+        // modifiedData.userInfo = e.userInfo; Les userInfo stockés dans la base lors de la création de l'activité ne doivent pas être modifiés afin de conservé les données d'origines
 
         let insertModifiedData = store.put(modifiedData);
 
