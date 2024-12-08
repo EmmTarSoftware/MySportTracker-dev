@@ -1,37 +1,48 @@
 // La date du jour pour l'export
 let exportDate;
-// Sauvegarde de la base de donnée
 
 
+// Fonction pour exporter tous les stores de la base de données
 function exportData() {
     // Set la date du jour
     exportDate = onFindDateTodayUS();
 
+    console.log("Demande d'exportation des données");
 
-    console.log("Demande d'export data");
-    var transaction = db.transaction([activityStoreName], 'readonly');
-    var store = transaction.objectStore(activityStoreName);
+    // Créer un objet pour stocker toutes les données des stores
+    let allStoresData = {};
 
-    var exportRequest = store.getAll();
+    // Nom des stores à exporter
+    let storeNames = [activityStoreName, profilStoreName]; 
 
-    exportRequest.onsuccess = function() {
-        var data = exportRequest.result;
-        downloadJSON(data, `MSS_${exportDate}_Activity.json`);
-    };
+    // Parcourir tous les stores
+    let completedStores = 0;
 
-    exportRequest.onerror = function(error) {
-        console.log('Erreur lors de l\'export des données : ', error);
-    };
+    storeNames.forEach(storeName => {
+        let transaction = db.transaction([storeName], 'readonly');
+        let store = transaction.objectStore(storeName);
 
-    transaction.oncomplete = function(){
-        onShowNotifyPopup(notifyTextArray.exportSuccess);
-    };
+        let exportRequest = store.getAll();
 
+        exportRequest.onsuccess = function() {
+            // Ajouter les données de chaque store dans l'objet
+            allStoresData[storeName] = exportRequest.result;
+
+            completedStores++;
+
+            // Si tous les stores sont exportés, on les télécharge
+            if (completedStores === storeNames.length) {
+                downloadJSON(allStoresData, `MSS_${exportDate}_AllStores.json`);
+            }
+        };
+
+        exportRequest.onerror = function(error) {
+            console.log(`Erreur lors de l'exportation des données du store ${storeName}: `, error);
+        };
+    });
 };
 
-
-
-//Fonction de téléchargement
+// Fonction de téléchargement
 function downloadJSON(data, filename) {
     var json = JSON.stringify(data, null, 2);
     var blob = new Blob([json], { type: 'application/json' });
@@ -45,16 +56,15 @@ function downloadJSON(data, filename) {
 };
 
 
+
 // -------------------------------- IMPORT -----------------------------------------------------
 
 
 
- // Fonction d'importation depuis JSON
- function importTask(inputRef,pResultRef) {
-    const fileInput = document.getElementById(inputRef,activityStoreName);
+// Fonction d'importation depuis JSON
+function importTask(inputRef, pResultRef) {
+    const fileInput = document.getElementById(inputRef);
     let textResultRef = document.getElementById(pResultRef);
-
-
 
     if (fileInput.files.length > 0) {
         const selectedFile = fileInput.files[0];
@@ -62,40 +72,49 @@ function downloadJSON(data, filename) {
 
         reader.onload = function (e) {
             try {
+                // Charger et analyser le JSON
                 const jsonData = JSON.parse(e.target.result);
 
-                const transaction = db.transaction([activityStoreName], 'readwrite');
-                const objectStore = transaction.objectStore(activityStoreName);
+                // Nom des stores à importer
+                let storeNames = [activityStoreName, profilStoreName]; 
 
-                // Supprimer les anciennes données
-                const clearRequest = objectStore.clear();
+                // Commencer une transaction en lecture/écriture pour chaque store
+                storeNames.forEach(storeName => {
+                    if (jsonData[storeName]) {
+                        const transaction = db.transaction([storeName], 'readwrite');
+                        const objectStore = transaction.objectStore(storeName);
 
-                clearRequest.onsuccess = function () {
-                    // Ajouter les nouvelles données
-                    jsonData.forEach(function (item) {
-                        objectStore.add(item);
-                    });
+                        // Supprimer les anciennes données
+                        const clearRequest = objectStore.clear();
 
-                    transaction.oncomplete = function () {
-                        console.log('Imported JSON to IndexedDB successfully.');                        
-                        textResultRef.innerHTML =  "Import Réussit ! Veuillez relancer l'application.";
-                        onShowNotifyPopup(notifyTextArray.exportSuccess);
-                    };
-                    transaction.onerror = function (error) {
-                        console.error('Error adding items to IndexedDB:', error);
-                        textResultRef.innerHTML =  "Erreur transaction import";
-                    };
-                };
-               
+                        clearRequest.onsuccess = function () {
+                            // Ajouter les nouvelles données
+                            jsonData[storeName].forEach(function (item) {
+                                objectStore.add(item);
+                            });
+
+                            transaction.oncomplete = function () {
+                                console.log(`Imported ${storeName} to IndexedDB successfully.`);
+                                textResultRef.innerHTML = "Import Réussi ! Veuillez relancer l'application.";
+                                onShowNotifyPopup(notifyTextArray.exportSuccess);
+                            };
+
+                            transaction.onerror = function (error) {
+                                console.error(`Erreur lors de l'importation de ${storeName}:`, error);
+                                textResultRef.innerHTML = "Erreur lors de l'importation.";
+                            };
+                        };
+                    }
+                });
             } catch (error) {
-                console.error('Error parsing JSON:', error);
-                textResultRef.innerHTML =  "Erreur import";
-            };
+                console.error('Erreur lors du parsing du JSON:', error);
+                textResultRef.innerHTML = "Erreur d'importation.";
+            }
         };
 
         reader.readAsText(selectedFile);
     } else {
-        console.error('No file selected.');
-        textResultRef.innerHTML =  "Aucun fichier sélectionné !";
-    };
+        console.error('Aucun fichier sélectionné.');
+        textResultRef.innerHTML = "Aucun fichier sélectionné !";
+    }
 };
