@@ -32,7 +32,7 @@ function exportData() {
 
             // Si tous les stores sont exportés, on les télécharge
             if (completedStores === storeNames.length) {
-                downloadJSON(allStoresData, `MSS_${exportDate}_AllStores.json`);
+                downloadJSON(allStoresData, `MSS_${exportDate}.json`);
             }
         };
 

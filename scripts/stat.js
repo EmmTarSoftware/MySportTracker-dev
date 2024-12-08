@@ -130,6 +130,20 @@ function getStats(activityList, activityName, days = null) {
         return isSameActivity && isWithinDays;
     });
 
+    // Si aucune session n'est trouvée, renvoyer des valeurs par défaut
+    if (filteredSessions.length === 0) {
+        return {
+            totalSessions: 0,
+            totalDuration: 0,
+            totalDistance: 0,
+            lastActivityDate: null,
+            firstActivityDate: null
+        };
+    }
+
+    // Trier les sessions par date (du plus récent au plus ancien)
+    filteredSessions.sort((a, b) => new Date(b.date) - new Date(a.date));
+
     // Calculer les statistiques
     const totalSessions = filteredSessions.length;
     const totalDuration = filteredSessions.reduce((sum, session) =>
@@ -139,15 +153,11 @@ function getStats(activityList, activityName, days = null) {
         sum + parseFloat(session.distance || 0), 0
     );
 
-    // Dernière activité pratiquée
-    const lastActivityDate = filteredSessions.length > 0
-        ? new Date(filteredSessions[filteredSessions.length - 1].date)
-        : null;
+    // Dernière activité pratiquée (la plus récente)
+    const lastActivityDate = new Date(filteredSessions[0].date); // La première après le tri est la plus récente
 
-    // Première activité pratiquée (première date)
-    const firstActivityDate = filteredSessions.length > 0
-        ? new Date(filteredSessions[0].date)
-        : null;
+    // Première activité pratiquée (la plus ancienne)
+    const firstActivityDate = new Date(filteredSessions[filteredSessions.length - 1].date); // La dernière après le tri est la plus ancienne
 
     return {
         totalSessions,
@@ -179,7 +189,7 @@ function displayStats(activityName) {
     const totalDurationFormatted = formatDuration(statsAllTime.totalDuration);
 
     // Texte convivial pour l'utilisateur
-    const generalText = `Depuis le ${firstActivityDateFormatted}, tu as pratiqué <b>${statsAllTime.totalSessions} session(s)</b> de <b>${activityName.replace("_", " ").toUpperCase()}</b>, parcouru environ <b>${totalKm} km</b> et accumulé <b>${totalDurationFormatted} heure(s)</b>. Ta dernière activité de ce type remonte au <b>${lastActivityDateFormatted}</b>.`;
+    const generalText = `Depuis le <b>${firstActivityDateFormatted}</b>, tu as pratiqué <b>${statsAllTime.totalSessions} session(s)</b> de <b>${activityName.replace("_", " ").toUpperCase()}</b>, parcouru environ <b>${totalKm} km</b> et accumulé <b>${totalDurationFormatted} heure(s)</b>. Ta dernière activité de ce type remonte au <b>${lastActivityDateFormatted}</b>.`;
 
     // Vérification pour les 7 derniers jours
     const sevenDaysText = stats7Days.totalSessions === 0 
@@ -218,6 +228,7 @@ function displayStats(activityName) {
         </section>
     `;
 }
+
 
 
 // Fonction pour afficher les statistiques générales
