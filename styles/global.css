@@ -696,6 +696,34 @@ div.buttonAcceptation{
 
 
 
+
+
+
+
+/* STAT */
+
+section.stat{
+    width: calc(100% - 20px); 
+    margin-bottom: 20px;
+}
+
+
+section.stat p {
+    margin-left: 10px;
+}
+
+p.stat{
+    padding-top: 20px;
+    padding-left: 10px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--colorMainTheme1);
+    justify-content: baseline;
+}
+
+
+
+
 /* pour afficher des items pendant un devellopement qui sont caché par défaut */
 
 .dev{
