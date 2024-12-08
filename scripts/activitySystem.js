@@ -63,7 +63,7 @@ let activityToInsertFormat = {
 
 let allUserActivityArray = [], //Contient toutes les activités créé par l'utilisateur
     userActivityListToDisplay = [], // contient les activité trié et filtré à afficher
-    maxActivityPerCycle = 30,//Nbre d'élément maximale à afficher avant d'avoir le bouton "afficher plus"
+    maxActivityPerCycle = 20,//Nbre d'élément maximale à afficher avant d'avoir le bouton "afficher plus"
     userActivityListIndexToStart = 0; //Index de démarrage pour l'affichage d'activité
 
 
@@ -354,17 +354,26 @@ function onInsertOneActivity(activity) {
     newDivDataArea2.appendChild(newItemLocation);
     
 
+    // Area3
+    let newDivDataArea3 = document.createElement("div");
+    newDivDataArea3.className = "item-data-area3";
+
+    let newItemComment = document.createElement("p");
+    newItemComment.className = "item-data-comment";
+    newItemComment.innerHTML = activity.comment;
+    newDivDataArea3.appendChild(newItemComment);
+
+
     // Insertion totale
     newDivDataContainer.appendChild(newDivDataArea1);
     newDivDataContainer.appendChild(newDivDataArea2);
+    newDivDataContainer.appendChild(newDivDataArea3);
 
     newItemContainer.appendChild(newImageContainer);
     newItemContainer.appendChild(newDivDataContainer);
 
     divItemListRef.appendChild(newItemContainer);
 };
-
-
 
 
 // Fonction pour le bouton MoreActivity pour afficher les activités utilisateurs suivantes

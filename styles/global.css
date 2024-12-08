@@ -335,14 +335,19 @@ button.btn-sort-Selected{
     padding-left: 10px;    
 }
 
-.item-data-area1 , .item-data-area2{
+.item-data-area1 , .item-data-area2, .item-data-area3{
     display: flex;                  /* Pour aligner les paragraphes horizontalement */
     justify-content: space-between; /* Espace entre chaque paragraphe */
     border-radius: 4px;
 }
 
+.item-data-area3{
+    padding-top: 5px;
+}
+
+
 /* Styles pour les paragraphes */
-.item-data-area1 p, .item-data-area2 p {
+.item-data-area1 p, .item-data-area2 p, .item-data-area3 p {
     flex: 1;                        /* Chaque paragraphe occupe le même espace */
     margin: 0;                      /* Supprime les marges par défaut des paragraphes */
     padding: 0px;
@@ -364,7 +369,6 @@ p.item-data-date {
 p.item-data-location{
     white-space: nowrap; /* Pour éviter le retour à la ligne */
 	overflow: hidden; /*Cache le texte qui dépasse */
-
     font-style: italic;
     font-size: 0.8rem;
 
@@ -372,7 +376,14 @@ p.item-data-location{
     width: 100px;
 }
 
-
+p.item-data-comment{
+    white-space: nowrap; /* Pour éviter le retour à la ligne */
+	overflow: hidden; /*Cache le texte qui dépasse */
+    font-style: italic;
+    font-size: 0.9rem;
+  	text-overflow: ellipsis; /*Ajoute des points de suspension (...) pour indiquer que du texte est masqué*/
+    width: 100px;
+}
 
 
 /* Bouton New Items */
