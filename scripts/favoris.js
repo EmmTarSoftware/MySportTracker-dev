@@ -29,7 +29,7 @@ function onLoadingActivityList() {
 
         // Favoris
         let newFavorisImg = document.createElement("img");
-        newFavorisImg.src = onSearchActivityInUserFavoris(activity.dataName) ? "./Icons/Icon-Favoris-Sel.png" : "./Icons/Icon-Favoris.png";
+        newFavorisImg.src = onSearchActivityInUserFavoris(activity.dataName) ? "./Icons/Icon-Favoris-Sel.webp" : "./Icons/Icon-Favoris.webp";
         newFavorisImg.className = "favoris";
 
 
@@ -100,12 +100,12 @@ function onChangeFavorisStatus(imgTarget,favorisDataName) {
         userFavoris.splice(indexToRemove,1);
         console.log("[FAVORIS] Suppression de l'élément =  " + favorisDataName);
 
-        imgTarget.src = "./Icons/Icon-Favoris.png";
+        imgTarget.src = "./Icons/Icon-Favoris.webp";
     }else{
         userFavoris.push(favorisDataName);
         console.log("[FAVORIS] Ajout de l'élément =  " + favorisDataName);
 
-        imgTarget.src = "./Icons/Icon-Favoris-Sel.png";
+        imgTarget.src = "./Icons/Icon-Favoris-Sel.webp";
     };
     
     // Sauvegarde du nouvel état

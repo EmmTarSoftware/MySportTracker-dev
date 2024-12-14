@@ -1,44 +1,114 @@
-// Récupère le chemin complet 
-
-// recupère l'URL du script du service worker
+// Récupération du chemin de base
 const serviceWorkerUrl = self.location.href;
-// Extrait le chemin avant "service-worker.js"
 const basePath = serviceWorkerUrl.replace(/service-worker\.js$/, '');
 
+console.log(`[SERVICE WORKER] : BasePath = ${basePath}`);
 
-console.log("BasePath = " + basePath);
+// Nom de la version du cache
+const CACHE_VERSION = "V9";
+const STATIC_CACHE = `static-${CACHE_VERSION}`;
 
-console.log(`[ SERVICE WORKER ]  : Lancement du js`);
-const PREFIX = "V4";//Numero de version
-const CACHED_FILES = [`${basePath}Icons/Icon-No-Network.png`];
+// Fichiers à mettre en cache
+const STATIC_FILES = [
+  `${basePath}offline.html`,
+  `${basePath}Icons/Icon-No-Network.png` // Exemple d'image pour l'état hors ligne
+];
 
+// Liste des fichiers explicites pour les trois dossiers
+const ICONS = [
+  `${basePath}Icons/Icon-Accepter.webp`,
+  `${basePath}Icons/Icon-Autres.webp`,
+  `${basePath}Icons/Icon-Delete.webp`,
+  `${basePath}Icons/Icon-Download.webp`,
+  `${basePath}Icons/Icon-Favoris.webp`,
+  `${basePath}Icons/Icon-Favoris-Sel.webp`,
+  `${basePath}Icons/Icon-Info.webp`,
+  `${basePath}Icons/Icon-New.webp`,
+  `${basePath}Icons/Icon-No-Network.webp`,
+  `${basePath}Icons/Icon-Profil.webp`,
+  `${basePath}Icons/Icon-Return-cancel.webp`,
+  `${basePath}Icons/Icon-Setting.webp`,
+  `${basePath}Icons/Icon-Stat.webp`,
+  `${basePath}Icons/Icon-Trophy.webp`,
+  `${basePath}Icons/Icon-Upload.webp`,
+  `${basePath}Icons/Icon-Valider.webp`,
+  `${basePath}Icons/Logo_MSS-192.png`,
+  `${basePath}Icons/Logo_MSS-512.png`,
+  `${basePath}Icons/MSS-Logo.ico`
+];
 
-self.addEventListener('install',(event)=>{
-  self.skipWaiting();//permet le remplacement du service worker dès que le nouveau existe
+const IMAGES = [
+  `${basePath}Images/icon-art-martiaux.webp`,
+  `${basePath}Images/icon-autre-divers.webp`,
+  `${basePath}Images/icon-badminton.webp`,
+  `${basePath}Images/icon-baseball.webp`,
+  `${basePath}Images/icon-basketball.webp`,
+  `${basePath}Images/icon-boxe.webp`,
+  `${basePath}Images/icon-breakdance.webp`,
+  `${basePath}Images/icon-cap.webp`,
+  `${basePath}Images/icon-crossfit.webp`,
+  `${basePath}Images/icon-danse.webp`,
+  `${basePath}Images/icon-equitation.webp`,
+  `${basePath}Images/icon-escalade.webp`,
+  `${basePath}Images/icon-football.webp`,
+  `${basePath}Images/icon-golf.webp`,
+  `${basePath}Images/icon-handball.webp`,
+  `${basePath}Images/icon-intense-running.webp`,
+  `${basePath}Images/icon-marche.webp`,
+  `${basePath}Images/icon-musculation.webp`,
+  `${basePath}Images/icon-natation.webp`,
+  `${basePath}Images/icon-natation.webp`,
+  `${basePath}Images/icon-natation.webp`,
+  `${basePath}Images/icon-nautique.webp`,
+  `${basePath}Images/icon-patin.webp`,
+  `${basePath}Images/icon-rugby.webp`,
+  `${basePath}Images/icon-ski.webp`,
+  `${basePath}Images/icon-snowboard.webp`,
+  `${basePath}Images/icon-sport-co.webp`,
+  `${basePath}Images/icon-stretching.webp`,
+  `${basePath}Images/icon-tennis.webp`,
+  `${basePath}Images/icon-tennis-de-table.webp`,
+  `${basePath}Images/icon-triathlon.webp`,
+  `${basePath}Images/icon-velo.webp`,
+  `${basePath}Images/icon-volley.webp`,
+  `${basePath}Images/icon-yoga.webp`
+];
+
+const BADGES = [
+  `${basePath}Badges/Badge-20-activite.webp`,
+  `${basePath}Badges/Badge-absent.webp`,
+  `${basePath}Badges/Badge-Muscu-10-seance.webp`,
+  `${basePath}Badges/Badge-running-10km.webp`,
+  `${basePath}Badges/Badge-running-20km.webp`
+];
+
+// Combiner toutes les ressources dans un seul tableau
+const ALL_FILES_TO_CACHE = [...STATIC_FILES, ...ICONS, ...IMAGES, ...BADGES];
+
+// Évènement d'installation
+self.addEventListener("install", (event) => {
+  console.log(`[SERVICE WORKER] : Installation`);
+
   event.waitUntil(
     (async () => {
-      const cache = await caches.open(PREFIX);
-      await Promise.all(
-        [...CACHED_FILES,'offline.html'].map((path)=>{
-          return cache.add(new Request(path));
-        })
-      );
+      const cache = await caches.open(STATIC_CACHE);
+      console.log(`[SERVICE WORKER] : Mise en cache des fichiers`);
+      await cache.addAll(ALL_FILES_TO_CACHE);
     })()
   );
-  console.log(`[ SERVICE WORKER ] :  ${PREFIX} Install`);
 });
 
+// Évènement d'activation
+self.addEventListener("activate", (event) => {
+  console.log(`[SERVICE WORKER] : Activation`);
 
-self.addEventListener('activate', (event) => {
-  clients.claim();// Permet de controler tout de suite la page
-
-  // Suppression des anciennes clé de caches
   event.waitUntil(
-    (async()=>{
+    (async () => {
       const keys = await caches.keys();
       await Promise.all(
-        keys.map((key) =>{
-          if (!key.includes(PREFIX)) {
+        keys.map((key) => {
+          if (key !== STATIC_CACHE) {
+            console.log(`[SERVICE WORKER] : Suppression de l'ancien cache ${key}`);
             return caches.delete(key);
           }
         })
@@ -46,33 +116,32 @@ self.addEventListener('activate', (event) => {
     })()
   );
 
-
-  console.log(`[ SERVICE WORKER ]  : ${PREFIX} Active`);
+  self.clients.claim(); // Contrôler immédiatement les pages
 });
 
+// Évènement de fetch (récupération des ressources)
+self.addEventListener("fetch", (event) => {
+  console.log(`[SERVICE WORKER] : Interception de ${event.request.url}`);
 
+  event.respondWith(
+    (async () => {
+      const cache = await caches.open(STATIC_CACHE);
 
+      // Vérifier si la ressource est dans le cache
+      const cachedResponse = await cache.match(event.request);
+      const fetchPromise = fetch(event.request)
+        .then((networkResponse) => {
+          // Mettre à jour le cache avec la réponse réseau
+          cache.put(event.request, networkResponse.clone());
+          return networkResponse;
+        })
+        .catch((error) => {
+          console.log(`[SERVICE WORKER] : Erreur réseau pour ${event.request.url}`);
+          return cachedResponse; // Utiliser la réponse en cache en cas d'échec
+        });
 
-self.addEventListener('fetch', (event) => {
-  // console.log(`Service worker mode : ${PREFIX} Fetching : ${event.request.url}, Mode : ${event.request.mode}`);
-  if (event.request.mode === 'navigate'){
-    event.respondWith(
-      (async () => {
-
-        try {
-          const preloadResponse = await event.preloadResponse;
-          if (preloadResponse){
-            return preloadResponse;
-          }
-  
-          return await fetch(event.request);
-        } catch (e) {
-          const cache = await caches.open(PREFIX);
-          return await cache.match('offline.html');
-        }
-      })()
-    );
-  } else if (CACHED_FILES.includes(event.request.url)){
-    event.respondWith(caches.match(event.request));
-  }
+      // Retourner la réponse en cache immédiatement, tout en récupérant une nouvelle version en arrière-plan
+      return cachedResponse || fetchPromise;
+    })()
+  );
 });
