@@ -5,7 +5,7 @@ const basePath = serviceWorkerUrl.replace(/service-worker\.js$/, '');
 console.log(`[SERVICE WORKER] : BasePath = ${basePath}`);
 
 // Nom de la version du cache
-const CACHE_VERSION = "V9";
+const CACHE_VERSION = "V10";
 const STATIC_CACHE = `static-${CACHE_VERSION}`;
 
 // Fichiers à mettre en cache
@@ -87,12 +87,12 @@ const ALL_FILES_TO_CACHE = [...STATIC_FILES, ...ICONS, ...IMAGES, ...BADGES];
 
 // Évènement d'installation
 self.addEventListener("install", (event) => {
-  console.log(`[SERVICE WORKER] : Installation`);
+  console.log(`[SERVICE WORKER] : ${CACHE_VERSION} Installation`);
 
   event.waitUntil(
     (async () => {
       const cache = await caches.open(STATIC_CACHE);
-      console.log(`[SERVICE WORKER] : Mise en cache des fichiers`);
+      console.log(`[SERVICE WORKER] : ${CACHE_VERSION} Mise en cache des fichiers`);
       await cache.addAll(ALL_FILES_TO_CACHE);
     })()
   );
@@ -100,7 +100,7 @@ self.addEventListener("install", (event) => {
 
 // Évènement d'activation
 self.addEventListener("activate", (event) => {
-  console.log(`[SERVICE WORKER] : Activation`);
+  console.log(`[SERVICE WORKER] : ${CACHE_VERSION} Activation`);
 
   event.waitUntil(
     (async () => {
@@ -108,7 +108,7 @@ self.addEventListener("activate", (event) => {
       await Promise.all(
         keys.map((key) => {
           if (key !== STATIC_CACHE) {
-            console.log(`[SERVICE WORKER] : Suppression de l'ancien cache ${key}`);
+            console.log(`[SERVICE WORKER] : ${CACHE_VERSION} Suppression de l'ancien cache ${key}`);
             return caches.delete(key);
           }
         })
@@ -121,27 +121,26 @@ self.addEventListener("activate", (event) => {
 
 // Évènement de fetch (récupération des ressources)
 self.addEventListener("fetch", (event) => {
-  console.log(`[SERVICE WORKER] : Interception de ${event.request.url}`);
+  console.log(`[SERVICE WORKER] : ${CACHE_VERSION} Interception de ${event.request.url}`);
 
   event.respondWith(
-    (async () => {
-      const cache = await caches.open(STATIC_CACHE);
+    caches.match(event.request).then((cachedResponse) => {
+      if (cachedResponse) {
+        console.log(`[SERVICE WORKER] : ${CACHE_VERSION} Ressource servie depuis le cache : ${event.request.url}`);
+        return cachedResponse; // Servir la ressource en cache si disponible
+      }
 
-      // Vérifier si la ressource est dans le cache
-      const cachedResponse = await cache.match(event.request);
-      const fetchPromise = fetch(event.request)
-        .then((networkResponse) => {
-          // Mettre à jour le cache avec la réponse réseau
-          cache.put(event.request, networkResponse.clone());
+      console.log(`[SERVICE WORKER] : ${CACHE_VERSION} Ressource non trouvée dans le cache, récupération réseau : ${event.request.url}`);
+      return fetch(event.request).then((networkResponse) => {
+        return caches.open(STATIC_CACHE).then((cache) => {
+          cache.put(event.request, networkResponse.clone()); // Mettre à jour le cache
           return networkResponse;
-        })
-        .catch((error) => {
-          console.log(`[SERVICE WORKER] : Erreur réseau pour ${event.request.url}`);
-          return cachedResponse; // Utiliser la réponse en cache en cas d'échec
         });
-
-      // Retourner la réponse en cache immédiatement, tout en récupérant une nouvelle version en arrière-plan
-      return cachedResponse || fetchPromise;
-    })()
+      }).catch((error) => {
+        console.log(`[SERVICE WORKER] : ${CACHE_VERSION} Échec de la récupération réseau : ${event.request.url}`);
+        return caches.match(`${basePath}offline.html`); // Page de secours
+      });
+    })
   );
 });
+
