@@ -286,18 +286,26 @@ function onFormatDateToFr(dateString) {
     let date = new Date(dateString);
 
     // Obtenir les composants de la date
-    let jour = date.getDate();
-    let mois = date.getMonth() + 1; // Les mois vont de 0 à 11, donc ajouter 1
-    let annee = date.getFullYear() % 100; // 100% permet d'obtenir les deux derniers digit de l'année
+    let day = date.getDate();
+    let month = date.getMonth() + 1; // Les mois vont de 0 à 11, donc ajouter 1
+    let year = date.getFullYear();
 
-    // Ajouter un zéro devant le jour et le mois si nécessaire
-    jour = (jour < 10) ? '0' + jour : jour;
-    mois = (mois < 10) ? '0' + mois : mois;
+    // Obtenir l'année actuelle
+    let currentYear = new Date().getFullYear();
 
-    // Créer la nouvelle chaîne de date au format "dd-mm-yyyy"
-    let dateFormatee = jour + '-' + mois + '-' + annee;
+    // Tableau des noms de mois en français
+    const montName = ["jan.", "fév.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc."];
 
-    return dateFormatee;
+    if (year === currentYear) {
+        // Si l'année est l'année en cours, retourner le format "day mois"
+        return `${day} ${montName[month - 1]}`;
+    } else {
+        // Sinon, retourner le format "jj-mm-aa"
+        day = (day < 10) ? '0' + day : day;
+        month = (month < 10) ? '0' + month : month;
+        let year2Digits = year % 100; // Obtenir les deux derniers chiffres de l'année
+        return `${day}-${month}-${year2Digits}`;
+    }
 };
 
 
