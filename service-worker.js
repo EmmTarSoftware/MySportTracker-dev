@@ -5,13 +5,13 @@ const basePath = serviceWorkerUrl.replace(/service-worker\.js$/, '');
 console.log(`[SERVICE WORKER] : BasePath = ${basePath}`);
 
 // Nom de la version du cache
-const CACHE_VERSION = "V10";
+const CACHE_VERSION = "V11";
 const STATIC_CACHE = `static-${CACHE_VERSION}`;
 
 // Fichiers à mettre en cache
 const STATIC_FILES = [
   `${basePath}offline.html`,
-  `${basePath}Icons/Icon-No-Network.png` // Exemple d'image pour l'état hors ligne
+  `${basePath}Icons/Icon-No-Network.webp` // Exemple d'image pour l'état hors ligne
 ];
 
 // Liste des fichiers explicites pour les trois dossiers
