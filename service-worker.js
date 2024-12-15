@@ -5,13 +5,13 @@ const basePath = serviceWorkerUrl.replace(/service-worker\.js$/, '');
 console.log(`[SERVICE WORKER] : BasePath = ${basePath}`);
 
 // Nom de la version du cache
-const CACHE_VERSION = "V13";
+const CACHE_VERSION = "V14";
 const STATIC_CACHE = `static-${CACHE_VERSION}`;
 
 // Fichiers à mettre en cache
 const STATIC_FILES = [
   `${basePath}offline.html`,
-  `${basePath}Icons/Icon-No-Network.webp` // Exemple d'image pour l'état hors ligne
+  `${basePath}Icons/Icon-No-Network.webp` // image pour l'état hors ligne
 ];
 
 // Liste des fichiers explicites pour les trois dossiers
@@ -24,7 +24,6 @@ const ICONS = [
   `${basePath}Icons/Icon-Favoris-Sel.webp`,
   `${basePath}Icons/Icon-Info.webp`,
   `${basePath}Icons/Icon-New.webp`,
-  `${basePath}Icons/Icon-No-Network.webp`,
   `${basePath}Icons/Icon-Profil.webp`,
   `${basePath}Icons/Icon-Return-cancel.webp`,
   `${basePath}Icons/Icon-Setting.webp`,
@@ -57,8 +56,6 @@ const IMAGES = [
   `${basePath}images/icon-marche.webp`,
   `${basePath}images/icon-musculation.webp`,
   `${basePath}images/icon-natation.webp`,
-  `${basePath}images/icon-natation.webp`,
-  `${basePath}images/icon-natation.webp`,
   `${basePath}images/icon-nautique.webp`,
   `${basePath}images/icon-patin.webp`,
   `${basePath}images/icon-rugby.webp`,
@@ -82,8 +79,10 @@ const BADGES = [
   `${basePath}Badges/Badge-running-20km.webp`
 ];
 
-// Combiner toutes les ressources dans un seul tableau
-const ALL_FILES_TO_CACHE = [...STATIC_FILES, ...ICONS, ...IMAGES, ...BADGES];
+
+// Combiner toutes les ressources dans un seul tableau et dédupliquer
+//Ajout de Set pour s'assurer qu'aucune URL dupliquée ne soit incluse dans ALL_FILES_TO_CACHE
+const ALL_FILES_TO_CACHE = [...new Set([...STATIC_FILES, ...ICONS, ...IMAGES, ...BADGES])];
 
 // Évènement d'installation
 self.addEventListener("install", (event) => {
