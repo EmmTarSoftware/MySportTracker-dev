@@ -5,13 +5,13 @@ const basePath = serviceWorkerUrl.replace(/service-worker\.js$/, '');
 console.log(`[SERVICE WORKER] : BasePath = ${basePath}`);
 
 // Nom de la version du cache
-const CACHE_VERSION = "V11";
+const CACHE_VERSION = "V12";
 const STATIC_CACHE = `static-${CACHE_VERSION}`;
 
 // Fichiers à mettre en cache
 const STATIC_FILES = [
   `${basePath}offline.html`,
-  `${basePath}Icons/Icon-No-Network.webp` // Exemple d'image pour l'état hors ligne
+  `${basePath}Icons/Icon-No-Network.png` // Exemple d'image pour l'état hors ligne
 ];
 
 // Liste des fichiers explicites pour les trois dossiers
@@ -38,40 +38,40 @@ const ICONS = [
 ];
 
 const IMAGES = [
-  `${basePath}Images/icon-art-martiaux.webp`,
-  `${basePath}Images/icon-autre-divers.webp`,
-  `${basePath}Images/icon-badminton.webp`,
-  `${basePath}Images/icon-baseball.webp`,
-  `${basePath}Images/icon-basketball.webp`,
-  `${basePath}Images/icon-boxe.webp`,
-  `${basePath}Images/icon-breakdance.webp`,
-  `${basePath}Images/icon-cap.webp`,
-  `${basePath}Images/icon-crossfit.webp`,
-  `${basePath}Images/icon-danse.webp`,
-  `${basePath}Images/icon-equitation.webp`,
-  `${basePath}Images/icon-escalade.webp`,
-  `${basePath}Images/icon-football.webp`,
-  `${basePath}Images/icon-golf.webp`,
-  `${basePath}Images/icon-handball.webp`,
-  `${basePath}Images/icon-intense-running.webp`,
-  `${basePath}Images/icon-marche.webp`,
-  `${basePath}Images/icon-musculation.webp`,
-  `${basePath}Images/icon-natation.webp`,
-  `${basePath}Images/icon-natation.webp`,
-  `${basePath}Images/icon-natation.webp`,
-  `${basePath}Images/icon-nautique.webp`,
-  `${basePath}Images/icon-patin.webp`,
-  `${basePath}Images/icon-rugby.webp`,
-  `${basePath}Images/icon-ski.webp`,
-  `${basePath}Images/icon-snowboard.webp`,
-  `${basePath}Images/icon-sport-co.webp`,
-  `${basePath}Images/icon-stretching.webp`,
-  `${basePath}Images/icon-tennis.webp`,
-  `${basePath}Images/icon-tennis-de-table.webp`,
-  `${basePath}Images/icon-triathlon.webp`,
-  `${basePath}Images/icon-velo.webp`,
-  `${basePath}Images/icon-volley.webp`,
-  `${basePath}Images/icon-yoga.webp`
+  `${basePath}images/icon-art-martiaux.webp`,
+  `${basePath}images/icon-autre-divers.webp`,
+  `${basePath}images/icon-badminton.webp`,
+  `${basePath}images/icon-baseball.webp`,
+  `${basePath}images/icon-basketball.webp`,
+  `${basePath}images/icon-boxe.webp`,
+  `${basePath}images/icon-breakdance.webp`,
+  `${basePath}images/icon-cap.webp`,
+  `${basePath}images/icon-crossfit.webp`,
+  `${basePath}images/icon-danse.webp`,
+  `${basePath}images/icon-equitation.webp`,
+  `${basePath}images/icon-escalade.webp`,
+  `${basePath}images/icon-football.webp`,
+  `${basePath}images/icon-golf.webp`,
+  `${basePath}images/icon-handball.webp`,
+  `${basePath}images/icon-intense-running.webp`,
+  `${basePath}images/icon-marche.webp`,
+  `${basePath}images/icon-musculation.webp`,
+  `${basePath}images/icon-natation.webp`,
+  `${basePath}images/icon-natation.webp`,
+  `${basePath}images/icon-natation.webp`,
+  `${basePath}images/icon-nautique.webp`,
+  `${basePath}images/icon-patin.webp`,
+  `${basePath}images/icon-rugby.webp`,
+  `${basePath}images/icon-ski.webp`,
+  `${basePath}images/icon-snowboard.webp`,
+  `${basePath}images/icon-sport-co.webp`,
+  `${basePath}images/icon-stretching.webp`,
+  `${basePath}images/icon-tennis.webp`,
+  `${basePath}images/icon-tennis-de-table.webp`,
+  `${basePath}images/icon-triathlon.webp`,
+  `${basePath}images/icon-velo.webp`,
+  `${basePath}images/icon-volley.webp`,
+  `${basePath}images/icon-yoga.webp`
 ];
 
 const BADGES = [
@@ -100,7 +100,7 @@ self.addEventListener("install", (event) => {
 
 // Évènement d'activation
 self.addEventListener("activate", (event) => {
-  console.log(`[SERVICE WORKER] : ${CACHE_VERSION} Activation`);
+  console.log(`[SERVICE WORKER] : Activation`);
 
   event.waitUntil(
     (async () => {
@@ -124,23 +124,24 @@ self.addEventListener("fetch", (event) => {
   console.log(`[SERVICE WORKER] : ${CACHE_VERSION} Interception de ${event.request.url}`);
 
   event.respondWith(
-    caches.match(event.request).then((cachedResponse) => {
-      if (cachedResponse) {
-        console.log(`[SERVICE WORKER] : ${CACHE_VERSION} Ressource servie depuis le cache : ${event.request.url}`);
-        return cachedResponse; // Servir la ressource en cache si disponible
-      }
+    (async () => {
+      const cache = await caches.open(STATIC_CACHE);
 
-      console.log(`[SERVICE WORKER] : ${CACHE_VERSION} Ressource non trouvée dans le cache, récupération réseau : ${event.request.url}`);
-      return fetch(event.request).then((networkResponse) => {
-        return caches.open(STATIC_CACHE).then((cache) => {
-          cache.put(event.request, networkResponse.clone()); // Mettre à jour le cache
+      // Vérifier si la ressource est dans le cache
+      const cachedResponse = await cache.match(event.request);
+      const fetchPromise = fetch(event.request)
+        .then((networkResponse) => {
+          // Mettre à jour le cache avec la réponse réseau
+          cache.put(event.request, networkResponse.clone());
           return networkResponse;
+        })
+        .catch((error) => {
+          console.log(`[SERVICE WORKER] : ${CACHE_VERSION} Erreur réseau pour ${event.request.url}`);
+          return cachedResponse; // Utiliser la réponse en cache en cas d'échec
         });
-      }).catch((error) => {
-        console.log(`[SERVICE WORKER] : ${CACHE_VERSION} Échec de la récupération réseau : ${event.request.url}`);
-        return caches.match(`${basePath}offline.html`); // Page de secours
-      });
-    })
+
+      // Retourner la réponse en cache immédiatement, tout en récupérant une nouvelle version en arrière-plan
+      return cachedResponse || fetchPromise;
+    })()
   );
 });
-
