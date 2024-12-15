@@ -80,7 +80,9 @@ const BADGES = [
   `${basePath}Badges/Badge-absent.webp`,
   `${basePath}Badges/Badge-marathon.webp`,
   `${basePath}Badges/Badge-Muscu-10-seance.webp`,
-  `${basePath}Badges/Badge-running-10km.webp`
+  `${basePath}Badges/Badge-running-10km.webp`,
+  `${basePath}Badges/Badge-triathlon.webp`,
+  `${basePath}Badges/Badge-1-an.webp`
 ];
 
 
