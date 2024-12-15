@@ -773,11 +773,20 @@ img.trophyList {
 }
 
 
-
+@keyframes trophyVisualisation {
+    from {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+    to{
+        opacity: 1;
+        transform: scale(1);
+    }
+}
 
 /* En plein écran */
 div.fullScreenTrophy {
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: rgba(230, 230, 230, 0.9);
     z-index: 2;
     display: none;
     width: 100%;
@@ -790,6 +799,10 @@ div.fullScreenTrophy {
 
 div.fullScreenTrophy.show {
     display: flex; /* Change display pour l'afficher */
+}
+
+div.fullScreenTrophy.show img.trophyFullScreen, p.trophy{
+   animation: trophyVisualisation 200ms forwards;
 }
 
 

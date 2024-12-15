@@ -6,8 +6,10 @@ let allTrophyArray = [
     {trophyName:"ABSENT", imgRef : "./Badges/Badge-absent.webp", text : "N'a pratiqué aucune activité depuis 1 mois !"},
     {trophyName:"MUSCU-10", imgRef : "./Badges/Badge-Muscu-10-seance.webp", text : "A pratiqué 10 séances de musculation."},
     {trophyName:"CAP-10", imgRef : "./Badges/Badge-running-10km.webp", text : "A parcouru 10km en une séance de course à pied."},
-    {trophyName:"CAP-SEMI", imgRef : "./Badges/Badge-running-semi.webp", text : "A réalisé un semi-marathon"},
-    {trophyName:"CAP-MARATHON", imgRef : "./Badges/Badge-marathon.webp", text : "Tout est dit !"}
+    {trophyName:"CAP-SEMI", imgRef : "./Badges/Badge-running-semi.webp", text : "A réalisé un semi-marathon."},
+    {trophyName:"CAP-MARATHON", imgRef : "./Badges/Badge-marathon.webp", text : "Tout est dit !"},
+    {trophyName:"1-AN", imgRef : "./Badges/Badge-1-an.webp", text : "Anniversaire de sportif !"},
+    {trophyName:"TRIATHLON", imgRef : "./Badges/Badge-triathlon.webp", text : "Jamais deux sans trois !"}
 ];
 
 
