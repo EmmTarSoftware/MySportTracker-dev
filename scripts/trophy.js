@@ -3,7 +3,7 @@
 // Tableau des trophy
 let allTrophyArray = [
     {trophyName:"ACTIVITES-20", imgRef : "./Badges/Badge-20-activite.webp", text : "A accomplit 20 activités."},
-    {trophyName:"ABSENT", imgRef : "./Badges/Badge-absent.webp", text : "N'a pratiqué aucune activité depuis 1 mois !"},
+    {trophyName:"ABSENT", imgRef : "./Badges/Badge-absent.webp", text : "Aucune activité depuis plus d'un mois !"},
     {trophyName:"MUSCU-10", imgRef : "./Badges/Badge-Muscu-10-seance.webp", text : "A pratiqué 10 séances de musculation."},
     {trophyName:"CAP-10", imgRef : "./Badges/Badge-running-10km.webp", text : "A parcouru 10km en une séance de course à pied."},
     {trophyName:"CAP-SEMI", imgRef : "./Badges/Badge-running-semi.webp", text : "A réalisé un semi-marathon."},
