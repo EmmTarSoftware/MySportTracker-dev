@@ -245,7 +245,7 @@
 
     <!-- ----------------------------------      DIV INFO        ------------------------------------------------>
     <div id="divInfo" class="new-interface">
-            <p class="release-licence"><b>Release :</b> 1.2.14</p>
+            <p class="release-licence"><b>Release :</b> 1.2.15</p>
             <p class="release-licence"><b>Licence : </b></p>
             <p class="release-licence">
                 Emmanuel TARACONAT
@@ -261,13 +261,29 @@
 
     <!-- ----------------------------------  FIN    DIV INFO     ------------------------------------------------>
 
-    <!-- ----------------------------------      DIV INFO        ------------------------------------------------>
+    <!-- ----------------------------------      DIV RECOMPENSE/TROPHY        ------------------------------------------------>
     <div id="divTrophy" class="new-interface">
+
+        <div class="trophy">
+            <img src="./Badges/Badge-20-activite.webp" class="trophyList" srcset="" onclick="onDisplayTrophyFullScreen('ACTIVITES-20')">
+            <img src="./Badges/Badge-absent.webp" class="trophyList" srcset=""onclick="onDisplayTrophyFullScreen('ABSENT')">
+            <img src="./Badges/Badge-Muscu-10-seance.webp" class="trophyList" srcset="" onclick="onDisplayTrophyFullScreen('MUSCU-10')">
+            <img src="./Badges/Badge-running-10km.webp" class="trophyList" srcset="" onclick="onDisplayTrophyFullScreen('CAP-10')">
+            <img src="./Badges/Badge-running-semi.webp" class="trophyList" srcset="" onclick="onDisplayTrophyFullScreen('CAP-SEMI')">
+            <img src="./Badges/Badge-marathon.webp" class="trophyList" srcset="" onclick="onDisplayTrophyFullScreen('CAP-MARATHON')">
+        </div>
     </div>
 
     <div id="divBtnTrophy" class="button-editor">
         <button class="btn-menu" onclick="onClickReturnFromTrophy()"><img src="./Icons/Icon-Return-cancel.webp" alt="Icone"></button>  
     </div>
+
+
+    <div onclick="onHiddenFullscreenTrophy()" id="divFullScreenTrophy" class="fullScreenTrophy">
+        <img id="imgTrophyFullScreen" src="" alt="" class="trophyFullScreen">
+        <p id="pTrophyFullScreenText" class="trophy">A accomplit 20 activités.</p>
+    </div>
+
 
     <!-- ----------------------------------  FIN    DIV INFO     ------------------------------------------------>
 
@@ -321,7 +337,7 @@
     <div id="divMainBtnMenu" class="main-menu">
         <button class="btn-menu" onclick="onChangeMenu('Favoris')"><img src="./Icons/Icon-Favoris-Sel.webp" alt="Icone"></button>
         <button class="btn-menu" onclick="onChangeMenu('Stat')"><img src="./Icons/Icon-Stat.webp" alt="Icone"></button>
-        <!-- <button class="btn-menu" onclick="onChangeMenu('Trophy')"><img src="./Icons/Icon-Trophy.webp" alt="Icone"></button> -->
+        <button class="btn-menu" onclick="onChangeMenu('Trophy')"><img src="./Icons/Icon-Trophy.webp" alt="Icone"></button>
         <button class="btn-menu" onclick="onClickMainMenuSup()"><img src="./Icons/Icon-Autres.webp" alt="Icone"></button>
 
     </div>

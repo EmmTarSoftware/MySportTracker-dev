@@ -5,7 +5,7 @@ const basePath = serviceWorkerUrl.replace(/service-worker\.js$/, '');
 console.log(`[SERVICE WORKER] : BasePath = ${basePath}`);
 
 // Nom de la version du cache
-const CACHE_VERSION = "V15";
+const CACHE_VERSION = "V16";
 const STATIC_CACHE = `static-${CACHE_VERSION}`;
 
 // Fichiers à mettre en cache
@@ -75,11 +75,12 @@ const IMAGES = [
 ];
 
 const BADGES = [
+  `${basePath}Badges/Badge-running-semi.webp`,
   `${basePath}Badges/Badge-20-activite.webp`,
   `${basePath}Badges/Badge-absent.webp`,
+  `${basePath}Badges/Badge-marathon.webp`,
   `${basePath}Badges/Badge-Muscu-10-seance.webp`,
-  `${basePath}Badges/Badge-running-10km.webp`,
-  `${basePath}Badges/Badge-running-20km.webp`
+  `${basePath}Badges/Badge-running-10km.webp`
 ];
 
 

@@ -8,6 +8,7 @@
     --colorMainTheme4 : #5BC0F8;
     --colorLightGray : rgba(245, 245, 245);
     --boxShadow : rgba(0, 0, 0, 0.15) 1px 1px 2px;
+    --boxShadowPlus : rgba(0, 0, 0, 0.15) 2px 2px 4px;
 }
 
 
@@ -730,6 +731,87 @@ p.stat{
     font-weight: bold;
     color: var(--colorMainTheme1);
     justify-content: baseline;
+}
+
+
+
+
+
+
+
+/* ---------------------------------------- RECOMPENSES ------------------------------ */
+
+
+
+
+
+
+
+
+
+
+
+
+
+div.trophy{
+    display: flex;
+    flex-direction:row; 
+    flex-wrap: wrap; /* Permet le retour à la ligne si nécessaire */
+    align-items: flex-start;  /* Aligne les items en haut */
+    justify-content: flex-start; /* Aligne les images sur la gauche */
+}
+
+
+
+img.trophyList {
+    width: 80px;
+    border: solid 1px rgb(246, 246, 246);
+    border-radius: 10px;
+    margin: 10px;
+    background-color: rgb(246, 246, 246);
+    box-shadow: var(--boxShadow);
+}
+
+
+
+
+/* En plein écran */
+div.fullScreenTrophy {
+    background-color: rgba(255, 255, 255, 0.9);
+    z-index: 2;
+    display: none;
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+div.fullScreenTrophy.show {
+    display: flex; /* Change display pour l'afficher */
+}
+
+
+img.trophyFullScreen{
+    width: 300px;
+    border: solid 1px rgb(246, 246, 246);
+    border-radius: 20px;
+    margin: 10px;
+    background-color: rgb(246, 246, 246);
+    box-shadow: var(--boxShadowPlus);
+}
+
+
+
+
+p.trophy{
+    border: none;
+    padding: 5px 20px 5px 20px;
+    border-radius: 5px;
+    background-color: rgb(246, 246, 246);
+    box-shadow: var(--boxShadowPlus);
+    font-weight: bold;
 }
 
 
