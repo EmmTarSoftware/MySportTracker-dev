@@ -5,7 +5,7 @@ const basePath = serviceWorkerUrl.replace(/service-worker\.js$/, '');
 console.log(`[SERVICE WORKER] : BasePath = ${basePath}`);
 
 // Nom de la version du cache
-const CACHE_VERSION = "V14";
+const CACHE_VERSION = "V15";
 const STATIC_CACHE = `static-${CACHE_VERSION}`;
 
 // Fichiers à mettre en cache
@@ -15,6 +15,9 @@ const STATIC_FILES = [
 ];
 
 // Liste des fichiers explicites pour les trois dossiers
+
+// Ici ne pas mettre le fichier Icon-No-Network car déjà dans STATIC_FILES
+// Pas de doublon
 const ICONS = [
   `${basePath}Icons/Icon-Accepter.webp`,
   `${basePath}Icons/Icon-Autres.webp`,
