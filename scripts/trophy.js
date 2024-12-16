@@ -57,6 +57,14 @@ function onLoadUserTrophyList() {
 
     divTrophyListRef.innerHTML = "";
 
+
+    if (userTrophyArray.length === 0) {
+        divTrophyListRef.innerHTML = "Poursuit tes efforts pour obtenir des récompenses ! 🥇 ";
+        return
+    }
+
+
+
     console.log("[TROPHY] Création de la liste des récompenses de l'utilsiateur");
     console.log(userTrophyArray);
 
