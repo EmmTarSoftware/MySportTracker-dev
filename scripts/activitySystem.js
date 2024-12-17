@@ -213,6 +213,7 @@ function onUpdateActivityBddList() {
         console.log("stockage des données dans allUserActivityArray")
         allUserActivityArray = requestTask.result;
 
+
         // Remet les tries et filtres par défaut
         onResetSortAndFilter();
 

@@ -808,10 +808,10 @@ div.fullScreenTrophy.show img.trophyFullScreen, p.trophy{
 
 img.trophyFullScreen{
     width: 300px;
-    border: solid 1px rgb(246, 246, 246);
+    border: solid 1px rgb(255, 255, 255);
     border-radius: 20px;
     margin: 10px;
-    background-color: rgb(246, 246, 246);
+    background-color: rgb(255, 255, 255);
     box-shadow: var(--boxShadowPlus);
 }
 
@@ -822,12 +822,18 @@ p.trophy{
     border: none;
     padding: 5px 20px 5px 20px;
     border-radius: 5px;
-    background-color: rgb(246, 246, 246);
+    background-color: rgb(255, 255, 255);
     box-shadow: var(--boxShadowPlus);
     font-weight: bold;
+    color: var(--colorMainTheme1);
 }
 
-
+p.trophyDetail{
+    border: none;
+    padding: 5px 20px 5px 20px;
+    border-radius: 5px;
+    background-color: rgb(255, 255, 255);
+}
 
 
 /* pour afficher des items pendant un devellopement qui sont caché par défaut */
