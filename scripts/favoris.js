@@ -72,15 +72,15 @@ let userFavoris = [],
 // Vérification de l'engeristrement des favoris en local storage
 
 function onCheckFavorisInLocalStorage() {
-    console.log("[FAVORIS] vérification de l'existance du cookies des favoris ");
+    if (devMode === true){console.log("[FAVORIS] vérification de l'existance du cookies des favoris ");};
 
     if (localStorage.getItem(cookiesUserFavorisName) === null){
         localStorage.setItem(cookiesUserFavorisName, JSON.stringify(userFavoris));
-        console.log("[FAVORIS] Creation du cookies :  " + cookiesUserFavorisName);
+        if (devMode === true){console.log("[FAVORIS] Creation du cookies :  " + cookiesUserFavorisName);};
     }else{
-        console.log("[FAVORIS] cookies existants, changement dans le tableau = ");
+        if (devMode === true){console.log("[FAVORIS] cookies existants, changement dans le tableau = ");};
         userFavoris = JSON.parse(localStorage.getItem(cookiesUserFavorisName));
-        console.log(userFavoris);
+        if (devMode === true){console.log(userFavoris);};
     };
 
 };
@@ -98,12 +98,12 @@ function onChangeFavorisStatus(imgTarget,favorisDataName) {
     if (userFavoris.includes(favorisDataName)) {
         let indexToRemove = userFavoris.indexOf(favorisDataName);
         userFavoris.splice(indexToRemove,1);
-        console.log("[FAVORIS] Suppression de l'élément =  " + favorisDataName);
+        if (devMode === true){console.log("[FAVORIS] Suppression de l'élément =  " + favorisDataName);};
 
         imgTarget.src = "./Icons/Icon-Favoris.webp";
     }else{
         userFavoris.push(favorisDataName);
-        console.log("[FAVORIS] Ajout de l'élément =  " + favorisDataName);
+        if (devMode === true){console.log("[FAVORIS] Ajout de l'élément =  " + favorisDataName);};
 
         imgTarget.src = "./Icons/Icon-Favoris-Sel.webp";
     };
@@ -114,8 +114,10 @@ function onChangeFavorisStatus(imgTarget,favorisDataName) {
     // Remet à jour les options de choix
     onGenerateActivityOptionChoice();
 
-    console.log("[FAVORIS] tableau des favoris =   ");
-    console.log(userFavoris);
+    if (devMode === true){
+        console.log("[FAVORIS] tableau des favoris =   ");
+        console.log(userFavoris);
+    };
 
 };
 
@@ -125,7 +127,7 @@ function onChangeFavorisStatus(imgTarget,favorisDataName) {
 
 // Fonction de sauvegarde des favoris dans le local storage
 function onSaveFavorisInLocalStorage() {
-    console.log("[FAVORIS] enregistrement du nouvel état du tableau");
+    if (devMode === true){console.log("[FAVORIS] enregistrement du nouvel état du tableau");};
     localStorage.setItem(cookiesUserFavorisName, JSON.stringify(userFavoris));
 };
 

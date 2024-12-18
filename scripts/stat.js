@@ -1,7 +1,7 @@
 
 // Ouverture du menu
 function onOpenMenuStat(){
-    console.log("Ouverture menu STAT");
+    if (devMode === true){console.log("Ouverture menu STAT");};
     onGenerateDynamiqueStatFilter(allUserActivityArray);
 
     displayGeneralStats(allUserActivityArray);
@@ -17,7 +17,7 @@ let selectorStatRef = document.getElementById("selectorStat");
 
 // remplit dynamiquement les options dans le selection de statistique
 function onGenerateDynamiqueStatFilter(allData) {
-    console.log("[STAT] récupère les types d'activité de l'utilisateur" )
+    if (devMode === true){console.log("[STAT] récupère les types d'activité de l'utilisateur" )};
     let dynamicFilterList = [];
     
 
@@ -31,9 +31,11 @@ function onGenerateDynamiqueStatFilter(allData) {
 
     dynamicFilterList.sort();
 
-    console.log("[STAT] valeur de dynamicFilterList = " );
-    console.log(dynamicFilterList);
 
+    if (devMode === true){
+        console.log("[STAT] valeur de dynamicFilterList = " );
+        console.log(dynamicFilterList);
+    };
 
     // Crée les options dans le selection pour les catégorie
     onGenerateStatOptionFilter(dynamicFilterList);
@@ -89,7 +91,7 @@ function onGenerateStatOptionFilter(allActivityTypeData) {
 
 // Fonction onChange pour changer entre général et activité spécifique
 function onChangeSelector(value) {
-    console.log("[SELECTOR] Changement de sélection :", value);
+    if (devMode === true){console.log("[SELECTOR] Changement de sélection :", value);};
 
     if (value === "GENERAL") {
         // Appeler la fonction pour afficher les statistiques générales
@@ -194,7 +196,7 @@ function getStats(activityList, activityName, days = null) {
 
 // Affichage des activités
 function displayStats(activityName) {
-    console.log("[STAT] demande de stat pour " + activityName);
+    if (devMode === true){console.log("[STAT] demande de stat pour " + activityName);};
 
     // Récupérer les statistiques
     const statsAllTime = getStats(allUserActivityArray, activityName);
@@ -320,7 +322,7 @@ function displayGeneralStats(activityList) {
 // Fonction de calcul de l'activité la plus pratiquée
 function getMostPracticedActivity(data) {
 
-    console.log(" [STAT] General : calcul de l'activité la plus pratiquée.");
+    if (devMode === true){console.log(" [STAT] General : calcul de l'activité la plus pratiquée.");};
 
 
     if (!Array.isArray(data) || data.length === 0) {
@@ -347,7 +349,7 @@ function getMostPracticedActivity(data) {
         }
     }
 
-    console.log(`[STAT] Resultat : ${mostPracticed} avec ${maxCount} activités.` );
+    if (devMode === true){console.log(`[STAT] Resultat : ${mostPracticed} avec ${maxCount} activités.` );};
 
 
     return mostPracticed;

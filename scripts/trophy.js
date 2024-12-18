@@ -49,7 +49,7 @@ divTrophyListRef;
 
 
 function onOpenMenuTrophy(){
-    console.log("[TROPHY] Ouverture menu Trophy");
+    if (devMode === true){console.log("[TROPHY] Ouverture menu Trophy");};
 
     // Reference les éléments
     imgTrophyFullScreenRef = document.getElementById("imgTrophyFullScreen");
@@ -80,8 +80,10 @@ function onLoadUserTrophyList() {
 
 
 
-    console.log("[TROPHY] Création de la liste des récompenses de l'utilsiateur");
-    console.log(userTrophyArray);
+    if (devMode === true){
+        console.log("[TROPHY] Création de la liste des récompenses de l'utilsiateur");
+        console.log(userTrophyArray);
+    };
 
     userTrophyArray.forEach(trophy=>{
 
@@ -123,12 +125,12 @@ function onSearchTrophyInArray(trophyTarget) {
 
 // Affiche en grand la récompense
 function onDisplayTrophyFullScreen(trophyRef) {
-    console.log("[TROPHY]  demande de visualisation de récompense : " + trophyRef);
+    if (devMode === true){console.log("[TROPHY]  demande de visualisation de récompense : " + trophyRef);};
 
     let currentTrophyData = onSearchTrophyInArray(trophyRef);
 
 
-    console.log(currentTrophyData);
+    if (devMode === true){console.log(currentTrophyData);};
 
     // set les éléments et affiche
     imgTrophyFullScreenRef.src = currentTrophyData.imgRef;
@@ -141,7 +143,7 @@ function onDisplayTrophyFullScreen(trophyRef) {
 
 // Masque la récompense qui était en grand plan
 function onHiddenFullscreenTrophy() {
-    console.log("cache la div de visualisation de récompense");
+    if (devMode === true){console.log("cache la div de visualisation de récompense");};
     document.getElementById("divFullScreenTrophy").classList.remove("show");
 };
 

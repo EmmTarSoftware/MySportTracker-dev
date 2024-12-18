@@ -97,13 +97,13 @@ function onGenerateActivityOptionChoice() {
 
 
     // Traite d'abord les favoris
-    console.log("[Activity Choice] Lancement de la generation des choix des activités");
+    if (devMode === true){console.log("[Activity Choice] Lancement de la generation des choix des activités");};
 
     let selectorRef = document.getElementById("selectorCategoryChoice");
-    console.log("[Activity Choice] Reset les éléments");
+    if (devMode === true){console.log("[Activity Choice] Reset les éléments");};
     selectorRef.innerHTML = "";
 
-    console.log("[Activity Choice] ajout des favoris si présent = " + userFavoris.length);
+    if (devMode === true){console.log("[Activity Choice] ajout des favoris si présent = " + userFavoris.length);};
     userFavoris.sort();
 
     userFavoris.forEach(activity => {
@@ -116,7 +116,7 @@ function onGenerateActivityOptionChoice() {
         newOption.value = fullActivityItem.dataName;
         newOption.innerHTML = " * " +  fullActivityItem.displayName;
         selectorRef.appendChild(newOption);
-        console.log("ajout");
+        if (devMode === true){console.log("ajout de l'option" + fullActivityItem.displayName );};
     });
 
 
@@ -155,7 +155,7 @@ onGenerateActivityOptionChoice();
 function onOpenNewActivity() {
 
     activityEditorMode = "creation";
-    console.log("ouverture de l'editeur d'activité en mode " + activityEditorMode);
+    if (devMode === true){console.log("ouverture de l'editeur d'activité en mode " + activityEditorMode);};
 
     // Initialise les éléments
     onResetActivityInputs();
@@ -167,7 +167,7 @@ function onOpenNewActivity() {
 
 // Reset les inputs du menu activité
 function onResetActivityInputs() {
-    console.log("reset les inputs du menu activité");
+    if (devMode === true){console.log("reset les inputs du menu activité");};
     inputDateRef.value = "";
     inputLocationRef.value = "";
     inputDistanceRef.value = "";
@@ -184,7 +184,7 @@ function onResetActivityInputs() {
 
 function onUpdateActivityBddList() {
 
-    console.log("Actualisation de la liste d'activité");
+    if (devMode === true){console.log("Actualisation de la liste d'activité");};
     allUserActivityArray = [];
 
 
@@ -197,20 +197,20 @@ function onUpdateActivityBddList() {
 
 
     requestTask.onsuccess = function (){
-        console.log("[ DATABASE] ]Les éléments ont été récupéré dans la base");
+        if (devMode === true){console.log("[ DATABASE] ]Les éléments ont été récupéré dans la base");};
 
     };
 
 
     requestTask.error = function (){
-        console.log("Erreur de requete sur la base");
+       console.log("Erreur de requete sur la base");
     };
 
 
     transaction.oncomplete = function (){
         // stockage des données dans l'array des activités
 
-        console.log("stockage des données dans allUserActivityArray")
+        if (devMode === true){console.log("stockage des données dans allUserActivityArray");};
         allUserActivityArray = requestTask.result;
 
 
@@ -238,16 +238,20 @@ function onInsertActivityInList(activityToDisplay) {
     userActivityListToDisplay = activityToDisplay;
     userActivityListIndexToStart = 0;
 
-    console.log("nbre d'activité total à afficher = " + userActivityListToDisplay.length);
-    console.log("Nbre max d'activité affiché par cycle = " + maxActivityPerCycle);
-    console.log("Vide la liste des activités");
+
+    if (devMode === true){
+        console.log("nbre d'activité total à afficher = " + userActivityListToDisplay.length);
+        console.log("Nbre max d'activité affiché par cycle = " + maxActivityPerCycle);
+        console.log("Vide la liste des activités");
+    };
+
     divItemListRef.innerHTML = "";
 
     if (userActivityListToDisplay.length === 0) {
         divItemListRef.innerHTML = "Aucune activité à afficher !";
         return
     }else{
-        console.log("Demande d'insertion du premier cycle d'activité dans la liste");
+        if (devMode === true){console.log("Demande d'insertion du premier cycle d'activité dans la liste");};
         onInsertMoreActivity();
     };
 
@@ -256,19 +260,21 @@ function onInsertActivityInList(activityToDisplay) {
 
 // séquence d'insertion  d'activité dans la liste selon le nombre limite définit
 function onInsertMoreActivity() {
-    console.log("Lancement d'un cycle d'insertion d'activité.")
+    if (devMode === true){console.log("Lancement d'un cycle d'insertion d'activité.");};
     let cycleCount = 0;
 
-    console.log("Index de départ = " + userActivityListIndexToStart);
+    if (devMode === true){console.log("Index de départ = " + userActivityListIndexToStart);};
+
+
 
     for (let i = userActivityListIndexToStart; i < userActivityListToDisplay.length; i++) {
 
         if (cycleCount >= maxActivityPerCycle) {
-            console.log("Max par cycle atteinds = " + maxActivityPerCycle);
+            if (devMode === true){console.log("Max par cycle atteinds = " + maxActivityPerCycle);};
             // Creation du bouton More
             onCreateMoreActivityBtn();
             userActivityListIndexToStart += maxActivityPerCycle;
-            console.log("mise a jour du prochain index to start = " + userActivityListIndexToStart);
+            if (devMode === true){console.log("mise a jour du prochain index to start = " + userActivityListIndexToStart);};
             // Arrete la boucle si lorsque le cycle est atteind
             return
         }else{
@@ -417,9 +423,9 @@ function onDeleteBtnMoreItem() {
     // Vérification si l'élément existe avant de le supprimer
     if (btnToDelete) {
         btnToDelete.remove();
-        console.log("Suppression du bouton More Item");
+        if (devMode === true){console.log("Suppression du bouton More Item");};
     } else {
-        console.log("Le bouton more item n'est pas trouvé");
+        if (devMode === true){console.log("Le bouton more item n'est pas trouvé");};
     };
 };
 
@@ -497,23 +503,26 @@ function onClickOnActivity(keyRef) {
 
 
 function onSearchActivityInBaseToDisplay(keyRef) {
-    console.log("Affichage de l'activité avec la key :  " + keyRef);
+    if (devMode === true){console.log("Affichage de l'activité avec la key :  " + keyRef);};
     
 
     // recupere les éléments correspondant à la clé recherché et la stoque dans une variable
-    console.log("lecture de la Base de Données");
+    if (devMode === true){console.log("lecture de la Base de Données");};
     let transaction = db.transaction(activityStoreName);//readonly
     let objectStore = transaction.objectStore(activityStoreName);
     let request = objectStore.getAll(IDBKeyRange.only(keyRef));
     
     
     request.onsuccess = function (){
-        console.log("Requete de recherche réussit");
-        console.log(request.result);
+        if (devMode === true){
+            console.log("Requete de recherche réussit");
+            console.log(request.result);
+        };
+
 
         // Affiche la note voulue
         let tempResult = request.result;
-        console.log(tempResult[0]);
+        if (devMode === true){console.log(tempResult[0]);};
         onEditActivity(tempResult[0]);
     };
 
@@ -532,7 +541,7 @@ function onEditActivity(activityTarget) {
     activityEditorMode = "modification";
 
 
-    console.log("ouverture de l'editeur d'activité en mode " + activityEditorMode);
+    if (devMode === true){console.log("ouverture de l'editeur d'activité en mode " + activityEditorMode);};
 
 
 
@@ -552,7 +561,7 @@ function onEditActivity(activityTarget) {
 
 // Enregistrement de l'activité modifié
 function onSaveModifiedActivity() {
-    console.log("Demande de sauvegarde de la modification de l'activité");
+    if (devMode === true){console.log("Demande de sauvegarde de la modification de l'activité");};
 }
 
 // -------------------------- Création d'activité ---------------------------------
@@ -569,20 +578,20 @@ function onFormatActivity() {
 
 
     if (activityEditorMode === "creation") {
-        console.log("Demande de création nouvelle activité");
+        if (devMode === true){console.log("Demande de création nouvelle activité");};
     }else if(activityEditorMode === "modification"){
-        console.log("Demande d'enregistrement d'une modification d'activité");
+        if (devMode === true){console.log("Demande d'enregistrement d'une modification d'activité");};
     };
     
 
 
 
     // Verification des champs requis
-    console.log("[ NEW ACTIVITE ] controle des champs requis");
+    if (devMode === true){console.log("[ NEW ACTIVITE ] controle des champs requis");};
     let emptyField = onCheckEmptyField(inputDateRef.value);
 
     if (emptyField === true) {
-        console.log("[ NEW ACTIVITE ] Champ obligatoire non remplis");
+        if (devMode === true){console.log("[ NEW ACTIVITE ] Champ obligatoire non remplis");};
 
         inputDateRef.classList.add("fieldRequired");
         return
@@ -626,7 +635,7 @@ function onInsertNewActivity(dataToInsert) {
     let insertRequest = store.add(dataToInsert);
 
     insertRequest.onsuccess = function () {
-        console.log(" [ DATABASE ] " + dataToInsert.name + "a été ajouté à la base");
+        if (devMode === true){console.log(" [ DATABASE ] " + dataToInsert.name + "a été ajouté à la base");};
         // evenement de notification
 
 
@@ -638,7 +647,7 @@ function onInsertNewActivity(dataToInsert) {
     insertRequest.onerror = function(event){
         console.log(" [ DATABASE ] Error d'insertion activité");
         let errorMsg = event.target.error.toString();
-        console.log(errorMsg);
+       console.log(errorMsg);
         
     };
 
@@ -664,7 +673,7 @@ function onInsertNewActivity(dataToInsert) {
 
 // Insertion d'une modification d'une activité
 function onInsertModification(e) {
-    console.log("fonction d'insertion de la donnée modifié");
+    if (devMode === true){console.log("fonction d'insertion de la donnée modifié");};
 
     let transaction = db.transaction(activityStoreName,"readwrite");
     let store = transaction.objectStore(activityStoreName);
@@ -694,7 +703,7 @@ function onInsertModification(e) {
         };
 
         insertModifiedData.onerror = function (){
-            console.log("insertModifiedData = error",insertModifiedData.error);
+           console.log("insertModifiedData = error",insertModifiedData.error);
 
             
         };
@@ -732,7 +741,7 @@ function onInsertModification(e) {
 // Suppression d'activité
 function onClickDeleteFromActivityEditor() {
     
-    console.log("demande de suppression d'activité ");
+    if (devMode === true){console.log("demande de suppression d'activité ");};
     // L'affiche de la div doit se faire en "flex" donc je n'utilise pas le onChangeDisplay
     document.getElementById("divConfirmDeleteActivity").classList.add("show");
 
@@ -744,7 +753,7 @@ function onClickDeleteFromActivityEditor() {
 function onConfirmDeleteActivity(event){
 
     event.stopPropagation();// Empêche la propagation du clic vers la div d'annulation
-    console.log("Confirmation de suppression d'activité ");
+    if (devMode === true){console.log("Confirmation de suppression d'activité ");};
     // retire la class "show" pour la div de confirmation
     document.getElementById("divConfirmDeleteActivity").classList.remove("show");
     onDeleteActivity(currentKeyActivityInView);
@@ -755,7 +764,7 @@ function onConfirmDeleteActivity(event){
 
 function onAnnulDeleteActivity(event) {
     
-    console.log("annulation de la suppression d'activité ");
+    if (devMode === true){console.log("annulation de la suppression d'activité ");};
     // retire la class "show" pour la div de confirmation
     document.getElementById("divConfirmDeleteActivity").classList.remove("show");
     onChangeDisplay([],[],[],[],["divActivityEditor","divBtnActivity"],[],[]);
@@ -767,7 +776,7 @@ function onAnnulDeleteActivity(event) {
 
 function onDeleteActivity(keyTarget) {
     // recupere les éléments correspondant à la clé recherché et la stoque dans une variable
-    console.log("Suppression de l'activité avec la key : " + keyTarget);
+    if (devMode === true){console.log("Suppression de l'activité avec la key : " + keyTarget);};
     let transaction = db.transaction(activityStoreName,"readwrite");//transaction en écriture
     let objectStore = transaction.objectStore(activityStoreName);
     let request = objectStore.delete(IDBKeyRange.only(keyTarget));

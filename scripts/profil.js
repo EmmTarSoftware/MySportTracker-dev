@@ -36,14 +36,14 @@ function onReferenceItemsProfils() {
     inputProfilUserSizeRef = document.getElementById("inputProfilUserSize");
     inputProfilUserWeightRef = document.getElementById("inputProfilUserWeight");
 
-    console.log(" [ PROFIL ] Référence les éléments du profils.")
+    if (devMode === true){console.log(" [ PROFIL ] Référence les éléments du profils.");};
 };
 
 
 
 
 function onSetProfilItems() {
-    console.log("[PROFIL] set les éléments du menu profils");
+    if (devMode === true){console.log("[PROFIL] set les éléments du menu profils");};
     inputProfilUserNameRef.value = userInfo.name;
     selectorProfilUserGenderRef.value = userInfo.gender;
     inputProfilUserBirthDateRef.value = userInfo.birthDate;
@@ -63,10 +63,10 @@ function onClickSaveProfil() {
     // Lancement de sauvegarde du nouveau profil uniquement si modifié
     if (userInfo.name != inputProfilUserNameRef.value || userInfo.gender != selectorProfilUserGenderRef.value || userInfo.birthDate != inputProfilUserBirthDateRef.value || userInfo.size != inputProfilUserSizeRef.value || userInfo.weight != inputProfilUserWeightRef.value) {
         
-        console.log("[PROFIL] informations de profils différents : Lancement de l'enregistrement");
+        if (devMode === true){console.log("[PROFIL] informations de profils différents : Lancement de l'enregistrement");};
         onSaveUserInfo();
     }else{
-        console.log("[PROFIL] Aucune modification de profil nécessaire !");
+        if (devMode === true){console.log("[PROFIL] Aucune modification de profil nécessaire !");};
         onLeaveMenu("Profil");
     }
 };
@@ -88,7 +88,7 @@ function onSaveUserInfo() {
 
 
     // Sauvegarde dans la base
-    console.log( "[ PROFIL ] sauvegarde des users info dans les cookies.");
+    if (devMode === true){console.log( "[ PROFIL ] sauvegarde des users info dans les cookies.");};
     onInsertProfilModificationInDB(userInfo);
 };
 
@@ -104,7 +104,7 @@ function onCreateDefaultProfilInBase(profilToInsert) {
         let insertRequest = store.add(profilToInsert);
     
         insertRequest.onsuccess = function () {
-            console.log(" [ DATABASE PROFIL] Un nouveau profil a été ajouté à la base");
+            if (devMode === true){console.log(" [ DATABASE PROFIL] Un nouveau profil a été ajouté à la base");};
             // evenement de notification
     
             
@@ -118,7 +118,7 @@ function onCreateDefaultProfilInBase(profilToInsert) {
         };
     
         transaction.oncomplete = function(){
-            console.log("[ DATABASE PROFIL] nouveau profil : transaction insertData complete");
+            if (devMode === true){console.log("[ DATABASE PROFIL] nouveau profil : transaction insertData complete");};
     
         };
 };    
@@ -129,7 +129,7 @@ function onCreateDefaultProfilInBase(profilToInsert) {
 
 // Fonction de modification du profil dans la base
 function onInsertProfilModificationInDB(e) {
-    console.log("fonction d'insertion de la donnée modifié");
+    if (devMode === true){console.log("fonction d'insertion de la donnée modifié");};
 
     let transaction = db.transaction(profilStoreName,"readwrite");
     let store = transaction.objectStore(profilStoreName);
@@ -138,7 +138,7 @@ function onInsertProfilModificationInDB(e) {
     
 
     modifyRequest.onsuccess = function () {
-        console.log("modifyRequest = success");
+        if (devMode === true){console.log("modifyRequest = success");};
 
         let modifiedData = modifyRequest.result[0];
 
@@ -151,7 +151,7 @@ function onInsertProfilModificationInDB(e) {
         let insertModifiedData = store.put(modifiedData);
 
         insertModifiedData.onsuccess = function (){
-            console.log("[ DATABASE PROFIL] insert ModifiedData = success");
+            if (devMode === true){console.log("[ DATABASE PROFIL] insert ModifiedData = success");};
 
         };
 
@@ -167,7 +167,7 @@ function onInsertProfilModificationInDB(e) {
     transaction.oncomplete = function(){
 
         // Met a jour l'affichage de nom de l'utilisateur
-        console.log("[ PROFIL ] Mise à jours du nom de l'utilisateur dans l'application.");
+        if (devMode === true){console.log("[ PROFIL ] Mise à jours du nom de l'utilisateur dans l'application.");};
         document.getElementById("userName").innerHTML = userInfo.name;
 
         // Popup notification
@@ -182,7 +182,7 @@ function onInsertProfilModificationInDB(e) {
 
 
 function onExtractProfilFromDB(){
-    console.log("[ DATABASE PROFIL ] Récupère les éléments dans la base");
+    if (devMode === true){console.log("[ DATABASE PROFIL ] Récupère les éléments dans la base");};
 
     let transaction = db.transaction([profilStoreName]);//readonly
     let objectStoreTask = transaction.objectStore(profilStoreName);
@@ -194,12 +194,12 @@ function onExtractProfilFromDB(){
     // Traitement de la requête
     requestTask.onsuccess = function(event) {
         if (requestTask.result) {
-            console.log('[ DATABASE PROFIL ] Élément trouvé : ', requestTask.result);
+            if (devMode === true){console.log('[ DATABASE PROFIL ] Élément trouvé : ', requestTask.result);};
 
             onSetUserInfoFromOpeningAPP(requestTask.result);
 
         } else {
-            console.log('[ DATABASE PROFIL ] Aucun élément trouvé pour le userName');
+            if (devMode === true){console.log('[ DATABASE PROFIL ] Aucun élément trouvé pour le userName');};
         }
     };
 
@@ -213,7 +213,7 @@ function onExtractProfilFromDB(){
 // Remplit les élements de userInfo lors de l'ouverture de l'application
 function onSetUserInfoFromOpeningAPP(data) {
 
-    console.log("[PROFIL] remplit les userInfo éléments");
+    if (devMode === true){console.log("[PROFIL] remplit les userInfo éléments");};
 
     // Remplit la variable
     userInfo.name = data.name;
@@ -222,12 +222,13 @@ function onSetUserInfoFromOpeningAPP(data) {
     userInfo.size = data.size;
     userInfo.weight = data.weight;
 
-    console.log("[PROFIL] Valeur de userInfo = ");
+    if (devMode === true){
+        console.log("[PROFIL] Valeur de userInfo = ");
+        console.log(userInfo);
 
-    console.log(userInfo);
-
+        console.log("[ PROFIL ] Mise à jours du nom de l'utilisateur dans l'application.");
+    };
     // set également le html du nom de l'utilisateur
-    console.log("[ PROFIL ] Mise à jours du nom de l'utilisateur dans l'application.");
     document.getElementById("userName").innerHTML = userInfo.name;
 
 };

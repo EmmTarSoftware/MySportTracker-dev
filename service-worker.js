@@ -129,7 +129,6 @@ self.addEventListener("activate", (event) => {
 
 
 
-
 // Verification des ressources lors des demandes
 self.addEventListener("fetch", (event) => {
   console.log(`[SERVICE WORKER] : ${CACHE_VERSION} Interception de ${event.request.url}`);
