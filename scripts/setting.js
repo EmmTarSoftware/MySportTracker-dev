@@ -1,11 +1,26 @@
 
 
+// Boolean de dev pour les logs
+let devMode = false;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function onOpenMenuSetting() {
 
     
 };
-
 
 
 

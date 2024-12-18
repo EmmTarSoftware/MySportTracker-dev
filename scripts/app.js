@@ -1,3 +1,5 @@
+
+
 let allDivHomeToDisplayNone = ["divMainBtnMenu","btnNewActivity","divFilterSort","divItemList"],
     allDivHomeToDisplayBlock = ["divMainBtnMenu","btnNewActivity"],
     allDivHomeToDisplayFlex = ["divFilterSort","divItemList"];

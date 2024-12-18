@@ -82,6 +82,11 @@ function onGenerateStatOptionFilter(allActivityTypeData) {
 // ------------------------------------   GENERATION DES STAT --------------------------------
 
 
+
+
+
+
+
 // Fonction onChange pour changer entre général et activité spécifique
 function onChangeSelector(value) {
     console.log("[SELECTOR] Changement de sélection :", value);
@@ -94,6 +99,11 @@ function onChangeSelector(value) {
         displayStats(value);
     }
 }
+
+
+
+
+
 
 // Fonction pour convertir la durée au format hh:mm:ss en minutes
 function durationToMinutes(duration) {
@@ -116,6 +126,11 @@ function formatDuration(totalMinutes) {
     // Formater en HH:MM:SS
     return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 }
+
+
+
+
+
 
 // Récupère les statistiques de l'activité
 function getStats(activityList, activityName, days = null) {
@@ -167,6 +182,17 @@ function getStats(activityList, activityName, days = null) {
         firstActivityDate,
     };
 }
+
+
+
+
+
+
+
+
+
+
+// Affichage des activités
 function displayStats(activityName) {
     console.log("[STAT] demande de stat pour " + activityName);
 
@@ -267,8 +293,12 @@ function displayGeneralStats(activityList) {
         sum + parseFloat(activity.distance || 0), 0
     );
     const firstActivityDate = new Date(Math.min(...activityList.map(a => new Date(a.date))));
-    const firstActivityName = activityList[0].name; // Activité la plus ancienne
     const formattedDate = firstActivityDate.toLocaleDateString("fr-FR");
+
+    const favouriteActivityName =getMostPracticedActivity(activityList); // Activité la plus pratiquée
+
+
+
 
     // Texte convivial pour l'utilisateur
     document.getElementById("stats").innerHTML = `
@@ -278,7 +308,7 @@ function displayGeneralStats(activityList) {
                 Depuis le <b>${formattedDate}</b>, tu as pratiqué <b>${totalActivities} activité(s)</b>, 
                 parcouru environ <b>${totalDistance.toFixed(2)} km</b> et accumulé un total de <b>${formatDuration(totalDuration)} heure(s)</b> de sport. 
             </p>
-            <p>Ton activité préférée est : <b>${firstActivityName.replace("_", " ")}</b>.</p>
+            <p>Ton activité préférée est : <b>${favouriteActivityName}</b>.</p>
 
             <p>Bravo ! Continue comme ça, tu es sur la bonne voie !👍</p>
         </section>
@@ -287,6 +317,41 @@ function displayGeneralStats(activityList) {
 
 
 
+// Fonction de calcul de l'activité la plus pratiquée
+function getMostPracticedActivity(data) {
+
+    console.log(" [STAT] General : calcul de l'activité la plus pratiquée.");
+
+
+    if (!Array.isArray(data) || data.length === 0) {
+        return null; // Retourne null si le tableau est vide ou invalide
+    }
+
+    // Étape 1 : Compter les occurrences de chaque activité
+    const activityCounts = data.reduce((acc, obj) => {
+
+        if (obj.name) {
+            acc[obj.name] = (acc[obj.name] || 0) + 1; // Incrémente le compteur
+        }
+        return acc;
+    }, {});
+
+    // Étape 2 : Trouver l'activité avec la valeur maximale
+    let mostPracticed = null;
+    let maxCount = 0;
+
+    for (const [activity, count] of Object.entries(activityCounts)) {
+        if (count > maxCount) {
+            mostPracticed = activity;
+            maxCount = count;
+        }
+    }
+
+    console.log(`[STAT] Resultat : ${mostPracticed} avec ${maxCount} activités.` );
+
+
+    return mostPracticed;
+}
 
 
 
