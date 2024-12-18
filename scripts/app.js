@@ -305,7 +305,10 @@ function onFormatDateToFr(dateString) {
         // Sinon, retourner le format "jj-mm-aa"
         day = (day < 10) ? '0' + day : day;
         month = (month < 10) ? '0' + month : month;
+
         let year2Digits = year % 100; // Obtenir les deux derniers chiffres de l'année
+        year2Digits = (year2Digits < 10) ? '0' + year2Digits : year2Digits;
+
         return `${day}-${month}-${year2Digits}`;
     }
 };
