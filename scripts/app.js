@@ -58,11 +58,11 @@ function onChangeMenu(menuTarget) {
             onChangeDisplay(allDivHomeToDisplayNone,["divBtnStat"],["divStat"],[],[],[],[]);
             onOpenMenuStat();
         break;
-        case "Trophy":
-            if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Trophy");};
+        case "Rewards":
+            if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Rewards");};
             pMenuTitleRef.innerHTML = "Récompenses";
-            onChangeDisplay(allDivHomeToDisplayNone,["divBtnTrophy"],["divTrophy"],[],[],[],[]);
-            onOpenMenuTrophy();
+            onChangeDisplay(allDivHomeToDisplayNone,["divBtnRewards"],["divRewards"],[],[],[],[]);
+            onOpenMenuRewards();
         break;
         case "NewActivity":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : New Activity");};
@@ -146,9 +146,9 @@ function onLeaveMenu(menuTarget) {
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Stat");};
             onChangeDisplay(["divStat","divBtnStat"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
         break;
-        case "Trophy":
-            if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Trophy");};
-            onChangeDisplay(["divTrophy","divBtnTrophy"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
+        case "Rewards":
+            if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Rewards");};
+            onChangeDisplay(["divRewards","divBtnRewards"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
         break;
         case "Activity":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Activity");};
@@ -370,15 +370,16 @@ let db,
     dbName = "MSS-DataBase",
     activityStoreName = "activityList",
     profilStoreName = "profil",
-    currentBaseVersion = 3,
+    rewardsStoreName = "Recompenses",
+    currentBaseVersion = 4,
     cookiesBddVersion_KeyName = "Mind2Task-bddVersion";
 
 
 function onStartDataBase() {
     let openRequest = indexedDB.open(dbName,currentBaseVersion);
 
-    let isNewProfilRequiered = false;//boolean pour savoir si je créer un nouveau profils ou non
-
+    let isNewProfilRequiered = false,//boolean pour savoir si je créer un nouveau profils ou non
+        isNewRewardsBdDRequired = false;//boolean pour savoir si je créer un élément initiale pour les récompenses dans la base
     // Traitement selon résultat
 
    
@@ -400,16 +401,24 @@ function onStartDataBase() {
 
 
         // Creation du store pour le profil
-
         if (!db.objectStoreNames.contains(profilStoreName)) {
             let profilStore = db.createObjectStore(profilStoreName, {keyPath:'key',autoIncrement: true});
             if (devMode === true){console.log("[ DATABASE PROFIL] Creation du magasin " + profilStoreName);};
 
             profilStore.createIndex('userName', 'name',{unique:true});
             isNewProfilRequiered = true;
-            
-            
         };
+
+
+        // Creation du store pour les récompenses
+        if (!db.objectStoreNames.contains(rewardsStoreName)) {
+            let rewardsStore = db.createObjectStore(rewardsStoreName, {keyPath:'key',autoIncrement: true});
+            if (devMode === true){console.log("[ DATABASE PROFIL] Creation du magasin " + rewardsStoreName);};
+
+            isNewRewardsBdDRequired = true;
+        };
+
+
 
         // Stoque le numéro de version de base de l'application
         localStorage.setItem(cookiesBddVersion_KeyName, currentBaseVersion.toString());
@@ -428,14 +437,20 @@ function onStartDataBase() {
         if (isNewProfilRequiered === true) {
             // Creation d'un profil par defaut dans la base
             if (devMode === true){console.log("[ DATABASE PROFIL] demande de création du profil par defaut");};
-        onCreateDefaultProfilInBase(userInfo);
-
+            onCreateDefaultProfilInBase(userInfo);
         }else{
             // Lancement des éléments du profil
             onExtractProfilFromDB();
         };
         
-
+        if (isNewRewardsBdDRequired === true) {
+            // Creation d'un profil par defaut dans la base
+            if (devMode === true){console.log("[ DATABASE REWARDS] demande de création d'un ARRAY par defaut");};
+            onCreateDefaultRewardsInBase();
+        }else{
+            // Lancement des éléments du profil
+            onExtractRewardsFromDB();
+        };
 
 
         // Premiere remplissage de la base avec le formation de trie par défaut
