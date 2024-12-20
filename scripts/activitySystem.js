@@ -62,10 +62,10 @@ let activityToInsertFormat = {
 
 
 let allUserActivityArray = [], //Contient toutes les activités créé par l'utilisateur
-    userActivityListToDisplay = [], // contient les activité trié et filtré à afficher
+    userActivityListToDisplay = [], // contient les activités triées et filtrées à afficher
     maxActivityPerCycle = 20,//Nbre d'élément maximale à afficher avant d'avoir le bouton "afficher plus"
-    userActivityListIndexToStart = 0; //Index de démarrage pour l'affichage d'activité
-
+    userActivityListIndexToStart = 0, //Index de démarrage pour l'affichage d'activité
+    currentActivityDataInView;//contient les données d'une activité en cours d'affichage. Permet de comparer les modifications
 
 
 
@@ -212,6 +212,9 @@ function onUpdateActivityBddList() {
 
         if (devMode === true){console.log("stockage des données dans allUserActivityArray");};
         allUserActivityArray = requestTask.result;
+
+        if (devMode === true){console.log(allUserActivityArray);};
+
 
 
         // Remet les tries et filtres par défaut
@@ -490,7 +493,8 @@ let currentKeyActivityInView = 0;
 // clique sur un item
 function onClickOnActivity(keyRef) {
     onResetActivityInputs();
-    onSearchActivityInBaseToDisplay(keyRef);
+    // onSearchActivityInBaseToDisplay(keyRef);
+    onSearchActivityToDisplay(keyRef);
     onChangeMenu("EditActivity");
 
 };
@@ -498,12 +502,23 @@ function onClickOnActivity(keyRef) {
 
 
 
+// Fonction de recherche d'une activité à afficher depuis la AllUserActivityArray.
+function onSearchActivityToDisplay(keyRef) {
+    if (devMode === true){console.log("Affichage de l'activité dans 'AllUserActivityArray' avec la key :  " + keyRef);};
+    const activityToDisplay = allUserActivityArray.find(activity => activity.key === keyRef);
+
+
+    currentActivityDataInView = activityToDisplay;//pour la comparaison par la suite
+    onEditActivity(activityToDisplay);
+}
 
 
 
 
+// DESACTIVEE !!!
+// Fonction de recherche d'une activité à afficher depuis la bdd.
 function onSearchActivityInBaseToDisplay(keyRef) {
-    if (devMode === true){console.log("Affichage de l'activité avec la key :  " + keyRef);};
+    if (devMode === true){console.log("Affichage de l'activité dans la BdD avec la key :  " + keyRef);};
     
 
     // recupere les éléments correspondant à la clé recherché et la stoque dans une variable
@@ -616,13 +631,58 @@ function onFormatActivity() {
     if (activityEditorMode === "creation") {
         onInsertNewActivity(activityToInsertFormat);
     }else if(activityEditorMode === "modification"){
-        onInsertModification(activityToInsertFormat);
+        onCheckIfModifiedRequired(activityToInsertFormat);
     };
 
 };
 
 
+// Sauvegarde uniquement si une modification a bien été effectuée dans les données
+function onCheckIfModifiedRequired(activityToInsertFormat) {
+    
+    // Création d'une liste de champs à comparer
+    const fieldsToCompare = [
+        { oldValue: currentActivityDataInView.name, newValue: activityToInsertFormat.name },
+        { oldValue: currentActivityDataInView.date, newValue: activityToInsertFormat.date },
+        { oldValue: currentActivityDataInView.distance, newValue: activityToInsertFormat.distance },
+        { oldValue: currentActivityDataInView.location, newValue: activityToInsertFormat.location },
+        { oldValue: currentActivityDataInView.comment, newValue:  activityToInsertFormat.comment },
+        { oldValue: currentActivityDataInView.duration, newValue:  activityToInsertFormat.duration },
+        { oldValue: currentActivityDataInView.divers, newValue:  activityToInsertFormat.divers }
+        // Ne pas mettre la donnée userInfo Ici. 
+    ];
 
+    if (devMode) {
+        fieldsToCompare.forEach(e=>{
+            console.log(e);
+        });
+    };
+
+    // Vérification si une différence est présente
+    // some s'arrete automatiquement si il y a une différence
+    // Vérification si une différence est présente
+    const updateDataRequiered = fieldsToCompare.some(field => {
+        if (typeof field.oldValue === "object" && field.oldValue !== null) {
+            // Utiliser JSON.stringify pour comparer les contenus des objets
+            return JSON.stringify(field.oldValue) !== JSON.stringify(field.newValue);
+        }
+        // Comparaison simple pour les types primitifs
+        return field.oldValue != field.newValue;
+    });
+
+
+    if (updateDataRequiered) {
+        if (devMode) console.log("[ACTIVITY] Informations d'activité différentes : Lancement de l'enregistrement en BdD");
+        onInsertModification(activityToInsertFormat);
+    } else {
+        if (devMode) console.log("[ACTIVITY] Aucune modification de d'activité nécessaire !");
+         //Gestion de l'affichage 
+        onLeaveMenu("Activity");
+    }
+
+
+
+}
 
 
 

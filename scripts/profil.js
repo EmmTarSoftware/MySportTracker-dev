@@ -61,12 +61,24 @@ function onSetProfilItems() {
 // Clique sur save profil
 function onClickSaveProfil() {
     // Lancement de sauvegarde du nouveau profil uniquement si modifié
-    if (userInfo.name != inputProfilUserNameRef.value || userInfo.gender != selectorProfilUserGenderRef.value || userInfo.birthDate != inputProfilUserBirthDateRef.value || userInfo.size != inputProfilUserSizeRef.value || userInfo.weight != inputProfilUserWeightRef.value) {
-        
-        if (devMode === true){console.log("[PROFIL] informations de profils différents : Lancement de l'enregistrement");};
+   // Création d'une liste de champs à comparer
+    const fieldsToCompare = [
+        { oldValue: userInfo.name, newValue: inputProfilUserNameRef.value },
+        { oldValue: userInfo.gender, newValue: selectorProfilUserGenderRef.value },
+        { oldValue: userInfo.birthDate, newValue: inputProfilUserBirthDateRef.value },
+        { oldValue: userInfo.size, newValue: inputProfilUserSizeRef.value },
+        { oldValue: userInfo.weight, newValue: inputProfilUserWeightRef.value }
+    ];
+
+    // Vérification si une différence est présente
+    // some s'arrete automatiquement si il y a une différence
+    const updateDataRequiered = fieldsToCompare.some(field => field.oldValue != field.newValue);
+
+    if (updateDataRequiered) {
+        if (devMode) console.log("[PROFIL] Informations de profils différentes : Lancement de l'enregistrement");
         onSaveUserInfo();
-    }else{
-        if (devMode === true){console.log("[PROFIL] Aucune modification de profil nécessaire !");};
+    } else {
+        if (devMode) console.log("[PROFIL] Aucune modification de profil nécessaire !");
         onLeaveMenu("Profil");
     }
 };

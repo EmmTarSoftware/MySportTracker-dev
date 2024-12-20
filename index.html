@@ -187,8 +187,9 @@
 
         <!-- Mode developpeur -->
         <p>
-            <label for="">Mode développeur : </label>
+            <label for="">Mode LOG développeur : </label>
             <input type="checkbox" id="inputCheckboxDevMode" onchange="onChangeDevModeStatus(this)">
+            ATTENTION : Activer cette option peut nuire aux performances !
         </p>
 
     </div>
@@ -252,7 +253,7 @@
 
     <!-- ----------------------------------      DIV INFO        ------------------------------------------------>
     <div id="divInfo" class="new-interface">
-            <p class="release-licence"><b>Release :</b> 1.2.28</p>
+            <p class="release-licence"><b>Release :</b> 1.2.29</p>
             <p class="release-licence"><b>Licence : </b></p>
             <p class="release-licence">
                 Emmanuel TARACONAT
@@ -340,9 +341,8 @@
     <div id="divMainBtnMenu" class="main-menu">
         <button class="btn-menu" onclick="onChangeMenu('Favoris')"><img src="./Icons/Icon-Favoris-Sel.webp" alt="Icone"></button>
         <button class="btn-menu" onclick="onChangeMenu('Stat')"><img src="./Icons/Icon-Stat.webp" alt="Icone"></button>
-        <button class="btn-menu" onclick="onChangeMenu('Rewards')"><img src="./Icons/Icon-Trophy.webp" alt="Icone"></button>
+        <!-- <button class="btn-menu" onclick="onChangeMenu('Rewards')"><img src="./Icons/Icon-Trophy.webp" alt="Icone"></button> -->
         <button class="btn-menu" onclick="onClickMainMenuSup()"><img src="./Icons/Icon-Autres.webp" alt="Icone"></button>
-
     </div>
 
     <!-- DIV main menu supplémentaire -->
@@ -356,7 +356,6 @@
     <!------------------------------------- FIN DIV Main Menu ------------------------------------------------------>
 
 </div>
-
     <script src="./scripts/setting.js"></script>
     <script src="./scripts/notify.js"></script>
     <script src="./scripts/profil.js"></script>

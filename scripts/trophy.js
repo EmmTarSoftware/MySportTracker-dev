@@ -559,7 +559,7 @@ function onAffectFinalRewardsToUser() {
 
 
 // Traitement des trophy pour C.A.P
-function onTraiteRewardsForCAP(filteredData) {
+function onTraiteRewardsForCAP(filteredData,rewards1Name,rewards10Name,rewards50Name,rewards100Name) {
      // 1 séance
      if (devMode === true){console.log("[REWARDS] [C.A.P] Test eligibilité pour : CAP-A-1-SEANCE");};
      let CAP_A_1_SEANCE = filteredData.length >= 1;//car il faut traiter si les gens l'ont utilisé avant la mise à jours

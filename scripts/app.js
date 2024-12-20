@@ -129,7 +129,7 @@ function onAnnulMenuSup(){
 
 function onLeaveMenu(menuTarget) {
 
-    if (devMode === true){console.log(" [ NAVIGATION ] Demande de changement menu : " + menuTarget);};
+    if (devMode === true){console.log(" [ NAVIGATION ] Demande de changement menu demandé par : " + menuTarget);};
 
     // remet le titre initial du menu
     // reference le "p" qui contient le titre du menu pour le changer
