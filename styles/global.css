@@ -318,7 +318,7 @@ button.btn-sort-Selected{
     padding: 5px;
     border-radius: 20px;
     box-shadow: var(--boxShadow);
-    border-left: 5px solid ;
+    border-left: 3px solid ;
 }
 
         /* Couleurs pour chaque groupe */
@@ -335,11 +335,11 @@ button.btn-sort-Selected{
 }
 
 .nuance-orange {
-    border-color: #FFC107; /* nuance-orange */
+    border-color: #ffbd17; /* nuance-orange */
 }
 
-.nuance-yellow {
-    border-color: #FFD700; /* Jaune */
+.nuance-olive {
+    border-color: #4B8B3B; /* Jaune */
 }
 
 .nuance-pink {
@@ -351,14 +351,14 @@ button.btn-sort-Selected{
 }
 
 .nuance-red {
-    border-color: #ff0b0b; /* Violet */
+    border-color: #FF6F61; /* Violet */
 }
 .nuance-dark-gray {
     border-color: #6C757D; /* Gris foncé */
 }
 
-.nuance-light-gray {
-    border-color: #D3D3D3; /* Gris clair */
+.nuance-light-bluegray {
+    border-color: #B0C4DE; /* Gris clair */
 }
 
 /* Style pour la partie image (bleue) */
