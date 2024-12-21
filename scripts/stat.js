@@ -135,16 +135,15 @@ function formatDuration(totalMinutes) {
 
 
 // Récupère les statistiques de l'activité
-function getStats(activityList, activityName, days = null) {
+function getStats(activityList, days = null) {
     const today = new Date();
 
     // Filtrer les sessions pour l'activité donnée
     const filteredSessions = activityList.filter(activity => {
-        const isSameActivity = activity.name === activityName;
         const isWithinDays = days
             ? (today - new Date(activity.date)) / (1000 * 60 * 60 * 24) <= days
             : true; // Inclure toutes les sessions si `days` est null
-        return isSameActivity && isWithinDays;
+        return isWithinDays;
     });
 
     // Si aucune session n'est trouvée, renvoyer des valeurs par défaut
@@ -190,6 +189,46 @@ function getStats(activityList, activityName, days = null) {
 
 
 
+function getActivityStatCountByMonth(activityList,yearTarget) {
+
+    console.log("TEST STAT");
+    const monthNames = [
+        'january', 'february', 'march', 'april', 'may', 'june',
+        'july', 'august', 'september', 'october', 'november', 'december'
+    ];
+    // Objet qui stocke les comptes des activité classé
+    let countActivityByMonth = {
+        january : {count : 0, distance: 0 , duration : 0},
+        february : {count : 0, distance: 0 , duration : 0},
+        march : {count : 0, distance: 0 , duration : 0},
+        april : {count : 0, distance: 0 , duration : 0},
+        may :{count : 0, distance: 0 , duration : 0},
+        june :{count : 0, distance: 0 , duration : 0},
+        july : {count : 0, distance: 0 , duration : 0}, 
+        august : {count : 0, distance: 0 , duration : 0},
+        september : {count : 0, distance: 0 , duration : 0}, 
+        october : {count : 0, distance: 0 , duration : 0},
+        november : {count : 0, distance: 0 , duration : 0},
+        december: {count : 0, distance: 0 , duration : 0},
+    }; 
+
+
+   
+    activityList.forEach(e=>{
+
+        const dateObject = new Date(e.date);
+        const year = dateObject.getFullYear();
+        const month = dateObject.getMonth();
+        const monthName = monthNames[month];
+
+        // Si l'année correspond, ajoute + 1 dans le mois de l'activité
+        if (year === yearTarget) { 
+            countActivityByMonth[monthName].count++;
+        }
+    });
+
+    console.log(countActivityByMonth);
+}
 
 
 
@@ -198,10 +237,20 @@ function getStats(activityList, activityName, days = null) {
 function displayStats(activityName) {
     if (devMode === true){console.log("[STAT] demande de stat pour " + activityName);};
 
+    // Récupère uniquement les données concernant l'activité en question
+    let activitiesTargetData = allUserActivityArray.filter(e=>{
+        // Recupère toutes les activités concernés
+        return e.name === activityName;
+    });
+
+
+
+
+
     // Récupérer les statistiques
-    const statsAllTime = getStats(allUserActivityArray, activityName);
-    const stats7Days = getStats(allUserActivityArray, activityName, 7);
-    const stats30Days = getStats(allUserActivityArray, activityName, 30);
+    const statsAllTime = getStats(activitiesTargetData);
+    const stats7Days = getStats(activitiesTargetData, 7);
+    const stats30Days = getStats(activitiesTargetData, 30);
 
     // Formater les dates des premières et dernières activités pratiquées
     const firstActivityDateFormatted = statsAllTime.firstActivityDate
@@ -268,6 +317,13 @@ function displayStats(activityName) {
             <p>${thirtyDaysText}</p>
         </section>
     `;
+
+
+
+    // Lancement d'un graphique avec l'année actuelle
+    // Obtenir l'année actuelle
+    let currentYear = new Date().getFullYear();
+    getActivityStatCountByMonth(activitiesTargetData,currentYear);
 }
 
 
