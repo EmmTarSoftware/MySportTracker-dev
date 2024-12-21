@@ -228,13 +228,11 @@ function displayStats(activityName) {
         ? "Il semble que tu n'aies pas pratiqué cette activité ces derniers jours." 
         : stats7Days.totalDistance > 0
             ? `
-                <p>Nombre total de séances : <b>${stats7Days.totalSessions}</b></p>
-                <p>Durée totale : <b>${formatDuration(stats7Days.totalDuration)}</b></p>
-                <p>Distance totale : <b>${stats7Days.totalDistance.toFixed(2)} km</b></p>
+                <p>Séance(s) : <b>${stats7Days.totalSessions}</b> - Durée : <b>${formatDuration(stats7Days.totalDuration)}</b></p>
+                <p>Distance : <b>${stats7Days.totalDistance.toFixed(2)} km</b></p>
             `
             : `
-                <p>Nombre total de séances : <b>${stats7Days.totalSessions}</b></p>
-                <p>Durée totale : <b>${formatDuration(stats7Days.totalDuration)}</b></p>
+                <p>Séance(s) : <b>${stats7Days.totalSessions}</b> - Durée : <b>${formatDuration(stats7Days.totalDuration)}</b></p>
                 <p>Aucune distance enregistrée.</p>
             `;
 
@@ -243,13 +241,11 @@ function displayStats(activityName) {
         ? "Cela fait un certain temps que tu n'as pas pratiqué cette activité." 
         : stats30Days.totalDistance > 0
             ? `
-                <p>Nombre total de séances : <b>${stats30Days.totalSessions}</b></p>
-                <p>Durée totale : <b>${formatDuration(stats30Days.totalDuration)}</b></p>
-                <p>Distance totale : <b>${stats30Days.totalDistance.toFixed(2)} km</b></p>
+                <p>Séance(s) : <b>${stats30Days.totalSessions}</b> - Durée : <b>${formatDuration(stats30Days.totalDuration)}</b></p>
+                <p>Distance : <b>${stats30Days.totalDistance.toFixed(2)} km</b></p>
             `
             : `
-                <p>Nombre total de séances : <b>${stats30Days.totalSessions}</b></p>
-                <p>Durée totale : <b>${formatDuration(stats30Days.totalDuration)}</b></p>
+                <p>Séance(s) : <b>${stats30Days.totalSessions}</b> - Durée : <b>${formatDuration(stats30Days.totalDuration)}</b></p>
                 <p>Aucune distance enregistrée.</p>
             `;
 
