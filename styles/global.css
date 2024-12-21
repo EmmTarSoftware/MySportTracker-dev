@@ -318,6 +318,47 @@ button.btn-sort-Selected{
     padding: 5px;
     border-radius: 20px;
     box-shadow: var(--boxShadow);
+    border-left: 3px solid ;
+}
+
+        /* Couleurs pour chaque groupe */
+.nuance-blue-light {
+    border-color: #00A9F4; /* Bleu clair */
+}
+
+.nuance-turquoise {
+    border-color: #17A2B8; /* turquoise */
+}
+
+.nuance-green-light {
+    border-color: #7CFC00; /* Vert clair */
+}
+
+.nuance-orange {
+    border-color: #FFC107; /* nuance-orange */
+}
+
+.nuance-yellow {
+    border-color: #FFD700; /* Jaune */
+}
+
+.nuance-pink {
+    border-color: #FF69B4; /* Rose */
+}
+
+.nuance-purple {
+    border-color: #800080; /* Violet */
+}
+
+.nuance-red {
+    border-color: #ff0b0b; /* Violet */
+}
+.nuance-dark-gray {
+    border-color: #6C757D; /* Gris foncé */
+}
+
+.nuance-light-gray {
+    border-color: #D3D3D3; /* Gris clair */
 }
 
 /* Style pour la partie image (bleue) */

@@ -1,37 +1,37 @@
 // Tableau des activités
 let activityChoiceArray = [
-    {dataName : "C.A.P", displayName: "Course à pied", color : "", imgRef :"./images/icon-cap.webp"},
-    {dataName : "FRACTIONNE", displayName:"Fractionné/interval",color : "", imgRef :"./images/icon-intense-running.webp"},
-    {dataName : "MARCHE-RANDO", displayName:"Marche/Randonnée",color : "", imgRef :"./images/icon-marche.webp"},
-    {dataName : "VELO", displayName:"Vélo",color : "", imgRef :"./images/icon-velo.webp"},
-    {dataName : "NATATION", displayName:"Natation",color : "", imgRef :"./images/icon-natation.webp"},
-    {dataName : "CROSSFIT", displayName:"Crossfit",color : "", imgRef :"./images/icon-crossfit.webp"},
-    {dataName : "YOGA", displayName:"Yoga",color : "", imgRef :"./images/icon-yoga.webp"},
-    {dataName : "SPORT-CO", displayName:"Sport-co divers",color : "", imgRef :"./images/icon-sport-co.webp"},
-    {dataName : "ESCALADE", displayName:"Escalade",color : "", imgRef :"./images/icon-escalade.webp"},
-    {dataName : "BOXE", displayName:"Boxe",color : "", imgRef :"./images/icon-boxe.webp"},
-    {dataName : "SKI", displayName:"Ski",color : "", imgRef :"./images/icon-ski.webp"},
-    {dataName : "TRIATHLON", displayName:"Triathlon",color : "", imgRef :"./images/icon-triathlon.webp"},
-    {dataName : "ACTIVITE-NAUTIQUE", displayName:"Activité nautique",color : "", imgRef :"./images/icon-nautique.webp"},
-    {dataName : "ETIREMENT", displayName:"Etirements",color : "", imgRef :"./images/icon-stretching.webp"},
-    {dataName : "GOLF", displayName:"Golf",color : "", imgRef :"./images/icon-golf.webp"},
-    {dataName : "TENNIS", displayName:"Tennis",color : "", imgRef :"./images/icon-tennis.webp"},
-    {dataName : "PATIN-ROLLER", displayName:"Patinage/Roller",color : "", imgRef :"./images/icon-patin.webp"},
-    {dataName : "DANSE", displayName:"Danse",color : "", imgRef :"./images/icon-danse.webp"},
-    {dataName : "MUSCULATION", displayName:"Musculation",color : "", imgRef :"./images/icon-musculation.webp"},
-    {dataName : "BADMINTON", displayName:"Badminton",color : "", imgRef :"./images/icon-badminton.webp"},
-    {dataName : "BASKETBALL", displayName:"Basketball",color : "", imgRef :"./images/icon-basketball.webp"},
-    {dataName : "FOOTBALL", displayName:"Football",color : "", imgRef :"./images/icon-football.webp"},
-    {dataName : "HANDBALL", displayName:"Handball",color : "", imgRef :"./images/icon-handball.webp"},
-    {dataName : "RUGBY", displayName:"Rugby",color : "", imgRef :"./images/icon-rugby.webp"},
-    {dataName : "TENNIS-TABLE", displayName:"Tennis de table",color : "", imgRef :"./images/icon-tennis-de-table.webp"},
-    {dataName : "VOLLEYBALL", displayName:"Volleyball",color : "", imgRef :"./images/icon-volley.webp"},
-    {dataName : "EQUITATION", displayName:"Equitation",color : "", imgRef :"./images/icon-equitation.webp"},
-    {dataName : "SNOWBOARD", displayName:"Snowboard",color : "", imgRef :"./images/icon-snowboard.webp"},
-    {dataName : "BASEBALL", displayName:"Baseball",color : "", imgRef :"./images/icon-baseball.webp"},
-    {dataName : "AUTRE", displayName:"Autre/divers",color : "", imgRef :"./images/icon-autre-divers.webp"},
-    {dataName : "ARTS-MARTIAUX", displayName:"Arts martiaux",color : "", imgRef :"./images/icon-art-martiaux.webp"},
-    {dataName : "BREAK-DANCE", displayName:"Break dance",color : "", imgRef :"./images/icon-breakdance.webp"}
+    {dataName : "C.A.P", displayName: "Course à pied", colorNuanceClass : "nuance-blue-light", imgRef :"./images/icon-cap.webp"},
+    {dataName : "FRACTIONNE", displayName:"Fractionné/interval",colorNuanceClass : "nuance-blue-light", imgRef :"./images/icon-intense-running.webp"},
+    {dataName : "MARCHE-RANDO", displayName:"Marche/Randonnée",colorNuanceClass : "nuance-blue-light", imgRef :"./images/icon-marche.webp"},
+    {dataName : "VELO", displayName:"Vélo",colorNuanceClass : "nuance-blue-light", imgRef :"./images/icon-velo.webp"},
+    {dataName : "NATATION", displayName:"Natation",colorNuanceClass : "nuance-turquoise", imgRef :"./images/icon-natation.webp"},
+    {dataName : "CROSSFIT", displayName:"Crossfit",colorNuanceClass : "nuance-red", imgRef :"./images/icon-crossfit.webp"},
+    {dataName : "YOGA", displayName:"Yoga",colorNuanceClass : "nuance-green-light", imgRef :"./images/icon-yoga.webp"},
+    {dataName : "SPORT-CO", displayName:"Sport-co divers",colorNuanceClass : "nuance-orange", imgRef :"./images/icon-sport-co.webp"},
+    {dataName : "ESCALADE", displayName:"Escalade",colorNuanceClass : "nuance-dark-gray", imgRef :"./images/icon-escalade.webp"},
+    {dataName : "BOXE", displayName:"Boxe",colorNuanceClass : "nuance-light-gray", imgRef :"./images/icon-boxe.webp"},
+    {dataName : "SKI", displayName:"Ski",colorNuanceClass : "nuance-purple", imgRef :"./images/icon-ski.webp"},
+    {dataName : "TRIATHLON", displayName:"Triathlon",colorNuanceClass : "nuance-blue-light", imgRef :"./images/icon-triathlon.webp"},
+    {dataName : "ACTIVITE-NAUTIQUE", displayName:"Activité nautique",colorNuanceClass : "nuance-turquoise", imgRef :"./images/icon-nautique.webp"},
+    {dataName : "ETIREMENT", displayName:"Etirements",colorNuanceClass : "nuance-green-light", imgRef :"./images/icon-stretching.webp"},
+    {dataName : "GOLF", displayName:"Golf",colorNuanceClass : "nuance-yellow", imgRef :"./images/icon-golf.webp"},
+    {dataName : "TENNIS", displayName:"Tennis",colorNuanceClass : "nuance-yellow", imgRef :"./images/icon-tennis.webp"},
+    {dataName : "PATIN-ROLLER", displayName:"Patinage/Roller",colorNuanceClass : "nuance-dark-gray", imgRef :"./images/icon-patin.webp"},
+    {dataName : "DANSE", displayName:"Danse",colorNuanceClass : "nuance-pink", imgRef :"./images/icon-danse.webp"},
+    {dataName : "MUSCULATION", displayName:"Musculation",colorNuanceClass : "nuance-red", imgRef :"./images/icon-musculation.webp"},
+    {dataName : "BADMINTON", displayName:"Badminton",colorNuanceClass : "nuance-yellow", imgRef :"./images/icon-badminton.webp"},
+    {dataName : "BASKETBALL", displayName:"Basketball",colorNuanceClass : "nuance-orange", imgRef :"./images/icon-basketball.webp"},
+    {dataName : "FOOTBALL", displayName:"Football",colorNuanceClass : "nuance-orange", imgRef :"./images/icon-football.webp"},
+    {dataName : "HANDBALL", displayName:"Handball",colorNuanceClass : "nuance-orange", imgRef :"./images/icon-handball.webp"},
+    {dataName : "RUGBY", displayName:"Rugby",colorNuanceClass : "nuance-orange", imgRef :"./images/icon-rugby.webp"},
+    {dataName : "TENNIS-TABLE", displayName:"Tennis de table",colorNuanceClass : "nuance-yellow", imgRef :"./images/icon-tennis-de-table.webp"},
+    {dataName : "VOLLEYBALL", displayName:"Volleyball",colorNuanceClass : "nuance-orange", imgRef :"./images/icon-volley.webp"},
+    {dataName : "EQUITATION", displayName:"Equitation",colorNuanceClass : "nuance-dark-gray", imgRef :"./images/icon-equitation.webp"},
+    {dataName : "SNOWBOARD", displayName:"Snowboard",colorNuanceClass : "nuance-purple", imgRef :"./images/icon-snowboard.webp"},
+    {dataName : "BASEBALL", displayName:"Baseball",colorNuanceClass : "nuance-yellow", imgRef :"./images/icon-baseball.webp"},
+    {dataName : "AUTRE", displayName:"Autre/divers",colorNuanceClass : "nuance-light-gray", imgRef :"./images/icon-autre-divers.webp"},
+    {dataName : "ARTS-MARTIAUX", displayName:"Arts martiaux",colorNuanceClass : "nuance-light-gray", imgRef :"./images/icon-art-martiaux.webp"},
+    {dataName : "BREAK-DANCE", displayName:"Break dance",colorNuanceClass : "nuance-pink", imgRef :"./images/icon-breakdance.webp"}
 
 ];
 
@@ -300,7 +300,7 @@ function onInsertOneActivity(activity) {
 
     // La div de l'item
     let newItemContainer = document.createElement("div");
-    newItemContainer.className = "item-container";
+    newItemContainer.className = `item-container ${activityArrayItem.colorNuanceClass}`;
 
     newItemContainer.onclick = function () {
         onClickOnActivity(activity.key);
