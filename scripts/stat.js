@@ -90,7 +90,7 @@ function onGenerateStatOptionFilter(allActivityTypeData) {
 
 
 // Fonction onChange pour changer entre général et activité spécifique
-function onChangeSelector(value) {
+function onChangeStatActivitySelector(value) {
     if (devMode === true){console.log("[SELECTOR] Changement de sélection :", value);};
 
     if (value === "GENERAL") {
@@ -98,7 +98,7 @@ function onChangeSelector(value) {
         displayGeneralStats(allUserActivityArray);
     } else {
         // Appeler la fonction pour afficher les statistiques de l'activité sélectionnée
-        displayStats(value);
+        displayActivityStats(value);
     }
 }
 
@@ -185,17 +185,60 @@ function getStats(activityList, days = null) {
 }
 
 
+function onTreateStatGraphic(activityList) {
+
+    if (devMode === true){
+        console.log("[STAT] Traitement des graphiques");
+        console.log("[STAT] extraction et trie des années");
+    };
+        // extraction des années 
+        let yearArray = [];
+        activityList.forEach(e=>{
+            const dateObject = new Date(e.date);
+            const year = dateObject.getFullYear();
+            if (!yearArray.includes(year)) {
+                yearArray.push(year);
+            }
+        });
+
+        // Trie par ordre décroissant
+        yearArray.sort((a, b) => b - a);
+
+        if (devMode === true){
+            console.log(yearArray);
+        };
 
 
 
+        // creation des options pour les années
+        let selectRef = document.getElementById("selectStatGraphYear");
+        selectRef.innerHTML = "";
+    
+        yearArray.forEach(e=>{
+            let newOption = document.createElement("option");
+            newOption.value = e;
+            newOption.innerHTML = e;
+    
+            selectRef.appendChild(newOption);
+        });
+
+        // Lancement du comptage sur la première année du tableau
+        getActivityStatCountByMonth(activityList,yearArray[0]);
+
+}
+
+
+
+
+
+const monthStatNamesArray = [
+    'january', 'february', 'march', 'april', 'may', 'june',
+    'july', 'august', 'september', 'october', 'november', 'december'
+];
 
 function getActivityStatCountByMonth(activityList,yearTarget) {
 
-    console.log("TEST STAT");
-    const monthNames = [
-        'january', 'february', 'march', 'april', 'may', 'june',
-        'july', 'august', 'september', 'october', 'november', 'december'
-    ];
+
     // Objet qui stocke les comptes des activité classé
     let countActivityByMonth = {
         january : {count : 0, distance: 0 , duration : 0},
@@ -212,14 +255,13 @@ function getActivityStatCountByMonth(activityList,yearTarget) {
         december: {count : 0, distance: 0 , duration : 0},
     }; 
 
-
-   
     activityList.forEach(e=>{
 
         const dateObject = new Date(e.date);
         const year = dateObject.getFullYear();
         const month = dateObject.getMonth();
-        const monthName = monthNames[month];
+        const monthName = monthStatNamesArray[month];
+
 
         // Si l'année correspond, ajoute + 1 dans le mois de l'activité
         if (year === yearTarget) { 
@@ -227,14 +269,88 @@ function getActivityStatCountByMonth(activityList,yearTarget) {
         }
     });
 
-    console.log(countActivityByMonth);
+
+    if (devMode === true){
+        
+        console.log("[STAT] longueur de la liste d'activité cible :" + activityList.length);
+        console.log("[STAT] Comptage répartition par mois selon l'année : " + yearTarget);
+        console.log(countActivityByMonth);
+        console.log("[STAT] Recherche du mois avec la valeur la plus haute");
+    };
+
+
+    // Trouve le mois avec le plus de tâches (mois de référence pour les 100%)
+    const maxCountMonth = Object.keys(countActivityByMonth).reduce((a, b) => countActivityByMonth[a].count > countActivityByMonth[b].count ? a : b);
+    if (devMode === true){console.log("[STAT] " + maxCountMonth);};
+
+
+    onSetGraphicItems(countActivityByMonth,countActivityByMonth[maxCountMonth].count);
 }
 
 
 
 
+// set les éléments graphiques après comptage
+
+function onSetGraphicItems(activityCount,higherCountValue) {
+
+
+    if (devMode === true){
+        console.log("[STAT] Set le graphique");
+        console.log("[STAT] valeur maximale pour référence pourcentage  : " + higherCountValue);
+    };
+    monthStatNamesArray.forEach(e=>{
+        document.getElementById(`stat-number-${e}`).innerHTML = activityCount[e].count;
+        document.getElementById(`stat-PB-${e}`).style = "--progress:" + onCalculStatPercent(higherCountValue,activityCount[e].count) + "%";
+    });
+
+}
+
+// Calcul de pourcentage
+function onCalculStatPercent(referenceValue, currentItemValue) {
+    return (currentItemValue / referenceValue) * 100;
+};
+
+
+
+
+
+// Changement de graphique selon l'année appeler depuis le selecteur d'année
+function onChangeSelectorYearGraph(yearTarget){
+
+    // Lancement du trie
+
+    let currentActivitySelected = selectorStatRef.value;
+
+    if (devMode === true){
+        console.log("[STAT] Changement d'année pour activité " + currentActivitySelected);
+    };
+
+
+    if (currentActivitySelected === "GENERAL") {
+        getActivityStatCountByMonth(allUserActivityArray,Number(yearTarget));
+    } else {
+        // Récupère uniquement les données concernant l'activité en question
+        let activitiesTargetData = allUserActivityArray.filter(e=>{
+            // Recupère toutes les activités concernés
+            return e.name === currentActivitySelected;
+        });
+        getActivityStatCountByMonth(activitiesTargetData,Number(yearTarget));
+    }    
+}
+
+
+
+
+
+
+
+
+
+
+
 // Affichage des activités
-function displayStats(activityName) {
+function displayActivityStats(activityName) {
     if (devMode === true){console.log("[STAT] demande de stat pour " + activityName);};
 
     // Récupère uniquement les données concernant l'activité en question
@@ -242,9 +358,6 @@ function displayStats(activityName) {
         // Recupère toutes les activités concernés
         return e.name === activityName;
     });
-
-
-
 
 
     // Récupérer les statistiques
@@ -318,12 +431,8 @@ function displayStats(activityName) {
         </section>
     `;
 
-
-
-    // Lancement d'un graphique avec l'année actuelle
-    // Obtenir l'année actuelle
-    let currentYear = new Date().getFullYear();
-    getActivityStatCountByMonth(activitiesTargetData,currentYear);
+    // traitement des graphiques
+    onTreateStatGraphic(activitiesTargetData);
 }
 
 
@@ -364,9 +473,14 @@ function displayGeneralStats(activityList) {
             </p>
             <p>Ton activité préférée est : <b>${favouriteActivityName}</b>.</p>
 
-            <p>Bravo ! Continue comme ça, tu es sur la bonne voie !👍</p>
+            <p>Bravo ! 👍</p>
         </section>
     `;
+
+
+
+    // traitement des graphiques
+    onTreateStatGraphic(activityList);
 }
 
 

@@ -488,7 +488,6 @@ div.activityPreview{
 
 img.activityPreview{
     width: 35px;
-
 }
 
 
@@ -789,8 +788,6 @@ p.stat{
     color: var(--colorMainTheme1);
     justify-content: baseline;
 }
-
-
 
 
 /* Month Container */
