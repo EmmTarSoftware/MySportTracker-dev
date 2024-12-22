@@ -522,12 +522,26 @@ function getMostPracticedActivity(data) {
 }
 
 
+// Reset les éléments du graphique
+function onResetStatGraph() {
+    if (devMode === true){console.log(`[STAT] Reset du tableau graphique` );};
+    // Reset le tableau d'array
+    document.getElementById("selectStatGraphYear").innerHTML= "";
+
+    monthStatNamesArray.forEach(e=>{
+        // reset les progress bar et les nombres
+
+        document.getElementById("stat-PB-" + e).style = "--progress: 0%;";
+        document.getElementById("stat-number-" + e).innerHTML = "0";
+    });
+
+}
 
 
 
 // Retour depuis Stat
 function onClickReturnFromStat() {
-
+    onResetStatGraph();
 
     // ferme le menu
     onLeaveMenu("Stat");
