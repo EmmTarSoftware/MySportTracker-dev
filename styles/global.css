@@ -480,8 +480,15 @@ p.moreItem{
 
 
 
+div.activityPreview{
+    text-align: center;
+    width: 100%;
+    color: orange;
+}
 
-
+img.activityPreview{
+    width: 30px;
+}
 
 
 
