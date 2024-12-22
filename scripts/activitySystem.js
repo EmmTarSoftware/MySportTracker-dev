@@ -79,8 +79,8 @@ let pInterfaceActivityTitleRef = document.getElementById("pInterfaceActivityTitl
     inputDurationRef = document.getElementById("inputDuration"),
     textareaCommentRef = document.getElementById("textareaComment"),
     selectorCategoryChoiceRef = document.getElementById("selectorCategoryChoice"),
-    divItemListRef = document.getElementById("divItemList");
-
+    divItemListRef = document.getElementById("divItemList"),
+    imgEditorActivityPreviewRef = document.getElementById("imgEditorActivityPreview");
 
 
 
@@ -173,6 +173,12 @@ function onResetActivityInputs() {
     inputDistanceRef.value = "";
     inputDurationRef.value = "00:00:00";
     textareaCommentRef.value = "";
+    selectorCategoryChoiceRef.value = "C.A.P";
+
+
+    // l'image de prévisualisation 
+    let dataActivityTarget = getActivityChoiceArrayRefByDataName("C.A.P");
+    imgEditorActivityPreviewRef.src = dataActivityTarget.imgRef;
 
     inputDateRef.classList.remove("fieldRequired");
 };
@@ -476,8 +482,13 @@ function onClickSaveFromActivityEditor() {
 
 
 
+// Set l'image de prévisualisation d'activité dans l'éditeur
+function onChangeActivityPreview(dataName) {
+    // recherche les éléments via nom dataName : 
+    let activity = getActivityChoiceArrayRefByDataName(dataName.value);
 
-
+    imgEditorActivityPreviewRef.src = activity.imgRef;
+} 
 
 
 
@@ -570,6 +581,10 @@ function onEditActivity(activityTarget) {
     inputDistanceRef.value = activityTarget.distance;
     inputDurationRef.value = activityTarget.duration;
     textareaCommentRef.value = activityTarget.comment;
+
+    // l'image de prévisualisation 
+    let dataActivityTarget = getActivityChoiceArrayRefByDataName(activityTarget.name);
+    imgEditorActivityPreviewRef.src = dataActivityTarget.imgRef;
 
 };
 
