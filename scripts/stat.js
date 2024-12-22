@@ -387,33 +387,29 @@ function displayActivityStats(activityName) {
 
     // Vérification pour les 7 derniers jours
     const sevenDaysText = stats7Days.totalSessions === 0 
-        ? "Il semble que tu n'aies pas pratiqué cette activité ces derniers jours." 
+        ? "<p>Il semble que tu n'aies pas pratiqué cette activité ces derniers jours.</p>" 
         : stats7Days.totalDistance > 0
             ? `
-                <p>Séance(s) : <b>${stats7Days.totalSessions}</b> - Durée : <b>${formatDuration(stats7Days.totalDuration)}</b></p>
-                <p>Distance : <b>${stats7Days.totalDistance.toFixed(2)} km</b></p>
+                <p><b>${stats7Days.totalSessions}</b> séance(s) - ⏱️ <b>${formatDuration(stats7Days.totalDuration)}</b> - 🚶<b>${stats7Days.totalDistance.toFixed(2)} km</b></p>
             `
             : `
-                <p>Séance(s) : <b>${stats7Days.totalSessions}</b> - Durée : <b>${formatDuration(stats7Days.totalDuration)}</b></p>
-                <p>Aucune distance enregistrée.</p>
+                <p><b>${stats7Days.totalSessions}</b> séance(s) - ⏱️ <b>${formatDuration(stats7Days.totalDuration)}</b> - 🤷 0 km</p>
             `;
 
     // Vérification pour les 30 derniers jours
     const thirtyDaysText = stats30Days.totalSessions === 0 
-        ? "Cela fait un certain temps que tu n'as pas pratiqué cette activité." 
+        ? "<p>Cela fait un certain temps que tu n'as pas pratiqué cette activité.</p>" 
         : stats30Days.totalDistance > 0
             ? `
-                <p>Séance(s) : <b>${stats30Days.totalSessions}</b> - Durée : <b>${formatDuration(stats30Days.totalDuration)}</b></p>
-                <p>Distance : <b>${stats30Days.totalDistance.toFixed(2)} km</b></p>
+                <p><b>${stats30Days.totalSessions}</b> séance(s) - ⏱️ <b>${formatDuration(stats30Days.totalDuration)}</b> - 🚶 <b>${stats30Days.totalDistance.toFixed(2)} km</b></p>
             `
             : `
-                <p>Séance(s) : <b>${stats30Days.totalSessions}</b> - Durée : <b>${formatDuration(stats30Days.totalDuration)}</b></p>
-                <p>Aucune distance enregistrée.</p>
+                <p><b>${stats30Days.totalSessions}</b> séance(s) - ⏱️ <b>${formatDuration(stats30Days.totalDuration)}</b> - 🤷 0 km</p>
             `;
 
     // Afficher les résultats
     document.getElementById("stats").innerHTML = `
-        <p class="stat">Statistiques pour ${activityName.replace("_", " ")}</p>
+        <p class="stat">Résumé pour : ${activityName.replace("_", " ")}</p>
         
         <section class="stat">
             <p>${generalText1}</p>
@@ -465,7 +461,7 @@ function displayGeneralStats(activityList) {
 
     // Texte convivial pour l'utilisateur
     document.getElementById("stats").innerHTML = `
-        <p class="stat">Statistiques générales</p>
+        <p class="stat">Résumé général : </p>
         <section class="stat">
             <p>
                 Depuis le <b>${formattedDate}</b>, tu as pratiqué <b>${totalActivities} activité(s)</b>, 

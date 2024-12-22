@@ -133,6 +133,7 @@ div.new-interface select {
     height: 25px;
     padding: 0 10px; /* Ajoute un padding intérieur comme les autres champs */
     box-sizing: border-box; /* Assure que les dimensions incluent le padding et les bordures */
+    margin-left: 10px;
 }
 
 
@@ -164,6 +165,7 @@ input, textarea {
     width: calc(100% - 20px); /* 100% moins les 10px de padding gauche et droite */
     height: 25px;
     padding: 0 10px; /* Ajoute un padding intérieur de 10px */
+    margin-left: 10px;
     border: none;
     border-bottom: solid 1px var(--colorMainTheme1);
     background-color: var(--colorLightGray);
@@ -576,7 +578,7 @@ div.main-menu{
     border: none;
     border-bottom: solid 1px rgb(75, 75, 75);
     cursor: pointer;
-    /* font-size: 16px; Taille du texte */
+    font-size: 0.9rem; /*Taille du texte*/
     transition: background-color 0.3s ease; /* Transition pour un effet de survol fluide */
 }
 
@@ -667,7 +669,10 @@ div.btn-import-export{
 
 
 
-
+p.settingAlert{
+    margin-left: 10px;
+    padding-left: 10px;
+}
 
 
 
@@ -699,13 +704,16 @@ div.btn-import-export{
     display: none;
     position: fixed;
     top: 60px;
-    width: 95%; 
+    width: calc(100% - 20px); /* 100% moins les 10px de padding gauche et droite */
+    height: 100vh;
     height: 90%;
-    padding-left: 5px;
     border-radius:10px 10px;
+    padding-left: 20px;
 }
 
-
+h3.conditionUtilisation{
+    color: var(--colorMainTheme1);
+}
 
 
 
@@ -716,11 +724,8 @@ div.entete-condition{
 div.buttonAcceptation{
     position: absolute;
     width: 100%;
-    height: 50px;
-    bottom: 0px;
-    padding: 10px 2px 10px 2px;
+    margin-top: 50px;
     text-align: center;
-    border-radius: 0px 0px 10px 10px;
 }
 
 /* -------------------------------- NOTIFICATION -------------------- */
@@ -796,7 +801,8 @@ div.stat-months {
     justify-content: space-between;
     margin-top: 20px;
     gap: 10px;
-    width: calc(100% - 20px); 
+    width: calc(100% - 20px);
+    padding-left: 10px;
 }
 
 .stat-month {

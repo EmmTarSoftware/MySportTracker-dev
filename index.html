@@ -191,8 +191,14 @@
         <p>
             <label for="">Mode LOG développeur : </label>
             <input type="checkbox" id="inputCheckboxDevMode" onchange="onChangeDevModeStatus(this)">
-            ATTENTION : Impact sur les performances !
         </p>
+
+        <div>
+            <p class="settingAlert">
+                ⚠️Impact sur les performances !
+            </p>
+        </div>
+        
 
     </div>
 
@@ -342,7 +348,7 @@
 
     <!-- ----------------------------------      DIV INFO        ------------------------------------------------>
     <div id="divInfo" class="new-interface">
-            <p class="release-licence"><b>Release :</b> 1.2.38</p>
+            <p class="release-licence"><b>Release :</b> 1.2.39</p>
             <p class="release-licence"><b>Licence : </b></p>
             <p class="release-licence">
                 Emmanuel TARACONAT
@@ -392,17 +398,19 @@
 
         <div class="entete-condition">
             <img class="logo" src="./Icons/Logo_MSS-512.png" alt="" srcset="">
-            <h3>Bienvenue sur "Mon Suivit Sportif"</h3>
+            <h3 class="conditionUtilisation">Bienvenue sur "Mon Suivit Sportif"</h3>
         </div>
         
-        <h4>Lis bien ces informations avant de commencer.</h4>
+        <div>
+            <h4>Lis bien ces informations avant de commencer.</h4>
 
-        <h4>Données :</h4>
-        <p>Tes données seront sauvegardées dans ton navigateur. Note que si tu effaces l'historique ou utilises des outils de nettoyage, tu pourrais les perdre.</p>
-
-        <h4>Statistiques :</h4>
-        <p>Pour bénéficier de statistiques personnalisées, pense à compléter ton profil avant de créer ta première activité. Rendez-vous dans le menu "Profil" pour le faire.</p>
-
+            <h4>Données :</h4>
+            <p>Tes données seront sauvegardées dans ton navigateur. Note que si tu effaces l'historique ou utilises des outils de nettoyage, tu pourrais les perdre.</p>
+    
+            <h4>Statistiques :</h4>
+            <p>Pense à compléter ton profil avant de créer ta première activité. Cela te permettra d'avoir des statistiques personnalisées par la suite. Rendez-vous dans le menu "Profil" pour le faire.</p>
+        </div>
+       
         <select class="conditionUtilisation" onchange="toggleLaunchButton()" name="" id="selectStatusCondition">
             <option value="Refused">Je décline.</option>
             <option value="Accepted">J'ai compris et j'accepte.</option>
