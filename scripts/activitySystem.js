@@ -16,7 +16,7 @@ let activityChoiceArray = [
     {dataName : "ETIREMENT", displayName:"Etirements",colorNuanceClass : "nuance-green-light", imgRef :"./images/icon-stretching.webp"},
     {dataName : "GOLF", displayName:"Golf",colorNuanceClass : "nuance-olive", imgRef :"./images/icon-golf.webp"},
     {dataName : "TENNIS", displayName:"Tennis",colorNuanceClass : "nuance-olive", imgRef :"./images/icon-tennis.webp"},
-    {dataName : "PATIN-ROLLER", displayName:"Patinage/Roller",colorNuanceClass : "nuance-dark-gray", imgRef :"./images/icon-patin.webp"},
+    {dataName : "PATIN-ROLLER", displayName:"Patinage/Roller",colorNuanceClass : "nuance-purple", imgRef :"./images/icon-patin.webp"},
     {dataName : "DANSE", displayName:"Danse",colorNuanceClass : "nuance-pink", imgRef :"./images/icon-danse.webp"},
     {dataName : "MUSCULATION", displayName:"Musculation",colorNuanceClass : "nuance-red", imgRef :"./images/icon-musculation.webp"},
     {dataName : "BADMINTON", displayName:"Badminton",colorNuanceClass : "nuance-olive", imgRef :"./images/icon-badminton.webp"},
@@ -31,8 +31,11 @@ let activityChoiceArray = [
     {dataName : "BASEBALL", displayName:"Baseball",colorNuanceClass : "nuance-olive", imgRef :"./images/icon-baseball.webp"},
     {dataName : "AUTRE", displayName:"Autre/divers",colorNuanceClass : "nuance-light-bluegray", imgRef :"./images/icon-autre-divers.webp"},
     {dataName : "ARTS-MARTIAUX", displayName:"Arts martiaux",colorNuanceClass : "nuance-light-bluegray", imgRef :"./images/icon-art-martiaux.webp"},
-    {dataName : "BREAK-DANCE", displayName:"Break dance",colorNuanceClass : "nuance-pink", imgRef :"./images/icon-breakdance.webp"}
-
+    {dataName : "BREAK-DANCE", displayName:"Break dance",colorNuanceClass : "nuance-pink", imgRef :"./images/icon-breakdance.webp"},
+    {dataName : "GYMNASTIQUE", displayName:"Gymnastique",colorNuanceClass : "nuance-pink", imgRef :"./images/icon-gymnastique.webp"},
+    {dataName : "ATHLETISME", displayName:"Athlétisme",colorNuanceClass : "nuance-blue-light", imgRef :"./images/icon-athletisme.webp"},
+    {dataName : "RENFORCEMENT", displayName:"Renforcement musculaire",colorNuanceClass : "nuance-red", imgRef :"./images/icon-renforcement.webp"},
+    {dataName : "SKATEBOARD", displayName:"Skateboard",colorNuanceClass : "nuance-purple", imgRef :"./images/icon-skate.webp"}
 ];
 
 
