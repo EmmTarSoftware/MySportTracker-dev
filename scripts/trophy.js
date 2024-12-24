@@ -1,18 +1,3 @@
-// Variables
-
-// Tableau des rewards
-const allRewardsArray = [
-    {rewardsName:"ACTIVITES-20", imgRef : "./Badges/Badge-20-activite.webp", title: "TITRE 20", text : "A accomplit 20 activités."},
-    {rewardsName:"ABSENT", imgRef : "./Badges/Badge-absent.webp", title: "Aux abonnées absent !", text : "Aucune activité depuis plus d'un mois !"},
-    {rewardsName:"MUSCU-10", imgRef : "./Badges/Badge-Muscu-10-seance.webp", title: "MUSCU-10", text : "A pratiqué 10 séances de musculation."},
-    {rewardsName:"CAP-10", imgRef : "./Badges/Badge-running-10km.webp",title: "CAP 10",  text : "A parcouru 10km en une séance de course à pied."},
-    {rewardsName:"CAP-SEMI", imgRef : "./Badges/Badge-running-semi.webp",title: "SEMI",  text : "A réalisé un semi-marathon."},
-    {rewardsName:"CAP-MARATHON", imgRef : "./Badges/Badge-marathon.webp",title: "MARATHONIEN",  text : "Ça c'est fait !"},
-    {rewardsName:"1-AN", imgRef : "./Badges/Badge-1-an.webp", title: "1 AN DE SPORT", text : "Anniversaire de sportif !"},
-    {rewardsName:"TRIATHLON", imgRef : "./Badges/Badge-triathlon.webp", title: "TRIATHLON", text : "Jamais deux sans trois !"}
-];
-
-
 
 
 // Les trophes possédés par l'utilisateur
@@ -175,126 +160,7 @@ function onSetUserRewardsFromOpeningAPP(rewards) {
 
 
 
-// Nombre d'activité pour une activité désigné
-function onSearchActivityCountValue(data,activityTarget,countTarget){
-    let allActivityTargetFound = data.filter(e=>{
-        // Recupère toutes les d'activités concernés
-        return e.name === activityTarget;
-    });
-    // Retour true ou false si le nombre désiré est atteind
-    return allActivityTargetFound.length === countTarget;
-};
-
-
-
-// DISTANCE TOTAL d'une activité spécifique. Est-ce que c'est dans la fourchette ? 
-function onSearchActivitiesTotalDistanceRange(activitiesData, bottomValue, topValue){
-
-    if (devMode === true){console.log(`[REWARDS] recherche Distances cumulées Range entre : ${bottomValue} et ${topValue}`);};
-
-    const totalDistance = activitiesData.reduce((sum, activity) => {
-        // Si la distance est un nombre valide
-        if (activity.distance) {
-            return sum + parseFloat(activity.distance); // Additionner la distance en nombre flottant
-        }
-        return sum; // Si ce n'est pas la bonne activité ou si la distance est vide, garder la somme actuelle
-    }, 0); // La somme commence à 0
-    
-    if (devMode === true){console.log("Valeur totale distance = " + totalDistance);};
-    
-    return totalDistance >= bottomValue && totalDistance <= topValue;
-
-};
-
-
-
-// DISTANCE TOTAL d'une activité spécifique. Est-ce que c'est supérieure ? 
-function onSearchActivitiesTotalDistanceSuperior(data,targetValue){
-
-    if (devMode === true){console.log(`[REWARDS] recherche Distances cumulées supérieures à : ${targetValue}`);};
-
-    const totalDistance = data.reduce((sum, activity) => {
-        // si la distance est un nombre valide
-        if (activity.distance) {
-            return sum + parseFloat(activity.distance); // Additionner la distance en nombre flottant
-        }
-        return sum; // Si ce n'est pas la bonne activité ou si la distance est vide, garder la somme actuelle
-    }, 0); // La somme commence à 0
-    
-    if (devMode === true){console.log("Valeur totale distance = " + totalDistance);};
-    
-    return totalDistance >= targetValue;
-};
-
-
-
-// DISTANCE UNIQUE d'une activité spécifique. Est-ce que c'est dans la fourchette ? 
-function onSearchActivityWithDistanceRange(data, bottomTarget, topTarget) {
-    if (devMode === true){console.log(`[REWARDS] recherche d'une distance unique comprise entre : ${bottomTarget} et ${topTarget}`);};
-    let targetFound = false;
-    
-
-    data.forEach(e=>{
-        if (devMode === true){console.log(Number(e.distance));};
-        if (Number(e.distance) >= bottomTarget  && Number(e.distance) <= topTarget) {
-            targetFound = true;
-            return targetFound;  
-        }
-    });
-
-    return targetFound;
-}
-
-// DISTANCE UNIQUE d'une activité spécifique. Est-ce que c'est supérieur ? 
-function onSearchActivityWithDistanceSuperior(data,targetValue) {
-
-    if (devMode === true){console.log(`[REWARDS] recherche d'une distance unique supérieures à : ${targetValue}`);};
-    let targetFound = false;
-
-    data.forEach(e=>{
-        if (devMode === true){console.log(Number(e.distance));};
-        if (Number(e.distance) >= targetValue) {
-            targetFound = true;
-            return;
-        }
-    });
-
-    return targetFound;
-}
-
-
-
-
-// Fonction de recherche du nombre d'activité différentes
-function onSearchVariousActivitiesNumber(allData,targetValue,currentActivity) {
-    if (devMode === true){console.log(`[REWARDS] Recheche d'activite de type different. Nombre cible : ${targetValue} et activite en cours : ${currentActivity}`);};
-
-
-    let allTypeActivityList = [];
-
-
-    // Recupère les catégories d'activités différentes
-    allData.forEach(data=>{
-        if (!allTypeActivityList.includes(data.name))  {
-            allTypeActivityList.push(data.name);
-        };
-    });
-
-    // Insertion de l'activité en cours dans la liste
-    if (!allTypeActivityList.includes(currentActivity)) {
-        allTypeActivityList.push(currentActivity);
-    }
-
-    if (devMode === true){
-        console.log("[REWARDS] [GENERAL] de allTypeActivityList = " );
-        console.log("Nombre d'activité différente : " + allTypeActivityList.length);
-        console.log(allTypeActivityList);
-    };
-
-    return allTypeActivityList.length >= targetValue;
-};
-
-
+// Insertion lorsque cela sera fonctionnel
 
 
 
@@ -336,29 +202,30 @@ function onLoadUserRewardsList() {
 
     divRewardsListRef.innerHTML = "";
 
-
-    if (userRewardsArray.length === 0) {
-        divRewardsListRef.innerHTML = "Poursuit tes efforts pour obtenir des récompenses ! 🥇 ";
-        return
-    }
+    console.log("[REWARDS] Création de la liste des récompenses");
 
 
 
-    console.log("[REWARDS] Création de la liste des récompenses de l'utilisateur");
-    console.log(userRewardsArray);
 
-    userRewardsArray.forEach(reward=>{
+    // TEST --- -  TEST ---- TEST
+    userRewardsArray = ["POLYVALENT","ACTIVITE-CONSECUTIF"];
+    // A SUPPRIMER TEST   TEST     TEST
 
-        // Recupère les éléments dans le tableau de référence
-        let rewardsElement = onSearchRewardsInArray(reward);
 
+
+
+
+    allRewardsArray.forEach(reward=>{
+
+        // si possédé ou non par l'user
+        let isPossessed = userRewardsArray.includes(reward.rewardsName);
 
         // Création des images
         let newImg = document.createElement("img");
-        newImg.classList = "trophyList";
-        newImg.src = rewardsElement.imgRef;
+        newImg.classList = isPossessed === true ? "rewardsListEnable" : "rewardsListDisable";
+        newImg.src = reward.imgRef;
         newImg.onclick = function (){
-            onDisplayRewardsFullScreen(rewardsElement.rewardsName);
+            onDisplayRewardsFullScreen(reward.rewardsName,isPossessed);
         };
 
         // Insertion
@@ -379,14 +246,14 @@ function onLoadUserRewardsList() {
 
 
 
-// Fonction de recupération d'un trophy dans le tableau
+// Fonction de recupération d'un reward dans le tableau
 function onSearchRewardsInArray(rewardsTarget) {
     return allRewardsArray.find(reward => reward.rewardsName === rewardsTarget);
 };
 
 
 // Affiche en grand la récompense
-function onDisplayRewardsFullScreen(rewardsRef) {
+function onDisplayRewardsFullScreen(rewardsRef,isPossessed) {
     console.log("[REWARDS]  demande de visualisation de récompense : " + rewardsRef);
 
     let currentRewardsData = onSearchRewardsInArray(rewardsRef);
@@ -394,12 +261,22 @@ function onDisplayRewardsFullScreen(rewardsRef) {
 
     console.log(currentRewardsData);
 
-    // set les éléments et affiche
-    imgRewardsFullScreenRef.src = currentRewardsData.imgRef;
-    pRewardsFullScreenTextRef.innerHTML = currentRewardsData.text;
-    pRewardsFullScreenTitleRef.innerHTML = currentRewardsData.title;
 
+    // set les éléments et affiche selon si l'utilisateur le possède ou non
+
+    if (isPossessed) {
+        imgRewardsFullScreenRef.src = currentRewardsData.imgRef;
+        imgRewardsFullScreenRef.style.display = "block";
+        pRewardsFullScreenTitleRef.innerHTML = currentRewardsData.title;
+        pRewardsFullScreenTitleRef.style.display = "block";
+        pRewardsFullScreenTextRef.innerHTML = `Tu as pratiqué ${currentRewardsData.text}.`;
+    }else{
+        imgRewardsFullScreenRef.style.display = "none";
+        pRewardsFullScreenTitleRef.style.display = "none";
+        pRewardsFullScreenTextRef.innerHTML = `Tu dois pratiquer ${currentRewardsData.text} pour obtenir cette récompense.`;
+    }
     document.getElementById("divFullScreenRewards").classList.add("show");
+
 };
 
 
