@@ -324,25 +324,43 @@ function onLoadUserRewardsList() {
 
     console.log("[REWARDS] Création de la liste des récompenses");
 
+    // Les Rewards que possède déjà l'utilisateur 
 
-    allRewardsArray.forEach(reward=>{
-
-        // si possédé ou non par l'user
-        let isPossessed = userRewardsArray.includes(reward.rewardsName);
-
-        // Création des images
+    userRewardsArray.forEach(e=>{
         let newImg = document.createElement("img");
-        newImg.classList = isPossessed === true ? "rewardsListEnable" : "rewardsListDisable";
-        newImg.src = reward.imgRef;
+        newImg.classList = "rewardsListEnable";
+        newImg.src = allRewardsObject[e].imgRef;
         newImg.loading = "lazy";
         newImg.onclick = function (){
-            onDisplayRewardsFullScreen(reward.rewardsName,isPossessed);
+            onDisplayRewardsFullScreen(e,true);
         };
-
         // Insertion
         divRewardsListRef.appendChild(newImg);
-
     });
+
+
+
+
+    // le reste des rewards non possédé
+    for (let [rewardName, reward] of Object.entries(allRewardsObject)) {
+
+        let isPossessed = userRewardsArray.includes(rewardName);
+
+        if (!isPossessed) {
+            // Création des images
+            let newImg = document.createElement("img");
+            newImg.classList = "rewardsListDisable";
+            newImg.src = reward.imgRef;
+            newImg.loading = "lazy";
+            newImg.onclick = function (){
+                onDisplayRewardsFullScreen(rewardName,false);
+            };
+
+            // Insertion
+            divRewardsListRef.appendChild(newImg);
+        }
+    }
+
 };
 
 
@@ -357,35 +375,23 @@ function onLoadUserRewardsList() {
 
 
 
-
-// Fonction de recupération d'un reward dans le tableau
-function onSearchRewardsInArray(rewardsTarget) {
-    return allRewardsArray.find(reward => reward.rewardsName === rewardsTarget);
-};
-
-
 // Affiche en grand la récompense
-function onDisplayRewardsFullScreen(rewardsRef,isPossessed) {
-    console.log("[REWARDS]  demande de visualisation de récompense : " + rewardsRef);
-
-    let currentRewardsData = onSearchRewardsInArray(rewardsRef);
-
-
-    console.log(currentRewardsData);
+function onDisplayRewardsFullScreen(rewardName,isPossessed) {
+    console.log("[REWARDS]  demande de visualisation de récompense : " + rewardName);
 
 
     // set les éléments et affiche selon si l'utilisateur le possède ou non
 
     if (isPossessed) {
-        imgRewardsFullScreenRef.src = currentRewardsData.imgRef;
+        imgRewardsFullScreenRef.src = allRewardsObject[rewardName].imgRef;
         imgRewardsFullScreenRef.style.display = "block";
-        pRewardsFullScreenTitleRef.innerHTML = currentRewardsData.title;
+        pRewardsFullScreenTitleRef.innerHTML = allRewardsObject[rewardName].title;
         pRewardsFullScreenTitleRef.style.display = "block";
-        pRewardsFullScreenTextRef.innerHTML = `Tu as pratiqué ${currentRewardsData.text}.`;
+        pRewardsFullScreenTextRef.innerHTML = `Tu as pratiqué ${allRewardsObject[rewardName].text}.`;
     }else{
         imgRewardsFullScreenRef.style.display = "none";
         pRewardsFullScreenTitleRef.style.display = "none";
-        pRewardsFullScreenTextRef.innerHTML = `Tu dois pratiquer ${currentRewardsData.text} pour obtenir cette récompense.`;
+        pRewardsFullScreenTextRef.innerHTML = `Tu dois pratiquer ${allRewardsObject[rewardName].text} pour obtenir cette récompense.`;
     }
     document.getElementById("divFullScreenRewards").classList.add("show");
 

@@ -13,7 +13,7 @@ function exportData() {
     let allStoresData = {};
 
     // Nom des stores à exporter
-    let storeNames = [activityStoreName, profilStoreName]; 
+    let storeNames = [activityStoreName, profilStoreName, rewardsStoreName]; 
 
     // Parcourir tous les stores
     let completedStores = 0;
@@ -76,7 +76,7 @@ function importTask(inputRef, pResultRef) {
                 const jsonData = JSON.parse(e.target.result);
 
                 // Nom des stores à importer
-                let storeNames = [activityStoreName, profilStoreName]; 
+                let storeNames = [activityStoreName, profilStoreName, rewardsStoreName]; 
 
                 // Commencer une transaction en lecture/écriture pour chaque store
                 storeNames.forEach(storeName => {
