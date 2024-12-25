@@ -62,6 +62,12 @@ function onChangeMenu(menuTarget) {
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Rewards");};
             pMenuTitleRef.innerHTML = "Récompenses";
             onChangeDisplay(allDivHomeToDisplayNone,["divBtnRewards"],["divRewards"],[],[],[],[]);
+
+            // Enlève la couleur si il ya un reward en cours
+            if (document.getElementById("btnMenuRewards").classList.contains("rewardAvailable")) {
+                document.getElementById("btnMenuRewards").classList.remove("rewardAvailable");
+            };
+
             onOpenMenuRewards();
         break;
         case "NewActivity":
@@ -454,7 +460,7 @@ function onStartDataBase() {
 
 
         // Premiere remplissage de la base avec le formation de trie par défaut
-        onUpdateActivityBddList();
+        onUpdateActivityBddList(false);
     };
 
 

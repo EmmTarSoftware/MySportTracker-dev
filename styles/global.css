@@ -747,10 +747,9 @@ div.buttonAcceptation{
     left: 0;
     right: 0;
     box-shadow: var(--boxShadow);
-    z-index: 1000;
+    z-index: 999;
 
 }
-
 
 
 .popupNotify.show {
@@ -759,6 +758,31 @@ div.buttonAcceptation{
 }
 
 
+.popupReward {
+    width: 250px;height: 10px;
+    padding: 20px;
+    background-color: var(--colorMainTheme2);
+    color: white;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+    border-radius: 10px;
+    margin: 20px auto;
+    position: absolute;
+    opacity: 0;
+    top : -15px;
+    transition: opacity 0.3s ease;
+    left: 0;
+    right: 0;
+    box-shadow: var(--boxShadow);
+    z-index: 1000;
+
+}
+
+
+.popupReward.show {
+    opacity: 1;
+}
 
 
 
@@ -847,10 +871,24 @@ select.graph-stat{
 /* ---------------------------------------- RECOMPENSES ------------------------------ */
 
 
+/* Animation pour faire clignoter la bordure avec différentes couleurs */
+@keyframes borderBlink {
+    0% {
+        background-color: "";
+    }
+    50% {
+        background-color: var(--colorMainTheme2);
+    }
+    100% {
+        background-color: "";
+    }
+}
 
+/* Bouton menu reward */
 
-
-
+.rewardAvailable{
+    animation: borderBlink 2s infinite;
+}
 
 
 

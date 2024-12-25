@@ -22,24 +22,10 @@ const allRewardsArray = [
         },
 
         {
-            rewardsName: "REGULIER",
-            imgRef: "./Badges/Badge-REGULIER.webp",
-            title: "Régulier(e)",
-            text: "une activité sportive pendant 7 jours consécutifs."
-        },
-
-        {
-            rewardsName: "ACTIVITE-CONSECUTIF",
-            imgRef: "./Badges/Badge-ACTIVITE-CONSECUTIF.webp",
-            title: "Journée de folie !",
-            text: "3 activités différentes dans la même journée hormis un triathlon"
-        },
-
-        {
-            rewardsName: "ABSENT",
-            imgRef: "./Badges/Badge-ABSENT.webp",
-            title: "Aux abonnées absents",
-            text: "Plus d'un mois sans une activité sportive"
+            rewardsName: "DE-RETOUR",
+            imgRef: "./Badges/Badge-DE-RETOUR.webp",
+            title: "C'est maintenant que tu rentres ?",
+            text: "une activité après une absence d'un mois."
         },
 
         {
@@ -200,7 +186,7 @@ const allRewardsArray = [
             rewardsName: "VELO-E-100-KM",
             imgRef: "./Badges/Badge-VELO-E.webp",
             title: "Cycliste longue distance",
-            text: "une séance de vélo avec une distance supérieure à 100 km"
+            text: "une séance de vélo supérieure à 100 km"
         },
 
         {

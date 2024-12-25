@@ -1,8 +1,7 @@
 
-
 // Les trophes possédés par l'utilisateur
 let userRewardsArray = [],
-    rewardsEligibleArray; //stockes les trophés auxquels l'utilisateur est éligible
+    rewardsEligibleArray = []; //stockes les trophés auxquels l'utilisateur est éligible 
 
 
 
@@ -36,21 +35,20 @@ function onCreateDefaultRewardsInBase() {
     let insertRequest = store.add(userRewardsArray);
 
     insertRequest.onsuccess = function () {
-        if (devMode === true){console.log(" [ DATABASE REWARDS] un Premier ITEM a été créé dans la base");};
+        if (devMode === true){console.log(" [DATABASE] [REWARDS] un Premier ITEM a été créé dans la base");};
         // evenement de notification
-
-        
+   
     };
 
     insertRequest.onerror = function(event){
-        console.log("[ DATABASE REWARDS] Error d'insertion du REWARDS");
+        console.log("[DATABASE] [REWARDS] Error d'insertion du REWARDS");
         let errorMsg = event.target.error.toString();
         console.log(errorMsg);
         
     };
 
     transaction.oncomplete = function(){
-        if (devMode === true){console.log("[ DATABASE REWARDS] nouveau profil : transaction insertData complete");};
+        if (devMode === true){console.log("[DATABASE] [REWARDS] nouveau profil : transaction insertData complete");};
 
     };
 };    
@@ -73,22 +71,22 @@ function onInsertRewardsModificationInDB(e) {
     modifyRequest.onsuccess = function () {
         if (devMode === true){console.log("modifyRequest = success");};
 
-        let modifiedData = modifyRequest.result[0];
+        let modifiedData = e;
 
         let insertModifiedData = store.put(modifiedData);
 
         insertModifiedData.onsuccess = function (){
-            if (devMode === true){console.log("[ DATABASE REWARDS] insert ModifiedData = success");};
+            if (devMode === true){console.log("[DATABASE] [REWARDS] insert ModifiedData = success");};
 
         };
 
         insertModifiedData.onerror = function (){
-            console.log("[ DATABASE REWARDS] insert ModifiedData = error",insertModifiedData.error); 
+            console.log("[DATABASE] [REWARDS] insert ModifiedData = error",insertModifiedData.error); 
         };
     };
 
     modifyRequest.onerror = function(){
-        console.log("[ DATABASE REWARDS] ModifyRequest = error");
+        console.log("[DATABASE] [REWARDS] ModifyRequest = error");
     };
 
     transaction.oncomplete = function(){
@@ -101,7 +99,7 @@ function onInsertRewardsModificationInDB(e) {
 
 
 function onExtractRewardsFromDB(){
-    if (devMode === true){console.log("[ DATABASE REWARDS] Récupère les éléments dans la base");};
+    if (devMode === true){console.log("[DATABASE] [REWARDS] Récupère les éléments dans la base");};
 
     let transaction = db.transaction([rewardsStoreName]);//readonly
     let objectStoreTask = transaction.objectStore(rewardsStoreName);
@@ -113,17 +111,17 @@ function onExtractRewardsFromDB(){
     // Traitement de la requête
     requestTask.onsuccess = function(event) {
         if (requestTask.result) {
-            if (devMode === true){console.log('[ DATABASE REWARDS] Élément trouvé : ', requestTask.result);};
+            if (devMode === true){console.log('[DATABASE] [REWARDS] Élément trouvé : ', requestTask.result);};
 
             onSetUserRewardsFromOpeningAPP(requestTask.result);
 
         } else {
-            if (devMode === true){console.log('[ DATABASE REWARDS] Aucun élément trouvé pour le userName');};
+            if (devMode === true){console.log('[DATABASE] [REWARDS] Aucun élément trouvé pour le userName');};
         }
     };
 
     requestTask.onerror = function(event) {
-        console.error( '[ DATABASE REWARDS] Erreur lors de la récupération de l\'élément', event.target.error);
+        console.error( '[DATABASE] [REWARDS] Erreur lors de la récupération de l\'élément', event.target.error);
     };
 
 };
@@ -160,7 +158,130 @@ function onSetUserRewardsFromOpeningAPP(rewards) {
 
 
 
-// Insertion lorsque cela sera fonctionnel
+// Nombre d'activité pour une activité désigné
+function onSearchActivityCountValue(data,activityTarget,countTarget){
+    let allActivityTargetFound = data.filter(e=>{
+        // Recupère toutes les d'activités concernés
+        return e.name === activityTarget;
+    });
+    // Retour true ou false si le nombre désiré est atteind
+    return allActivityTargetFound.length === countTarget;
+};
+
+
+
+// DISTANCE CUMULE pour un type d'activité. Est-ce que c'est dans la fourchette ? 
+function onSearchActivitiesTotalDistanceRange(activitiesData, bottomValue, topValue){
+
+    if (devMode === true){console.log(`[REWARDS] recherche Distances cumulées Range entre : ${bottomValue} et ${topValue}`);};
+
+    const totalDistance = activitiesData.reduce((sum, activity) => {
+        // Si la distance est un nombre valide
+        if (activity.distance) {
+            return sum + parseFloat(activity.distance); // Additionner la distance en nombre flottant
+        }
+        return sum; // Si ce n'est pas la bonne activité ou si la distance est vide, garder la somme actuelle
+    }, 0); // La somme commence à 0
+    
+    if (devMode === true){console.log("Valeur totale distance = " + totalDistance);};
+    
+    return totalDistance >= bottomValue && totalDistance <= topValue;
+
+};
+
+
+
+// DISTANCE CUMULE pour un type d'activité. Est-ce que c'est supérieure ? 
+function onSearchActivitiesTotalDistanceSuperior(data,targetValue){
+
+    if (devMode === true){console.log(`[REWARDS] recherche Distances cumulées supérieures à : ${targetValue}`);};
+
+    const totalDistance = data.reduce((sum, activity) => {
+        // si la distance est un nombre valide
+        if (activity.distance) {
+            return sum + parseFloat(activity.distance); // Additionner la distance en nombre flottant
+        }
+        return sum; // Si ce n'est pas la bonne activité ou si la distance est vide, garder la somme actuelle
+    }, 0); // La somme commence à 0
+    
+    if (devMode === true){console.log("Valeur totale distance = " + totalDistance);};
+    
+    return totalDistance >= targetValue;
+};
+
+
+
+// DISTANCE UNIQUE d'une activité spécifique. Est-ce que c'est dans la fourchette ? 
+function onSearchActivityWithDistanceRange(data, bottomTarget, topTarget) {
+    if (devMode === true){console.log(`[REWARDS] recherche d'une distance unique comprise entre : ${bottomTarget} et ${topTarget}`);};
+    let targetFound = false;
+
+    for (let e of data){
+        if (devMode === true){console.log(Number(e.distance));};
+        if (Number(e.distance) >= bottomTarget  && Number(e.distance) <= topTarget) {
+            targetFound = true;
+            break;  
+        };
+    };
+
+    return targetFound;
+}
+
+// DISTANCE UNIQUE d'une activité spécifique. Est-ce que c'est supérieur ? 
+function onSearchActivityWithDistanceSuperior(data,targetValue) {
+
+    if (devMode === true){console.log(`[REWARDS] recherche d'une distance unique supérieures à : ${targetValue}`);};
+    let targetFound = false;
+
+    for (let e of data){
+        if (devMode === true){console.log(Number(e.distance));};
+        if (Number(e.distance) >= targetValue) {
+            targetFound = true;
+            break;
+        };
+    };
+
+    return targetFound;
+}
+
+
+
+
+// Fonction de recherche du nombre d'activité différentes
+function onSearchVariousActivitiesNumber(allData,targetValue,currentActivity) {
+    if (devMode === true){console.log(`[REWARDS] Recheche d'activite de type different. Nombre cible : ${targetValue} et activite en cours : ${currentActivity}`);};
+
+
+    let allTypeActivityList = [];
+
+    // Insertion de l'activité en cours dans la liste
+    if (!allTypeActivityList.includes(currentActivity)) {
+        allTypeActivityList.push(currentActivity);
+    }
+
+    // Recupère les catégories d'activités différentes
+    for (let e of allData){
+        if (!allTypeActivityList.includes(e.name))  {
+            allTypeActivityList.push(e.name);
+        };
+        // Fin de traitement dès condition atteinte
+        if (allTypeActivityList.length >= targetValue) {
+            if (devMode === true){console.log(`[REWARDS] Cible atteinte. Interromp le traitement`);};
+            break;
+        };
+    };
+        
+
+    if (devMode === true){
+        console.log("[REWARDS] [GENERAL] de allTypeActivityList = " );
+        console.log("Nombre d'activité différente : " + allTypeActivityList.length);
+        console.log(allTypeActivityList);
+    };
+
+    return allTypeActivityList.length >= targetValue;
+};
+
+
 
 
 
@@ -171,7 +292,6 @@ function onSetUserRewardsFromOpeningAPP(rewards) {
 
 
 // ----------------------------------------- Ouverture menu récompense ------------------------------
-
 
 
 
@@ -205,16 +325,6 @@ function onLoadUserRewardsList() {
     console.log("[REWARDS] Création de la liste des récompenses");
 
 
-
-
-    // TEST --- -  TEST ---- TEST
-    userRewardsArray = ["POLYVALENT","ACTIVITE-CONSECUTIF"];
-    // A SUPPRIMER TEST   TEST     TEST
-
-
-
-
-
     allRewardsArray.forEach(reward=>{
 
         // si possédé ou non par l'user
@@ -224,6 +334,7 @@ function onLoadUserRewardsList() {
         let newImg = document.createElement("img");
         newImg.classList = isPossessed === true ? "rewardsListEnable" : "rewardsListDisable";
         newImg.src = reward.imgRef;
+        newImg.loading = "lazy";
         newImg.onclick = function (){
             onDisplayRewardsFullScreen(reward.rewardsName,isPossessed);
         };
@@ -231,9 +342,10 @@ function onLoadUserRewardsList() {
         // Insertion
         divRewardsListRef.appendChild(newImg);
 
-
     });
 };
+
+
 
 
 
@@ -292,31 +404,24 @@ function onHiddenFullscreenRewards() {
 
 
 
-
-
-
 // ---------------------------------    OBTENTION-------------------------------------
 
 
 
 
-function onTestreward() {
+function onCheckReward(currentActivitySaved) {
 
-    onSearchGeneralRewards(selectorRef.value);
+    onSearchGeneralRewards(currentActivitySaved);
 
 }
-
-
-
-
 
 // Recherche d'éligibilité aux trophés communs
 function onSearchGeneralRewards(activityTarget) {
 
-
-    // Reset le tableau de trophé auquels l'user est égilible
-    if (devMode === true){console.log("[REWARDS] RESET rewardsEligibleArray");};
+    // Reset la variable
     rewardsEligibleArray = [];
+
+    let activityArrayLength = allUserActivityArray.length;
 
 
     // Traitement des récompenses génériques
@@ -324,45 +429,109 @@ function onSearchGeneralRewards(activityTarget) {
 
 
     // POLYVALENT (5 activités différentes)
-    if (devMode === true){console.log("[REWARDS] [GENERIQUE] Test eligibilité pour : POLVALENT");};
-    let POLVALENT = onSearchVariousActivitiesNumber(allUserActivityArray,5,activityTarget);
-    if (POLVALENT === true) {
-        rewardsEligibleArray.push("POLVALENT");
+    if (!userRewardsArray.includes("POLYVALENT")) {
+        if (devMode === true){console.log("[REWARDS] [GENERIQUE] Test eligibilité pour : POLYVALENT");};
+        let isEligible = onSearchVariousActivitiesNumber(allUserActivityArray,5,activityTarget);
+        if (isEligible) {
+            rewardsEligibleArray.push("POLYVALENT");
+        }
+        if (devMode === true){console.log("[REWARDS] [GENERIQUE] POLYVALENT Resultat : " + isEligible);};
     }
-    if (devMode === true){console.log("[REWARDS] [GENERIQUE] POLVALENT Resultat : " + POLVALENT);};
 
 
-    // 1re activité tout confondu
-    if (devMode === true){console.log("[REWARDS] [GENERIQUE] Test eligibilité pour : ACTIVITE-FIRST");};
-        let ACTIVITE_FIRST = allUserActivityArray.length >= 1;//car il faut traiter si les gens l'ont utilisé avant la mise à jours
-    if (ACTIVITE_FIRST === true) {
-        rewardsEligibleArray.push("ACTIVITE-FIRST");
+    // ACTIVITE-FIRST 1re activité tout confondu
+    if (!userRewardsArray.includes("ACTIVITE-FIRST")) {
+        if (devMode === true){console.log("[REWARDS] [GENERIQUE] Test eligibilité pour : ACTIVITE-FIRST");};
+            let isEligible = activityArrayLength >= 1;//car il faut traiter si les gens l'ont utilisé avant la mise à jours
+        if (isEligible) {
+            rewardsEligibleArray.push("ACTIVITE-FIRST");
+        }
+        if (devMode === true){console.log("[REWARDS] [GENERIQUE] ACTIVITE-FIRST Resultat : " + isEligible);};
     }
-    if (devMode === true){console.log("[REWARDS] [GENERIQUE] ACTIVITE-FIRST Resultat : " + ACTIVITE_FIRST);};
-
 
     // 100 ieme activité tout confondu
-    if (devMode === true){console.log("[REWARDS] [GENERIQUE] Test eligibilité pour : ACTIVITE-100");};
-        let ACTIVITE_100 = allUserActivityArray.length >= 100;//car il faut traiter si les gens l'ont utilisé avant la mise à jours
-    if (ACTIVITE_100 === true) {
-        rewardsEligibleArray.push("ACTIVITE-100");
+    if (!userRewardsArray.includes("ACTIVITE-100")) {
+        if (devMode === true){console.log("[REWARDS] [GENERIQUE] Test eligibilité pour : ACTIVITE-100");};
+            let isEligible = activityArrayLength >= 100;//car il faut traiter si les gens l'ont utilisé avant la mise à jours
+        if (isEligible) {
+            rewardsEligibleArray.push("ACTIVITE-100");
+        }
+        if (devMode === true){console.log("[REWARDS] [GENERIQUE] ACTIVITE-100 Resultat : " + isEligible);};
     }
-    if (devMode === true){console.log("[REWARDS] [GENERIQUE] ACTIVITE-100 Resultat : " + ACTIVITE_100);};
 
 
 
+    onTraiteRewardAnniversaryAndAbsent(activityTarget,allUserActivityArray);
+
+}
+
+
+// Fonction reward Anniversaire - DE RETOUR
+function onTraiteRewardAnniversaryAndAbsent(activityTarget,allActivity) {
+
+    let tempAllActivity = allActivity;
+    let arrayLength =tempAllActivity.length;
+
+    // Doit au moins avoir 2 activités pour traiter ce reward
+    if (arrayLength >= 2) {
+
+        //Lance le trie par date
+        tempAllActivity.sort((a, b) => new Date(b.date) - new Date(a.date)); // Tri par date décroissante
+
+        // ANNIVERSAIRE
+        if (!userRewardsArray.includes("1-AN")){
+            if (devMode === true){console.log(`[REWARDS] [COMMUN]  : test eligibilite pour : 1-AN`);};
+            // Recupère la date du jour
+            let dateToday = new Date();
+
+            // récupère la date la plus ancienne ancienne
+            let olderActivityDate = new Date(tempAllActivity[arrayLength -1].date);
+            // Calculer la différence en millisecondes
+            const differenceYearInMilliseconds = Math.abs(dateToday - olderActivityDate);
+            // Convertir la différence en années
+            const differenceInYears = differenceYearInMilliseconds / (1000 * 60 * 60 * 24 * 365);
+            // Vérifier si la différence est supérieure à 1 an
+            let isEligible = differenceInYears > 1;
+            if (isEligible) {
+                rewardsEligibleArray.push("1-AN");
+            }
+            if (devMode === true){console.log(`[REWARDS] [COMMUN]  : 1-AN resultat : ` + isEligible);};   
+        }
+
+
+        // DE RETOUR
+        if (!userRewardsArray.includes("DE-RETOUR")) {
+            if (devMode === true){console.log(`[REWARDS] [COMMUN]  : test eligibilite pour : DE-RETOUR`);};
+
+            // Date la plus récente et celle juste avant
+            let newestActivityDate = new Date(tempAllActivity[0].date);
+            let previousActivityDate = new Date(tempAllActivity[1].date);
+
+            // Calcul de différence
+            const differenceDayInMilliseconds = Math.abs(newestActivityDate - previousActivityDate);
+            const differenceInDays = differenceDayInMilliseconds / (24 * 60 * 60 * 1000);
+
+            let isEligible = differenceInDays > 30;
+            if (isEligible) {
+                rewardsEligibleArray.push("DE-RETOUR");
+            }
+            if (devMode === true){console.log(`[REWARDS] [COMMUN]  : DE-RETOUR resultat : ` + isEligible);};   
+        }
+    }else{
+        if (devMode === true){console.log(`[REWARDS] [ANNIVERSARY and ABSENT]  : pas assez de donnée pour le traitement`);};
+    }
 
 
 
-
+    
     // Traitement pour l'activité spécifique
     // Récupère uniquement les données concernant l'activité en question
-    let activitiesTargetData = allUserActivityArray.filter(e=>{
+    let activitiesTargetData = allActivity.filter(e=>{
         // Recupère toutes les d'activités concernés
         return e.name === activityTarget;
     });
-    onSearchSpecifyRewards(activityTarget,activitiesTargetData);
 
+    onSearchSpecifyRewards(activityTarget,activitiesTargetData);
 }
 
 
@@ -375,10 +544,119 @@ function onSearchSpecifyRewards(activityTarget,filteredData) {
 
     switch (activityTarget) {
         case "C.A.P":
-            onTraiteRewardsForCAP(filteredData);
+            onTraiteRewardsBasicPalier(filteredData,"CAP-A-1-SEANCE","CAP-B-10-SEANCES","CAP-C-50-SEANCES","CAP-D-100-SEANCES");
+            onTraiteRewardsSpecificCAP(filteredData);
             break;
         case "VELO":
+            onTraiteRewardsBasicPalier(filteredData,"VELO-A-1-SEANCE","VELO-B-10-SEANCES","VELO-C-50-SEANCES","VELO-D-100-SEANCES");
+            onTraiteRewardsSpecificVELO(filteredData);
             break;
+        case "FRACTIONNE":
+            onTraiteRewardsBasicPalier(filteredData,"FRACTIONNE-A-1-SEANCE","FRACTIONNE-B-10-SEANCES","FRACTIONNE-C-50-SEANCES","FRACTIONNE-D-100-SEANCES");
+            break;
+        case "MARCHE-RANDO":
+            onTraiteRewardsBasicPalier(filteredData,"MARCHE-RANDO-A-1-SEANCE","MARCHE-RANDO-B-10-SEANCES","MARCHE-RANDO-C-50-SEANCES","MARCHE-RANDO-D-100-SEANCES");
+            onTraiteRewardsSpecificMARCHE(filteredData);
+            break;
+        case "NATATION":
+            onTraiteRewardsBasicPalier(filteredData,"NATATION-A-1-SEANCE","NATATION-B-10-SEANCES","NATATION-C-50-SEANCES","NATATION-D-100-SEANCES");
+            onTraiteRewardsSpecificNATATION(filteredData);
+            break;
+        case "CROSSFIT":
+            onTraiteRewardsBasicPalier(filteredData,"CROSSFIT-A-1-SEANCE","CROSSFIT-B-10-SEANCES","CROSSFIT-C-50-SEANCES","CROSSFIT-D-100-SEANCES");
+            break;
+        case "YOGA":
+            onTraiteRewardsBasicPalier(filteredData,"YOGA-A-1-SEANCE","YOGA-B-10-SEANCES","YOGA-C-50-SEANCES","YOGA-D-100-SEANCES");
+            break;
+        case "SPORT-CO":
+            onTraiteRewardsBasicPalier(filteredData,"SPORT-CO-A-1-SEANCE","SPORT-CO-B-10-SEANCES","SPORT-CO-C-50-SEANCES","SPORT-CO-D-100-SEANCES");
+            break;
+        case "ESCALADE":
+            onTraiteRewardsBasicPalier(filteredData,"ESCALADE-A-1-SEANCE","ESCALADE-B-10-SEANCES","ESCALADE-C-50-SEANCES","ESCALADE-D-100-SEANCES");
+            break;
+        case "BOXE":
+            onTraiteRewardsBasicPalier(filteredData,"BOXE-A-1-SEANCE","BOXE-B-10-SEANCES","BOXE-C-50-SEANCES","BOXE-D-100-SEANCES");
+            break;
+        case "SKI":
+            onTraiteRewardsBasicPalier(filteredData,"SKI-A-1-SEANCE","SKI-B-10-SEANCES","SKI-C-50-SEANCES","SKI-D-100-SEANCES");
+            break;
+        case "TRIATHLON":
+            onTraiteRewardsBasicPalier(filteredData,"TRIATHLON-1-SEANCE");
+            break;
+        case "ACTIVITE-NAUTIQUE":
+            onTraiteRewardsBasicPalier(filteredData,"ACTIVITE-NAUTIQUE-A-1-SEANCE","ACTIVITE-NAUTIQUE-B-10-SEANCES","ACTIVITE-NAUTIQUE-C-50-SEANCES","ACTIVITE-NAUTIQUE-D-100-SEANCES");
+            break;
+        case "ETIREMENT":
+            onTraiteRewardsBasicPalier(filteredData,"ETIREMENT-A-1-SEANCE","ETIREMENT-B-10-SEANCES","ETIREMENT-C-50-SEANCES","ETIREMENT-D-100-SEANCES");
+            break;
+        case "GOLF":
+            onTraiteRewardsBasicPalier(filteredData,"GOLF-A-1-SEANCE","GOLF-B-10-SEANCES","GOLF-C-50-SEANCES","GOLF-D-100-SEANCES");
+            break;
+        case "TENNIS":
+            onTraiteRewardsBasicPalier(filteredData,"TENNIS-A-1-SEANCE","TENNIS-B-10-SEANCES","TENNIS-C-50-SEANCES","TENNIS-D-100-SEANCES");
+            break;
+        case "PATIN-ROLLER":
+            onTraiteRewardsBasicPalier(filteredData,"PATIN-ROLLER-A-1-SEANCE","PATIN-ROLLER-B-10-SEANCES","PATIN-ROLLER-C-50-SEANCES","PATIN-ROLLER-D-100-SEANCES");
+            break;
+        case "DANSE":
+            onTraiteRewardsBasicPalier(filteredData,"DANSE-A-1-SEANCE","DANSE-B-10-SEANCES","DANSE-C-50-SEANCES","DANSE-D-100-SEANCES");
+            break;
+        case "MUSCULATION":
+            onTraiteRewardsBasicPalier(filteredData,"MUSCULATION-A-1-SEANCE","MUSCULATION-B-10-SEANCES","MUSCULATION-C-50-SEANCES","MUSCULATION-D-100-SEANCES");
+            break;
+        case "BADMINTON":
+            onTraiteRewardsBasicPalier(filteredData,"BADMINTON-A-1-SEANCE","BADMINTON-B-10-SEANCES","BADMINTON-C-50-SEANCES","BADMINTON-D-100-SEANCES");
+            break;
+        case "BASKETBALL":
+            onTraiteRewardsBasicPalier(filteredData,"BASKETBALL-A-1-SEANCE","BASKETBALL-B-10-SEANCES","BASKETBALL-C-50-SEANCES","BASKETBALL-D-100-SEANCES");
+            break;
+        case "FOOTBALL":
+            onTraiteRewardsBasicPalier(filteredData,"FOOTBALL-A-1-SEANCE","FOOTBALL-B-10-SEANCES","FOOTBALL-C-50-SEANCES","FOOTBALL-D-100-SEANCES");
+            break;
+        case "HANDBALL":
+            onTraiteRewardsBasicPalier(filteredData,"HANDBALL-A-1-SEANCE","HANDBALL-B-10-SEANCES","HANDBALL-C-50-SEANCES","HANDBALL-D-100-SEANCES");
+            break;
+        case "RUGBY":
+            onTraiteRewardsBasicPalier(filteredData,"RUGBY-A-1-SEANCE","RUGBY-B-10-SEANCES","RUGBY-C-50-SEANCES","RUGBY-D-100-SEANCES");
+            break;
+        case "TENNIS-TABLE":
+            onTraiteRewardsBasicPalier(filteredData,"TENNIS-DE-TABLE-A-1-SEANCE","TENNIS-DE-TABLE-B-10-SEANCES","TENNIS-DE-TABLE-C-50-SEANCES","TENNIS-DE-TABLE-D-100-SEANCES");
+            break;
+        case "VOLLEYBALL":
+            onTraiteRewardsBasicPalier(filteredData,"VOLLEYBALL-A-1-SEANCE","VOLLEYBALL-B-10-SEANCES","VOLLEYBALL-C-50-SEANCES","VOLLEYBALL-D-100-SEANCES");
+            break;
+        case "EQUITATION":
+            onTraiteRewardsBasicPalier(filteredData,"EQUITATION-A-1-SEANCE","EQUITATION-B-10-SEANCES","EQUITATION-C-50-SEANCES","EQUITATION-D-100-SEANCES");
+            break;
+        case "SNOWBOARD":
+            onTraiteRewardsBasicPalier(filteredData,"SNOWBOARD-A-1-SEANCE","SNOWBOARD-B-10-SEANCES","SNOWBOARD-C-50-SEANCES","SNOWBOARD-D-100-SEANCES");
+            break;
+        case "BASEBALL":
+            onTraiteRewardsBasicPalier(filteredData,"BASEBALL-A-1-SEANCE","BASEBALL-B-10-SEANCES","BASEBALL-C-50-SEANCES","BASEBALL-D-100-SEANCES");
+            break;
+        case "AUTRE":
+            onTraiteRewardsBasicPalier(filteredData,"AUTRE-A-1-SEANCE");
+            break;
+        case "ARTS-MARTIAUX":
+            onTraiteRewardsBasicPalier(filteredData,"ARTS-MARTIAUX-A-1-SEANCE","ARTS-MARTIAUX-B-10-SEANCES","ARTS-MARTIAUX-C-50-SEANCES","ARTS-MARTIAUX-D-100-SEANCES");
+            break;
+        case "BREAK-DANCE":
+            onTraiteRewardsBasicPalier(filteredData,"BREAK-DANCE-A-1-SEANCE","BREAK-DANCE-B-10-SEANCES","BREAK-DANCE-C-50-SEANCES","BREAK-DANCE-D-100-SEANCES");
+            break;
+        case "GYMNASTIQUE":
+            onTraiteRewardsBasicPalier(filteredData,"GYMNASTIQUE-A-1-SEANCE","GYMNASTIQUE-B-10-SEANCES","GYMNASTIQUE-C-50-SEANCES","GYMNASTIQUE-D-100-SEANCES");
+            break;
+        case "SKATEBOARD":
+            onTraiteRewardsBasicPalier(filteredData,"SKATEBOARD-A-1-SEANCE","SKATEBOARD-B-10-SEANCES","SKATEBOARD-C-50-SEANCES","SKATEBOARD-D-100-SEANCES");
+            break;
+        case "RENFORCEMENT":
+            onTraiteRewardsBasicPalier(filteredData,"RENFORCEMENT-A-1-SEANCE","RENFORCEMENT-B-10-SEANCES","RENFORCEMENT-C-50-SEANCES","RENFORCEMENT-D-100-SEANCES");
+            break;
+        case "ATHLETISME":
+            onTraiteRewardsBasicPalier(filteredData,"ATHLETISME-A-1-SEANCE","ATHLETISME-B-10-SEANCES","ATHLETISME-C-50-SEANCES","ATHLETISME-D-100-SEANCES");
+            break;
+
+
         default:
             if (devMode === true){console.log("[REWARDS] Erreur activité non trouvé");};    
         break;
@@ -398,20 +676,11 @@ function onSearchSpecifyRewards(activityTarget,filteredData) {
 function onAffectFinalRewardsToUser() {
     
     if (devMode === true){
-        console.log("[REWARDS] Trouve les trophés réelle à affecteur à l'USER ");
+        console.log("[REWARDS] Trouve les trophés réelle à affecter à l'USER ");
         console.log("[REWARDS] User éligible à : ");
         console.log(rewardsEligibleArray);
         console.log("[REWARDS] déjà possédé par l'user : ");
         console.log(userRewardsArray);
-    };
-
-    
-    // Retrait des récompenses déjà possédées
-    rewardsEligibleArray = rewardsEligibleArray.filter(e => !userRewardsArray.includes(e));
-
-    if (devMode === true){
-        console.log("[REWARDS] Récompenses définitives à donner à l'user : ");
-        console.log(rewardsEligibleArray);
     };
 
     if (devMode === true){console.log("[REWARDS] ajout des récompenses à l'utilisateur ");};
@@ -426,90 +695,205 @@ function onAffectFinalRewardsToUser() {
     };
 
 
-    // Lance la fonction d'animation avec les donnée de "rewardsEligibleArray"
+    // Lance l'event reward obtenu si besoin
+    if (rewardsEligibleArray.length >=1) {
+        rewardsEvent();
+    }else{
+        if (devMode === true){console.log(`[REWARDS] [EVENT] Aucun traitement necessaire`);};
+    }
 
-    // INSERTION BDD de la nouvelle variable "userRewardsArray"
-    // onInsertRewardsModificationInDB(userRewardsArray);
+    
+    
+
+
+
+    // Insertion dans la base de donnée
+    onInsertRewardsModificationInDB(userRewardsArray);
 }
 
 
 
 
-// Traitement des trophy pour C.A.P
-function onTraiteRewardsForCAP(filteredData,rewards1Name,rewards10Name,rewards50Name,rewards100Name) {
-     // 1 séance
-     if (devMode === true){console.log("[REWARDS] [C.A.P] Test eligibilité pour : CAP-A-1-SEANCE");};
-     let CAP_A_1_SEANCE = filteredData.length >= 1;//car il faut traiter si les gens l'ont utilisé avant la mise à jours
-     if (CAP_A_1_SEANCE === true) {
-         rewardsEligibleArray.push("CAP-A-1-SEANCE");
-     }
-     if (devMode === true){console.log("[REWARDS] [C.A.P] Resultat : " + CAP_A_1_SEANCE);};
 
+// Animation des reward
+function rewardsEvent() {
+    // popup recompense obtenue
+    let popup = document.getElementById("popupReward");
 
-     // 10 séances
-     if (devMode === true){console.log("[REWARDS] [C.A.P] Test eligibilité pour : CAP-A-10-SEANCE");};
-     let CAP_A_10_SEANCES = filteredData.length >= 10;//car il faut traiter si les gens l'ont utilisé avant la mise à jours
-     if (CAP_A_10_SEANCES === true) {
-         rewardsEligibleArray.push("CAP-B-10-SEANCES");
-     }
-     if (devMode === true){console.log("[REWARDS] [C.A.P] Resultat : " + CAP_A_10_SEANCES);};
+    popup.classList.add('show');
+    setTimeout(() => {
+        popup.classList.remove('show');
+    }, 3000); // Cache le popup après 3 secondes
 
 
 
-     // 50 séances
-     if (devMode === true){console.log("[REWARDS] [C.A.P] Test eligibilité pour : CAP-A-50-SEANCE");};
-     let CAP_A_50_SEANCES = filteredData.length >= 50;//car il faut traiter si les gens l'ont utilisé avant la mise à jours
-     if (CAP_A_50_SEANCES === true) {
-         rewardsEligibleArray.push("CAP-C-50-SEANCES");
-     }
-     if (devMode === true){console.log("[REWARDS] [C.A.P] Resultat : " + CAP_A_50_SEANCES);};
-
-
-     // 100 séances
-     if (devMode === true){console.log("[REWARDS] [C.A.P] Test eligibilité pour : CAP-A-100-SEANCE");};
-     let CAP_A_100_SEANCES = filteredData.length >= 100;//car il faut traiter si les gens l'ont utilisé avant la mise à jours
-     if (CAP_A_100_SEANCES === true) {
-         rewardsEligibleArray.push("CAP-B-100-SEANCES");
-     }
-     if (devMode === true){console.log("[REWARDS] [C.A.P] Resultat : " + CAP_A_100_SEANCES);};
-
-
-     // Distance = entre 10 km et 10.950 km
-     if (devMode === true){console.log("[REWARDS] [C.A.P] Test eligibilité pour : CAP-E-10-KM");};
-     let CAP_E_10_KM = onSearchActivityWithDistanceRange(filteredData,10,10.999);
-     if (CAP_E_10_KM === true) {
-         rewardsEligibleArray.push("CAP-E-10-KM");
-     }
-     if (devMode === true){console.log("[REWARDS] [C.A.P] Resultat : " + CAP_E_10_KM);};
-
-     // Distance = entre 21 km et 21.950 km
-     if (devMode === true){console.log("[REWARDS] [C.A.P] Test eligibilité pour : CAP-F-SEMI-MARATHON");};
-     let CAP_F_SEMI_MARATHON = onSearchActivityWithDistanceRange(filteredData,21,21.999);
-     if (CAP_F_SEMI_MARATHON === true) {
-         rewardsEligibleArray.push("CAP-F-SEMI-MARATHON");
-     }
-     if (devMode === true){console.log("[REWARDS] [C.A.P] Resultat : " + CAP_F_SEMI_MARATHON);};
-
-     // Distance =  entre 42km et 42.999 km
-     if (devMode === true){console.log("[REWARDS] [C.A.P] Test eligibilité pour : CAP-G-MARATHON");};
-     let CAP_G_Marathon = onSearchActivityWithDistanceRange(filteredData,42,42.999);
-     if (CAP_G_Marathon === true) {
-         rewardsEligibleArray.push("CAP-G-MARATHON");
-     }
-     if (devMode === true){console.log("[REWARDS] [C.A.P] Resultat : " + CAP_G_Marathon);};
-
-     // Distance > 100km en une séance
-     if (devMode === true){console.log("[REWARDS] [C.A.P] Test eligibilité pour : CAP-ULTRA-TRAIL");};
-     let CAP_ULTRA_TRAIL = onSearchActivityWithDistanceSuperior(filteredData,100);
-     if (CAP_ULTRA_TRAIL === true) {
-         rewardsEligibleArray.push("CAP-ULTRA-TRAIL");
-     }
-     if (devMode === true){console.log("[REWARDS] [C.A.P] Resultat : " + CAP_ULTRA_TRAIL);};
+    // Changement du style du bouton reward
+    document.getElementById("btnMenuRewards").classList.add("rewardAvailable");
 
 }
 
 
+
+// Traitement des rewards pour les paliers basic 1-10-50-100  uniquement ce qui n'est pas déjà possédé pour l'user
+function onTraiteRewardsBasicPalier(filteredData,rewards1Name,rewards10Name,rewards50Name,rewards100Name) {
+
+    let dataLength = filteredData.length;
+
+    // 1 séance
+    if (rewards1Name !== undefined && !userRewardsArray.includes(rewards1Name)) {
+        if (devMode === true){console.log(`[REWARDS] [BASIC PALIER] Test eligibilité pour : ${rewards1Name}`);};
+        let isEligible = dataLength >= 1;//car il faut traiter si les gens l'ont utilisé avant la mise à jours
+        if (isEligible) {
+            rewardsEligibleArray.push(rewards1Name);
+        }
+        if (devMode === true){console.log("[REWARDS] [BASIC PALIER] Resultat : " + isEligible);};
+    }
+     
+    // 10 séances
+    if (rewards10Name !== undefined  && !userRewardsArray.includes(rewards10Name)) {
+        if (devMode === true){console.log(`[REWARDS] [BASIC PALIER] Test eligibilité pour : ${rewards10Name}`);};
+        let isEligible = dataLength >= 10;//car il faut traiter si les gens l'ont utilisé avant la mise à jours
+        if (isEligible) {
+            rewardsEligibleArray.push(rewards10Name);
+        }
+        if (devMode === true){console.log("[REWARDS] [BASIC PALIER] Resultat : " + isEligible);};
+    }
+    
+    // 50 séances
+    if (rewards50Name !== undefined  && !userRewardsArray.includes(rewards50Name)) {
+        if (devMode === true){console.log(`[REWARDS] [BASIC PALIER] Test eligibilité pour : ${rewards50Name}`);};
+        let isEligible = dataLength >= 50;//car il faut traiter si les gens l'ont utilisé avant la mise à jours
+        if (isEligible) {
+            rewardsEligibleArray.push(rewards50Name);
+        }
+        if (devMode === true){console.log("[REWARDS] [BASIC PALIER] Resultat : " + isEligible);};
+    }
+
+    // 100 séances
+    if (rewards100Name !== undefined && !userRewardsArray.includes(rewards100Name)) {
+        if (devMode === true){console.log(`[REWARDS] [BASIC PALIER] Test eligibilité pour : ${rewards100Name}`);};
+        let isEligible = dataLength >= 100;//car il faut traiter si les gens l'ont utilisé avant la mise à jours
+        if (isEligible) {
+            rewardsEligibleArray.push(rewards100Name);
+        }
+        if (devMode === true){console.log("[REWARDS] [BASIC PALIER] Resultat : " + isEligible);};
+    } 
+}
+
+
+// Traitement récompenses spécifique courses à pieds uniquement si l'user ne la pas.
+function onTraiteRewardsSpecificCAP(filteredData) {
+
+    // Distance = entre 10 km et 10.950 km
+    if (!userRewardsArray.includes("CAP-E-10-KM")) {
+        if (devMode === true){console.log("[REWARDS] [C.A.P] Test eligibilité pour : CAP-E-10-KM");};
+        let isEligible = onSearchActivityWithDistanceRange(filteredData,10,10.999);
+        if (isEligible) {
+            rewardsEligibleArray.push("CAP-E-10-KM");
+        }
+        if (devMode === true){console.log("[REWARDS] [C.A.P] Resultat : " + isEligible);};
+    }
+
+    
+
+    // Distance = entre 21 km et 21.950 km
+    if (!userRewardsArray.includes("CAP-F-SEMI-MARATHON")) {
+        if (devMode === true){console.log("[REWARDS] [C.A.P] Test eligibilité pour : CAP-F-SEMI-MARATHON");};
+        let isEligible = onSearchActivityWithDistanceRange(filteredData,21,21.999);
+        if (isEligible) {
+            rewardsEligibleArray.push("CAP-F-SEMI-MARATHON");
+        }
+        if (devMode === true){console.log("[REWARDS] [C.A.P] Resultat : " + isEligible);};
+    }
+
+    
+
+    // Distance =  entre 42km et 42.999 km
+    if (!userRewardsArray.includes("CAP-G-MARATHON")) {
+        if (devMode === true){console.log("[REWARDS] [C.A.P] Test eligibilité pour : CAP-G-MARATHON");};
+        let isEligible = onSearchActivityWithDistanceRange(filteredData,42,42.999);
+        if (isEligible) {
+            rewardsEligibleArray.push("CAP-G-MARATHON");
+        }
+        if (devMode === true){console.log("[REWARDS] [C.A.P] Resultat : " + isEligible);};
+    }
+
+
+
+    
+    // Distance > 100km en une séance
+    if (!userRewardsArray.includes("CAP-ULTRA-TRAIL")) {
+        if (devMode === true){console.log("[REWARDS] [C.A.P] Test eligibilité pour : CAP-ULTRA-TRAIL");};
+        let isEligible = onSearchActivityWithDistanceSuperior(filteredData,100);
+        if (isEligible) {
+            rewardsEligibleArray.push("CAP-ULTRA-TRAIL");
+        }
+        if (devMode === true){console.log("[REWARDS] [C.A.P] Resultat : " + isEligible);};
+    }
+
+    
+}
    
+
+// Recompense spécifiques pour les vélos
+function onTraiteRewardsSpecificVELO(filteredData) {
+    
+
+    // Distance supérieur à 100 km en une séance
+    if (!userRewardsArray.includes("VELO-E-100-KM")) {
+        if (devMode === true){console.log("[REWARDS] [VELO] Test eligibilité pour : VELO-E-100-KM");};
+        let isEligible = onSearchActivityWithDistanceSuperior(filteredData,100);
+        if (isEligible) {
+            rewardsEligibleArray.push("VELO-E-100-KM");
+        }
+        if (devMode === true){console.log("[REWARDS] [VELO] Resultat : " + isEligible);};
+    }
+
+    // Distance cumulé supérieur à 3400 km
+    if (!userRewardsArray.includes("VELO-F-3400-KM")) {
+        if (devMode === true){console.log("[REWARDS] [VELO] Test eligibilité pour : VELO-F-3400-KM");};
+        let isEligible =  onSearchActivitiesTotalDistanceSuperior(filteredData,3400);
+        if (isEligible) {
+            rewardsEligibleArray.push("VELO-F-3400-KM");
+        }
+        if (devMode === true){console.log("[REWARDS] [VELO] Resultat : " + isEligible);};
+    }
+} 
+
+
+
+// Recompense spécifiques pour natation
+function onTraiteRewardsSpecificNATATION(filteredData) {
+    
+    // Distance cumulé supérieur à 50 km
+    if (!userRewardsArray.includes("NATATION-E-50-KM")) {
+        if (devMode === true){console.log("[REWARDS] [NATATION] Test eligibilité pour : NATATION-E-50-KM");};
+        let isEligible =  onSearchActivitiesTotalDistanceSuperior(filteredData,50);
+        if (isEligible) {
+            rewardsEligibleArray.push("NATATION-E-50-KM");
+        }
+        if (devMode === true){console.log("[REWARDS] [NATATION] Resultat : " + isEligible);};
+    }
+}
+
+
+// Recompense spécifiques pour natation
+function onTraiteRewardsSpecificMARCHE(filteredData) {
+    
+    // Distance cumulé supérieur à 1000 km
+    if (!userRewardsArray.includes("MARCHE-RANDO-E-1000-KM")) {
+        if (devMode === true){console.log("[REWARDS] [MARCHE-RANDO] Test eligibilité pour : MARCHE-RANDO-E-1000-KM");};
+        let isEligible =  onSearchActivitiesTotalDistanceSuperior(filteredData,1000);
+        if (isEligible) {
+            rewardsEligibleArray.push("MARCHE-RANDO-E-1000-KM");
+        }
+        if (devMode === true){console.log("[REWARDS] [MARCHE-RANDO] Resultat : " + isEligible);};
+    }
+}
+
+
+
+
 //    -----------------------------     QUITTE MENU       ----------------------------------------------
 
 

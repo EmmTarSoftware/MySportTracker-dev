@@ -191,7 +191,7 @@ function onResetActivityInputs() {
 
 // actualisation de la liste d'activité
 
-function onUpdateActivityBddList() {
+function onUpdateActivityBddList(isCheckRewardRequiered,activityTargetForReward) {
 
     if (devMode === true){console.log("Actualisation de la liste d'activité");};
     allUserActivityArray = [];
@@ -225,6 +225,13 @@ function onUpdateActivityBddList() {
         if (devMode === true){console.log(allUserActivityArray);};
 
 
+
+        // Lance le traitement des récompense si nécessaire
+        if (isCheckRewardRequiered) {
+            onCheckReward(activityTargetForReward);
+        }
+
+        
 
         // Remet les tries et filtres par défaut
         onResetSortAndFilter();
@@ -714,12 +721,9 @@ function onInsertNewActivity(dataToInsert) {
 
     insertRequest.onsuccess = function () {
         if (devMode === true){console.log(" [ DATABASE ] " + dataToInsert.name + "a été ajouté à la base");};
-        // evenement de notification
 
 
 
-        // Clear l'editeur d'activité
-        
     };
 
     insertRequest.onerror = function(event){
@@ -734,7 +738,7 @@ function onInsertNewActivity(dataToInsert) {
 
 
         // Remet à jour les éléments
-        onUpdateActivityBddList("dateRecente");
+        onUpdateActivityBddList(true,dataToInsert.name);
 
         // Popup notification
         onShowNotifyPopup(notifyTextArray.creation);
@@ -778,6 +782,7 @@ function onInsertModification(e) {
         insertModifiedData.onsuccess = function (){
             console.log("insertModifiedData = success");
 
+
         };
 
         insertModifiedData.onerror = function (){
@@ -796,7 +801,7 @@ function onInsertModification(e) {
     transaction.oncomplete = function(){
         console.log("transaction complete");
         // Remet à jour les éléments
-        onUpdateActivityBddList("dateRecente");
+        onUpdateActivityBddList(true,e.name);
 
         // Popup notification
         onShowNotifyPopup(notifyTextArray.modification);
@@ -875,7 +880,7 @@ function onDeleteActivity(keyTarget) {
     transaction.oncomplete = function(){
         console.log("transaction complete");
         // Remet à jour les éléments
-        onUpdateActivityBddList("dateRecente");
+        onUpdateActivityBddList(false);
 
 
         // Popup notification

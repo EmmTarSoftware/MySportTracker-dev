@@ -80,9 +80,7 @@ const IMAGES = [
 
 const BADGES = [
   `${basePath}Badges/Badge-1-an.webp`,
-  `${basePath}Badges/Badge-ABSENT.webp`,
   `${basePath}Badges/Badge-ACTIVITE-100.webp`,
-  `${basePath}Badges/Badge-ACTIVITE-CONSECUTIF.webp`,
   `${basePath}Badges/BADGE-ACTIVITE-FIRST.webp`,
   `${basePath}Badges/Badge-ACTIVITE-NAUTIQUE-A.webp`,
   `${basePath}Badges/Badge-ACTIVITE-NAUTIQUE-B.webp`,
@@ -133,6 +131,7 @@ const BADGES = [
   `${basePath}Badges/Badge-DANSE-B.webp`,
   `${basePath}Badges/Badge-DANSE-C.webp`,
   `${basePath}Badges/Badge-DANSE-D.webp`,
+  `${basePath}Badges/Badge-DE-RETOUR.webp`,
   `${basePath}Badges/Badge-EQUITATION-A.webp`,
   `${basePath}Badges/Badge-EQUITATION-B.webp`,
   `${basePath}Badges/Badge-EQUITATION-C.webp`,
@@ -184,7 +183,6 @@ const BADGES = [
   `${basePath}Badges/Badge-PATIN-ROLLER-C.webp`,
   `${basePath}Badges/Badge-PATIN-ROLLER-D.webp`,
   `${basePath}Badges/Badge-POLYVALENT.webp`,
-  `${basePath}Badges/Badge-REGULIER.webp`,
   `${basePath}Badges/Badge-RENFORCEMENT-A.webp`,
   `${basePath}Badges/Badge-RENFORCEMENT-B.webp`,
   `${basePath}Badges/Badge-RENFORCEMENT-C.webp`,
@@ -233,6 +231,7 @@ const BADGES = [
   `${basePath}Badges/Badge-YOGA-C.webp`,
   `${basePath}Badges/Badge-YOGA-D.webp`
 ];
+
 
 
 // Combiner toutes les ressources dans un seul tableau et dédupliquer
