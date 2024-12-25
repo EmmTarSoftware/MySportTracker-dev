@@ -27,104 +27,121 @@ divRewardsListRef;
 
 
 
-// Creation du profils par défaut
+// Fonction de création du profil par défaut
 function onCreateDefaultRewardsInBase() {
-    let transaction = db.transaction(rewardsStoreName,"readwrite");
+    let transaction = db.transaction(rewardsStoreName, "readwrite");
     let store = transaction.objectStore(rewardsStoreName);
 
-    let insertRequest = store.add(userRewardsArray);
+    // Créer un objet avec une clé personnalisée et insérer le tableau 'userRewardsArray'
+    let defaultRewards = {
+        rewardsKey: "uniqueKeyForRewards",  // Clé personnalisée
+        rewards: userRewardsArray           // Le tableau d'éléments à insérer
+    };
+
+    let insertRequest = store.add(defaultRewards);  // Ajouter l'objet avec la clé
 
     insertRequest.onsuccess = function () {
-        if (devMode === true){console.log(" [DATABASE] [REWARDS] un Premier ITEM a été créé dans la base");};
-        // evenement de notification
-   
+        if (devMode === true) {
+            console.log("[DATABASE] [REWARDS] Un premier item a été créé dans la base");
+        }
+        // Notification ou d'autres traitements à faire après l'ajout
     };
 
-    insertRequest.onerror = function(event){
-        console.log("[DATABASE] [REWARDS] Error d'insertion du REWARDS");
+    insertRequest.onerror = function(event) {
+        console.log("[DATABASE] [REWARDS] Erreur d'insertion des REWARDS");
         let errorMsg = event.target.error.toString();
         console.log(errorMsg);
-        
     };
 
-    transaction.oncomplete = function(){
-        if (devMode === true){console.log("[DATABASE] [REWARDS] nouveau profil : transaction insertData complete");};
-
+    transaction.oncomplete = function() {
+        if (devMode === true) {
+            console.log("[DATABASE] [REWARDS] Nouveau profil : transaction insertData complète");
+        }
     };
-};    
+}
 
 
 
 
 
 
-// Fonction de modification du profil dans la base
+
+// Fonction d'insertion du tableau de reward dans la base
 function onInsertRewardsModificationInDB(e) {
-    if (devMode === true){console.log("fonction d'insertion de la donnée modifié");};
+    if (devMode === true) { 
+        console.log("fonction d'insertion de la donnée modifiée");
+    }
 
-    let transaction = db.transaction(rewardsStoreName,"readwrite");
+    let transaction = db.transaction(rewardsStoreName, "readwrite");
     let store = transaction.objectStore(rewardsStoreName);
-    let modifyRequest = store.getAll(IDBKeyRange.only(1));
 
-    
-
-    modifyRequest.onsuccess = function () {
-        if (devMode === true){console.log("modifyRequest = success");};
-
-        let modifiedData = e;
-
-        let insertModifiedData = store.put(modifiedData);
-
-        insertModifiedData.onsuccess = function (){
-            if (devMode === true){console.log("[DATABASE] [REWARDS] insert ModifiedData = success");};
-
-        };
-
-        insertModifiedData.onerror = function (){
-            console.log("[DATABASE] [REWARDS] insert ModifiedData = error",insertModifiedData.error); 
-        };
+    // Crée un objet avec une clé personnalisée 'rewardsKey'
+    let modifiedData = {
+        rewardsKey: "uniqueKeyForRewards",  // Clé personnalisée
+        rewards: e  // Le tableau que tu veux stocker, par exemple ["TOMATE", "SAUCISSE"]
     };
 
-    modifyRequest.onerror = function(){
-        console.log("[DATABASE] [REWARDS] ModifyRequest = error");
+    let insertModifiedData = store.put(modifiedData);  // Met à jour ou insère les données
+
+    insertModifiedData.onsuccess = function() {
+        if (devMode === true) { 
+            console.log("[DATABASE] [REWARDS] insert ModifiedData = success");
+        }
     };
 
-    transaction.oncomplete = function(){
-
-            // Traitement lorsque FINI
+    insertModifiedData.onerror = function() {
+        console.log("[DATABASE] [REWARDS] insert ModifiedData = error", insertModifiedData.error);
     };
-};
+
+    transaction.oncomplete = function() {
+        if (devMode === true) { 
+            console.log("[DATABASE] Transaction terminée.");
+        }
+    };
+
+    transaction.onerror = function() {
+        console.log("[DATABASE] Erreur lors de la transaction");
+    };
+}
 
 
 
 
-function onExtractRewardsFromDB(){
-    if (devMode === true){console.log("[DATABASE] [REWARDS] Récupère les éléments dans la base");};
 
-    let transaction = db.transaction([rewardsStoreName]);//readonly
+function onExtractRewardsFromDB() {
+    if (devMode === true) {
+        console.log("[DATABASE] [REWARDS] Récupère les éléments dans la base");
+    }
+
+    // Démarre une transaction en mode 'readonly'
+    let transaction = db.transaction([rewardsStoreName], "readonly");
     let objectStoreTask = transaction.objectStore(rewardsStoreName);
 
-    // Rechercher un élément où l'index 'userName' est égal à '1'
-    let requestTask = objectStoreTask.get(1);
-
+    let requestTask = objectStoreTask.get("uniqueKeyForRewards"); 
 
     // Traitement de la requête
     requestTask.onsuccess = function(event) {
         if (requestTask.result) {
-            if (devMode === true){console.log('[DATABASE] [REWARDS] Élément trouvé : ', requestTask.result);};
+            // Si un élément est trouvé, on peut accéder au tableau à partir de 'rewards'
+            if (devMode === true) {
+                console.log('[DATABASE] [REWARDS] Élément trouvé : ', requestTask.result);
+            }
 
-            onSetUserRewardsFromOpeningAPP(requestTask.result);
+            let rewardsArray = requestTask.result.rewards; // Récupère le tableau stocké sous la propriété 'rewards'
 
+            onSetUserRewardsFromOpeningAPP(rewardsArray); // Utilise le tableau de récompenses ici
         } else {
-            if (devMode === true){console.log('[DATABASE] [REWARDS] Aucun élément trouvé pour le userName');};
+            if (devMode === true) {
+                console.log('[DATABASE] [REWARDS] Aucun élément trouvé pour la clé "uniqueKeyForRewards"');
+            }
         }
     };
 
     requestTask.onerror = function(event) {
-        console.error( '[DATABASE] [REWARDS] Erreur lors de la récupération de l\'élément', event.target.error);
+        console.error('[DATABASE] [REWARDS] Erreur lors de la récupération de l\'élément', event.target.error);
     };
+}
 
-};
 
 // Remplit les récompense de l'utilisateur lors de l'ouverture de l'application
 function onSetUserRewardsFromOpeningAPP(rewards) {

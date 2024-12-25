@@ -377,7 +377,7 @@ let db,
     activityStoreName = "activityList",
     profilStoreName = "profil",
     rewardsStoreName = "Recompenses",
-    currentBaseVersion = 4,
+    currentBaseVersion = 5,
     cookiesBddVersion_KeyName = "Mind2Task-bddVersion";
 
 
@@ -418,12 +418,14 @@ function onStartDataBase() {
 
         // Creation du store pour les récompenses
         if (!db.objectStoreNames.contains(rewardsStoreName)) {
-            let rewardsStore = db.createObjectStore(rewardsStoreName, {keyPath:'key',autoIncrement: true});
-            if (devMode === true){console.log("[ DATABASE PROFIL] Creation du magasin " + rewardsStoreName);};
-
+            // Création du store avec une clé personnalisée
+            let rewardsStore = db.createObjectStore(rewardsStoreName, {keyPath: "rewardsKey"});
+            if (devMode === true) {
+                console.log("[DATABASE] Création du magasin " + rewardsStoreName);
+            }
             isNewRewardsBdDRequired = true;
         };
-
+        
 
 
         // Stoque le numéro de version de base de l'application
