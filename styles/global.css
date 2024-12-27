@@ -859,7 +859,7 @@ select.graph-stat{
     border-radius: 10px;
     margin: 20px auto;
     position: absolute;
-    opacity: 1;
+    opacity: 0;
     top : -10px;
     transition: opacity 0.3s ease;
     left: 0;
