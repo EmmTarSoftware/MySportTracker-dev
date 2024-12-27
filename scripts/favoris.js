@@ -11,32 +11,38 @@ function onOpenMenuFavoris() {
 function onLoadingActivityList() {
     let ulActivityListParentRef = document.getElementById("ulActivityListParent");
 
-    for (let [activitiesKeys, activityData] of Object.entries(activityChoiceArray)) {
+    // Trie la liste des activités par ordre alpha
+    let filteredKeyActivityList = Object.keys(activityChoiceArray);
+    filteredKeyActivityList.sort();
+
+
+
+    filteredKeyActivityList.forEach(e=>{
 
         // Création
         let newLi = document.createElement("li");
         newLi.className = "favoris-list";
 
         let newActivityName = document.createElement("p");
-        newActivityName.innerHTML =  activityData.displayName;
+        newActivityName.innerHTML =  activityChoiceArray[e].displayName;
         newActivityName.className = "favoris-list";
 
         let newActivityImg = document.createElement("img");
-        newActivityImg.src = activityData.imgRef;
+        newActivityImg.src = activityChoiceArray[e].imgRef;
         newActivityImg.className = "favoris-list";
 
 
 
         // Favoris
         let newFavorisImg = document.createElement("img");
-        newFavorisImg.src = onSearchActivityInUserFavoris(activitiesKeys) ? "./Icons/Icon-Favoris-Sel.webp" : "./Icons/Icon-Favoris.webp";
+        newFavorisImg.src = onSearchActivityInUserFavoris(e) ? "./Icons/Icon-Favoris-Sel.webp" : "./Icons/Icon-Favoris.webp";
         newFavorisImg.className = "favoris";
 
 
 
 
         newFavorisImg.onclick = function (){
-            onChangeFavorisStatus(this,activitiesKeys); 
+            onChangeFavorisStatus(this,e); 
         };
 
         // Insertion
@@ -46,7 +52,7 @@ function onLoadingActivityList() {
 
         ulActivityListParentRef.appendChild(newLi);
 
-    };
+    });
 };
 
 
