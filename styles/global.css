@@ -758,31 +758,6 @@ div.buttonAcceptation{
 }
 
 
-.popupReward {
-    width: 250px;height: 10px;
-    padding: 20px;
-    background-color: var(--colorMainTheme2);
-    color: white;
-    text-align: center;
-    font-weight: bold;
-    font-size: 1.2rem;
-    border-radius: 10px;
-    margin: 20px auto;
-    position: absolute;
-    opacity: 0;
-    top : -15px;
-    transition: opacity 0.3s ease;
-    left: 0;
-    right: 0;
-    box-shadow: var(--boxShadow);
-    z-index: 1000;
-
-}
-
-
-.popupReward.show {
-    opacity: 1;
-}
 
 
 
@@ -871,7 +846,41 @@ select.graph-stat{
 /* ---------------------------------------- RECOMPENSES ------------------------------ */
 
 
-/* Animation pour faire clignoter la bordure avec différentes couleurs */
+
+.popupReward {
+    width: 250px;
+    /* height: 5px; */
+    padding: 5px;
+    background-color: var(--colorMainTheme2);
+    color: white;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.1rem;
+    border-radius: 10px;
+    margin: 20px auto;
+    position: absolute;
+    opacity: 0;
+    top : -10px;
+    transition: opacity 0.3s ease;
+    left: 0;
+    right: 0;
+    box-shadow: var(--boxShadow);
+    z-index: 1000;
+
+}
+
+
+.popupReward.show {
+    opacity: 1;
+}
+
+
+
+
+
+/* Bouton menu reward */
+
+/* Animation pour faire clignoter le background avec différentes couleurs */
 @keyframes borderBlink {
     0% {
         background-color: "";
@@ -884,10 +893,10 @@ select.graph-stat{
     }
 }
 
-/* Bouton menu reward */
+
 
 .rewardAvailable{
-    animation: borderBlink 2s infinite;
+    animation: borderBlink 1.5s infinite;
 }
 
 
@@ -915,6 +924,26 @@ img.rewardsListEnable {
     box-shadow: var(--boxShadow);
 }
 
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 rgba(255, 189, 23, 0.7); /* Lumière dorée */
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 0 10px rgba(255, 189, 23, 1); /* Lumière dorée */
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 rgba(255, 189, 23, 0.7);
+    }
+}
+
+.newRewards{
+    animation: pulse 1.5s infinite;
+}
+
+
 
 img.rewardsListDisable {
     width: 80px;
@@ -922,7 +951,7 @@ img.rewardsListDisable {
     border-radius: 10px;
     margin: 10px;
     background-color: rgb(246, 246, 246);
-    opacity: 0.2;
+    opacity: 0.1;
 }
 
 
@@ -963,7 +992,7 @@ div.fullScreenTrophy.show img.trophyFullScreen, p.trophy{
 
 img.trophyFullScreen{
     width: 300px;
-    border: solid 1px rgb(255, 255, 255);
+    border: solid 1px var(--colorMainTheme1);
     border-radius: 20px;
     margin: 10px;
     background-color: rgb(255, 255, 255);
@@ -976,6 +1005,7 @@ img.trophyFullScreen{
 p.trophy{
     border: none;
     padding: 5px 20px 5px 20px;
+    border: solid 1px var(--colorMainTheme1);
     border-radius: 5px;
     background-color: rgb(255, 255, 255);
     box-shadow: var(--boxShadowPlus);
@@ -988,6 +1018,9 @@ p.trophyDetail{
     padding: 5px 20px 5px 20px;
     border-radius: 5px;
     background-color: rgb(255, 255, 255);
+    text-align: center;
+    padding: 20px;
+    margin-left: 20px;margin-right: 20px;
 }
 
 

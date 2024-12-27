@@ -2,7 +2,7 @@
 // Les trophes possédés par l'utilisateur
 let userRewardsArray = [],
     rewardsEligibleArray = []; //stockes les trophés auxquels l'utilisateur est éligible 
-
+    newRewardsToSee = [];//les nouveaux trophé obtenu. Vidé lorsque l'utilisateur quitte le menu récompense
 
 
 
@@ -345,7 +345,14 @@ function onLoadUserRewardsList() {
 
     userRewardsArray.forEach(e=>{
         let newImg = document.createElement("img");
-        newImg.classList = "rewardsListEnable";
+
+        // séparation des anciens et nouveau rewards obtenus
+        if (newRewardsToSee.includes(e)) {
+            newImg.classList = "rewardsListEnable newRewards";
+        }else{
+            newImg.classList = "rewardsListEnable";
+        }
+        
         newImg.src = allRewardsObject[e].imgRef;
         newImg.loading = "lazy";
         newImg.onclick = function (){
@@ -720,7 +727,7 @@ function onAffectFinalRewardsToUser() {
 
     // Lance l'event reward obtenu si besoin
     if (rewardsEligibleArray.length >=1) {
-        rewardsEvent();
+        rewardsEvent(rewardsEligibleArray);
     }else{
         if (devMode === true){console.log(`[REWARDS] [EVENT] Aucun traitement necessaire`);};
     }
@@ -739,7 +746,11 @@ function onAffectFinalRewardsToUser() {
 
 
 // Animation des reward
-function rewardsEvent() {
+function rewardsEvent(newRewardsList) {
+
+    newRewardsToSee = newRewardsList;//pour la visualisation des nouveaux rewards dans le menu rewards
+
+
     // popup recompense obtenue
     let popup = document.getElementById("popupReward");
 
@@ -933,6 +944,9 @@ function onResetRewardsMenu() {
     divRewardsListRef = "";
 
     divRewardsListRef.innerHTML = "";
+
+
+    newRewardsToSee = [];
 }
    
    

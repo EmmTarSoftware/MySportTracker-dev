@@ -285,7 +285,7 @@ const allRewardsObject = {
         text: "100 séances de ski"
     },
     "TRIATHLON-1-SEANCE": {
-        imgRef: "./Badges/Badge-TRIATHLON.webp",
+        imgRef: "./Badges/Badge-TRIATHLON-A.webp",
         title: "Jamais deux sans trois",
         text: "un triathlon"
     },
