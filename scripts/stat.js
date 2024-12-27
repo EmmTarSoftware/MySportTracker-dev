@@ -60,12 +60,9 @@ function onGenerateStatOptionFilter(allActivityTypeData) {
     // Ajouter les autres options triées
     allActivityTypeData.forEach(activityType => {
 
-        // extraite tous les éléments de l'objet du tableau
-        let currentObject = getActivityChoiceArrayRefByDataName(activityType);
-
         let newOption = document.createElement("option");
-        newOption.value = currentObject.dataName;
-        newOption.innerHTML = currentObject.displayName;
+        newOption.value = activityType;
+        newOption.innerHTML = activityChoiceArray[activityType].displayName;
         selectorStatRef.appendChild(newOption);
     });
 

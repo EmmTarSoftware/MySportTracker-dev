@@ -1,49 +1,187 @@
 // Tableau des activités
-let activityChoiceArray = [
-    {dataName : "C.A.P", displayName: "Course à pied", colorNuanceClass : "nuance-blue-light", imgRef :"./images/icon-cap.webp"},
-    {dataName : "FRACTIONNE", displayName:"Fractionné/interval",colorNuanceClass : "nuance-blue-light", imgRef :"./images/icon-intense-running.webp"},
-    {dataName : "MARCHE-RANDO", displayName:"Marche/Randonnée",colorNuanceClass : "nuance-blue-light", imgRef :"./images/icon-marche.webp"},
-    {dataName : "VELO", displayName:"Vélo",colorNuanceClass : "nuance-blue-light", imgRef :"./images/icon-velo.webp"},
-    {dataName : "NATATION", displayName:"Natation",colorNuanceClass : "nuance-turquoise", imgRef :"./images/icon-natation.webp"},
-    {dataName : "CROSSFIT", displayName:"Crossfit",colorNuanceClass : "nuance-red", imgRef :"./images/icon-crossfit.webp"},
-    {dataName : "YOGA", displayName:"Yoga",colorNuanceClass : "nuance-green-light", imgRef :"./images/icon-yoga.webp"},
-    {dataName : "SPORT-CO", displayName:"Sport-co divers",colorNuanceClass : "nuance-orange", imgRef :"./images/icon-sport-co.webp"},
-    {dataName : "ESCALADE", displayName:"Escalade",colorNuanceClass : "nuance-dark-gray", imgRef :"./images/icon-escalade.webp"},
-    {dataName : "BOXE", displayName:"Boxe",colorNuanceClass : "nuance-light-bluegray", imgRef :"./images/icon-boxe.webp"},
-    {dataName : "SKI", displayName:"Ski",colorNuanceClass : "nuance-purple", imgRef :"./images/icon-ski.webp"},
-    {dataName : "TRIATHLON", displayName:"Triathlon",colorNuanceClass : "nuance-blue-light", imgRef :"./images/icon-triathlon.webp"},
-    {dataName : "ACTIVITE-NAUTIQUE", displayName:"Activité nautique",colorNuanceClass : "nuance-turquoise", imgRef :"./images/icon-nautique.webp"},
-    {dataName : "ETIREMENT", displayName:"Etirements",colorNuanceClass : "nuance-green-light", imgRef :"./images/icon-stretching.webp"},
-    {dataName : "GOLF", displayName:"Golf",colorNuanceClass : "nuance-olive", imgRef :"./images/icon-golf.webp"},
-    {dataName : "TENNIS", displayName:"Tennis",colorNuanceClass : "nuance-olive", imgRef :"./images/icon-tennis.webp"},
-    {dataName : "PATIN-ROLLER", displayName:"Patinage/Roller",colorNuanceClass : "nuance-purple", imgRef :"./images/icon-patin.webp"},
-    {dataName : "DANSE", displayName:"Danse",colorNuanceClass : "nuance-pink", imgRef :"./images/icon-danse.webp"},
-    {dataName : "MUSCULATION", displayName:"Musculation",colorNuanceClass : "nuance-red", imgRef :"./images/icon-musculation.webp"},
-    {dataName : "BADMINTON", displayName:"Badminton",colorNuanceClass : "nuance-olive", imgRef :"./images/icon-badminton.webp"},
-    {dataName : "BASKETBALL", displayName:"Basketball",colorNuanceClass : "nuance-orange", imgRef :"./images/icon-basketball.webp"},
-    {dataName : "FOOTBALL", displayName:"Football",colorNuanceClass : "nuance-orange", imgRef :"./images/icon-football.webp"},
-    {dataName : "HANDBALL", displayName:"Handball",colorNuanceClass : "nuance-orange", imgRef :"./images/icon-handball.webp"},
-    {dataName : "RUGBY", displayName:"Rugby",colorNuanceClass : "nuance-orange", imgRef :"./images/icon-rugby.webp"},
-    {dataName : "TENNIS-TABLE", displayName:"Tennis de table",colorNuanceClass : "nuance-olive", imgRef :"./images/icon-tennis-de-table.webp"},
-    {dataName : "VOLLEYBALL", displayName:"Volleyball",colorNuanceClass : "nuance-orange", imgRef :"./images/icon-volley.webp"},
-    {dataName : "EQUITATION", displayName:"Equitation",colorNuanceClass : "nuance-dark-gray", imgRef :"./images/icon-equitation.webp"},
-    {dataName : "SNOWBOARD", displayName:"Snowboard",colorNuanceClass : "nuance-purple", imgRef :"./images/icon-snowboard.webp"},
-    {dataName : "BASEBALL", displayName:"Baseball",colorNuanceClass : "nuance-olive", imgRef :"./images/icon-baseball.webp"},
-    {dataName : "AUTRE", displayName:"Autre/divers",colorNuanceClass : "nuance-light-bluegray", imgRef :"./images/icon-autre-divers.webp"},
-    {dataName : "ARTS-MARTIAUX", displayName:"Arts martiaux",colorNuanceClass : "nuance-light-bluegray", imgRef :"./images/icon-art-martiaux.webp"},
-    {dataName : "BREAK-DANCE", displayName:"Break dance",colorNuanceClass : "nuance-pink", imgRef :"./images/icon-breakdance.webp"},
-    {dataName : "GYMNASTIQUE", displayName:"Gymnastique",colorNuanceClass : "nuance-pink", imgRef :"./images/icon-gymnastique.webp"},
-    {dataName : "ATHLETISME", displayName:"Athlétisme",colorNuanceClass : "nuance-blue-light", imgRef :"./images/icon-athletisme.webp"},
-    {dataName : "RENFORCEMENT", displayName:"Renforcement musculaire",colorNuanceClass : "nuance-red", imgRef :"./images/icon-renforcement.webp"},
-    {dataName : "SKATEBOARD", displayName:"Skateboard",colorNuanceClass : "nuance-purple", imgRef :"./images/icon-skate.webp"}
-];
-
-
-// Fonction pour extraire un objet dans l'array activityChoiceArray (ci-dessus) via son "dataName"
-function getActivityChoiceArrayRefByDataName(dataName) {
-    let activity = activityChoiceArray.find(item => item.dataName === dataName);
-    return activity ? activity : null; // Retourne l'imgRef ou null si non trouvé
+let activityChoiceArray = {
+    "C.A.P": {
+        displayName : "Course à pied",
+        colorNuanceClass : "nuance-blue-light",
+        imgRef : "./images/icon-cap.webp"
+    },
+    "FRACTIONNE": {
+        displayName : "Fractionné/interval",
+        colorNuanceClass : "nuance-blue-light",
+        imgRef : "./images/icon-intense-running.webp"
+    },
+    "MARCHE-RANDO": {
+        displayName : "Marche/Randonnée",
+        colorNuanceClass : "nuance-blue-light",
+        imgRef : "./images/icon-marche.webp"
+    },
+    "VELO": {
+        displayName : "Vélo",
+        colorNuanceClass : "nuance-blue-light",
+        imgRef : "./images/icon-velo.webp"
+    },
+    "NATATION": {
+        displayName : "Natation",
+        colorNuanceClass : "nuance-turquoise",
+        imgRef : "./images/icon-natation.webp"
+    },
+    "CROSSFIT": {
+        displayName : "Crossfit",
+        colorNuanceClass : "nuance-red",
+        imgRef : "./images/icon-crossfit.webp"
+    },
+    "YOGA": {
+        displayName : "Yoga",
+        colorNuanceClass : "nuance-green-light",
+        imgRef : "./images/icon-yoga.webp"
+    },
+    "SPORT-CO": {
+        displayName : "Sport-co divers",
+        colorNuanceClass : "nuance-orange",
+        imgRef : "./images/icon-sport-co.webp"
+    },
+    "ESCALADE": {
+        displayName : "Escalade",
+        colorNuanceClass : "nuance-dark-gray",
+        imgRef : "./images/icon-escalade.webp"
+    },
+    "BOXE": {
+        displayName : "Boxe",
+        colorNuanceClass : "nuance-light-bluegray",
+        imgRef : "./images/icon-boxe.webp"
+    },
+    "SKI": {
+        displayName : "Ski",
+        colorNuanceClass : "nuance-purple",
+        imgRef : "./images/icon-ski.webp"
+    },
+    "TRIATHLON": {
+        displayName : "Triathlon",
+        colorNuanceClass : "nuance-blue-light",
+        imgRef : "./images/icon-triathlon.webp"
+    },
+    "ACTIVITE-NAUTIQUE": {
+        displayName : "Activité nautique",
+        colorNuanceClass : "nuance-turquoise",
+        imgRef : "./images/icon-nautique.webp"
+    },
+    "ETIREMENT": {
+        displayName : "Etirements",
+        colorNuanceClass : "nuance-green-light",
+        imgRef : "./images/icon-stretching.webp"
+    },
+    "GOLF": {
+        displayName : "Golf",
+        colorNuanceClass : "nuance-olive",
+        imgRef : "./images/icon-golf.webp"
+    },
+    "TENNIS": {
+        displayName : "Tennis",
+        colorNuanceClass : "nuance-olive",
+        imgRef : "./images/icon-tennis.webp"
+    },
+    "PATIN-ROLLER": {
+        displayName : "Patinage/Roller",
+        colorNuanceClass : "nuance-purple",
+        imgRef : "./images/icon-patin.webp"
+    },
+    "DANSE": {
+        displayName : "Danse",
+        colorNuanceClass : "nuance-pink",
+        imgRef : "./images/icon-danse.webp"
+    },
+    "MUSCULATION": {
+        displayName : "Musculation",
+        colorNuanceClass : "nuance-red",
+        imgRef : "./images/icon-musculation.webp"
+    },
+    "BADMINTON": {
+        displayName : "Badminton",
+        colorNuanceClass : "nuance-olive",
+        imgRef : "./images/icon-badminton.webp"
+    },
+    "BASKETBALL": {
+        displayName : "Basketball",
+        colorNuanceClass : "nuance-orange",
+        imgRef : "./images/icon-basketball.webp"
+    },
+    "FOOTBALL": {
+        displayName : "Football",
+        colorNuanceClass : "nuance-orange",
+        imgRef : "./images/icon-football.webp"
+    },
+    "HANDBALL": {
+        displayName : "Handball",
+        colorNuanceClass : "nuance-orange",
+        imgRef : "./images/icon-handball.webp"
+    },
+    "RUGBY": {
+        displayName : "Rugby",
+        colorNuanceClass : "nuance-orange",
+        imgRef : "./images/icon-rugby.webp"
+    },
+    "TENNIS-TABLE": {
+        displayName : "Tennis de table",
+        colorNuanceClass : "nuance-olive",
+        imgRef : "./images/icon-tennis-de-table.webp"
+    },
+    "VOLLEYBALL": {
+        displayName : "Volleyball",
+        colorNuanceClass : "nuance-orange",
+        imgRef : "./images/icon-volley.webp"
+    },
+    "EQUITATION": {
+        displayName : "Equitation",
+        colorNuanceClass : "nuance-dark-gray",
+        imgRef : "./images/icon-equitation.webp"
+    },
+    "SNOWBOARD": {
+        displayName : "Snowboard",
+        colorNuanceClass : "nuance-purple",
+        imgRef : "./images/icon-snowboard.webp"
+    },
+    "BASEBALL": {
+        displayName : "Baseball",
+        colorNuanceClass : "nuance-olive",
+        imgRef : "./images/icon-baseball.webp"
+    },
+    "AUTRE": {
+        displayName : "Autre/divers",
+        colorNuanceClass : "nuance-light-bluegray",
+        imgRef : "./images/icon-autre-divers.webp"
+    },
+    "ARTS-MARTIAUX": {
+        displayName : "Arts martiaux",
+        colorNuanceClass : "nuance-light-bluegray",
+        imgRef : "./images/icon-art-martiaux.webp"
+    },
+    "BREAK-DANCE": {
+        displayName : "Break dance",
+        colorNuanceClass : "nuance-pink",
+        imgRef : "./images/icon-breakdance.webp"
+    },
+    "GYMNASTIQUE": {
+        displayName : "Gymnastique",
+        colorNuanceClass : "nuance-pink",
+        imgRef : "./images/icon-gymnastique.webp"
+    },
+    "ATHLETISME": {
+        displayName : "Athlétisme",
+        colorNuanceClass : "nuance-blue-light",
+        imgRef : "./images/icon-athletisme.webp"
+    },
+    "RENFORCEMENT": {
+        displayName : "Renforcement musculaire",
+        colorNuanceClass : "nuance-red",
+        imgRef : "./images/icon-renforcement.webp"
+    },
+    "SKATEBOARD": {
+        displayName : "Skateboard",
+        colorNuanceClass : "nuance-purple",
+        imgRef : "./images/icon-skate.webp"
+    }
 };
+
 
 
 // Format de l'objet pour une nouvelle activité
@@ -111,28 +249,23 @@ function onGenerateActivityOptionChoice() {
 
     userFavoris.forEach(activity => {
 
-        // Recherche tout l'élément dans la base du choix des activité via son dataName
-        let fullActivityItem = getActivityChoiceArrayRefByDataName(activity);
-
-
         let newOption = document.createElement("option");
-        newOption.value = fullActivityItem.dataName;
-        newOption.innerHTML = " * " +  fullActivityItem.displayName;
+        newOption.value = activity;
+        newOption.innerHTML = " * " +  activityChoiceArray[activity].displayName;
         selectorRef.appendChild(newOption);
-        if (devMode === true){console.log("ajout de l'option" + fullActivityItem.displayName );};
+        if (devMode === true){console.log("ajout de l'option" + activityChoiceArray[activity].displayName );};
     });
 
 
-
-
-    // Trier le tableau par ordre alphabétique du displayName
-    activityChoiceArray.sort((a, b) => a.displayName.localeCompare(b.displayName));
+    // Trier le tableau par ordre alphabétique 
+    let activitySortedKey = Object.keys(activityChoiceArray);
+    activitySortedKey.sort();
 
     // Ajouter les autres options triées
-    activityChoiceArray.forEach(activity => {
+    activitySortedKey.forEach(activity => {
         let newOption = document.createElement("option");
-        newOption.value = activity.dataName;
-        newOption.innerHTML = activity.displayName;
+        newOption.value = activity;
+        newOption.innerHTML = activityChoiceArray[activity].displayName;
         selectorRef.appendChild(newOption);
     });
 
@@ -180,8 +313,7 @@ function onResetActivityInputs() {
 
 
     // l'image de prévisualisation 
-    let dataActivityTarget = getActivityChoiceArrayRefByDataName("C.A.P");
-    imgEditorActivityPreviewRef.src = dataActivityTarget.imgRef;
+    imgEditorActivityPreviewRef.src = activityChoiceArray["C.A.P"].imgRef;
 
     inputDateRef.classList.remove("fieldRequired");
 };
@@ -311,12 +443,10 @@ function onInsertMoreActivity() {
 // Fonction d'insertion d'une activité dans la liste
 function onInsertOneActivity(activity) {
 
-    let activityArrayItem = getActivityChoiceArrayRefByDataName(activity.name);
-
 
     // La div de l'item
     let newItemContainer = document.createElement("div");
-    newItemContainer.className = `item-container ${activityArrayItem.colorNuanceClass}`;
+    newItemContainer.className = `item-container ${activityChoiceArray[activity.name].colorNuanceClass}`;
 
     newItemContainer.onclick = function () {
         onClickOnActivity(activity.key);
@@ -329,7 +459,7 @@ function onInsertOneActivity(activity) {
 
     let newImage = document.createElement("img");
     newImage.className = "activity";
-    newImage.src = activityArrayItem.imgRef;
+    newImage.src = activityChoiceArray[activity.name].imgRef;
 
     newImageContainer.appendChild(newImage);
 
@@ -494,10 +624,8 @@ function onClickSaveFromActivityEditor() {
 
 // Set l'image de prévisualisation d'activité dans l'éditeur
 function onChangeActivityPreview(dataName) {
-    // recherche les éléments via nom dataName : 
-    let activity = getActivityChoiceArrayRefByDataName(dataName.value);
-
-    imgEditorActivityPreviewRef.src = activity.imgRef;
+    console.log(dataName);
+    imgEditorActivityPreviewRef.src = activityChoiceArray[dataName].imgRef;
 } 
 
 
@@ -593,8 +721,7 @@ function onEditActivity(activityTarget) {
     textareaCommentRef.value = activityTarget.comment;
 
     // l'image de prévisualisation 
-    let dataActivityTarget = getActivityChoiceArrayRefByDataName(activityTarget.name);
-    imgEditorActivityPreviewRef.src = dataActivityTarget.imgRef;
+    imgEditorActivityPreviewRef.src = activityChoiceArray[activityTarget.name].imgRef;
 
 };
 

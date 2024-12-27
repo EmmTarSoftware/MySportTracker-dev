@@ -81,19 +81,14 @@ function onGenerateActivityOptionFilter(allActivityData) {
     allOption.innerHTML = "Tous";
     selectorRef.appendChild(allOption);
 
-
-
-    // Ajouter les autres options triées
+    // Ajouter les autres options des activités existantes triées
     allActivityData.forEach(activity => {
-
-        // extraite tous les éléments de l'objet du tableau
-        let currentObject = getActivityChoiceArrayRefByDataName(activity);
-
         let newOption = document.createElement("option");
-        newOption.value = currentObject.dataName;
-        newOption.innerHTML = currentObject.displayName;
+        newOption.value = activity;
+        newOption.innerHTML = activityChoiceArray[activity].displayName;
         selectorRef.appendChild(newOption);
     });
+
 
 };
 
