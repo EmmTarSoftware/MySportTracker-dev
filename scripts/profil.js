@@ -1,20 +1,11 @@
 
 // Variabilisation
 let userInfo = {
-    name :"",
-    gender : "",
-    birthDate : "",
-    size :"",
-    weight :""
+    pseudo :"",
 };
 
 // Référencement
-let inputProfilUserNameRef,
-selectorProfilUserGenderRef,
-inputProfilUserBirthDateRef,
-inputProfilUserSizeRef,
-inputProfilUserWeightRef;
-
+let inputProfilUserPseudoRef;
 
 
 // Ouverture du menu profil
@@ -30,12 +21,7 @@ function onOpenMenuProfil() {
 
 // Fonction de référencement des éléments du menu profil
 function onReferenceItemsProfils() {
-    inputProfilUserNameRef = document.getElementById("inputProfilUserName");
-    selectorProfilUserGenderRef = document.getElementById("selectorProfilGender");
-    inputProfilUserBirthDateRef = document.getElementById("inputProfilUserBirthDate");
-    inputProfilUserSizeRef = document.getElementById("inputProfilUserSize");
-    inputProfilUserWeightRef = document.getElementById("inputProfilUserWeight");
-
+    inputProfilUserPseudoRef = document.getElementById("inputProfilUserPseudo");
     if (devMode === true){console.log(" [ PROFIL ] Référence les éléments du profils.");};
 };
 
@@ -44,11 +30,7 @@ function onReferenceItemsProfils() {
 
 function onSetProfilItems() {
     if (devMode === true){console.log("[PROFIL] set les éléments du menu profils");};
-    inputProfilUserNameRef.value = userInfo.name;
-    selectorProfilUserGenderRef.value = userInfo.gender;
-    inputProfilUserBirthDateRef.value = userInfo.birthDate;
-    inputProfilUserSizeRef.value = userInfo.size;
-    inputProfilUserWeightRef.value = userInfo.weight;
+    inputProfilUserPseudoRef.value = userInfo.pseudo;
 
 };
 
@@ -63,11 +45,7 @@ function onClickSaveProfil() {
     // Lancement de sauvegarde du nouveau profil uniquement si modifié
    // Création d'une liste de champs à comparer
     const fieldsToCompare = [
-        { oldValue: userInfo.name, newValue: inputProfilUserNameRef.value },
-        { oldValue: userInfo.gender, newValue: selectorProfilUserGenderRef.value },
-        { oldValue: userInfo.birthDate, newValue: inputProfilUserBirthDateRef.value },
-        { oldValue: userInfo.size, newValue: inputProfilUserSizeRef.value },
-        { oldValue: userInfo.weight, newValue: inputProfilUserWeightRef.value }
+        { oldValue: userInfo.pseudo, newValue: inputProfilUserPseudoRef.value },
     ];
 
     // Vérification si une différence est présente
@@ -91,13 +69,7 @@ function onClickSaveProfil() {
 function onSaveUserInfo() {
 
     // Met tous les éléments des inputs dans la variable userInfo
-    userInfo.name = inputProfilUserNameRef.value;
-    userInfo.gender = selectorProfilUserGenderRef.value;
-    userInfo.birthDate = inputProfilUserBirthDateRef.value;
-    userInfo.size = inputProfilUserSizeRef.value;
-    userInfo.weight = inputProfilUserWeightRef.value;
-
-
+    userInfo.pseudo = inputProfilUserPseudoRef.value;
 
     // Sauvegarde dans la base
     if (devMode === true){console.log( "[ PROFIL ] sauvegarde des users info dans les cookies.");};
@@ -154,11 +126,7 @@ function onInsertProfilModificationInDB(e) {
 
         let modifiedData = modifyRequest.result[0];
 
-        modifiedData.name = e.name;
-        modifiedData.gender = e.gender;
-        modifiedData.birthDate = e.birthDate;
-        modifiedData.size = e.size;
-        modifiedData.weight = e.weight;
+        modifiedData.pseudo = e.pseudo;
 
         let insertModifiedData = store.put(modifiedData);
 
@@ -179,8 +147,8 @@ function onInsertProfilModificationInDB(e) {
     transaction.oncomplete = function(){
 
         // Met a jour l'affichage de nom de l'utilisateur
-        if (devMode === true){console.log("[ PROFIL ] Mise à jours du nom de l'utilisateur dans l'application.");};
-        document.getElementById("userName").innerHTML = userInfo.name;
+        if (devMode === true){console.log("[ PROFIL ] Mise à jours du pseudo de l'utilisateur dans l'application.");};
+        document.getElementById("userPseudo").innerHTML = userInfo.pseudo;
 
         // Popup notification
         onShowNotifyPopup(notifyTextArray.saveprofil);
@@ -211,7 +179,7 @@ function onExtractProfilFromDB(){
             onSetUserInfoFromOpeningAPP(requestTask.result);
 
         } else {
-            if (devMode === true){console.log('[ DATABASE PROFIL ] Aucun élément trouvé pour le userName');};
+            if (devMode === true){console.log('[ DATABASE PROFIL ] Aucun élément trouvé pour le userPseudo');};
         }
     };
 
@@ -228,20 +196,16 @@ function onSetUserInfoFromOpeningAPP(data) {
     if (devMode === true){console.log("[PROFIL] remplit les userInfo éléments");};
 
     // Remplit la variable
-    userInfo.name = data.name;
-    userInfo.gender = data.gender;
-    userInfo.birthDate = data.birthDate;
-    userInfo.size = data.size;
-    userInfo.weight = data.weight;
+    userInfo.pseudo = data.pseudo;
 
     if (devMode === true){
         console.log("[PROFIL] Valeur de userInfo = ");
         console.log(userInfo);
 
-        console.log("[ PROFIL ] Mise à jours du nom de l'utilisateur dans l'application.");
+        console.log("[ PROFIL ] Mise à jours du pseudo de l'utilisateur dans l'application.");
     };
     // set également le html du nom de l'utilisateur
-    document.getElementById("userName").innerHTML = userInfo.name;
+    document.getElementById("userPseudo").innerHTML = userInfo.pseudo;
 
 };
 

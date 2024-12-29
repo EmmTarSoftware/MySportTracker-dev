@@ -62,7 +62,7 @@ function downloadJSON(data, filename) {
 
 
 // Fonction d'importation depuis JSON
-function importTask(inputRef, pResultRef) {
+function importBdD(inputRef, pResultRef) {
     const fileInput = document.getElementById(inputRef);
     let textResultRef = document.getElementById(pResultRef);
 

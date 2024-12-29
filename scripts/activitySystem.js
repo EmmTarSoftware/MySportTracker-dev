@@ -192,12 +192,7 @@ let activityToInsertFormat = {
     distance : "",
     duration : "",
     comment : "",
-    userInfo : {
-        age : "",
-        size: "",
-        weight : "",
-        gender: "",
-    },
+    userInfo : {},
     divers:{}
 };
 

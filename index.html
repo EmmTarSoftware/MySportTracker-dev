@@ -25,7 +25,7 @@
                 Mon Suivit Sportif
             </p>
             
-            <p id="userName" class="user-name">
+            <p id="userPseudo" class="user-pseudo">
                 <!-- Injection du nom de l'utilisateur via le profils -->
             </p>
         </div>
@@ -113,7 +113,7 @@
 
     <!-- ----------------------------Div confirmation suppression activité --------------------------------------------->
     <div id="divConfirmDeleteActivity" onclick="onAnnulDeleteActivity(event)" class="confirmationDelete">
-    <button id="btnConfirmDelete" class="btn-menu deleteConfirm" onclick="onConfirmDeleteActivity(event)"><img class="confirmSuppr" src="./Icons/Icon-Delete.webp" alt="Icone"></button>
+        <button id="btnConfirmDelete" class="btn-menu deleteConfirm" onclick="onConfirmDeleteActivity(event)"><img class="confirmSuppr" src="./Icons/Icon-Delete.webp" alt="Icone"></button>
     </div>
     <!---------------------------  FIN Div confirmation suppression activité ------------------------------------------->
 
@@ -124,28 +124,8 @@
     <div id="divProfil" class="new-interface">
 
         <p>
-            <label for="inputProfilUserName">Prénom : </label>
-            <input id="inputProfilUserName" type="text" maxlength="20">
-        </p>
-        <p>
-            <label for="selectorProfilGender">Genre :</label>
-            <select name="" id="selectorProfilGender">
-                <option value="HOMME">HOMME</option>
-                <option value="FEMME">FEMME</option>
-            </select>
-
-        </p>
-        <p>
-            <label for="inputProfilUserBirthDate">Date de naissance : </label>
-            <input id="inputProfilUserBirthDate" type="date">
-        </p>
-        <p>
-            <label for="inputProfilUserSize">Taille (cm): </label>
-            <input id="inputProfilUserSize" type="number" placeholder="ex 175" max="250" maxlength="3">
-        </p>
-        <p>
-            <label for="inputProfilUserWeight">Poids (kg): </label>
-            <input id="inputProfilUserWeight" type="number" placeholder="ex 58.3" max="250" maxlength="3">
+            <label for="inputProfilUserPseudo">Pseudo : </label>
+            <input id="inputProfilUserPseudo" type="text" maxlength="20">
         </p>
     </div>
     
@@ -168,7 +148,7 @@
             
         </p>
         <div class="btn-import-export">
-            <button class="btn-menu" onclick="exportData()"><img src="./Icons/Icon-Download.webp" alt="Icone"></button>
+            <button class="btn-menu" onclick="exportData()" id="btnExportBdD"><img src="./Icons/Icon-Download.webp" alt="Icone"></button>
         </div>
 
 
@@ -180,28 +160,59 @@
         </p>
 
         <div class="btn-import-export">
-            <button class="btn-menu" onclick="importTask('fileInputJsonTask','pImportActivityResult')"><img src="./Icons/Icon-Upload.webp" alt="" srcset=""></button>
+            <button class="btn-menu" onclick="importBdD('fileInputJsonTask','pImportActivityResult')" id="btnImportBdD"><img src="./Icons/Icon-Upload.webp" alt="" srcset="" ></button>
         </div>
-        <p id="pImportActivityResult">
-            <!-- Injection du texte -->
-        </p>
+        <div>
+            <p id="pImportActivityResult" class="setting-action-result">
+                <!-- Injection du texte -->
+            </p>
+        </div>
 
-        <!-- Mode developpeur -->
-        <p>
-            <label for="">Mode LOG développeur : </label>
-            <input type="checkbox" id="inputCheckboxDevMode" onchange="onChangeDevModeStatus(this)">
-        </p>
+
+
+        <!-- Suppression des données -->
 
         <div>
+            <p><label class="labelSetting" for="fileInputJsonTask">Suppression des données :</label></p>
+        </div>
+        <div class="setting-align-center">
+            <p>
+                <button class="delete-data" onclick="onClickDeleteDataBaseFromSetting()">Supprimer toutes mes données</button>
+            </p>
+            <p id="pResultDeleteBdD" class="setting-action-result"></p>
+        </div>
+       
+        <!-- Mode developpeur -->
+        <div>    
+            <p>
+                <label for="">Mode LOG développeur : </label>
+            </p>
             <p class="settingAlert">
                 ⚠️Impact sur les performances !
             </p>
         </div>
-        
+        <div class="setting-align-center">
+            <input type="checkbox" id="inputCheckboxDevMode" onchange="onChangeDevModeStatus(this)">
+        </div>
 
     </div>
 
-    
+    <!-- Div confirmation suppression des données -->
+    <div id="divConfirmDeleteDataBase" onclick="onCancelDeleteDataBase(event)" class="confirmationDeleteBdD">
+        <h2>Suppression des données</h2>
+
+        <p>
+            <u>Cette action est irreversible.</u> En confirmant, les données suivantes seront effacées : 
+            <ul>
+                <li>Pseudo</li>
+                <li>Favoris;</li>
+                <li>Activités;</li>
+                <li>Récompenses.</li>
+            </ul>
+            Etes vous sûr de vouloir supprimer vos données ?
+        </p>
+        <button id="btnConfirmDeleteDataBase" class="btn-menu deleteConfirmBdD" onclick="onConfirmDeleteDataBase(event)">Confirmer</button>
+    </div>
 
 
 
@@ -347,18 +358,12 @@
 
     <!-- ----------------------------------      DIV INFO        ------------------------------------------------>
     <div id="divInfo" class="new-interface">
-            <p class="release-licence"><b>Release :</b> 1.2.46</p>
-            <p class="release-licence"><b>Contact :</b></p>
-            <p class="release-licence">
-                <a href="mailto:emmtarsoftware@gmail.com">emmtarsoftware@gmail.com</a>
-            </p>
-            <p class="release-licence"><b>Licence : </b></p>
-            <p class="release-licence">
-                Emmanuel TARACONAT
-            </p>
-            <p class="release-licence">
-                © 2025 EmmTarSoftware. Tous droits réservés.
-            </p>    
+            <p class="release-licence"><b>Release :</b> 1.2.46</p> 
+
+        
+            <p class="release-licence"><b>License : </b></p>
+            <p class="release-licence">Emmanuel TARACONAT.</p>
+            <p class="release-licence"> © 2025 Tous droits réservés.</p>
     </div>
 
     <div id="divBtnInfo" class="button-editor">
@@ -404,30 +409,77 @@
             <h3 class="conditionUtilisation">Bienvenue sur "Mon Suivit Sportif"</h3>
         </div>
         
-        <div>
-            <h4>Lis bien ces informations avant de commencer.</h4>
 
-            <h4>Données :</h4>
-            <p>Tes données seront sauvegardées dans ton navigateur. Note que si tu effaces l'historique ou utilises des outils de nettoyage, tu pourrais les perdre.</p>
+        <h3>Lis bien ces informations avant de commencer.</h3>
     
-            <h4>Statistiques :</h4>
-            <p>Pense à compléter ton profil avant de créer ta première activité. Cela te permettra d'avoir des statistiques personnalisées par la suite. Rendez-vous dans le menu "Profil" pour le faire.</p>
-        </div>
-       
+        <h3>Politique de confidentialité et stockage des données</h3>
+        <h3>1. Aucune collecte de données personnelles</h3>
+        <p>Sur notre site, nous ne collectons aucune donnée personnelle et nous ne transmettons aucune information à des tiers. 
+            Nous respectons votre vie privée et ne traitons pas vos données à des fins commerciales ou autres. 
+            Les informations que vous entrez dans l'application sont stockées localement sur votre appareil, 
+            soit dans IndexedDB, soit dans les cookies (localStorage) de votre navigateur.</p>
+
+        <h3>2. Stockage local des données</h3>
+        <p>Nous utilisons deux technologies de stockage local : </p>
+        <p><b>IndexedDB :</b> Nous stockons les données relatives à vos activités sportives, telles que le type d'activité, 
+            la date, la durée, la distance, d'autres informations liées à votre usage de l'application ainsi que votre pseudo. 
+            Ces données sont uniquement accessibles par vous et stockées localement sur votre appareil.</p>
+
+        <p><b>Cookies et localStorage :</b> Les cookies sont utilisés pour stocker des informations qui permettent de personnaliser votre expérience, telles que 
+                <b>vos préférences,</b> comme la sélection de vos activités favorites : cela permet d'afficher en priorité vos activités favorites dans l'interface de l'application.
+            Ces informations sont stockées uniquement sur votre appareil et ne sont pas partagées avec des tiers.
+        </p>
+
+        <h3>3. Aucune donnée sensible ne doit être stockée</h3>
+
+        <p>Nous vous recommandons de <b>ne pas entrer d'informations sensibles </b> dans l'application 
+            (telles que des <b>données de santé,</b> des <b>informations bancaires</b>, des <b>identifiants</b> ou des <b>mots de passe</b>).
+             L'application n'est pas conçue pour gérer ce type d'information, et ces données 
+             ne sont pas nécessaires au bon fonctionnement de l'application.
+        </p>
+
+
+        <h3>4. Contrôle total sur vos données</h3>
+        <p>
+            En tant qu'utilisateur, vous avez un contrôle total sur vos données :
+        </p>
+        <p>
+            Vous pouvez modifier ou supprimer votre pseudo et vos préférences à tout moment dans les paramètres de l'application.
+        </p>
+        <p>
+            Vous pouvez supprimer toutes vos données en effaçant les cookies et les données stockées dans IndexedDB. 
+            Vous avez également la possibilité de réinitialiser l'application à tout moment pour effacer toutes les informations stockées localement.
+        </p>
+
+
+        <h3>5. Consentement préalable</h3>
+        <p>
+            Avant d'utiliser l'application, vous devez accepter les conditions concernant le stockage des données locales. 
+            En accédant à l'application, vous acceptez que vos favoris soient stockées dans 
+            les cookies (localStorage) et que vos activités sportives et pseudo soient stockées dans IndexedDB, exclusivement pour un usage local.
+        </p>
+        <p>
+            <b>Cookies :</b> Vous consentez à ce que des informations soient stockées dans vos cookies et dans votre localStorage pour améliorer votre expérience. 
+            Ces informations resteront dans votre navigateur jusqu'à ce que vous choisissiez de les supprimer manuellement ou via les paramètres de votre appareil.
+        </p>
+        <p>
+            <b>Données stockées localement :</b> Vous êtes informé que toutes les données que vous fournissez sont stockées localement sur votre appareil
+             et ne sont pas partagées avec nous ou avec des tiers. Vous pouvez gérer et supprimer ces informations à tout moment.
+        </p>
+
+        <h3>Acceptation</h3>
+        <p>
+            J'accepte les conditions de stockage des données dans mon navigateur et comprends que mes données seront utilisées uniquement localement pour améliorer mon expérience.
+        </p>
+
         <select class="conditionUtilisation" onchange="toggleLaunchButton()" name="" id="selectStatusCondition">
             <option value="Refused">Je décline.</option>
             <option value="Accepted">J'ai compris et j'accepte.</option>
-        </select>    
+        </select> 
 
-
-
-
-        
-        
         <div class="buttonAcceptation">
             <button  id="launch-btn" class="btn-menu btnFocus" onclick="onClickAcceptCondition()"><img src="./Icons/Icon-Accepter.webp" alt="Icone"></button>  
         </div>
-
     </div>
     <!-- ----------------------------------  FIN   DIV CONDITION ACCEPTATION    ------------------------------------------------>
 

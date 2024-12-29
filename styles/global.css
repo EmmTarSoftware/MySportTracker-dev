@@ -219,7 +219,7 @@ p.app-title{
     margin-left: 10px;
 }
 
-p.user-name{
+p.user-pseudo{
     display: inline;
     text-align: right;
     margin-right: 30px;
@@ -675,10 +675,71 @@ p.settingAlert{
 }
 
 
+button.delete-data{
+    background-color: rgb(255, 103, 103);
+    border: none;
+    border-radius: 5px;
+    box-shadow: var(--boxShadow);
+    padding: 10px;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+button.cancel-delete-data{
+    background-color: var(--colorMainTheme2);
+    border: none;
+    border-radius: 5px;
+    box-shadow: var(--boxShadow);
+    padding: 10px;
+    font-weight: bold;
+}
+
+
+
+p.setting-action-result{
+    font-weight: bold;
+    margin-left: 10px;
+    padding-left: 10px;
+}
+
+
+div.setting-align-center{
+    text-align: center;
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
 
 
 
 
+div.confirmationDeleteBdD{
+    z-index: 2;
+    display: none;
+    width: 100%;
+    height:100vh;
+    position: absolute;
+    background-color: #d6d6d6;
+}
+
+div.confirmationDeleteBdD.show {
+    display: flex; /* Change display pour l'afficher */
+    flex-direction: column;
+    justify-content:center;
+    align-items: center;
+}
+
+
+button.deleteConfirmBdD{
+    background-color: var(--colorMainTheme2);
+    margin-bottom: -200px;
+    width: 70px;
+    height: 70px;
+}
+
+div.confirmationDeleteBdD p{
+    margin-left: 20px;
+}
 
 
 
@@ -705,10 +766,15 @@ p.settingAlert{
     position: fixed;
     top: 60px;
     width: calc(100% - 20px); /* 100% moins les 10px de padding gauche et droite */
-    height: 100vh;
-    height: 90%;
+    height: 90vh;
     border-radius:10px 10px;
     padding-left: 20px;
+    flex-direction: column;   /* Empile les items verticalement */
+    align-items: flex-start;  /* Aligne les items en haut */
+    flex-grow: 1; /* Remplit l'espace restant entre header et footer */
+    overflow-y: auto; /* Permet le défilement vertical si nécessaire */
+    padding: 10px; /* Ajoute un petit espace intérieur */
+    box-sizing: border-box; /* Inclut les bordures et padding dans les dimensions */
 }
 
 h3.conditionUtilisation{
@@ -722,9 +788,9 @@ div.entete-condition{
 }
 
 div.buttonAcceptation{
-    position: absolute;
     width: 100%;
     margin-top: 50px;
+    margin-bottom: 50px;
     text-align: center;
 }
 

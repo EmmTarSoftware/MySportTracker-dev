@@ -158,7 +158,7 @@ function onLeaveMenu(menuTarget) {
         break;
         case "Activity":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Activity");};
-            onChangeDisplay(["divActivityEditor"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],["divActivityEditor","divBtnActivity"],[],[]);
+            onChangeDisplay(["divActivityEditor","divBtnActivity"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],["divActivityEditor","divBtnActivity"],[],[]);
         break;
 
         // Condition utilisateur
@@ -198,18 +198,21 @@ function onLeaveMenu(menuTarget) {
 function onChangeDisplay(toHide,toDisplayBlock,toDisplayFlex,toDisable,toEnable,visibilityOFF,visibilityON) {
     // Cache les items
     toHide.forEach(id=>{
+        if (devMode === true) {console.log("[NAVIGATION] to hide : " + id);};
         let itemRef = document.getElementById(id);
         itemRef.style.display = "none";
     });
 
     // Affiche les items en block
     toDisplayBlock.forEach(id=>{
+        if (devMode === true) {console.log("[NAVIGATION] to display bloc : " + id);};
         let itemRef = document.getElementById(id);
         itemRef.style.display = "block";
     });
 
      // Affiche les items en flex
      toDisplayFlex.forEach(id=>{
+        if (devMode === true) {console.log("[NAVIGATION] to display flex : " + id);};
         let itemRef = document.getElementById(id);
         itemRef.style.display = "flex";
     });
@@ -217,6 +220,7 @@ function onChangeDisplay(toHide,toDisplayBlock,toDisplayFlex,toDisable,toEnable,
 
     // Desactive les items
     toDisable.forEach(id=>{
+        if (devMode === true) {console.log("[NAVIGATION] to disable : " + id);};
        let itemRef = document.getElementById(id);
        itemRef.style.opacity = 0.1;
        itemRef.style.pointerEvents = "none";
@@ -224,6 +228,7 @@ function onChangeDisplay(toHide,toDisplayBlock,toDisplayFlex,toDisable,toEnable,
 
     // Active les items
     toEnable.forEach(id=>{
+        if (devMode === true) {console.log("[NAVIGATION] to enable : " + id);};
         let itemRef = document.getElementById(id);
         itemRef.style.opacity = 1;
         itemRef.style.pointerEvents = "all";
@@ -233,12 +238,14 @@ function onChangeDisplay(toHide,toDisplayBlock,toDisplayFlex,toDisable,toEnable,
 
     // Visibilité OFF pour les items
     visibilityOFF.forEach(id=>{
+        if (devMode === true) {console.log("[NAVIGATION] to VISIBILITY OFF : " + id);};
         let itemRef = document.getElementById(id);
         itemRef.style.visibility = "hidden";
     });
 
     // Visibilité ON pour les items
     visibilityON.forEach(id=>{
+        if (devMode === true) {console.log("[NAVIGATION] to visibility ON : " + id);};
         let itemRef = document.getElementById(id);
         itemRef.style.visibility = "visible";
     });
@@ -324,7 +331,7 @@ function onFormatDateToFr(dateString) {
 
 
 
-let cookiesConditionUtilisation_keyName = "MonSuivitSportif-ConditionAccepted";
+let cookiesConditionUtilisation_keyName = "MSS-ConditionAccepted";
 
 function onCheckConditionUtilisation() {
     if (localStorage.getItem(cookiesConditionUtilisation_keyName) === null) {
@@ -411,7 +418,6 @@ function onStartDataBase() {
             let profilStore = db.createObjectStore(profilStoreName, {keyPath:'key',autoIncrement: true});
             if (devMode === true){console.log("[ DATABASE PROFIL] Creation du magasin " + profilStoreName);};
 
-            profilStore.createIndex('userName', 'name',{unique:true});
             isNewProfilRequiered = true;
         };
 

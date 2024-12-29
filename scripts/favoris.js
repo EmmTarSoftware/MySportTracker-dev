@@ -73,7 +73,7 @@ function onClickReturnFromFavoris() {
 
 // Creation du tableau des favoris
 let userFavoris = [],
-    cookiesUserFavorisName = "MonSuivitSportif-userFavoris";
+    cookiesUserFavorisName = "MSS_userFavoris";
 
 // Vérification de l'engeristrement des favoris en local storage
 
