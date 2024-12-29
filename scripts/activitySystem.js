@@ -767,7 +767,6 @@ function onFormatActivity() {
     activityToInsertFormat.location = onSetToUppercase(inputLocationRef.value);
     activityToInsertFormat.comment = textareaCommentRef.value;
     activityToInsertFormat.duration = inputDurationRef.value;
-    activityToInsertFormat.userInfo = userInfo;
     activityToInsertFormat.divers = {};
 
 
