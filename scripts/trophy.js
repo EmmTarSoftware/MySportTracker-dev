@@ -343,6 +343,9 @@ function onLoadUserRewardsList() {
 
     // Les Rewards que possède déjà l'utilisateur 
 
+    userRewardsArray.sort();
+
+
     userRewardsArray.forEach(e=>{
         let newImg = document.createElement("img");
 
