@@ -619,7 +619,7 @@ function onClickSaveFromActivityEditor() {
 
 // Set l'image de prévisualisation d'activité dans l'éditeur
 function onChangeActivityPreview(dataName) {
-    console.log(dataName);
+    if (devMode === true){console.log(dataName);};
     imgEditorActivityPreviewRef.src = activityChoiceArray[dataName].imgRef;
 } 
 

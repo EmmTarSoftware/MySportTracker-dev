@@ -316,7 +316,7 @@ function onSearchVariousActivitiesNumber(allData,targetValue,currentActivity) {
 
 
 function onOpenMenuRewards(){
-    console.log("[REWARDS] Ouverture menu Rewards");
+    if (devMode === true){console.log("[REWARDS] Ouverture menu Rewards");};
 
     // Reference les éléments
     imgRewardsFullScreenRef = document.getElementById("imgRewardsFullScreen");
@@ -339,7 +339,7 @@ function onLoadUserRewardsList() {
 
     divRewardsListRef.innerHTML = "";
 
-    console.log("[REWARDS] Création de la liste des récompenses");
+    if (devMode === true){console.log("[REWARDS] Création de la liste des récompenses");};
 
     // Les Rewards que possède déjà l'utilisateur 
 
@@ -367,26 +367,30 @@ function onLoadUserRewardsList() {
 
 
 
-
     // le reste des rewards non possédé
-    for (let [rewardName, reward] of Object.entries(allRewardsObject)) {
+    let allRewardsKeys = Object.keys(allRewardsObject);
+    // Récupère les clés pour les classé ordre alpha
+    allRewardsKeys.sort();
 
-        let isPossessed = userRewardsArray.includes(rewardName);
+    allRewardsKeys.forEach(key=>{
+
+        let isPossessed = userRewardsArray.includes(key);
 
         if (!isPossessed) {
             // Création des images
             let newImg = document.createElement("img");
             newImg.classList = "rewardsListDisable";
-            newImg.src = reward.imgRef;
+            newImg.src = allRewardsObject[key].imgRef;
             newImg.loading = "lazy";
             newImg.onclick = function (){
-                onDisplayRewardsFullScreen(rewardName,false);
+                onDisplayRewardsFullScreen(key,false);
             };
 
             // Insertion
             divRewardsListRef.appendChild(newImg);
         }
-    }
+
+    });
 
 };
 
@@ -404,7 +408,7 @@ function onLoadUserRewardsList() {
 
 // Affiche en grand la récompense
 function onDisplayRewardsFullScreen(rewardName,isPossessed) {
-    console.log("[REWARDS]  demande de visualisation de récompense : " + rewardName);
+    if (devMode === true){console.log("[REWARDS]  demande de visualisation de récompense : " + rewardName);};
 
 
     // set les éléments et affiche selon si l'utilisateur le possède ou non
@@ -427,7 +431,7 @@ function onDisplayRewardsFullScreen(rewardName,isPossessed) {
 
 // Masque la récompense qui était en grand plan
 function onHiddenFullscreenRewards() {
-    console.log("cache la div de visualisation de récompense");
+    if (devMode === true){console.log("cache la div de visualisation de récompense");};
     document.getElementById("divFullScreenRewards").classList.remove("show");
 };
 
