@@ -55,12 +55,12 @@ const isNotificationSupported = () => 'Notification' in window;
 // Demande l'autorisation pour les notifications
 const requestNotificationPermission = async () => {
 
-    console.log(" [NOTIFY] [MOBILE] : demande d'autorisation");
+    if (devMode === true){console.log(" [NOTIFY] [MOBILE] : demande d'autorisation");};
 
     if (Notification.permission === 'default') {
         const permission = await Notification.requestPermission();
         localStorage.setItem('MSS_notifyPermission', permission); // Mémorise la décision
-        console.log(" [NOTIFY] [MOBILE] : enregistrement de la décision " + permission);
+        if (devMode === true){console.log(" [NOTIFY] [MOBILE] : enregistrement de la décision " + permission);};
         updateStatusDisplay();
         return permission;
     }
@@ -94,14 +94,14 @@ function onReceiveNotifyMobileEvent(rewardsKeysArray) {
         // Car sinon juste le fait d'alimenter l'arret ci-dessus suffit à la faire continuer son traitement
         if (!isMobileNotifyInProgress) {
             // Lancement de la boucle de traitement
-            console.log(" [NOTIFY] [MOBILE] Lancement de la boucle de traitement. Activation du boolean");
+            if (devMode === true){console.log(" [NOTIFY] [MOBILE] Lancement de la boucle de traitement. Activation du boolean");};
             isMobileNotifyInProgress = true;
             onTraiteMobileNotify(); 
         }
         
 
     } else if (Notification.permission === 'denied') {
-        console.log(" [NOTIFY] [MOBILE] Notification NON autorisées ! ");
+        if (devMode === true){console.log(" [NOTIFY] [MOBILE] Notification NON autorisées ! ");};
         return
     } else{
         eventFirstMobileNotify(rewardsKeysArray);
@@ -113,14 +113,14 @@ function onReceiveNotifyMobileEvent(rewardsKeysArray) {
 // première notification mobile
 const eventFirstMobileNotify = async (rewardsKeysArray) => {
 
-    console.log(" [NOTIFY] [MOBILE] première notication.");
+    if (devMode === true){console.log(" [NOTIFY] [MOBILE] première notication.");};
 
     // Première récompense
     const permission = await requestNotificationPermission();
     if (permission === 'granted') {
         // Ajout des nouvelles notifications dans la file d'attente
         rewardsKeyArrayToNotifyCue.push(...rewardsKeysArray);
-        console.log(" [NOTIFY] [MOBILE] Lancement de la boucle de traitement. Activation du boolean");
+        if (devMode === true){console.log(" [NOTIFY] [MOBILE] Lancement de la boucle de traitement. Activation du boolean");};
         isMobileNotifyInProgress = true;
         onTraiteMobileNotify();
     }
@@ -135,18 +135,20 @@ function onTraiteMobileNotify() {
 
     sendRewardMobileNotify('Récompense :', allRewardsObject[rewardKey].title,allRewardsObject[rewardKey].imgRef);
 
-    console.log("[NOTIFY] [MOBILE] Traitement pour " + rewardKey);
-
     // Retire l'index zero de la file d'attente
     rewardsKeyArrayToNotifyCue.shift();
 
-    console.log("[NOTIFY] [MOBILE] File d'attente :" + rewardsKeyArrayToNotifyCue);
+    if (devMode === true){
+        console.log("[NOTIFY] [MOBILE] Traitement pour " + rewardKey);
+        console.log("[NOTIFY] [MOBILE] File d'attente :" + rewardsKeyArrayToNotifyCue);
+    };
+    
 
     setTimeout(() => {
         if (rewardsKeyArrayToNotifyCue.length > 0) {            
             onTraiteMobileNotify();
         } else {
-            console.log("[NOTIFY] [MOBILE] fin de traitement. Libération du boolean");
+            if (devMode === true){console.log("[NOTIFY] [MOBILE] fin de traitement. Libération du boolean");};
             isMobileNotifyInProgress = false;
         }
     }, 2000);
@@ -175,11 +177,11 @@ function onInitMobileNotify() {
 function updateStatusDisplay (){
     const permission = Notification.permission;
     if (permission === 'granted') {
-        pMobileNotifyStatusRef.innerHTML = 'Notifications : Activées';
+        pMobileNotifyStatusRef.innerHTML = 'Activées';
     } else if (permission === 'denied') {
-        pMobileNotifyStatusRef.innerHTML = 'Notifications : Refusées';
+        pMobileNotifyStatusRef.innerHTML = 'Refusées';
     } else {
-        pMobileNotifyStatusRef.innerHTML = 'Notifications : Non configurées';
+        pMobileNotifyStatusRef.innerHTML = 'Non configurées';
     }
 };
 

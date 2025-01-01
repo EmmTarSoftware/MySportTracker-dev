@@ -676,7 +676,7 @@ p.settingAlert{
 
 
 button.delete-data{
-    background-color: rgb(255, 103, 103);
+    background-color: rgb(255, 128, 128);
     border: none;
     border-radius: 5px;
     box-shadow: var(--boxShadow);

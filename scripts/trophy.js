@@ -742,10 +742,6 @@ function onAffectFinalRewardsToUser() {
         if (devMode === true){console.log(`[REWARDS] [EVENT] Aucun traitement necessaire`);};
     }
 
-    
-    
-
-
 
     // Insertion dans la base de donnée
     onInsertRewardsModificationInDB(userRewardsArray);
