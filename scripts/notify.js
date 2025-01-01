@@ -69,7 +69,7 @@ const requestNotificationPermission = async () => {
 
 
 // fonction d'envoie une notification
-function sendRewardMobileNotify (title, body,badgeReward) {
+function sendRewardMobileNotify(title, body,badgeReward) {
     if (Notification.permission === 'granted') {
         navigator.serviceWorker.ready.then(swRegistration => {
             swRegistration.showNotification(title, {
@@ -133,7 +133,7 @@ function onTraiteMobileNotify() {
     // index zero de la file d'attente
     let rewardKey = rewardsKeyArrayToNotifyCue[0];
 
-    sendRewardMobileNotify('Récompense :', allRewardsObject[rewardKey].title,allRewardsObject[rewardKey].imgRef);
+    sendRewardMobileNotify(allRewardsObject[rewardKey].activityName, allRewardsObject[rewardKey].title,allRewardsObject[rewardKey].imgRef);
 
     // Retire l'index zero de la file d'attente
     rewardsKeyArrayToNotifyCue.shift();
