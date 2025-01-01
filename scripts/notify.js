@@ -69,14 +69,13 @@ const requestNotificationPermission = async () => {
 
 
 // fonction d'envoie une notification
-function sendRewardMobileNotify(title, body,badgeReward) {
+function sendRewardMobileNotify(title, body) {
     if (Notification.permission === 'granted') {
         navigator.serviceWorker.ready.then(swRegistration => {
             swRegistration.showNotification(title, {
                 badge :"./Icons/notifyBadge48.png",
                 icon: "./Icons/Logo_MSS-192.png",
                 body: body,
-                image : badgeReward,
                 vibrate: [200, 100, 200],
             });
         });
@@ -133,7 +132,7 @@ function onTraiteMobileNotify() {
     // index zero de la file d'attente
     let rewardKey = rewardsKeyArrayToNotifyCue[0];
 
-    sendRewardMobileNotify(allRewardsObject[rewardKey].activityName, allRewardsObject[rewardKey].title,allRewardsObject[rewardKey].imgRef);
+    sendRewardMobileNotify(allRewardsObject[rewardKey].activityName, allRewardsObject[rewardKey].title);
 
     // Retire l'index zero de la file d'attente
     rewardsKeyArrayToNotifyCue.shift();
