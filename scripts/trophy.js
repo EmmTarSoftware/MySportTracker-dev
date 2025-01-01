@@ -734,7 +734,10 @@ function onAffectFinalRewardsToUser() {
 
     // Lance l'event reward obtenu si besoin
     if (rewardsEligibleArray.length >=1) {
+        // Recompense in APP
         rewardsEvent(rewardsEligibleArray);
+        // Recompense in MOBILE
+        onReceiveNotifyMobileEvent(rewardsEligibleArray);
     }else{
         if (devMode === true){console.log(`[REWARDS] [EVENT] Aucun traitement necessaire`);};
     }

@@ -5,7 +5,7 @@ const basePath = serviceWorkerUrl.replace(/service-worker\.js$/, '');
 console.log(`[SERVICE WORKER] : BasePath = ${basePath}`);
 
 // Nom de la version du cache
-const CACHE_VERSION = "V23";
+const CACHE_VERSION = "V24";
 const STATIC_CACHE = `static-${CACHE_VERSION}`;
 
 // Fichiers à mettre en cache
@@ -36,7 +36,8 @@ const ICONS = [
   `${basePath}Icons/Icon-Valider.webp`,
   `${basePath}Icons/Logo_MSS-192.png`,
   `${basePath}Icons/Logo_MSS-512.png`,
-  `${basePath}Icons/MSS-Logo.ico`
+  `${basePath}Icons/MSS-Logo.ico`,
+  `${basePath}Icons/notifyBadge48.png`
 ];
 
 const IMAGES = [
@@ -272,6 +273,13 @@ self.addEventListener("activate", (event) => {
   self.clients.claim(); // Contrôler immédiatement les pages
 });
 
+
+
+// Action lorsque l'utilisateur clique sur la notification (actuellement ferme la notification)
+self.addEventListener('notificationclick', event => {
+  event.notification.close();
+  console.log('Notification cliquée.');
+});
 
 
 
