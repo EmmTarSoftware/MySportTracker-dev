@@ -31,43 +31,43 @@ const allRewardsObject = {
     },
     "CAP-A-1-SEANCE": {
         imgRef: "./Badges/Badge-CAP-A.webp",
-        title: "A vos chaussures !",
+        title: "1 km à pieds…",
         activityName: "CAP",
         text: "1 séance de C.A.P"
     },
     "CAP-B-10-SEANCES": {
         imgRef: "./Badges/Badge-CAP-B.webp",
-        title: "Niveau 10",
+        title: "Palier 10",
         activityName: "CAP",
         text: "10 séances de C.A.P"
     },
     "CAP-C-50-SEANCES": {
         imgRef: "./Badges/Badge-CAP-C.webp",
-        title: "Niveau 50",
+        title: "Palier 50",
         activityName: "CAP",
         text: "50 séances de C.A.P"
     },
     "CAP-D-100-SEANCES": {
         imgRef: "./Badges/Badge-CAP-D.webp",
-        title: "Niveau 100",
+        title: "...ça use les souliers",
         activityName: "CAP",
         text: "100 séances de C.A.P"
     },
     "CAP-E-10-KM": {
         imgRef: "./Badges/Badge-CAP-E.webp",
-        title: "RUNNER",
+        title: "Runner 10 km",
         activityName: "CAP",
         text: "une séance de C.A.P entre 10km et 10.950 km"
     },
     "CAP-F-SEMI-MARATHON": {
         imgRef: "./Badges/Badge-CAP-F.webp",
-        title: "SEMI-MARATHON",
+        title: "Semi-marathon",
         activityName: "CAP",
         text: "une séance de C.A.P entre 21 km et 21.950 km"
     },
     "CAP-G-MARATHON": {
         imgRef: "./Badges/Badge-CAP-G.webp",
-        title: "MARATHONIEN (NIENNE)",
+        title: "Un marathon dans les jambes",
         activityName: "CAP",
         text: "une séance de C.A.P entre 42 km et 42.950 km"
     },
@@ -85,19 +85,19 @@ const allRewardsObject = {
     },
     "FRACTIONNE-B-10-SEANCES": {
         imgRef: "./Badges/Badge-FRACTIONNE-B.webp",
-        title: "Niveau 10",
+        title: "Palier 10",
         activityName: "FRACTIONNE",
         text: "10 séances de fractionné"
     },
     "FRACTIONNE-C-50-SEANCES": {
         imgRef: "./Badges/Badge-FRACTIONNE-C.webp",
-        title: "Niveau 50",
+        title: "Palier 50",
         activityName: "FRACTIONNE",
         text: "50 séances de fractionné"
     },
     "FRACTIONNE-D-100-SEANCES": {
         imgRef: "./Badges/Badge-FRACTIONNE-D.webp",
-        title: "Niveau 100",
+        title: "Cardio, vitesse et régularité",
         activityName: "FRACTIONNE",
         text: "100 séances de fractionné"
     },
@@ -109,19 +109,19 @@ const allRewardsObject = {
     },
     "MARCHE-RANDO-B-10-SEANCES": {
         imgRef: "./Badges/Badge-MARCHE-RANDO-B.webp",
-        title: "Niveau 10",
+        title: "Palier 10",
         activityName: "MARCHE-RANDO",
         text: "10 séances de marche ou de randonnée"
     },
     "MARCHE-RANDO-C-50-SEANCES": {
         imgRef: "./Badges/Badge-MARCHE-RANDO-C.webp",
-        title: "Niveau 50",
+        title: "Palier 50",
         activityName: "MARCHE-RANDO",
         text: "50 séances de marche ou de randonnée"
     },
     "MARCHE-RANDO-D-100-SEANCES": {
         imgRef: "./Badges/Badge-MARCHE-RANDO-D.webp",
-        title: "Niveau 100",
+        title: "...un grand pas pour ta santé !",
         activityName: "MARCHE-RANDO",
         text: "100 séances de marche ou de randonnée"
     },
@@ -139,19 +139,19 @@ const allRewardsObject = {
     },
     "VELO-B-10-SEANCES": {
         imgRef: "./Badges/Badge-VELO-B.webp",
-        title: "Niveau 10",
+        title: "Palier 10",
         activityName: "VELO",
         text: "10 séances de vélo"
     },
     "VELO-C-50-SEANCES": {
         imgRef: "./Badges/Badge-VELO-C.webp",
-        title: "Niveau 50",
+        title: "Palier 50",
         activityName: "VELO",
         text: "50 séances de vélo"
     },
     "VELO-D-100-SEANCES": {
         imgRef: "./Badges/Badge-VELO-D.webp",
-        title: "Niveau 100",
+        title: "Entre vitesse et maîtrise",
         activityName: "VELO",
         text: "100 séances de vélo"
     },
@@ -169,25 +169,25 @@ const allRewardsObject = {
     },
     "NATATION-A-1-SEANCE": {
         imgRef: "./Badges/Badge-NATATION-A.webp",
-        title: "Niveau 1",
+        title: "T'as mis ton bonnet ?",
         activityName: "NATATION",
         text: "1 séance de natation"
     },
     "NATATION-B-10-SEANCES": {
         imgRef: "./Badges/Badge-NATATION-B.webp",
-        title: "Niveau 10",
+        title: "Palier 10",
         activityName: "NATATION",
         text: "10 séances de natation"
     },
     "NATATION-C-50-SEANCES": {
         imgRef: "./Badges/Badge-NATATION-C.webp",
-        title: "NNiveau 50",
+        title: "Palier 50",
         activityName: "NATATION",
         text: "50 séances de natation"
     },
     "NATATION-D-100-SEANCES": {
         imgRef: "./Badges/Badge-NATATION-D.webp",
-        title: "Niveau 100",
+        title: "Pro des bassins",
         activityName: "NATATION",
         text: "100 séances de natation"
     },
@@ -199,73 +199,73 @@ const allRewardsObject = {
     },
     "CROSSFIT-A-1-SEANCE": {
         imgRef: "./Badges/Badge-CROSSFIT-A.webp",
-        title: "Premiers burpees !",
+        title: "La souffrance, ça forge !",
         activityName: "CROSSFIT",
         text: "1 séance de crossfit"
     },
     "CROSSFIT-B-10-SEANCES": {
         imgRef: "./Badges/Badge-CROSSFIT-B.webp",
-        title: "Niveau 10",
+        title: "Palier 10",
         activityName: "CROSSFIT",
         text: "10 séances de crossfit"
     },
     "CROSSFIT-C-50-SEANCES": {
         imgRef: "./Badges/Badge-CROSSFIT-C.webp",
-        title: "Niveau 50",
+        title: "Palier 50",
         activityName: "CROSSFIT",
         text: "50 séances de crossfit"
     },
     "CROSSFIT-D-100-SEANCES": {
         imgRef: "./Badges/Badge-CROSSFIT-D.webp",
-        title: "Niveau 100",
+        title: "Homme/Femme de fer",
         activityName: "CROSSFIT",
         text: "100 séances de crossfit"
     },
     "YOGA-A-1-SEANCE": {
         imgRef: "./Badges/Badge-YOGA-A.webp",
-        title: "ZEN",
+        title: "Zen, restons zen !",
         activityName: "YOGA",
         text: "1 séance de yoga"
     },
     "YOGA-B-10-SEANCES": {
         imgRef: "./Badges/Badge-YOGA-B.webp",
-        title: "Niveau 10",
+        title: "Palier 10",
         activityName: "YOGA",
         text: "10 séances de yoga"
     },
     "YOGA-C-50-SEANCES": {
         imgRef: "./Badges/Badge-YOGA-C.webp",
-        title: "Niveau 50",
+        title: "Palier 50",
         activityName: "YOGA",
         text: "50 séances de yoga"
     },
     "YOGA-D-100-SEANCES": {
         imgRef: "./Badges/Badge-YOGA-D.webp",
-        title: "Niveau 100",
+        title: "Imperturbable !",
         activityName: "YOGA",
         text: "100 séances de yoga"
     },
     "SPORT-CO-A-1-SEANCE": {
         imgRef: "./Badges/Badge-SPORT-CO-A.webp",
-        title: "Joueur d'équipe",
+        title: "Ça se règle sur le terrain !",
         activityName: "SPORT-CO",
         text: "1 séance de sport-co"
     },
     "SPORT-CO-B-10-SEANCES": {
         imgRef: "./Badges/Badge-SPORT-CO-B.webp",
-        title: "Niveau 10",
+        title: "Palier 10",
         activityName: "SPORT-CO",
         text: "10 séances de sport-co"
     },
     "SPORT-CO-C-50-SEANCES": {
         imgRef: "./Badges/Badge-SPORT-CO-C.webp",
-        title: "Niveau 50",
+        title: "Palier 50",
         activityName: "SPORT-CO",
         text: "50 séances de sport-co"
     },
     "SPORT-CO-D-100-SEANCES": {
         imgRef: "./Badges/Badge-SPORT-CO-D.webp",
-        title: "Niveau 100",
+        title: "Joueur d'équipe",
         activityName: "SPORT-CO",
         text: "100 séances de sport-co"
     },
@@ -277,19 +277,19 @@ const allRewardsObject = {
     },
     "ESCALADE-B-10-SEANCES": {
         imgRef: "./Badges/Badge-ESCALADE-B.webp",
-        title: "Niveau 10",
+        title: "Palier 10",
         activityName: "ESCALADE",
         text: "10 séances d'escalade"
     },
     "ESCALADE-C-50-SEANCES": {
         imgRef: "./Badges/Badge-ESCALADE-C.webp",
-        title: "Niveau 50",
+        title: "Palier 50",
         activityName: "ESCALADE",
         text: "50 séances d'escalade"
     },
     "ESCALADE-D-100-SEANCES": {
         imgRef: "./Badges/Badge-ESCALADE-D.webp",
-        title: "Niveau 100",
+        title: "Au sommet !",
         activityName: "ESCALADE",
         text: "100 séances d'escalade"
     },
@@ -301,43 +301,43 @@ const allRewardsObject = {
     },
     "BOXE-B-10-SEANCES": {
         imgRef: "./Badges/Badge-BOXE-B.webp",
-        title: "Niveau 10",
+        title: "Palier 10",
         activityName: "BOXE",
         text: "10 séances de boxe"
     },
     "BOXE-C-50-SEANCES": {
         imgRef: "./Badges/Badge-BOXE-C.webp",
-        title: "Niveau 50",
+        title: "Palier 50",
         activityName: "BOXE",
         text: "50 séances de boxe"
     },
     "BOXE-D-100-SEANCES": {
         imgRef: "./Badges/Badge-BOXE-D.webp",
-        title: "Niveau 100",
+        title: "KO technique !",
         activityName: "BOXE",
         text: "100 séances de boxe"
     },
     "SKI-A-1-SEANCE": {
         imgRef: "./Badges/Badge-SKI-A.webp",
-        title: "Premières traces !",
+        title: "Tu laisses ta trace ?",
         activityName: "SKI",
         text: "1 séance de ski"
     },
     "SKI-B-10-SEANCES": {
         imgRef: "./Badges/Badge-SKI-B.webp",
-        title: "Niveau 10",
+        title: "Palier 10",
         activityName: "SKI",
         text: "10 séances de ski"
     },
     "SKI-C-50-SEANCES": {
         imgRef: "./Badges/Badge-SKI-C.webp",
-        title: "Niveau 50",
+        title: "Palier 50",
         activityName: "SKI",
         text: "50 séances de ski"
     },
     "SKI-D-100-SEANCES": {
         imgRef: "./Badges/Badge-SKI-D.webp",
-        title: "Niveau 100",
+        title: "Piste noire",
         activityName: "SKI",
         text: "100 séances de ski"
     },
@@ -349,49 +349,49 @@ const allRewardsObject = {
     },
     "ACTIVITE-NAUTIQUE-A-1-SEANCE": {
         imgRef: "./Badges/Badge-ACTIVITE-NAUTIQUE-A.webp",
-        title: "Tous à bord !",
+        title: "L'appel de l'océan.",
         activityName: "ACTIVITE-NAUTIQUE",
         text: "1 séance d'activité nautique"
     },
     "ACTIVITE-NAUTIQUE-B-10-SEANCES": {
         imgRef: "./Badges/Badge-ACTIVITE-NAUTIQUE-B.webp",
-        title: "Niveau 10",
+        title: "Palier 10",
         activityName: "ACTIVITE-NAUTIQUE",
         text: "10 séances d'activité nautique"
     },
     "ACTIVITE-NAUTIQUE-C-50-SEANCES": {
         imgRef: "./Badges/Badge-ACTIVITE-NAUTIQUE-C.webp",
-        title: "Niveau 50",
+        title: "Palier 50",
         activityName: "ACTIVITE-NAUTIQUE",
         text: "50 séances d'activité nautique"
     },
     "ACTIVITE-NAUTIQUE-D-100-SEANCES": {
         imgRef: "./Badges/Badge-ACTIVITE-NAUTIQUE-D.webp",
-        title: "Niveau 100",
+        title: "Molécule préférée : H2O",
         activityName: "ACTIVITE-NAUTIQUE",
         text: "100 séances d'activité nautique"
     },
     "ETIREMENT-A-1-SEANCE": {
         imgRef: "./Badges/Badge-ETIREMENT-A.webp",
-        title: "Tout en souplesse",
+        title: "T'es du genre flexible ?",
         activityName: "ETIREMENT",
         text: "1 séance d'étirement"
     },
     "ETIREMENT-B-10-SEANCES": {
         imgRef: "./Badges/Badge-ETIREMENT-B.webp",
-        title: "Niveau 10",
+        title: "Palier 10",
         activityName: "ETIREMENT",
         text: "10 séances d'étirement"
     },
     "ETIREMENT-C-50-SEANCES": {
         imgRef: "./Badges/Badge-ETIREMENT-C.webp",
-        title: "Niveau 50",
+        title: "Palier 50",
         activityName: "ETIREMENT",
         text: "50 séances d'étirement"
     },
     "ETIREMENT-D-100-SEANCES": {
         imgRef: "./Badges/Badge-ETIREMENT-D.webp",
-        title: "Niveau 100",
+        title: "Tout en souplesse",
         activityName: "ETIREMENT",
         text: "100 séances d'étirement"
     },
@@ -403,91 +403,91 @@ const allRewardsObject = {
     },
     "GOLF-B-10-SEANCES": {
         imgRef: "./Badges/Badge-GOLF-B.webp",
-        title: "Niveau 10",
+        title: "Palier 10",
         activityName: "GOLF",
         text: "10 séances de golf"
     },
     "GOLF-C-50-SEANCES": {
         imgRef: "./Badges/Badge-GOLF-C.webp",
-        title: "Niveau 50",
+        title: "Palier 50",
         activityName: "GOLF",
         text: "50 séances de golf"
     },
     "GOLF-D-100-SEANCES": {
         imgRef: "./Badges/Badge-GOLF-D.webp",
-        title: "Niveau 100",
+        title: "Parcours réussi !",
         activityName: "GOLF",
         text: "100 séances de golf"
     },
     "TENNIS-A-1-SEANCE": {
         imgRef: "./Badges/Badge-TENNIS-A.webp",
-        title: "Service gagnant",
+        title: "Jeu…",
         activityName: "TENNIS",
         text: "1 séance de tennis"
     },
     "TENNIS-B-10-SEANCES": {
         imgRef: "./Badges/Badge-TENNIS-B.webp",
-        title: "Niveau 10",
+        title: "Palier 10",
         activityName: "TENNIS",
         text: "10 séances de tennis"
     },
     "TENNIS-C-50-SEANCES": {
         imgRef: "./Badges/Badge-TENNIS-C.webp",
-        title: "Niveau 50",
+        title: "Palier 50",
         activityName: "TENNIS",
         text: "50 séances de tennis"
     },
     "TENNIS-D-100-SEANCES": {
         imgRef: "./Badges/Badge-TENNIS-D.webp",
-        title: "Niveau 100",
+        title: "...Set et match",
         activityName: "TENNIS",
         text: "100 séances de tennis"
     },
     "PATIN-ROLLER-A-1-SEANCE": {
         imgRef: "./Badges/Badge-PATIN-ROLLER-A.webp",
-        title: "En piste !",
+        title: "Ça roule ?",
         activityName: "PATIN-ROLLER",
         text: "1 séance de patin ou de roller"
     },
     "PATIN-ROLLER-B-10-SEANCES": {
         imgRef: "./Badges/Badge-PATIN-ROLLER-B.webp",
-        title: "Niveau 10",
+        title: "Palier 10",
         activityName: "PATIN-ROLLER",
         text: "10 séances de patin ou de roller"
     },
     "PATIN-ROLLER-C-50-SEANCES": {
         imgRef: "./Badges/Badge-PATIN-ROLLER-C.webp",
-        title: "Niveau 50",
+        title: "Palier 50",
         activityName: "PATIN-ROLLER",
         text: "50 séances de patin ou de roller"
     },
     "PATIN-ROLLER-D-100-SEANCES": {
         imgRef: "./Badges/Badge-PATIN-ROLLER-D.webp",
-        title: "Niveau 100",
+        title: "Comme sur des roulettes",
         activityName: "PATIN-ROLLER",
         text: "100 séances de patin ou de roller"
     },
     "DANSE-A-1-SEANCE": {
         imgRef: "./Badges/Badge-DANSE-A.webp",
-        title: "Piste aux étoiles",
+        title: "Qui mène la danse ?",
         activityName: "DANSE",
         text: "1 séance de danse"
     },
     "DANSE-B-10-SEANCES": {
         imgRef: "./Badges/Badge-DANSE-B.webp",
-        title: "Niveau 10",
+        title: "Palier 10",
         activityName: "DANSE",
         text: "10 séances de danse"
     },
     "DANSE-C-50-SEANCES": {
         imgRef: "./Badges/Badge-DANSE-C.webp",
-        title: "Niveau 50",
+        title: "Palier 50",
         activityName: "DANSE",
         text: "50 séances de danse"
     },
     "DANSE-D-100-SEANCES": {
         imgRef: "./Badges/Badge-DANSE-D.webp",
-        title: "Niveau 100",
+        title: "Danseur(se) étoilé(e)",
         activityName: "DANSE",
         text: "100 séances de danse"
     },
@@ -499,43 +499,43 @@ const allRewardsObject = {
     },
     "MUSCULATION-B-10-SEANCES": {
         imgRef: "./Badges/Badge-MUSCULATION-B.webp",
-        title: "Niveau 10",
+        title: "Palier 10",
         activityName: "MUSCULATION",
         text: "10 séances de musculation"
     },
     "MUSCULATION-C-50-SEANCES": {
         imgRef: "./Badges/Badge-MUSCULATION-C.webp",
-        title: "Niveau 50",
+        title: "Palier 50",
         activityName: "MUSCULATION",
         text: "50 séances de musculation"
     },
     "MUSCULATION-D-100-SEANCES": {
         imgRef: "./Badges/Badge-MUSCULATION-D.webp",
-        title: "Niveau 100",
+        title: "De muscles et d'acier",
         activityName: "MUSCULATION",
         text: "100 séances de musculation"
     },
     "BADMINTON-A-1-SEANCE": {
         imgRef: "./Badges/Badge-BADMINTON-A.webp",
-        title: "1er coup de volant",
+        title: "Bizarre cette balle...",
         activityName: "BADMINTON",
         text: "1 séance de badminton"
     },
     "BADMINTON-B-10-SEANCES": {
         imgRef: "./Badges/Badge-BADMINTON-B.webp",
-        title: "Niveau 10",
+        title: "Palier 10",
         activityName: "BADMINTON",
         text: "10 séances de badminton"
     },
     "BADMINTON-C-50-SEANCES": {
         imgRef: "./Badges/Badge-BADMINTON-C.webp",
-        title: "Niveau 50",
+        title: "Palier 50",
         activityName: "BADMINTON",
         text: "50 séances de badminton"
     },
     "BADMINTON-D-100-SEANCES": {
         imgRef: "./Badges/Badge-BADMINTON-D.webp",
-        title: "Niveau 100",
+        title: "Des coups de volant",
         activityName: "BADMINTON",
         text: "100 séances de badminton"
     },
@@ -547,139 +547,139 @@ const allRewardsObject = {
     },
     "BASKETBALL-B-10-SEANCES": {
         imgRef: "./Badges/Badge-BASKETBALL-B.webp",
-        title: "Niveau 10",
+        title: "Palier 10",
         activityName: "BASKETBALL",
         text: "10 séances de basketball"
     },
     "BASKETBALL-C-50-SEANCES": {
         imgRef: "./Badges/Badge-BASKETBALL-C.webp",
-        title: "Niveau 50",
+        title: "Palier 50",
         activityName: "BASKETBALL",
         text: "50 séances de basketball"
     },
     "BASKETBALL-D-100-SEANCES": {
         imgRef: "./Badges/Badge-BASKETBALL-D.webp",
-        title: "Niveau 100",
+        title: "MVP",
         activityName: "BASKETBALL",
         text: "100 séances de basketball"
     },
     "FOOTBALL-A-1-SEANCE": {
         imgRef: "./Badges/Badge-FOOTBALL-A.webp",
-        title: "En pleine lucarne !",
+        title: "Coup d’envoi",
         activityName: "FOOTBALL",
         text: "1 séance de football"
     },
     "FOOTBALL-B-10-SEANCES": {
         imgRef: "./Badges/Badge-FOOTBALL-B.webp",
-        title: "Niveau 10",
+        title: "Palier 10",
         activityName: "FOOTBALL",
         text: "10 séances de football"
     },
     "FOOTBALL-C-50-SEANCES": {
         imgRef: "./Badges/Badge-FOOTBALL-C.webp",
-        title: "Niveau 50",
+        title: "Palier 50",
         activityName: "FOOTBALL",
         text: "50 séances de football"
     },
     "FOOTBALL-D-100-SEANCES": {
         imgRef: "./Badges/Badge-FOOTBALL-D.webp",
-        title: "Niveau 100",
+        title: "Ballon d'or",
         activityName: "FOOTBALL",
         text: "100 séances de football"
     },
     "HANDBALL-A-1-SEANCE": {
         imgRef: "./Badges/Badge-HANDBALL-A.webp",
-        title: "A trouver",
+        title: "Faut le prendre en main",
         activityName: "HANDBALL",
         text: "1 séance de handball"
     },
     "HANDBALL-B-10-SEANCES": {
         imgRef: "./Badges/Badge-HANDBALL-B.webp",
-        title: "Niveau 10",
+        title: "Palier 10",
         activityName: "HANDBALL",
         text: "10 séances de handball"
     },
     "HANDBALL-C-50-SEANCES": {
         imgRef: "./Badges/Badge-HANDBALL-C.webp",
-        title: "Niveau 50",
+        title: "Palier 50",
         activityName: "HANDBALL",
         text: "50 séances de handball"
     },
     "HANDBALL-D-100-SEANCES": {
         imgRef: "./Badges/Badge-HANDBALL-D.webp",
-        title: "Niveau 100",
+        title: "D'une main de maître",
         activityName: "HANDBALL",
         text: "100 séances de handball"
     },
     "RUGBY-A-1-SEANCE": {
         imgRef: "./Badges/Badge-RUGBY-A.webp",
-        title: "Essai transformé !",
+        title: "T'as plaqué qui ?",
         activityName: "RUGBY",
         text: "1 séance de rugby"
     },
     "RUGBY-B-10-SEANCES": {
         imgRef: "./Badges/Badge-RUGBY-B.webp",
-        title: "Niveau 10",
+        title: "Palier 10",
         activityName: "RUGBY",
         text: "10 séances de rugby"
     },
     "RUGBY-C-50-SEANCES": {
         imgRef: "./Badges/Badge-RUGBY-C.webp",
-        title: "Niveau 50",
+        title: "Palier 50",
         activityName: "RUGBY",
         text: "50 séances de rugby"
     },
     "RUGBY-D-100-SEANCES": {
         imgRef: "./Badges/Badge-RUGBY-D.webp",
-        title: "Niveau 100",
+        title: "Essai transformé !",
         activityName: "RUGBY",
         text: "100 séances de rugby"
     },
     "TENNIS-DE-TABLE-A-1-SEANCE": {
         imgRef: "./Badges/Badge-TENNIS-DE-TABLE-A.webp",
-        title: "A trouver",
+        title: "Ping…",
         activityName: "TENNIS-TABLE",
         text: "1 séance de tennis de table"
     },
     "TENNIS-DE-TABLE-B-10-SEANCES": {
         imgRef: "./Badges/Badge-TENNIS-DE-TABLE-B.webp",
-        title: "Niveau 10",
+        title: "Palier 10",
         activityName: "TENNIS-TABLE",
         text: "10 séances de tennis de table"
     },
     "TENNIS-DE-TABLE-C-50-SEANCES": {
         imgRef: "./Badges/Badge-TENNIS-DE-TABLE-C.webp",
-        title: "Niveau 50",
+        title: "Palier 50",
         activityName: "TENNIS-TABLE",
         text: "50 séances de tennis de table"
     },
     "TENNIS-DE-TABLE-D-100-SEANCES": {
         imgRef: "./Badges/Badge-TENNIS-DE-TABLE-D.webp",
-        title: "Niveau 100",
+        title: "...Pong",
         activityName: "TENNIS-TABLE",
         text: "100 séances de tennis de table"
     },
     "VOLLEYBALL-A-1-SEANCE": {
         imgRef: "./Badges/Badge-VOLLEYBALL-A.webp",
-        title: "Premier smash !",
+        title: "Au filet !",
         activityName: "VOLLEYBALL",
         text: "1 séance de volleyball"
     },
     "VOLLEYBALL-B-10-SEANCES": {
         imgRef: "./Badges/Badge-VOLLEYBALL-B.webp",
-        title: "Niveau 10",
+        title: "Palier 10",
         activityName: "VOLLEYBALL",
         text: "10 séances de volleyball"
     },
     "VOLLEYBALL-C-50-SEANCES": {
         imgRef: "./Badges/Badge-VOLLEYBALL-C.webp",
-        title: "Niveau 50",
+        title: "Palier 50",
         activityName: "VOLLEYBALL",
         text: "50 séances de volleyball"
     },
     "VOLLEYBALL-D-100-SEANCES": {
         imgRef: "./Badges/Badge-VOLLEYBALL-D.webp",
-        title: "Niveau 100",
+        title: "Smash",
         activityName: "VOLLEYBALL",
         text: "100 séances de volleyball"
     },
@@ -691,43 +691,43 @@ const allRewardsObject = {
     },
     "EQUITATION-B-10-SEANCES": {
         imgRef: "./Badges/Badge-EQUITATION-B.webp",
-        title: "Niveau 10",
+        title: "Palier 10",
         activityName: "EQUITATION",
         text: "10 séances d'équitation"
     },
     "EQUITATION-C-50-SEANCES": {
         imgRef: "./Badges/Badge-EQUITATION-C.webp",
-        title: "Niveau 50",
+        title: "Palier 50",
         activityName: "EQUITATION",
         text: "50 séances d'équitation"
     },
     "EQUITATION-D-100-SEANCES": {
         imgRef: "./Badges/Badge-EQUITATION-D.webp",
-        title: "Niveau 100",
+        title: "Cavalier",
         activityName: "EQUITATION",
         text: "100 séances d'équitation"
     },
     "SNOWBOARD-A-1-SEANCE": {
         imgRef: "./Badges/Badge-SNOWBOARD-A.webp",
-        title: "Faut que ça glisse !",
+        title: "Dans la poudreuse",
         activityName: "SNOWBOARD",
         text: "1 séance de snowboard"
     },
     "SNOWBOARD-B-10-SEANCES": {
         imgRef: "./Badges/Badge-SNOWBOARD-B.webp",
-        title: "Niveau 10",
+        title: "Palier 10",
         activityName: "SNOWBOARD",
         text: "10 séances de snowboard"
     },
     "SNOWBOARD-C-50-SEANCES": {
         imgRef: "./Badges/Badge-SNOWBOARD-C.webp",
-        title: "Niveau 50",
+        title: "Palier 50",
         activityName: "SNOWBOARD",
         text: "50 séances de snowboard"
     },
     "SNOWBOARD-D-100-SEANCES": {
         imgRef: "./Badges/Badge-SNOWBOARD-D.webp",
-        title: "Niveau 100",
+        title: "Le roi de la glisse",
         activityName: "SNOWBOARD",
         text: "100 séances de snowboard"
     },
@@ -739,19 +739,19 @@ const allRewardsObject = {
     },
     "BASEBALL-B-10-SEANCES": {
         imgRef: "./Badges/Badge-BASEBALL-B.webp",
-        title: "Niveau 10",
+        title: "Palier 10",
         activityName: "BASEBALL",
         text: "10 séances de baseball"
     },
     "BASEBALL-C-50-SEANCES": {
         imgRef: "./Badges/Badge-BASEBALL-C.webp",
-        title: "Niveau 50",
+        title: "Palier 50",
         activityName: "BASEBALL",
         text: "50 séances de baseball"
     },
     "BASEBALL-D-100-SEANCES": {
         imgRef: "./Badges/Badge-BASEBALL-D.webp",
-        title: "Niveau 100",
+        title: "Home Run !",
         activityName: "BASEBALL",
         text: "100 séances de baseball"
     },
@@ -763,19 +763,19 @@ const allRewardsObject = {
     },
     "ARTS-MARTIAUX-B-10-SEANCES": {
         imgRef: "./Badges/Badge-ARTS-MARTIAUX-B.webp",
-        title: "Niveau 10",
+        title: "Palier 10",
         activityName: "ARTS-MARTIAUX",
         text: "10 séances d'arts martiaux"
     },
     "ARTS-MARTIAUX-C-50-SEANCES": {
         imgRef: "./Badges/Badge-ARTS-MARTIAUX-C.webp",
-        title: "Niveau 50",
+        title: "Palier 50",
         activityName: "ARTS-MARTIAUX",
         text: "50 séances d'arts martiaux"
     },
     "ARTS-MARTIAUX-D-100-SEANCES": {
         imgRef: "./Badges/Badge-ARTS-MARTIAUX-D.webp",
-        title: "Niveau 100",
+        title: "L'élève a dépassé le maître.",
         activityName: "ARTS-MARTIAUX",
         text: "100 séances d'arts martiaux"
     },
@@ -787,19 +787,19 @@ const allRewardsObject = {
     },
     "BREAK-DANCE-B-10-SEANCES": {
         imgRef: "./Badges/Badge-BREAK-DANCE-B.webp",
-        title: "Niveau 10",
+        title: "Palier 10",
         activityName: "BREAK-DANCE",
         text: "10 séances de break-dance"
     },
     "BREAK-DANCE-C-50-SEANCES": {
         imgRef: "./Badges/Badge-BREAK-DANCE-C.webp",
-        title: "Niveau 50",
+        title: "Palier 50",
         activityName: "BREAK-DANCE",
         text: "50 séances de break-dance"
     },
     "BREAK-DANCE-D-100-SEANCES": {
         imgRef: "./Badges/Badge-BREAK-DANCE-D.webp",
-        title: "Niveau 100",
+        title: "All Stars",
         activityName: "BREAK-DANCE",
         text: "100 séances de break-dance"
     },
@@ -811,97 +811,97 @@ const allRewardsObject = {
     },
     "GYMNASTIQUE-A-1-SEANCE": {
         imgRef: "./Badges/Badge-GYMNASTIQUE-A.webp",
-        title: "Pirouette cacahouette",
+        title: "Pirouette, cacahouette",
         activityName: "GYMNASTIQUE",
         text: "1 séance de gymnastique"
     },
     "GYMNASTIQUE-B-10-SEANCES": {
         imgRef: "./Badges/Badge-GYMNASTIQUE-B.webp",
-        title: "Niveau 10",
+        title: "Palier 10",
         activityName: "GYMNASTIQUE",
         text: "10 séances de gymnastique"
     },
     "GYMNASTIQUE-C-50-SEANCES": {
         imgRef: "./Badges/Badge-GYMNASTIQUE-C.webp",
-        title: "Niveau 50",
+        title: "Palier 50",
         activityName: "GYMNASTIQUE",
         text: "50 séances de gymnastique"
     },
     "GYMNASTIQUE-D-100-SEANCES": {
         imgRef: "./Badges/Badge-GYMNASTIQUE-D.webp",
-        title: "Niveau 100",
+        title: "Équilibre et précision",
         activityName: "GYMNASTIQUE",
         text: "100 séances de gymnastique"
     },
     "SKATEBOARD-A-1-SEANCE": {
         imgRef: "./Badges/Badge-SKATEBOARD-A.webp",
-        title: "Jveux dla wax",
+        title: "T'as mis de la wax ?",
         activityName: "SKATEBOARD",
         text: "1 séance de skateboard"
     },
     "SKATEBOARD-B-10-SEANCES": {
         imgRef: "./Badges/Badge-SKATEBOARD-B.webp",
-        title: "Niveau 10",
+        title: "Palier 10",
         activityName: "SKATEBOARD",
         text: "10 séances de skateboard"
     },
     "SKATEBOARD-C-50-SEANCES": {
         imgRef: "./Badges/Badge-SKATEBOARD-C.webp",
-        title: "Niveau 50",
+        title: "Palier 50",
         activityName: "SKATEBOARD",
         text: "50 séances de skateboard"
     },
     "SKATEBOARD-D-100-SEANCES": {
         imgRef: "./Badges/Badge-SKATEBOARD-D.webp",
-        title: "Niveau 100",
+        title: "Pro Skater",
         activityName: "SKATEBOARD",
         text: "100 séances de skateboard"
     },
     "RENFORCEMENT-A-1-SEANCE": {
         imgRef: "./Badges/Badge-RENFORCEMENT-A.webp",
-        title: "A trouver",
+        title: "Sanction musculaire",
         activityName: "RENFORCEMENT",
         text: "1 séance de renforcement musculaire"
     },
     "RENFORCEMENT-B-10-SEANCES": {
         imgRef: "./Badges/Badge-RENFORCEMENT-B.webp",
-        title: "Niveau 10",
+        title: "Palier 10",
         activityName: "RENFORCEMENT",
         text: "10 séances de renforcement musculaire"
     },
     "RENFORCEMENT-C-50-SEANCES": {
         imgRef: "./Badges/Badge-RENFORCEMENT-C.webp",
-        title: "Niveau 50",
+        title: "Palier 50",
         activityName: "RENFORCEMENT",
         text: "50 séances de renforcement musculaire"
     },
     "RENFORCEMENT-D-100-SEANCES": {
         imgRef: "./Badges/Badge-RENFORCEMENT-D.webp",
-        title: "Niveau 100",
+        title: "Monté sur vérin",
         activityName: "RENFORCEMENT",
         text: "100 séances de renforcement musculaire"
     },
     "ATHLETISME-A-1-SEANCE": {
         imgRef: "./Badges/Badge-ATHLETISME-A.webp",
-        title: "A trouver",
+        title: "On se fait un sprint ?",
         activityName: "ATHLETISME",
         text: "1 séance d'athletisme"
     },
     "ATHLETISME-B-10-SEANCES": {
         imgRef: "./Badges/Badge-ATHLETISME-B.webp",
-        title: "Niveau 10",
+        title: "Palier 10",
         activityName: "ATHLETISME",
         text: "10 séances d'athletisme"
     },
     "ATHLETISME-C-50-SEANCES": {
         imgRef: "./Badges/Badge-ATHLETISME-C.webp",
-        title: "Niveau 50",
+        title: "Palier 50",
         activityName: "ATHLETISME",
         text: "50 séances d'athletisme"
     },
     "ATHLETISME-D-100-SEANCES": {
         imgRef: "./Badges/Badge-ATHLETISME-D.webp",
-        title: "Niveau 100",
+        title: "Athlète !",
         activityName: "ATHLETISME",
         text: "100 séances d'athletisme"
     }

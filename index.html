@@ -417,67 +417,41 @@
         </div>
         
 
-        <h3>Lis bien ces informations avant de commencer.</h3>
-    
+        <h3>Informations importantes à lire avant de commencer</h3>
+
         <h3>Politique de confidentialité et stockage des données</h3>
+        
         <h3>1. Aucune collecte de données personnelles</h3>
-        <p>Sur notre site, nous ne collectons aucune donnée personnelle et nous ne transmettons aucune information à des tiers. 
-            Nous respectons votre vie privée et ne traitons pas vos données à des fins commerciales ou autres. 
-            Les informations que vous entrez dans l'application sont stockées localement sur votre appareil, 
-            soit dans IndexedDB, soit dans les cookies (localStorage) de votre navigateur.</p>
-
-        <h3>2. Stockage local des données</h3>
-        <p>Nous utilisons deux technologies de stockage local : </p>
-        <p><b>IndexedDB :</b> Nous stockons les données relatives à vos activités sportives, telles que le type d'activité, 
-            la date, la durée, la distance, d'autres informations liées à votre usage de l'application ainsi que votre pseudo. 
-            Ces données sont uniquement accessibles par vous et stockées localement sur votre appareil.</p>
-
-        <p><b>Cookies et localStorage :</b> Les cookies sont utilisés pour stocker des informations qui permettent de personnaliser votre expérience, telles que 
-                <b>vos préférences,</b> comme la sélection de vos activités favorites : cela permet d'afficher en priorité vos activités favorites dans l'interface de l'application.
-            Ces informations sont stockées uniquement sur votre appareil et ne sont pas partagées avec des tiers.
-        </p>
-
-        <h3>3. Aucune donnée sensible ne doit être stockée</h3>
-
-        <p>Nous vous recommandons de <b>ne pas entrer d'informations sensibles </b> dans l'application 
-            (telles que des <b>données de santé,</b> des <b>informations bancaires</b>, des <b>identifiants</b> ou des <b>mots de passe</b>).
-             L'application n'est pas conçue pour gérer ce type d'information, et ces données 
-             ne sont pas nécessaires au bon fonctionnement de l'application.
-        </p>
-
-
+        <p>Nous respectons votre vie privée. Aucune donnée personnelle n'est collectée ou partagée avec des tiers. Les informations que vous entrez dans l'application sont stockées localement sur votre appareil, dans <b>IndexedDB</b> ou via les cookies (<b>localStorage</b>) de votre navigateur.</p>
+        
+        <h3>2. Technologies de stockage local</h3>
+        <p>Nous utilisons deux méthodes de stockage local :</p>
+        <ul>
+            <li><b>IndexedDB :</b> Pour conserver vos activités sportives (type, date, durée, distance), votre pseudo et d'autres informations associées à l'application. Ces données restent accessibles uniquement sur votre appareil.</li>
+            <li><b>Cookies/localStorage :</b> Pour enregistrer vos préférences, comme vos activités favorites, et personnaliser votre expérience. Ces données ne sont ni partagées ni transmises à des tiers.</li>
+        </ul>
+        
+        <h3>3. Restrictions concernant les données sensibles</h3>
+        <p>Veuillez <b>ne pas entrer d'informations sensibles</b> (comme des données de santé, informations bancaires, identifiants ou mots de passe) dans l'application. Ces informations ne sont pas nécessaires au fonctionnement de l'application et ne sont pas gérées par celle-ci.</p>
+        
         <h3>4. Contrôle total sur vos données</h3>
-        <p>
-            En tant qu'utilisateur, vous avez un contrôle total sur vos données :
-        </p>
-        <p>
-            Vous pouvez modifier ou supprimer votre pseudo et vos préférences à tout moment dans les paramètres de l'application.
-        </p>
-        <p>
-            Vous pouvez supprimer toutes vos données en effaçant les cookies et les données stockées dans IndexedDB. 
-            Vous avez également la possibilité de réinitialiser l'application à tout moment pour effacer toutes les informations stockées localement.
-        </p>
-
-
-        <h3>5. Consentement préalable</h3>
-        <p>
-            Avant d'utiliser l'application, vous devez accepter les conditions concernant le stockage des données locales. 
-            En accédant à l'application, vous acceptez que vos favoris soient stockées dans 
-            les cookies (localStorage) et que vos activités sportives et pseudo soient stockées dans IndexedDB, exclusivement pour un usage local.
-        </p>
-        <p>
-            <b>Cookies :</b> Vous consentez à ce que des informations soient stockées dans vos cookies et dans votre localStorage pour améliorer votre expérience. 
-            Ces informations resteront dans votre navigateur jusqu'à ce que vous choisissiez de les supprimer manuellement ou via les paramètres de votre appareil.
-        </p>
-        <p>
-            <b>Données stockées localement :</b> Vous êtes informé que toutes les données que vous fournissez sont stockées localement sur votre appareil
-             et ne sont pas partagées avec nous ou avec des tiers. Vous pouvez gérer et supprimer ces informations à tout moment.
-        </p>
-
+        <p>Vous avez le contrôle total sur vos données locales :</p>
+        <ul>
+            <li>Modifiez ou supprimez votre pseudo et vos préférences dans les paramètres de l'application.</li>
+            <li>Effacez toutes vos données en supprimant les cookies et les données d'IndexedDB via les paramètres de votre navigateur.</li>
+            <li>Réinitialisez l'application pour effacer toutes les données stockées localement.</li>
+        </ul>
+        
+        <h3>5. Consentement et utilisation</h3>
+        <p>En utilisant l'application, vous acceptez que :</p>
+        <ul>
+            <li>Vos favoris soient stockés dans les cookies (<b>localStorage</b>).</li>
+            <li>Vos activités sportives et pseudo soient stockés dans <b>IndexedDB</b>, uniquement à des fins locales.</li>
+        </ul>
+        <p>Ces données resteront sur votre appareil jusqu'à ce que vous choisissiez de les supprimer manuellement ou via les paramètres de votre navigateur.</p>
+        
         <h3>Acceptation</h3>
-        <p>
-            J'accepte les conditions de stockage des données dans mon navigateur et comprends que mes données seront utilisées uniquement localement pour améliorer mon expérience.
-        </p>
+        <p>En accédant à l'application, vous acceptez ces conditions et comprenez que vos données seront stockées localement pour améliorer votre expérience utilisateur.</p>
 
         <select class="conditionUtilisation" onchange="toggleLaunchButton()" name="" id="selectStatusCondition">
             <option value="Refused">Je décline.</option>

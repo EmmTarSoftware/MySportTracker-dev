@@ -105,7 +105,7 @@ function onReceiveNotifyMobileEvent(rewardsKeysArray) {
     } else{
         eventFirstMobileNotify(rewardsKeysArray);
     }
-}
+};
 
 
 
@@ -157,6 +157,7 @@ function onTraiteMobileNotify() {
 
 // Verification des notifications mobile au démarrage
 function onInitMobileNotify() {
+    if (devMode === true){console.log("[NOTIFY] [MOBILE] Initialisation du statut");};
     if (!isNotificationSupported()) {
         pMobileNotifyStatusRef.innerHTML = 'Notifications : Non supportées par ce navigateur';
         return;
@@ -167,6 +168,7 @@ function onInitMobileNotify() {
     if (savedPermission) {
         Notification.permission = savedPermission; // Pour l'affichage uniquement
     }
+    if (devMode === true){console.log("[NOTIFY] [MOBILE] valeur enregistrée : " + savedPermission);};
     updateStatusDisplay();
 
 };
@@ -175,6 +177,8 @@ function onInitMobileNotify() {
 // Met à jour l'état affiché à l'utilisateur
 function updateStatusDisplay (){
     const permission = Notification.permission;
+    if (devMode === true){console.log("[NOTIFY] [MOBILE] valeur Notification.permission : " + permission);};
+
     if (permission === 'granted') {
         pMobileNotifyStatusRef.innerHTML = 'Activées';
     } else if (permission === 'denied') {
