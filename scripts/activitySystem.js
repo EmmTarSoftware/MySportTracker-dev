@@ -441,7 +441,7 @@ function onInsertOneActivity(activity) {
 
     // La div de l'item
     let newItemContainer = document.createElement("div");
-    newItemContainer.className = `item-container ${activityChoiceArray[activity.name].colorNuanceClass}`;
+    newItemContainer.className = `item-container`;
 
     newItemContainer.onclick = function () {
         onClickOnActivity(activity.key);

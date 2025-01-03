@@ -387,10 +387,10 @@ function displayActivityStats(activityName) {
         ? "<p>Il semble que tu n'aies pas pratiqué cette activité ces derniers jours.</p>" 
         : stats7Days.totalDistance > 0
             ? `
-                <p><b>${stats7Days.totalSessions}</b> séance(s) - ⏱️ <b>${formatDuration(stats7Days.totalDuration)}</b> - 🚶<b>${stats7Days.totalDistance.toFixed(2)} km</b></p>
+                <p>${stats7Days.totalSessions} séance(s) - ⏱️ ${formatDuration(stats7Days.totalDuration)} - 🚶${stats7Days.totalDistance.toFixed(2)} km</p>
             `
             : `
-                <p><b>${stats7Days.totalSessions}</b> séance(s) - ⏱️ <b>${formatDuration(stats7Days.totalDuration)}</b> - 🤷 0 km</p>
+                <p>${stats7Days.totalSessions} séance(s) - ⏱️ ${formatDuration(stats7Days.totalDuration)} - 🤷 0 km</p>
             `;
 
     // Vérification pour les 30 derniers jours
@@ -398,15 +398,15 @@ function displayActivityStats(activityName) {
         ? "<p>Cela fait un certain temps que tu n'as pas pratiqué cette activité.</p>" 
         : stats30Days.totalDistance > 0
             ? `
-                <p><b>${stats30Days.totalSessions}</b> séance(s) - ⏱️ <b>${formatDuration(stats30Days.totalDuration)}</b> - 🚶 <b>${stats30Days.totalDistance.toFixed(2)} km</b></p>
+                <p>${stats30Days.totalSessions} séance(s) - ⏱️ ${formatDuration(stats30Days.totalDuration)} - 🚶 ${stats30Days.totalDistance.toFixed(2)} km</p>
             `
             : `
-                <p><b>${stats30Days.totalSessions}</b> séance(s) - ⏱️ <b>${formatDuration(stats30Days.totalDuration)}</b> - 🤷 0 km</p>
+                <p>${stats30Days.totalSessions} séance(s) - ⏱️ ${formatDuration(stats30Days.totalDuration)} - 🤷 0 km</p>
             `;
 
     // Afficher les résultats
     document.getElementById("stats").innerHTML = `
-        <p class="stat">Résumé pour : ${activityName.replace("_", " ")}</p>
+        <h2 class="stat-title-1">Résumé pour : <span class="highlight">${activityName.replace("_", " ")}</span></h2>
         
         <section class="stat">
             <p>${generalText1}</p>
@@ -414,12 +414,12 @@ function displayActivityStats(activityName) {
         </section>
         
         <section class="stat">
-            <label>Sur les 7 derniers jours</label>
+            <p><b>Sur les 7 derniers jours :</b></p>
             <p>${sevenDaysText}</p>
         </section>
         
         <section class="stat">
-            <label>Sur les 30 derniers jours</label>
+            <p><b>Sur les 30 derniers jours :</b></p>
             <p>${thirtyDaysText}</p>
         </section>
     `;
@@ -458,7 +458,7 @@ function displayGeneralStats(activityList) {
 
     // Texte convivial pour l'utilisateur
     document.getElementById("stats").innerHTML = `
-        <p class="stat">Résumé général : </p>
+        <h2 class="stat-title-1">Résumé général : </h2>
         <section class="stat">
             <p>
                 Depuis le <b>${formattedDate}</b>, tu as pratiqué <b>${totalActivities} activité(s)</b>, 

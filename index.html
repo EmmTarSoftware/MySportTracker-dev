@@ -256,22 +256,22 @@
     <div id="divStat" class="new-interface">
 
         <p>
-            <label for="">Choisit une activité :</label>
+            <label class="stat-activity-choice" for="">Choisit une activité :</label>
             <select name="" id="selectorStat" onchange="onChangeStatActivitySelector(this.value)">
             </select>
         </p>
         
         <!-- Affichage du résultat -->
-        <div id="stats">
+        <div id="stats" class="stat">
             <!-- Injection -->
         </div>
 
 
 
         <!-- STAT GRAPHIQUE -->
-         <div>
-            <p class="stat">Répartition du nombre d'activité :</p>
-         </div>
+        <div class="statGraphique">
+            <h3 class="stat">Répartition du nombre d'activité :</h3>
+        
             
             <p>
                 <select name="" id="selectStatGraphYear"class="graph-stat" onchange="onChangeSelectorYearGraph(this.value)">
@@ -353,6 +353,7 @@
                         <span>D</span>
                     </div>
                 </div>
+            </div>
         <!-- FIN STAT GRAPHIQUE -->
     </div>
 
@@ -365,7 +366,7 @@
 
     <!-- ----------------------------------      DIV INFO        ------------------------------------------------>
     <div id="divInfo" class="new-interface">
-            <p class="release-licence"><b>Release :</b> 1.2.55</p> 
+            <p class="release-licence"><b>Release :</b> 1.2.56</p> 
 
         
             <p class="release-licence"><b>Licence : </b></p>
