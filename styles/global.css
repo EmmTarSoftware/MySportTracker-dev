@@ -6,8 +6,8 @@
     --colorMainTheme2 : #ffbd17;
     --colorMainTheme3 : #86E5FF;
     --colorMainTheme4 : #5BC0F8;
-    --colorLightGray : rgba(245, 245, 245);
-    --boxShadow : rgba(0, 0, 0, 0.15) 1px 1px 2px;
+    --colorLightGray : #fff;
+    --boxShadow : 0 2px 5px rgba(0, 0, 0, 0.1);
     --boxShadowPlus : rgba(0, 0, 0, 0.15) 2px 2px 4px;
 }
 
@@ -15,7 +15,8 @@
 body{
     margin: 0;
     padding: 0;
-
+    background-color: #f4f4f9;
+    font-family: 'Arial', sans-serif;
 }
 
 div.app {
@@ -41,8 +42,8 @@ button.btn-menu{
     width: 40px; height: 40px;
     border: none;
     border-radius: 5px;
-    box-shadow: var(--boxShadow);
-
+    /* box-shadow: var(--boxShadow); */
+    background-color:#fff;
 }
 
 
@@ -317,10 +318,10 @@ button.btn-sort-Selected{
     width: 95%;          
     display: flex;       
     background-color: var(--colorLightGray); 
-    padding: 5px;
-    border-radius: 20px;
+    padding: 10px 5px 10px 5px;
+    border-radius: 10px;
     box-shadow: var(--boxShadow);
-    border-left: 3px solid ;
+    /* border-left: 3px solid ; */
 }
 
         /* Couleurs pour chaque groupe */
@@ -402,23 +403,25 @@ button.btn-sort-Selected{
 p.item-data-distance {
     text-align: left;
     font-weight: bold;
-    color: #555;
+    color: #333;
 }
 p.item-data-duration {
     text-align: center;
     font-weight:bold;
-    color: #555;
+    color: #333;
 }
 p.item-data-date {
     text-align: right;
     margin-right: 5px;
+    color: #555;
 }
 
 p.item-data-location{
     white-space: nowrap; /* Pour éviter le retour à la ligne */
 	overflow: hidden; /*Cache le texte qui dépasse */
-    font-style: italic;
+    /* font-style: italic; */
     font-size: 0.8rem;
+    color: #555;
 
   	text-overflow: ellipsis; /*Ajoute des points de suspension (...) pour indiquer que du texte est masqué*/
     width: 100px;
@@ -427,10 +430,11 @@ p.item-data-location{
 p.item-data-comment{
     white-space: nowrap; /* Pour éviter le retour à la ligne */
 	overflow: hidden; /*Cache le texte qui dépasse */
-    font-style: italic;
-    font-size: 0.9rem;
+    /* font-style: italic; */
+    font-size: 0.8rem;
   	text-overflow: ellipsis; /*Ajoute des points de suspension (...) pour indiquer que du texte est masqué*/
     width: 100px;
+    color: #555;
 }
 
 
