@@ -355,18 +355,16 @@ function onLoadUserRewardsList() {
         };
         // séparation des anciens et nouveau rewards obtenus
         if (newRewardsToSee.includes(e)) {
-            newDivRewardCard.classList = `reward-card ${allRewardsObject[e].groupColor} newRewards`;
+            newDivRewardCard.classList = `reward-card unlocked newRewards`;
         }else{
-            newDivRewardCard.classList = `reward-card ${allRewardsObject[e].groupColor}`;
+            newDivRewardCard.classList = `reward-card unlocked `;
         }
 
-
-        console.log(`[REWARD] class = reward-card ${allRewardsObject[e].groupColor} newRewards`);
 
         // IMAGES
         let newImg = document.createElement("img");
   
-        newImg.classList = "rewardCard";
+        newImg.classList = "rewardCardEnable";
         newImg.src = allRewardsObject[e].imgRef;
         newImg.loading = "lazy";
 
@@ -378,16 +376,16 @@ function onLoadUserRewardsList() {
         newPRewardTitle.classList = "reward-title";
         newPRewardTitle.innerHTML = allRewardsObject[e].title;
 
-        let newPRewardCondition = document.createElement("p");
-        newPRewardCondition.classList = "reward-condition";
-        newPRewardCondition.innerHTML = allRewardsObject[e].text;
+        // let newPRewardCondition = document.createElement("p");
+        // newPRewardCondition.classList = "reward-condition";
+        // newPRewardCondition.innerHTML = allRewardsObject[e].text;
 
 
         // Insertion
 
         newDivRewardCard.appendChild(newImg);
         newDivRewardCard.appendChild(newPRewardTitle);
-        newDivRewardCard.appendChild(newPRewardCondition);
+        // newDivRewardCard.appendChild(newPRewardCondition);
 
 
         divRewardsListRef.appendChild(newDivRewardCard);
@@ -416,7 +414,7 @@ function onLoadUserRewardsList() {
 
             // Création des images
             let newImg = document.createElement("img");
-            newImg.classList = "rewardCard";
+            newImg.classList = "rewardCardDisable";
             newImg.src = "./Icons/badge-locked.webp";
             newImg.loading = "lazy";
 

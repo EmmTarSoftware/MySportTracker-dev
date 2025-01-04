@@ -22,7 +22,7 @@ const allRewardsObject = {
     },
     "DE-RETOUR": {
         imgRef: "./Badges/Badge-DE-RETOUR.webp",
-        title: "T'étais où ?",
+        title: "Home Sweet Home",
         activityName: "COMMUN",
         groupColor: "nuance-light-bluegray",
         text: "une activité après un mois d'absence"

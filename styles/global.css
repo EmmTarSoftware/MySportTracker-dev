@@ -998,8 +998,8 @@ div.reward-card {
 }
 
 div.reward-card.unlocked {
-    border-color: #4CAF50;
-    box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3);
+    border-color: var(--colorMainTheme1);
+    box-shadow: 0 4px 10px rgba(76, 142, 175, 0.3);
 }
 
 
@@ -1043,9 +1043,15 @@ p.reward-condition {
 }
 
 
-img.rewardCard {
+img.rewardCardEnable {
+    width: 90px;
+}
+
+
+img.rewardCardDisable {
     width: 50px;
 }
+
 
 @keyframes pulse {
     0% {
