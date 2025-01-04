@@ -1,14 +1,14 @@
 const allRewardsObject = {
     "1-AN": {
         imgRef: "./Badges/Badge-1-an.webp",
-        title: "1 ans déjà.",
+        title: "1 ans déjà",
         activityName: "COMMUN",
         groupColor: "nuance-light-bluegray",
         text: "1 an après la première activité"
     },
     "ACTIVITE-100": {
         imgRef: "./Badges/Badge-ACTIVITE-100.webp",
-        title: "La centième.",
+        title: "La centième",
         activityName: "COMMUN",
         groupColor: "nuance-light-bluegray",
         text: "100 activités, peu importe le type"
@@ -176,7 +176,7 @@ const allRewardsObject = {
     },
     "VELO-D-100-SEANCES": {
         imgRef: "./Badges/Badge-VELO-D.webp",
-        title: "Entre vitesse et maîtrise",
+        title: "Maillot jaune",
         activityName: "VELO",
         groupColor: "nuance-blue-light",
         text: "100 séances de vélo"
@@ -197,7 +197,7 @@ const allRewardsObject = {
     },
     "NATATION-A-1-SEANCE": {
         imgRef: "./Badges/Badge-NATATION-A.webp",
-        title: "T'as mis ton bonnet ?",
+        title: "Bonnet obligatoire",
         activityName: "NATATION",
         groupColor: "nuance-turquoise",
         text: "1 séance de natation"
@@ -253,7 +253,7 @@ const allRewardsObject = {
     },
     "CROSSFIT-D-100-SEANCES": {
         imgRef: "./Badges/Badge-CROSSFIT-D.webp",
-        title: "Taillé dans l'airain.",
+        title: "Scuplté dans l'airain.",
         activityName: "CROSSFIT",
         groupColor: "nuance-red",
         text: "100 séances de crossfit"
@@ -372,7 +372,7 @@ const allRewardsObject = {
     },
     "SKI-A-1-SEANCE": {
         imgRef: "./Badges/Badge-SKI-A.webp",
-        title: "Tu laisses ta trace ?",
+        title: "Laisser sa trace",
         activityName: "SKI",
         groupColor: "nuance-purple",
         text: "1 séance de ski"
@@ -407,7 +407,7 @@ const allRewardsObject = {
     },
     "ACTIVITE-NAUTIQUE-A-1-SEANCE": {
         imgRef: "./Badges/Badge-ACTIVITE-NAUTIQUE-A.webp",
-        title: "L'appel de l'océan.",
+        title: "L'appel de l'océan",
         activityName: "ACTIVITE-NAUTIQUE",
         groupColor: "nuance-turquoise",
         text: "1 séance d'activité nautique"
@@ -428,7 +428,7 @@ const allRewardsObject = {
     },
     "ACTIVITE-NAUTIQUE-D-100-SEANCES": {
         imgRef: "./Badges/Badge-ACTIVITE-NAUTIQUE-D.webp",
-        title: "Molécule préférée : H2O",
+        title: "Molécule : H2O",
         activityName: "ACTIVITE-NAUTIQUE",
         groupColor: "nuance-turquoise",
         text: "100 séances d'activité nautique"
@@ -624,7 +624,7 @@ const allRewardsObject = {
     },
     "BADMINTON-D-100-SEANCES": {
         imgRef: "./Badges/Badge-BADMINTON-D.webp",
-        title: "Des coups de volant",
+        title: "Coups de volant",
         activityName: "BADMINTON",
         groupColor: "nuance-olive",
         text: "100 séances de badminton"
@@ -687,7 +687,7 @@ const allRewardsObject = {
     },
     "HANDBALL-A-1-SEANCE": {
         imgRef: "./Badges/Badge-HANDBALL-A.webp",
-        title: "Faut le prendre en main",
+        title: "Prise en main",
         activityName: "HANDBALL",
         groupColor: "nuance-orange",
         text: "1 séance de handball"
@@ -771,7 +771,7 @@ const allRewardsObject = {
     },
     "VOLLEYBALL-A-1-SEANCE": {
         imgRef: "./Badges/Badge-VOLLEYBALL-A.webp",
-        title: "Au filet !",
+        title: "Pris dans les filets",
         activityName: "VOLLEYBALL",
         groupColor: "nuance-orange",
         text: "1 séance de volleyball"
@@ -904,7 +904,7 @@ const allRewardsObject = {
     },
     "ARTS-MARTIAUX-D-100-SEANCES": {
         imgRef: "./Badges/Badge-ARTS-MARTIAUX-D.webp",
-        title: "L'élève a dépassé le maître.",
+        title: "L'élève a dépassé le maître",
         activityName: "ARTS-MARTIAUX",
         groupColor: "nuance-light-bluegray",
         text: "100 séances d'arts martiaux"
@@ -967,14 +967,14 @@ const allRewardsObject = {
     },
     "GYMNASTIQUE-D-100-SEANCES": {
         imgRef: "./Badges/Badge-GYMNASTIQUE-D.webp",
-        title: "Équilibre et précision",
+        title: "Equilibriste",
         activityName: "GYMNASTIQUE",
         groupColor: "nuance-pink",
         text: "100 séances de gymnastique"
     },
     "SKATEBOARD-A-1-SEANCE": {
         imgRef: "./Badges/Badge-SKATEBOARD-A.webp",
-        title: "T'as mis de la wax ?",
+        title: "Grinds & Slides",
         activityName: "SKATEBOARD",
         groupColor: "nuance-purple",
         text: "1 séance de skateboard"
