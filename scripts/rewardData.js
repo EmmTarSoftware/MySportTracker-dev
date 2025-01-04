@@ -15,17 +15,17 @@ const allRewardsObject = {
     },
     "POLYVALENT": {
         imgRef: "./Badges/Badge-POLYVALENT.webp",
-        title: "Pluridisciplinaire",
+        title: "Pluri-disciplinaire",
         activityName: "COMMUN",
         groupColor: "nuance-light-bluegray",
-        text: "5 types d'activités différentes"
+        text: "5 activités différentes"
     },
     "DE-RETOUR": {
         imgRef: "./Badges/Badge-DE-RETOUR.webp",
         title: "T'étais où ?",
         activityName: "COMMUN",
         groupColor: "nuance-light-bluegray",
-        text: "une activité après une absence d'un mois."
+        text: "une activité après un mois d'absence"
     },
     "ACTIVITE-FIRST": {
         imgRef: "./Badges/BADGE-ACTIVITE-FIRST.webp",
@@ -67,28 +67,28 @@ const allRewardsObject = {
         title: "Runner 10 km",
         activityName: "CAP",
         groupColor: "nuance-blue-light",
-        text: "une séance de C.A.P entre 10km et 10.950 km"
+        text: "une séance de C.A.P d'environ 10 km"
     },
     "CAP-F-SEMI-MARATHON": {
         imgRef: "./Badges/Badge-CAP-F.webp",
         title: "Semi-marathon",
         activityName: "CAP",
         groupColor: "nuance-blue-light",
-        text: "une séance de C.A.P entre 21 km et 21.950 km"
+        text: "une séance de C.A.P d'environ 21 km"
     },
     "CAP-G-MARATHON": {
         imgRef: "./Badges/Badge-CAP-G.webp",
         title: "Un marathon dans les jambes",
         activityName: "CAP",
         groupColor: "nuance-blue-light",
-        text: "une séance de C.A.P entre 42 km et 42.950 km"
+        text: "une séance de C.A.P d'environ 42 km"
     },
     "CAP-ULTRA-TRAIL": {
         imgRef: "./Badges/Badge-CAP-H.webp",
         title: "Ultra-trail",
         activityName: "CAP",
         groupColor: "nuance-blue-light",
-        text: "une séance de C.A.P avec une distance supérieure à 100km"
+        text: "une séance de C.A.P supérieure à 100 km"
     },
     "FRACTIONNE-A-1-SEANCE": {
         imgRef: "./Badges/Badge-FRACTIONNE-A.webp",
@@ -253,7 +253,7 @@ const allRewardsObject = {
     },
     "CROSSFIT-D-100-SEANCES": {
         imgRef: "./Badges/Badge-CROSSFIT-D.webp",
-        title: "Homme/Femme de fer",
+        title: "Taillé dans l'airain.",
         activityName: "CROSSFIT",
         groupColor: "nuance-red",
         text: "100 séances de crossfit"
@@ -435,7 +435,7 @@ const allRewardsObject = {
     },
     "ETIREMENT-A-1-SEANCE": {
         imgRef: "./Badges/Badge-ETIREMENT-A.webp",
-        title: "T'es du genre flexible ?",
+        title: "Du genre flexible ?",
         activityName: "ETIREMENT",
         groupColor: "nuance-green-light",
         text: "1 séance d'étirement"
