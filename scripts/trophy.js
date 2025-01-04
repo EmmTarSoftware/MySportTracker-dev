@@ -347,22 +347,50 @@ function onLoadUserRewardsList() {
 
 
     userRewardsArray.forEach(e=>{
-        let newImg = document.createElement("img");
 
+        // la div contenant un reward
+        let newDivRewardCard = document.createElement("div");
+        newDivRewardCard.onclick = function (){
+            onDisplayRewardsFullScreen(e);
+        };
         // séparation des anciens et nouveau rewards obtenus
         if (newRewardsToSee.includes(e)) {
-            newImg.classList = "rewardsListEnable newRewards";
+            newDivRewardCard.classList = `reward-card ${allRewardsObject[e].groupColor} newRewards`;
         }else{
-            newImg.classList = "rewardsListEnable";
+            newDivRewardCard.classList = `reward-card ${allRewardsObject[e].groupColor}`;
         }
-        
+
+
+        console.log(`[REWARD] class = reward-card ${allRewardsObject[e].groupColor} newRewards`);
+
+        // IMAGES
+        let newImg = document.createElement("img");
+  
+        newImg.classList = "rewardCard";
         newImg.src = allRewardsObject[e].imgRef;
         newImg.loading = "lazy";
-        newImg.onclick = function (){
-            onDisplayRewardsFullScreen(e,true);
-        };
+
+
+
+        // TEXT
+
+        let newPRewardTitle = document.createElement("p");
+        newPRewardTitle.classList = "reward-title";
+        newPRewardTitle.innerHTML = allRewardsObject[e].title;
+
+        let newPRewardCondition = document.createElement("p");
+        newPRewardCondition.classList = "reward-condition";
+        newPRewardCondition.innerHTML = allRewardsObject[e].text;
+
+
         // Insertion
-        divRewardsListRef.appendChild(newImg);
+
+        newDivRewardCard.appendChild(newImg);
+        newDivRewardCard.appendChild(newPRewardTitle);
+        newDivRewardCard.appendChild(newPRewardCondition);
+
+
+        divRewardsListRef.appendChild(newDivRewardCard);
     });
 
 
@@ -377,17 +405,38 @@ function onLoadUserRewardsList() {
         let isPossessed = userRewardsArray.includes(key);
 
         if (!isPossessed) {
-            // Création des images
-            let newImg = document.createElement("img");
-            newImg.classList = "rewardsListDisable";
-            newImg.src = allRewardsObject[key].imgRef;
-            newImg.loading = "lazy";
-            newImg.onclick = function (){
-                onDisplayRewardsFullScreen(key,false);
+
+            // la div contenant un reward
+            let newDivRewardCard = document.createElement("div");
+            newDivRewardCard.classList = "reward-card locked";
+            newDivRewardCard.onclick = function (){
+                onClickRewardLocked(this);
             };
 
+
+            // Création des images
+            let newImg = document.createElement("img");
+            newImg.classList = "rewardCard";
+            newImg.src = "./Icons/badge-locked.webp";
+            newImg.loading = "lazy";
+
+            // TEXT
+            let newPRewardTitle = document.createElement("p");
+            newPRewardTitle.classList = "reward-title";
+            newPRewardTitle.innerHTML = allRewardsObject[key].title;
+
+            let newPRewardCondition = document.createElement("p");
+            newPRewardCondition.classList = "reward-condition";
+            newPRewardCondition.innerHTML = allRewardsObject[key].text;
+
+
+
             // Insertion
-            divRewardsListRef.appendChild(newImg);
+            newDivRewardCard.appendChild(newImg);
+            newDivRewardCard.appendChild(newPRewardTitle);
+            newDivRewardCard.appendChild(newPRewardCondition);
+
+            divRewardsListRef.appendChild(newDivRewardCard);
         }
 
     });
@@ -407,23 +456,17 @@ function onLoadUserRewardsList() {
 
 
 // Affiche en grand la récompense
-function onDisplayRewardsFullScreen(rewardName,isPossessed) {
+function onDisplayRewardsFullScreen(rewardName) {
     if (devMode === true){console.log("[REWARDS]  demande de visualisation de récompense : " + rewardName);};
 
 
-    // set les éléments et affiche selon si l'utilisateur le possède ou non
-
-    if (isPossessed) {
+    // set les éléments et affiche
         imgRewardsFullScreenRef.src = allRewardsObject[rewardName].imgRef;
         imgRewardsFullScreenRef.style.display = "block";
         pRewardsFullScreenTitleRef.innerHTML = allRewardsObject[rewardName].title;
         pRewardsFullScreenTitleRef.style.display = "block";
         pRewardsFullScreenTextRef.innerHTML = `Tu as pratiqué ${allRewardsObject[rewardName].text}.`;
-    }else{
-        imgRewardsFullScreenRef.style.display = "none";
-        pRewardsFullScreenTitleRef.style.display = "none";
-        pRewardsFullScreenTextRef.innerHTML = `Tu dois pratiquer ${allRewardsObject[rewardName].text} pour obtenir cette récompense.`;
-    }
+
     document.getElementById("divFullScreenRewards").classList.add("show");
 
 };
@@ -437,7 +480,17 @@ function onHiddenFullscreenRewards() {
 
 
 
+// récompense verrouillé
 
+function onClickRewardLocked(itemRef) {
+    // Ajout de l'effet de tremblement
+    itemRef.classList.add('tremble');
+
+    // Suppression de l'effet après l'animation
+    setTimeout(() => {
+        itemRef.classList.remove('tremble');
+    }, 400);
+}
 
 
 

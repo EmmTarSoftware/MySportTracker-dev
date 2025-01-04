@@ -5,7 +5,7 @@ const basePath = serviceWorkerUrl.replace(/service-worker\.js$/, '');
 console.log(`[SERVICE WORKER] : BasePath = ${basePath}`);
 
 // Nom de la version du cache
-const CACHE_VERSION = "V24";
+const CACHE_VERSION = "V25";
 const STATIC_CACHE = `static-${CACHE_VERSION}`;
 
 // Fichiers à mettre en cache
@@ -37,7 +37,8 @@ const ICONS = [
   `${basePath}Icons/Logo_MSS-192.png`,
   `${basePath}Icons/Logo_MSS-512.png`,
   `${basePath}Icons/MSS-Logo.ico`,
-  `${basePath}Icons/notifyBadge48.png`
+  `${basePath}Icons/notifyBadge48.png`,
+  `${basePath}Icons/badge-locked.webp`
 ];
 
 const IMAGES = [

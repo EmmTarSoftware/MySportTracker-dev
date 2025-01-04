@@ -324,45 +324,7 @@ button.btn-sort-Selected{
     box-shadow: var(--boxShadow);
 }
 
-        /* Couleurs pour chaque groupe */
-.nuance-blue-light {
-    border-color: #00A9F4; /* Bleu clair */
-}
 
-.nuance-turquoise {
-    border-color: #17A2B8; /* turquoise */
-}
-
-.nuance-green-light {
-    border-color: #03e224; /* Vert clair */
-}
-
-.nuance-orange {
-    border-color: #ffbd17; /* nuance-orange */
-}
-
-.nuance-olive {
-    border-color: #4B8B3B; /* Jaune */
-}
-
-.nuance-pink {
-    border-color: #FF69B4; /* Rose */
-}
-
-.nuance-purple {
-    border-color: #800080; /* Violet */
-}
-
-.nuance-red {
-    border-color: #FF6F61; /* Violet */
-}
-.nuance-dark-gray {
-    border-color: #6C757D; /* Gris foncé */
-}
-
-.nuance-light-bluegray {
-    border-color: #B0C4DE; /* Gris clair */
-}
 
 /* Style pour la partie image (bleue) */
 .item-image-container {
@@ -1008,35 +970,81 @@ select.graph-stat{
     }
 }
 
-
-
 .rewardAvailable{
     animation: borderBlink 1.5s infinite;
 }
 
+/* FIN Bouton menu reward */
 
 
 
 
+div.rewards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 15px;
+    width: 100%;
+}
 
 
-div.trophy{
-    display: flex;
-    flex-direction:row; 
-    flex-wrap: wrap; /* Permet le retour à la ligne si nécessaire */
-    align-items: flex-start;  /* Aligne les items en haut */
-    justify-content: flex-start; /* Aligne les images sur la gauche */
+div.reward-card {
+    background-color: #fff;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    padding: 10px;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+div.reward-card.unlocked {
+    border-color: #4CAF50;
+    box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3);
 }
 
 
 
-img.rewardsListEnable {
-    width: 80px;
-    border: solid 1px rgb(246, 246, 246);
-    border-radius: 10px;
-    margin: 10px;
-    background-color: rgb(246, 246, 246);
-    box-shadow: var(--boxShadow);
+div.reward-card.locked {
+    opacity: 0.5;
+}
+
+
+
+/* Tremblement pour les récompenses verrouillées */
+div.reward-card.locked.tremble {
+    animation: shake 0.4s;
+}
+
+@keyframes shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-5px);
+    }
+    50% {
+        transform: translateX(5px);
+    }
+    75% {
+        transform: translateX(-5px);
+    }
+}
+
+
+p.reward-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+p.reward-condition {
+    font-size: 14px;
+    color: #666;
+}
+
+
+img.rewardCard {
+    width: 50px;
 }
 
 @keyframes pulse {
@@ -1145,7 +1153,45 @@ p.trophyDetail{
 
 
 
-
+        /* Couleurs pour chaque groupe */
+        div.nuance-blue-light {
+            border-color: #00A9F4; /* Bleu clair */
+        }
+        
+        div.nuance-turquoise {
+            border-color: #17A2B8; /* turquoise */
+        }
+        
+        div.nuance-green-light {
+            border-color: #03e224; /* Vert clair */
+        }
+        
+        div.nuance-orange {
+            border-color: #ffbd17; /* nuance-orange */
+        }
+        
+        div.nuance-olive {
+            border-color: #4B8B3B; /* Jaune */
+        }
+        
+        div.nuance-pink {
+            border-color: #FF69B4; /* Rose */
+        }
+        
+        div.nuance-purple {
+            border-color: #800080; /* Violet */
+        }
+        
+        div.nuance-red {
+            border-color: #FF6F61; /* Violet */
+        }
+        div.nuance-dark-gray {
+            border-color: #6C757D; /* Gris foncé */
+        }
+        
+        div.nuance-light-bluegray {
+            border-color: #B0C4DE; /* Gris clair */
+        }
 
 
 
