@@ -24,7 +24,7 @@ body{
 div.app {
     display: flex;
     flex-direction: column;
-    height: 85vh; /* Prend 100% de la hauteur de l'écran */
+    height: 90vh; /* Prend 100% de la hauteur de l'écran */
     overflow: hidden; /* Empêche tout débordement en dehors de l'écran */
 }
 
