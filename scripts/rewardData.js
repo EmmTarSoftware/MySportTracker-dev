@@ -253,7 +253,7 @@ const allRewardsObject = {
     },
     "CROSSFIT-D-100-SEANCES": {
         imgRef: "./Badges/Badge-CROSSFIT-D.webp",
-        title: "Scuplté dans l'airain.",
+        title: "Sculpté dans l'airain.",
         activityName: "CROSSFIT",
         groupColor: "nuance-red",
         text: "100 séances de crossfit"
@@ -435,7 +435,7 @@ const allRewardsObject = {
     },
     "ETIREMENT-A-1-SEANCE": {
         imgRef: "./Badges/Badge-ETIREMENT-A.webp",
-        title: "Du genre flexible ?",
+        title: "Du genre flexible",
         activityName: "ETIREMENT",
         groupColor: "nuance-green-light",
         text: "1 séance d'étirement"
