@@ -68,27 +68,27 @@
             <div class="activityPreview">
                 <img id="imgEditorActivityPreview" src="./images/icon-cap.webp" alt="" srcset="" class="activityPreview">
             </div>
-            <p>
+            <p class="activity-editor">
                 <label for="selectorCategoryChoice">Activité : </label>
                 <select name="category" id="selectorCategoryChoice" onchange="onChangeActivityPreview(this.value)">
                     <!-- Injection des options -->
                 </select>
             </p>
-            <p>
+            <p class="activity-editor">
                 <label for="inputDate">Date : </label>
                 <input type="date" id="inputDate">
             </p>
-            <p>
+            <p class="activity-editor">
                 <label for="inputLocation">Lieu : </label>
                 <input id="inputLocation" type="text" maxlength="40">
             </p>
 
-            <p>
+            <p class="activity-editor">
                 <label for="inputDistance">Distance (km) :  </label>
                 <input id="inputDistance" type="number">
             </p>
         
-            <p>
+            <p class="activity-editor">
                 <label for="inputDuration">Chrono : </label>
                 <input id="inputDuration" type="time" step="2">
             </p>
@@ -366,7 +366,7 @@
 
     <!-- ----------------------------------      DIV INFO        ------------------------------------------------>
     <div id="divInfo" class="new-interface">
-            <p class="release-licence"><b>Release :</b> 1.2.60</p> 
+            <p class="release-licence"><b>Release :</b> 1.2.62</p> 
 
         
             <p class="release-licence"><b>Licence : </b></p>
