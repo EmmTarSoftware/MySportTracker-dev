@@ -325,6 +325,12 @@ button.btn-sort-Selected{
 }
 
 
+/* TEST EN COURS */
+/*Style pour avoir une marge en dessous du dernier item*/
+.last-container {
+    margin-bottom: 100px;
+}
+
 
 /* Style pour la partie image (bleue) */
 .item-image-container {

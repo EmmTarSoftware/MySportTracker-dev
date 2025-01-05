@@ -424,7 +424,7 @@ function onInsertMoreActivity() {
             // Arrete la boucle si lorsque le cycle est atteind
             return
         }else{
-            onInsertOneActivity(userActivityListToDisplay[i]);
+            onInsertOneActivity(userActivityListToDisplay[i],i === userActivityListToDisplay.length-1);
         };
         cycleCount++;
     };
@@ -436,12 +436,11 @@ function onInsertMoreActivity() {
 
 
 // Fonction d'insertion d'une activité dans la liste
-function onInsertOneActivity(activity) {
+function onInsertOneActivity(activity,isLastIndex) {
 
-
-    // La div de l'item
+    // La div de l'item avec une marge spéciale pour le dernier éléments
     let newItemContainer = document.createElement("div");
-    newItemContainer.className = `item-container`;
+    newItemContainer.className = isLastIndex ? "item-container last-container" : "item-container";
 
     newItemContainer.onclick = function () {
         onClickOnActivity(activity.key);
