@@ -435,12 +435,12 @@ function onInsertMoreActivity() {
 
 
 
-// Fonction d'insertion d'une activité dans la liste
+// Fonction d'insertion d'une activité dans la liste avec gestion spécial pour le dernier element
 function onInsertOneActivity(activity,isLastIndex) {
 
     // La div de l'item avec une marge spéciale pour le dernier éléments
     let newItemContainer = document.createElement("div");
-    newItemContainer.className = isLastIndex ? "item-container last-container" : "item-container";
+    newItemContainer.className = "item-container";
 
     newItemContainer.onclick = function () {
         onClickOnActivity(activity.key);
@@ -523,6 +523,17 @@ function onInsertOneActivity(activity,isLastIndex) {
     newItemContainer.appendChild(newDivDataContainer);
 
     divItemListRef.appendChild(newItemContainer);
+
+
+
+    // gestion derniere activité de la liste
+    // Insertion d'un trait en fin de liste
+    if (isLastIndex) {
+        let newClotureList = document.createElement("span");
+        newClotureList.className = "last-container";
+        newClotureList.innerHTML = "Vos activités sont stockées dans votre navigateur.";
+        divItemListRef.appendChild(newClotureList);
+    }
 };
 
 
