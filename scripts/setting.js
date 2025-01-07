@@ -81,9 +81,12 @@ function onCancelDeleteDataBase(params) {
 function onDeleteBDD() {
    
     if (devMode === true) {console.log("Lancement de la suppression");};
-    // Les cookies favoris
+    // Les cookies 
     localStorage.removeItem(cookiesUserFavorisName);
+    localStorage.removeItem(cookiesConditionUtilisation_keyName);
+    localStorage.removeItem(cookiesDevModeName);
 
+    // La base de donnée
     let requestDelete = indexedDB.deleteDatabase(dbName);
 
 

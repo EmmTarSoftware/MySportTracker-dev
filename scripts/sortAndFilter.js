@@ -42,7 +42,7 @@ let defaultFilter = "ALL",
 
 
 
-
+// Génération du filtre sur les catégorie d'activité
 function onGenerateDynamiqueFilter(allData) {
     
     let dynamicFilterList = [];
@@ -202,16 +202,31 @@ function onUserChangeSortType(sortCategory) {
 };
 
 
-function onSortActivity(sortType,filteredData) {
 
+
+
+
+// Fonction du trie
+function onSortActivity(sortType,filteredData) {
 
     if (devMode === true){console.log("Demande de trie par : " + sortType );};
 
-
     if (sortType === "dateRecente") {
-        filteredData.sort((a, b) => new Date(b.date) - new Date(a.date)); // Tri par date décroissante
-    }else if (sortType === "dateAncienne") {
-        filteredData.sort((a, b) => new Date(a.date) - new Date(b.date)); // Tri par date croissante
+        filteredData.sort((a, b) => {
+            const dateDiff = new Date(b.date) - new Date(a.date);
+            if (dateDiff !== 0) {
+                return dateDiff; // Tri par date décroissante
+            }
+            return b.key - a.key; // Si les dates sont identiques, les activités créés en dernier (key la plus élevé) apparaitrons en premiers
+        });
+    } else if (sortType === "dateAncienne") {
+        filteredData.sort((a, b) => {
+            const dateDiff = new Date(a.date) - new Date(b.date);
+            if (dateDiff !== 0) {
+                return dateDiff; // Tri par date croissante
+            }
+            return a.key - b.key; // Si les dates sont identiques, les activités créés en dernier (key la plus élevé) apparaitrons en derniers
+        });
     }else if (sortType === "distanceCroissante") {
         filteredData.sort((a, b) => a.distance - b.distance); // Tri par distance croissante
     }else if (sortType === "distanceDecroissante") {

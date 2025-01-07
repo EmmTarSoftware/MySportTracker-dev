@@ -290,7 +290,8 @@ function onOpenNewActivity() {
 
     // Initialise les éléments
     onResetActivityInputs();
-
+    // Set la date maximale utilisable (pas après la date du jour)
+    initMaxDate();
 };
 
 
@@ -314,6 +315,19 @@ function onResetActivityInputs() {
 };
 
 
+
+// Empêche d'utiliser une date ultérieure
+
+function initMaxDate() {
+
+    if (devMode === true){console.log("Blocage de la date maximale à ");};
+    const today = new Date();
+    const formattedDate = today.toISOString().split('T')[0]; // Format YYYY-MM-DD
+    inputDateRef.setAttribute('max', formattedDate);
+
+    if (devMode === true){console.log("Blocage de la date maximale à " + formattedDate);};
+
+}
 
 
 // actualisation de la liste d'activité
@@ -647,6 +661,10 @@ let currentKeyActivityInView = 0;
 // clique sur un item
 function onClickOnActivity(keyRef) {
     onResetActivityInputs();
+
+    // Set la date maximale utilisable (pas après la date du jour)
+    initMaxDate();
+
     // onSearchActivityInBaseToDisplay(keyRef);
     onSearchActivityToDisplay(keyRef);
     onChangeMenu("EditActivity");
