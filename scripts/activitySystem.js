@@ -193,7 +193,8 @@ let activityToInsertFormat = {
     duration : "",
     comment : "",
     userInfo : {},
-    divers:{}
+    divers:{},
+    isPlanned : false
 };
 
 
@@ -795,6 +796,7 @@ function onFormatActivity() {
     activityToInsertFormat.location = onSetToUppercase(inputLocationRef.value);
     activityToInsertFormat.comment = textareaCommentRef.value;
     activityToInsertFormat.duration = inputDurationRef.value;
+    activityToInsertFormat.isPlanned = false;
     activityToInsertFormat.divers = {};
 
 

@@ -444,9 +444,6 @@ function onLoadUserRewardsList() {
 
 
 
-
-
-
 // ---------------------------------------- VISUALISATION   GROS PLAN    --------------------------------
 
 
