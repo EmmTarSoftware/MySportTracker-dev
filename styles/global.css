@@ -326,6 +326,7 @@ button.btn-sort-Selected{
 
 .item-planned {
     opacity: 0.5;
+    box-shadow: none;
 }
 
 /*Style pour avoir une marge en dessous du dernier item*/
