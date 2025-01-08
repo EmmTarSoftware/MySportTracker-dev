@@ -74,10 +74,18 @@
                     <!-- Injection des options -->
                 </select>
             </p>
+
+            <p class="activity-editor">
+                <label for="inputIsPlanned">Programmée ⏳ : </label>
+                <input id="inputIsPlanned" type="checkbox">
+            </p>
+
             <p class="activity-editor">
                 <label for="inputDate">Date : </label>
                 <input type="date" id="inputDate">
             </p>
+
+
             <p class="activity-editor">
                 <label for="inputLocation">Lieu : </label>
                 <input id="inputLocation" type="text" maxlength="40">
@@ -94,10 +102,9 @@
             </p>
     
             
-            
             <p>
                 <label for="textareaComment">Commentaire : </label>
-                <textarea name="" id="textareaComment"></textarea>
+                <textarea name="" id="textareaComment" maxlength="250"></textarea>
             </p>
         </div>
 
@@ -366,7 +373,7 @@
 
     <!-- ----------------------------------      DIV INFO        ------------------------------------------------>
     <div id="divInfo" class="new-interface">
-            <p class="release-licence"><b>Release :</b> 1.2.66</p> 
+            <p class="release-licence"><b>Release :</b> 1.2.67</p> 
 
         
             <p class="release-licence"><b>Licence : </b></p>

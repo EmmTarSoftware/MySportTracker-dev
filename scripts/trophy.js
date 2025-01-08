@@ -1,9 +1,9 @@
 
 // Les trophes possédés par l'utilisateur
 let userRewardsArray = [],
-    rewardsEligibleArray = []; //stockes les trophés auxquels l'utilisateur est éligible 
-    newRewardsToSee = [];//les nouveaux trophé obtenu. Vidé lorsque l'utilisateur quitte le menu récompense
-
+    rewardsEligibleArray = [], //stockes les trophés auxquels l'utilisateur est éligible 
+    newRewardsToSee = [],//les nouveaux trophé obtenu. Vidé lorsque l'utilisateur quitte le menu récompense
+    rewardAllActivityNonPlannedArray = []; // tableau qui contient les activités non planifiées
 
 
 // Reference 
@@ -489,7 +489,11 @@ function onClickRewardLocked(itemRef) {
 
 
 
+
+
 // ---------------------------------    OBTENTION-------------------------------------
+
+
 
 
 
@@ -503,10 +507,27 @@ function onCheckReward(currentActivitySaved) {
 // Recherche d'éligibilité aux trophés communs
 function onSearchGeneralRewards(activityTarget) {
 
+
+
+
+
     // Reset la variable
     rewardsEligibleArray = [];
+    rewardAllActivityNonPlannedArray = [];
 
-    let activityArrayLength = allUserActivityArray.length;
+    //filtre sur les activité accomplit
+    
+    rewardAllActivityNonPlannedArray = allUserActivityArray.filter(activity =>{
+        return activity.isPlanned === false
+    });
+
+    if (devMode === true){
+        console.log("[REWARDS] retrait des activité planifié")
+        console.log("Nbre activité retiré = " + (allUserActivityArray.length - rewardAllActivityNonPlannedArray.length));
+    ;};
+
+
+    let activityArrayLength = rewardAllActivityNonPlannedArray.length;
 
 
     // Traitement des récompenses génériques
@@ -516,7 +537,7 @@ function onSearchGeneralRewards(activityTarget) {
     // POLYVALENT (5 activités différentes)
     if (!userRewardsArray.includes("POLYVALENT")) {
         if (devMode === true){console.log("[REWARDS] [GENERIQUE] Test eligibilité pour : POLYVALENT");};
-        let isEligible = onSearchVariousActivitiesNumber(allUserActivityArray,5,activityTarget);
+        let isEligible = onSearchVariousActivitiesNumber(rewardAllActivityNonPlannedArray,5,activityTarget);
         if (isEligible) {
             rewardsEligibleArray.push("POLYVALENT");
         }
@@ -546,7 +567,7 @@ function onSearchGeneralRewards(activityTarget) {
 
 
 
-    onTraiteRewardAnniversaryAndAbsent(activityTarget,allUserActivityArray);
+    onTraiteRewardAnniversaryAndAbsent(activityTarget,rewardAllActivityNonPlannedArray);
 
 }
 
@@ -1001,6 +1022,7 @@ function onResetRewardsMenu() {
 
 
     newRewardsToSee = [];
+    rewardAllActivityNonPlannedArray = [];
 }
    
    

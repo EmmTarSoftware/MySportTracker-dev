@@ -217,7 +217,8 @@ let pInterfaceActivityTitleRef = document.getElementById("pInterfaceActivityTitl
     textareaCommentRef = document.getElementById("textareaComment"),
     selectorCategoryChoiceRef = document.getElementById("selectorCategoryChoice"),
     divItemListRef = document.getElementById("divItemList"),
-    imgEditorActivityPreviewRef = document.getElementById("imgEditorActivityPreview");
+    imgEditorActivityPreviewRef = document.getElementById("imgEditorActivityPreview"),
+    inputIsPlannedRef = document.getElementById("inputIsPlanned");
 
 
 
@@ -291,8 +292,7 @@ function onOpenNewActivity() {
 
     // Initialise les éléments
     onResetActivityInputs();
-    // Set la date maximale utilisable (pas après la date du jour)
-    initMaxDate();
+    
 };
 
 
@@ -307,7 +307,7 @@ function onResetActivityInputs() {
     inputDurationRef.value = "00:00:00";
     textareaCommentRef.value = "";
     selectorCategoryChoiceRef.value = "C.A.P";
-
+    inputIsPlannedRef.checked = false;
 
     // l'image de prévisualisation 
     imgEditorActivityPreviewRef.src = activityChoiceArray["C.A.P"].imgRef;
@@ -317,7 +317,7 @@ function onResetActivityInputs() {
 
 
 
-// Empêche d'utiliser une date ultérieure
+// Empêche d'utiliser une date ultérieure (non utilisé actuellement)
 
 function initMaxDate() {
 
@@ -371,6 +371,8 @@ function onUpdateActivityBddList(isCheckRewardRequiered,activityTargetForReward)
         // Lance le traitement des récompense si nécessaire
         if (isCheckRewardRequiered) {
             onCheckReward(activityTargetForReward);
+        }else{
+            if (devMode === true){console.log("[REWARDS] pas de traitement de récompense");};
         }
 
         
@@ -451,11 +453,12 @@ function onInsertMoreActivity() {
 
 
 // Fonction d'insertion d'une activité dans la liste avec gestion spécial pour le dernier element
+// et gestion pour les activités planifiées
 function onInsertOneActivity(activity,isLastIndex) {
 
     // La div de l'item avec une marge spéciale pour le dernier éléments
     let newItemContainer = document.createElement("div");
-    newItemContainer.className = "item-container";
+    newItemContainer.className = activity.isPlanned ? "item-container item-planned" : "item-container";
 
     newItemContainer.onclick = function () {
         onClickOnActivity(activity.key);
@@ -474,7 +477,7 @@ function onInsertOneActivity(activity,isLastIndex) {
 
 
 
-    // la done des données
+    // la zone des données
 
     let newDivDataContainer =  document.createElement("div");
     newDivDataContainer.className = "item-data-container";
@@ -485,21 +488,22 @@ function onInsertOneActivity(activity,isLastIndex) {
     newDivDataArea1.className = "item-data-area1";
 
     let newItemDistance = document.createElement("p");
-    newItemDistance.className = "item-data-distance";
+    newItemDistance.className = activity.isPlanned ? "item-data-distance-planned" : "item-data-distance";
     newItemDistance.innerHTML = activity.distance != "" ? activity.distance + " km": "---";
 
     let newItemDuration = document.createElement("p");
-    newItemDuration.className = "item-data-duration";
+    newItemDuration.className = activity.isPlanned ? "item-data-duration-planned" : "item-data-duration";
     newItemDuration.innerHTML = activity.duration;
 
     let newItemDate = document.createElement("p");
     newItemDate.className = "item-data-date";
     if (activity.date === dateToday) {
-        newItemDate.innerHTML = "Auj.";
+        newItemDate.innerHTML = activity.isPlanned ? "⏳ Auj." : "Auj.";
     }else if (activity.date === dateYesterday) {
-        newItemDate.innerHTML = "Hier";
+        newItemDate.innerHTML = activity.isPlanned ? "⏳ Hier" : "Hier";
     }else{
-        newItemDate.innerHTML = onFormatDateToFr(activity.date);
+        const dateActivityFormated = onFormatDateToFr(activity.date);
+        newItemDate.innerHTML = activity.isPlanned ? `⏳ ${dateActivityFormated}` : `${dateActivityFormated}`;
     };
 
     
@@ -524,7 +528,7 @@ function onInsertOneActivity(activity,isLastIndex) {
     newDivDataArea3.className = "item-data-area3";
 
     let newItemComment = document.createElement("p");
-    newItemComment.className = "item-data-comment";
+    newItemComment.className = activity.isPlanned ? "item-data-comment-planned" : "item-data-comment";
     newItemComment.innerHTML = activity.comment;
     newDivDataArea3.appendChild(newItemComment);
 
@@ -663,8 +667,6 @@ let currentKeyActivityInView = 0;
 function onClickOnActivity(keyRef) {
     onResetActivityInputs();
 
-    // Set la date maximale utilisable (pas après la date du jour)
-    initMaxDate();
 
     // onSearchActivityInBaseToDisplay(keyRef);
     onSearchActivityToDisplay(keyRef);
@@ -743,6 +745,7 @@ function onEditActivity(activityTarget) {
     inputDistanceRef.value = activityTarget.distance;
     inputDurationRef.value = activityTarget.duration;
     textareaCommentRef.value = activityTarget.comment;
+    inputIsPlannedRef.checked = activityTarget.isPlanned;
 
     // l'image de prévisualisation 
     imgEditorActivityPreviewRef.src = activityChoiceArray[activityTarget.name].imgRef;
@@ -796,9 +799,13 @@ function onFormatActivity() {
     activityToInsertFormat.location = onSetToUppercase(inputLocationRef.value);
     activityToInsertFormat.comment = textareaCommentRef.value;
     activityToInsertFormat.duration = inputDurationRef.value;
-    activityToInsertFormat.isPlanned = false;
     activityToInsertFormat.divers = {};
 
+
+    // Gestion planification  : les dates après la date du jour sont obligatoirement des activités planifiées
+    // si date ultérieur automatiquement planifié sinon, regarde la valeur checkbox
+    const isPlannedBySystem = isDateAfterToday(inputDateRef.value);
+    activityToInsertFormat.isPlanned = isPlannedBySystem ? true : inputIsPlannedRef.checked;
 
 
     // Demande d'insertion dans la base soit en creation ou en modification
@@ -824,7 +831,8 @@ function onCheckIfModifiedRequired(activityToInsertFormat) {
         { oldValue: currentActivityDataInView.location, newValue: activityToInsertFormat.location },
         { oldValue: currentActivityDataInView.comment, newValue:  activityToInsertFormat.comment },
         { oldValue: currentActivityDataInView.duration, newValue:  activityToInsertFormat.duration },
-        { oldValue: currentActivityDataInView.divers, newValue:  activityToInsertFormat.divers }
+        { oldValue: currentActivityDataInView.divers, newValue:  activityToInsertFormat.divers },
+        { oldValue: currentActivityDataInView.isPlanned, newValue:  activityToInsertFormat.isPlanned }
         // Ne pas mettre la donnée userInfo Ici. 
     ];
 
@@ -888,8 +896,13 @@ function onInsertNewActivity(dataToInsert) {
         console.log("[ DATABASE ] transaction insertData complete");
 
 
+
+        // est ce que la derniere activité est planifié donc pas de check reward
+        const isCheckRewardsRequiered = dataToInsert.isPlanned === false;
+        if (devMode === true){console.log("[REWARDS] Valeur de planification derniere activité  " + isCheckRewardsRequiered);};
+
         // Remet à jour les éléments
-        onUpdateActivityBddList(true,dataToInsert.name);
+        onUpdateActivityBddList(isCheckRewardsRequiered,dataToInsert.name);
 
         // Popup notification
         onShowNotifyPopup(notifyTextArray.creation);
@@ -926,6 +939,7 @@ function onInsertModification(e) {
         modifiedData.comment = e.comment;
         modifiedData.duration = e.duration;
         modifiedData.divers = e.divers;
+        modifiedData.isPlanned = e.isPlanned;
         // modifiedData.userInfo = e.userInfo; Les userInfo stockés dans la base lors de la création de l'activité ne doivent pas être modifiés afin de conservé les données d'origines
 
         let insertModifiedData = store.put(modifiedData);
@@ -952,7 +966,12 @@ function onInsertModification(e) {
     transaction.oncomplete = function(){
         console.log("transaction complete");
         // Remet à jour les éléments
-        onUpdateActivityBddList(true,e.name);
+
+        // est ce que la derniere activité est planifié donc pas de check reward
+        const isCheckRewardsRequiered = e.isPlanned === false;
+        if (devMode === true){console.log("[REWARDS] Valeur de planification derniere activité  " + isCheckRewardsRequiered);};
+        
+        onUpdateActivityBddList(isCheckRewardsRequiered,e.name);
 
         // Popup notification
         onShowNotifyPopup(notifyTextArray.modification);

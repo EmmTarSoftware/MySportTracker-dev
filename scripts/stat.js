@@ -2,15 +2,30 @@
 // Ouverture du menu
 function onOpenMenuStat(){
     if (devMode === true){console.log("Ouverture menu STAT");};
-    onGenerateDynamiqueStatFilter(allUserActivityArray);
 
-    displayGeneralStats(allUserActivityArray);
+
+
+    
+    statActivityNonPlannedArray = allUserActivityArray.filter(activity =>{
+        return activity.isPlanned === false
+    });
+
+    if (devMode === true){
+        console.log("Retrait des activités programmées");
+        console.log("Nbre activité retiré = " + (allUserActivityArray.length - statActivityNonPlannedArray.length));
+    
+    };
+
+    onGenerateDynamiqueStatFilter(statActivityNonPlannedArray);
+
+    displayGeneralStats(statActivityNonPlannedArray);
 }
 
 // Referencement
 let selectorStatRef = document.getElementById("selectorStat");
 
-
+// Array qui va contenir toutes les activités non planifiées
+let statActivityNonPlannedArray = [];
 
 
 
@@ -92,7 +107,7 @@ function onChangeStatActivitySelector(value) {
 
     if (value === "GENERAL") {
         // Appeler la fonction pour afficher les statistiques générales
-        displayGeneralStats(allUserActivityArray);
+        displayGeneralStats(statActivityNonPlannedArray);
     } else {
         // Appeler la fonction pour afficher les statistiques de l'activité sélectionnée
         displayActivityStats(value);
@@ -325,10 +340,10 @@ function onChangeSelectorYearGraph(yearTarget){
 
 
     if (currentActivitySelected === "GENERAL") {
-        getActivityStatCountByMonth(allUserActivityArray,Number(yearTarget));
+        getActivityStatCountByMonth(statActivityNonPlannedArray,Number(yearTarget));
     } else {
         // Récupère uniquement les données concernant l'activité en question
-        let activitiesTargetData = allUserActivityArray.filter(e=>{
+        let activitiesTargetData = statActivityNonPlannedArray.filter(e=>{
             // Recupère toutes les activités concernés
             return e.name === currentActivitySelected;
         });
@@ -351,7 +366,7 @@ function displayActivityStats(activityName) {
     if (devMode === true){console.log("[STAT] demande de stat pour " + activityName);};
 
     // Récupère uniquement les données concernant l'activité en question
-    let activitiesTargetData = allUserActivityArray.filter(e=>{
+    let activitiesTargetData = statActivityNonPlannedArray.filter(e=>{
         // Recupère toutes les activités concernés
         return e.name === activityName;
     });
@@ -520,6 +535,10 @@ function onResetStatGraph() {
     if (devMode === true){console.log(`[STAT] Reset du tableau graphique` );};
     // Reset le tableau d'array
     document.getElementById("selectStatGraphYear").innerHTML= "";
+
+    // Vide le tableau de toutes les activités non planifié
+    statActivityNonPlannedArray = [];
+
 
     monthStatNamesArray.forEach(e=>{
         // reset les progress bar et les nombres

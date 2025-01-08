@@ -324,7 +324,9 @@ button.btn-sort-Selected{
     box-shadow: var(--boxShadow);
 }
 
-
+.item-planned {
+    opacity: 0.5;
+}
 
 /*Style pour avoir une marge en dessous du dernier item*/
 .last-container {
@@ -380,11 +382,24 @@ p.item-data-distance {
     font-weight: bold;
     color: #333;
 }
+p.item-data-distance-planned {
+    text-align: left;
+    color: #333;
+}
+
+
+
 p.item-data-duration {
     text-align: center;
     font-weight:bold;
     color: #333;
 }
+p.item-data-duration-planned {
+    text-align: center;
+    color: #333;
+}
+
+
 p.item-data-date {
     text-align: right;
     margin-right: 5px;
@@ -404,6 +419,16 @@ p.item-data-location{
 
 p.item-data-comment{
     white-space: nowrap; /* Pour éviter le retour à la ligne */
+	overflow: hidden; /*Cache le texte qui dépasse */
+    /* font-style: italic; */
+    font-size: 0.8rem;
+  	text-overflow: ellipsis; /*Ajoute des points de suspension (...) pour indiquer que du texte est masqué*/
+    width: 100px;
+    color: #555;
+}
+
+p.item-data-comment-planned{
+    white-space: normal; /* Pour éviter le retour à la ligne */
 	overflow: hidden; /*Cache le texte qui dépasse */
     /* font-style: italic; */
     font-size: 0.8rem;

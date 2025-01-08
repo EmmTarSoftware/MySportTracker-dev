@@ -327,6 +327,21 @@ function onFormatDateToFr(dateString) {
 };
 
 
+
+
+
+// si la date en entre est après la date du jour
+function isDateAfterToday(inputDate) {
+    // Crée une nouvelle instance de la date actuelle
+    const today = new Date();
+
+    // Crée une instance de la date d'entrée
+    const dateToCompare = new Date(inputDate);
+
+    // Compare les dates : retourne true si la date entrée est après aujourd'hui
+    return dateToCompare > today;
+}
+
 // ------------------------- CONDITION D'UTILISATION ---------------------------
 
 
