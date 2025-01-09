@@ -501,11 +501,13 @@ img.activityPreview{
     display: inline;
 }
 
-div.activityPreview p {
-    display: inline;
-    font-size: 20px;
-    opacity: 0.5;
-    margin:0px; padding: 0px;
+div.activityPreview span {
+    position: absolute;
+    top: 90px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 70px;
+    opacity: 0.2;
 }
 
 
