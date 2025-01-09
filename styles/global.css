@@ -494,13 +494,19 @@ p.moreItem{
 div.activityPreview{
     text-align: center;
     width: 100%;
-    color: orange;
 }
 
 img.activityPreview{
     width: 35px;
+    display: inline;
 }
 
+div.activityPreview p {
+    display: inline;
+    font-size: 20px;
+    opacity: 0.5;
+    margin:0px; padding: 0px;
+}
 
 
 p.activity-editor{
@@ -1242,7 +1248,15 @@ p.trophyDetail{
 
 
 
-
+/*Style pour avoir une marge en dessous du dernier item*/
+.info-basDePage {
+    border-top : solid 1px rgb(220, 220, 220);
+    width: 100%;
+    padding-top: 10px;
+    text-align: center;
+    font-size: 0.8rem;
+    color: #909090;
+}
 
 
 

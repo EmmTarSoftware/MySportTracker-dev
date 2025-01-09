@@ -218,7 +218,8 @@ let pInterfaceActivityTitleRef = document.getElementById("pInterfaceActivityTitl
     selectorCategoryChoiceRef = document.getElementById("selectorCategoryChoice"),
     divItemListRef = document.getElementById("divItemList"),
     imgEditorActivityPreviewRef = document.getElementById("imgEditorActivityPreview"),
-    inputIsPlannedRef = document.getElementById("inputIsPlanned");
+    inputIsPlannedRef = document.getElementById("inputIsPlanned"),
+    pEditorActivityPreviewPlannedIconRef = document.getElementById("pEditorActivityPreviewPlannedIcon");
 
 
 
@@ -309,8 +310,10 @@ function onResetActivityInputs() {
     selectorCategoryChoiceRef.value = "C.A.P";
     inputIsPlannedRef.checked = false;
 
+
     // l'image de prévisualisation 
     imgEditorActivityPreviewRef.src = activityChoiceArray["C.A.P"].imgRef;
+    pEditorActivityPreviewPlannedIconRef.innerHTML = "";
 
     inputDateRef.classList.remove("fieldRequired");
 };
@@ -550,7 +553,7 @@ function onInsertOneActivity(activity,isLastIndex) {
     if (isLastIndex) {
         let newClotureList = document.createElement("span");
         newClotureList.className = "last-container";
-        newClotureList.innerHTML = "Vos activités sont stockées dans votre navigateur.";
+        newClotureList.innerHTML = "ℹ️ Vos activités sont stockées dans votre navigateur.";
         divItemListRef.appendChild(newClotureList);
     }
 };
@@ -652,7 +655,10 @@ function onChangeActivityPreview(dataName) {
     imgEditorActivityPreviewRef.src = activityChoiceArray[dataName].imgRef;
 } 
 
-
+// Set l'icone "temporaire" dans la prévisualisation
+function onChangeActivityPlanned(checkBoxValue) {
+    pEditorActivityPreviewPlannedIconRef.innerHTML = checkBoxValue ? "⏳":"";
+}
 
 
 
@@ -747,9 +753,11 @@ function onEditActivity(activityTarget) {
     textareaCommentRef.value = activityTarget.comment;
     inputIsPlannedRef.checked = activityTarget.isPlanned;
 
+
     // l'image de prévisualisation 
     imgEditorActivityPreviewRef.src = activityChoiceArray[activityTarget.name].imgRef;
-
+    // prévisualisation coché temporaire
+    pEditorActivityPreviewPlannedIconRef.innerHTML = activityTarget.isPlanned ? "⏳" : "";
 };
 
 

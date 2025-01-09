@@ -67,6 +67,7 @@
            
             <div class="activityPreview">
                 <img id="imgEditorActivityPreview" src="./images/icon-cap.webp" alt="" srcset="" class="activityPreview">
+                <p id="pEditorActivityPreviewPlannedIcon">⏳</p>                
             </div>
             <p class="activity-editor">
                 <label for="selectorCategoryChoice">Activité : </label>
@@ -76,8 +77,8 @@
             </p>
 
             <p class="activity-editor">
-                <label for="inputIsPlanned">Programmée ⏳ : </label>
-                <input id="inputIsPlanned" type="checkbox">
+                <label for="inputIsPlanned">Planifiée : </label>
+                <input id="inputIsPlanned" type="checkbox" onchange="onChangeActivityPlanned(this.checked)">
             </p>
 
             <p class="activity-editor">
@@ -362,6 +363,7 @@
                 </div>
             </div>
         <!-- FIN STAT GRAPHIQUE -->
+         <span class="info-basDePage">ℹ️ Activités planifiées exclues des statistiques.</span>
     </div>
 
     <div id="divBtnStat" class="button-editor">
@@ -373,7 +375,7 @@
 
     <!-- ----------------------------------      DIV INFO        ------------------------------------------------>
     <div id="divInfo" class="new-interface">
-            <p class="release-licence"><b>Release :</b> 1.2.68</p> 
+            <p class="release-licence"><b>Release :</b> 1.2.69</p> 
 
         
             <p class="release-licence"><b>Licence : </b></p>
