@@ -152,14 +152,14 @@
 
         <p>
             <label class="labelSetting" for="">Affichage activité effectuée :</label>
-            <select name="" id="" onchange="onChangeSettingCommentActivity(this.value,activityTagDone)">
+            <select name="" id="selectSettingCommentModeDone" onchange="onChangeSettingCommentActivity(this.value,activityTagDone,'done')">
                 <option value="Collapse">Réduit</option>
                     <option value="Compact">Compacté</option>
                     <option value="Expand">Déployé</option>
             </select>
 
             <label class="labelSetting" for="">Affichage activité planifiée :</label>
-            <select name="" id="" onchange="onChangeSettingCommentActivity(this.value,activityTagPlanned)">
+            <select name="" id="selectSettingCommentModePlanned" onchange="onChangeSettingCommentActivity(this.value,activityTagPlanned,'planned')">
                 <option value="Collapse">Réduit</option>
                     <option value="Compact">Compacté</option>
                     <option value="Expand">Déployé</option>

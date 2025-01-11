@@ -106,16 +106,64 @@ function onDeleteBDD() {
 
 
 // ------------------------  Paramètre utilisateur -------------------------
+let userSetting = {
+        commentPlannedMode : "Collapse",
+        commentDoneMode : "Collapse"
+    },
+    cookiesSettingCommentPlannedMode_Name = "MSS_comment-planned-mode",
+    cookiesSettingCommentDoneMode_Name = "MSS_comment-done-mode",
+    currentCommentDoneClassName = "",
+    currentCommentPlannedClassName = "";
 
 
-// Mode d'affichage commentaire
 
-function onChangeSettingCommentActivity(newSetting,tag) {
+
+function onCheckSettingCookies() {
+
+    if (devMode === true) {console.log("Traitement des cookies SETTING")};
+
+    // comment activité planifié
+    if (localStorage.getItem(cookiesSettingCommentPlannedMode_Name) === null){
+        localStorage.setItem(cookiesSettingCommentPlannedMode_Name, userSetting.commentPlannedMode);
+        if (devMode === true) {console.log("[SETTING] Creation du cookies :  " + cookiesSettingCommentPlannedMode_Name);};
+    }else{
+        if (devMode === true) {console.log("[SETTING] cookies existants, chargement dans la variable userSetting");};
+        userSetting.commentPlannedMode = localStorage.getItem(cookiesSettingCommentPlannedMode_Name);
+    };
+
+    //comment activité effectué
+    if (localStorage.getItem(cookiesSettingCommentDoneMode_Name) === null){
+        localStorage.setItem(cookiesSettingCommentDoneMode_Name, userSetting.commentDoneMode);
+        if (devMode === true) {console.log("[SETTING] Creation du cookies : " + cookiesSettingCommentDoneMode_Name);};
+    }else{
+        if (devMode === true) {console.log("[SETTING] cookies existants, chargement dans la variable userSetting");};
+        userSetting.commentDoneMode = localStorage.getItem(cookiesSettingCommentDoneMode_Name);
+    };
+
+    // set les valeur dans le menu paramètres :
+    document.getElementById("selectSettingCommentModePlanned").value = userSetting.commentPlannedMode;
+    document.getElementById("selectSettingCommentModeDone").value = userSetting.commentDoneMode;
+
+    // set les class selon les paramètres
+    currentCommentDoneClassName = onSearchCommentClassNameByMode(userSetting.commentDoneMode);
+    currentCommentPlannedClassName = onSearchCommentClassNameByMode(userSetting.commentPlannedMode);
+
+    if (devMode === true) {
+        console.log("[SETTING] valeur userSetting =");
+        console.log(userSetting);
+    };
+}
+
+onCheckSettingCookies();
+
+
+
+
+
+function onSearchCommentClassNameByMode(mode) {
     let cssClassTarget = "";
-
-
     // Choisit la nouvelle classe
-    switch (newSetting) {
+    switch (mode) {
         case "Collapse":
             cssClassTarget = "item-data-comment-collapse";
             break;
@@ -130,6 +178,37 @@ function onChangeSettingCommentActivity(newSetting,tag) {
             break;
     }
 
+    return cssClassTarget;
+}
+
+
+
+
+
+
+
+// Mode d'affichage commentaire
+function onChangeSettingCommentActivity(newSetting,tag,categoryTarget) {
+    
+    if (devMode === true) {
+        console.log("[SETTING] changement paramètre pour : " + categoryTarget + " - new Value : " + newSetting);
+    };
+
+
+    // enregistre les nouvelles valeur dans userSetting puis dans les cookies
+    if (categoryTarget === "done") {
+        userSetting.commentDoneMode = newSetting;
+        localStorage.setItem(cookiesSettingCommentDoneMode_Name, userSetting.commentDoneMode);
+        currentCommentDoneClassName = onSearchCommentClassNameByMode(newSetting);
+    } else{
+        userSetting.commentPlannedMode = newSetting;
+        localStorage.setItem(cookiesSettingCommentPlannedMode_Name, userSetting.commentPlannedMode);
+        currentCommentPlannedClassName = onSearchCommentClassNameByMode(newSetting);
+    }
+    
+    // Actualisation en direct
+    let cssClassTarget = onSearchCommentClassNameByMode(newSetting);
+
     // Récupère tous les éléments avec le tag "planifié"
     const activitiesTargetArray = document.querySelectorAll(`[data-type=${tag}]`);
 
@@ -138,10 +217,11 @@ function onChangeSettingCommentActivity(newSetting,tag) {
         e.className = cssClassTarget;
     });
 
+    if (devMode === true) {
+        console.log("[SETTING] Mise à jour de la page");
+    };
+
 }
-
-
-
 
 
 

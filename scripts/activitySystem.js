@@ -553,13 +553,11 @@ function onInsertOneActivity(activity,isLastIndex) {
     let newItemComment = document.createElement("p");
     if (activity.isPlanned) {
         newItemComment.setAttribute("data-type",activityTagPlanned);
-        // Ici , intégrer la condition set selon le mode chosit pour "planifié"
-        newItemComment.classList.add("item-data-comment-collapse");
+        newItemComment.classList.add(currentCommentPlannedClassName);
 
     } else {
         newItemComment.setAttribute("data-type",activityTagDone);
-        // Ici , intégrer la condition set selon le mode chosit pour "normal"
-        newItemComment.classList.add("item-data-comment-collapse");
+        newItemComment.classList.add(currentCommentDoneClassName);
     }
 
 
