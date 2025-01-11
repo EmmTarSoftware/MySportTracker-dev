@@ -350,21 +350,23 @@ function onLoadUserRewardsList() {
 
         // la div contenant un reward
         let newDivRewardCard = document.createElement("div");
-        newDivRewardCard.onclick = function (){
+        newDivRewardCard.onclick = function () {
             onDisplayRewardsFullScreen(e);
         };
-        // séparation des anciens et nouveau rewards obtenus
+
+        // Ajouter des classes de base
+        newDivRewardCard.classList.add("reward-card", "unlocked");
+
+        // Ajouter une classe supplémentaire si c'est un nouveau reward
         if (newRewardsToSee.includes(e)) {
-            newDivRewardCard.classList = `reward-card unlocked newRewards`;
-        }else{
-            newDivRewardCard.classList = `reward-card unlocked `;
+            newDivRewardCard.classList.add("newRewards");
         }
 
 
         // IMAGES
         let newImg = document.createElement("img");
   
-        newImg.classList = "rewardCardEnable";
+        newImg.classList.add("rewardCardEnable");
         newImg.src = allRewardsObject[e].imgRef;
         newImg.loading = "lazy";
 
@@ -373,13 +375,8 @@ function onLoadUserRewardsList() {
         // TEXT
 
         let newPRewardTitle = document.createElement("p");
-        newPRewardTitle.classList = "reward-title";
+        newPRewardTitle.classList.add("reward-title");
         newPRewardTitle.innerHTML = allRewardsObject[e].title;
-
-        // let newPRewardCondition = document.createElement("p");
-        // newPRewardCondition.classList = "reward-condition";
-        // newPRewardCondition.innerHTML = allRewardsObject[e].text;
-
 
         // Insertion
 
@@ -406,7 +403,7 @@ function onLoadUserRewardsList() {
 
             // la div contenant un reward
             let newDivRewardCard = document.createElement("div");
-            newDivRewardCard.classList = "reward-card locked";
+            newDivRewardCard.classList.add("reward-card", "locked");
             newDivRewardCard.onclick = function (){
                 onClickRewardLocked(this);
             };
@@ -414,17 +411,17 @@ function onLoadUserRewardsList() {
 
             // Création des images
             let newImg = document.createElement("img");
-            newImg.classList = "rewardCardDisable";
+            newImg.classList.add("rewardCardDisable");
             newImg.src = "./Icons/badge-locked.webp";
             newImg.loading = "lazy";
 
             // TEXT
             let newPRewardTitle = document.createElement("p");
-            newPRewardTitle.classList = "reward-title";
+            newPRewardTitle.classList.add("reward-title");
             newPRewardTitle.innerHTML = allRewardsObject[key].title;
 
             let newPRewardCondition = document.createElement("p");
-            newPRewardCondition.classList = "reward-condition";
+            newPRewardCondition.classList.add("reward-condition");
             newPRewardCondition.innerHTML = allRewardsObject[key].text;
 
 

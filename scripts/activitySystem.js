@@ -461,7 +461,11 @@ function onInsertOneActivity(activity,isLastIndex) {
 
     // La div de l'item avec une marge spéciale pour le dernier éléments
     let newItemContainer = document.createElement("div");
-    newItemContainer.className = activity.isPlanned ? "item-container item-planned" : "item-container";
+
+    newItemContainer.classList.add("item-container");
+    if (activity.isPlanned) {
+        newItemContainer.classList.add("item-planned");
+    }
 
     newItemContainer.onclick = function () {
         onClickOnActivity(activity.key);
@@ -470,10 +474,10 @@ function onInsertOneActivity(activity,isLastIndex) {
 
     // La zone de l'image
     let newImageContainer = document.createElement("div");
-    newImageContainer.className = "item-image-container";
+    newImageContainer.classList.add("item-image-container");
 
     let newImage = document.createElement("img");
-    newImage.className = "activity";
+    newImage.classList.add("activity");
     newImage.src = activityChoiceArray[activity.name].imgRef;
 
     newImageContainer.appendChild(newImage);
@@ -483,23 +487,38 @@ function onInsertOneActivity(activity,isLastIndex) {
     // la zone des données
 
     let newDivDataContainer =  document.createElement("div");
-    newDivDataContainer.className = "item-data-container";
+    newDivDataContainer.classList.add("item-data-container");
 
 
     // Area 1
     let newDivDataArea1 = document.createElement("div");
-    newDivDataArea1.className = "item-data-area1";
+    newDivDataArea1.classList.add("item-data-area1");
 
     let newItemDistance = document.createElement("p");
-    newItemDistance.className = activity.isPlanned ? "item-data-distance-planned" : "item-data-distance";
+    if (activity.isPlanned) {
+        newItemDistance.classList.add("item-data-distance-planned");
+    }else{
+        newItemDistance.classList.add("item-data-distance");
+    }
+
+
+
+
     newItemDistance.innerHTML = activity.distance != "" ? activity.distance + " km": "---";
 
     let newItemDuration = document.createElement("p");
-    newItemDuration.className = activity.isPlanned ? "item-data-duration-planned" : "item-data-duration";
+    if (activity.isPlanned) {
+        newItemDuration.classList.add("item-data-duration-planned");
+    }else{
+        newItemDuration.classList.add("item-data-duration");
+    }
+
+
+
     newItemDuration.innerHTML = activity.duration;
 
     let newItemDate = document.createElement("p");
-    newItemDate.className = "item-data-date";
+    newItemDate.classList.add("item-data-date");
     if (activity.date === dateToday) {
         newItemDate.innerHTML = activity.isPlanned ? "⏳ Auj." : "Auj.";
     }else if (activity.date === dateYesterday) {
@@ -517,10 +536,10 @@ function onInsertOneActivity(activity,isLastIndex) {
 
     // Area 2
     let newDivDataArea2 = document.createElement("div");
-    newDivDataArea2.className = "item-data-area2";
+    newDivDataArea2.classList.add("item-data-area2");
 
     let newItemLocation = document.createElement("p");
-    newItemLocation.className = "item-data-location";
+    newItemLocation.classList.add("item-data-location");
     newItemLocation.innerHTML = activity.location != "" ? activity.location : "---";
 
     newDivDataArea2.appendChild(newItemLocation);
@@ -528,10 +547,18 @@ function onInsertOneActivity(activity,isLastIndex) {
 
     // Area3
     let newDivDataArea3 = document.createElement("div");
-    newDivDataArea3.className = "item-data-area3";
+    newDivDataArea3.classList.add("item-data-area3");
 
     let newItemComment = document.createElement("p");
-    newItemComment.className = activity.isPlanned ? "item-data-comment-planned" : "item-data-comment";
+    if (activity.isPlanned) {
+        newItemComment.classList.add("item-data-comment-planned");
+    } else {
+        newItemComment.classList.add("item-data-comment");
+    }
+
+
+
+
     newItemComment.innerHTML = activity.comment;
     newDivDataArea3.appendChild(newItemComment);
 
@@ -552,7 +579,7 @@ function onInsertOneActivity(activity,isLastIndex) {
     // Insertion d'un trait en fin de liste
     if (isLastIndex) {
         let newClotureList = document.createElement("span");
-        newClotureList.className = "last-container";
+        newClotureList.classList.add("last-container");
         newClotureList.innerHTML = "ℹ️ Vos activités sont stockées dans votre navigateur.";
         divItemListRef.appendChild(newClotureList);
     }
@@ -566,7 +593,7 @@ function onCreateMoreActivityBtn() {
 
     // La div de l'item
     let newItemContainerBtnMore = document.createElement("div");
-    newItemContainerBtnMore.className = "moreItem";
+    newItemContainerBtnMore.classList.add("moreItem");
     newItemContainerBtnMore.id = "btnMoreItem";
 
     newItemContainerBtnMore.onclick = function (){
@@ -576,7 +603,7 @@ function onCreateMoreActivityBtn() {
 
 
     let newTextBtnMore = document.createElement("p");
-    newTextBtnMore.className = "moreItem";
+    newTextBtnMore.classList.add("moreItem");
     newTextBtnMore.innerHTML = "Afficher plus d'activités";
 
     // Insertion

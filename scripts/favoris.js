@@ -21,22 +21,22 @@ function onLoadingActivityList() {
 
         // Création
         let newLi = document.createElement("li");
-        newLi.className = "favoris-list";
+        newLi.classList.add("favoris-list");
 
         let newActivityName = document.createElement("p");
         newActivityName.innerHTML =  activityChoiceArray[e].displayName;
-        newActivityName.className = "favoris-list";
+        newActivityName.classList.add("favoris-list");
 
         let newActivityImg = document.createElement("img");
         newActivityImg.src = activityChoiceArray[e].imgRef;
-        newActivityImg.className = "favoris-list";
+        newActivityImg.classList.add("favoris-list");
 
 
 
         // Favoris
         let newFavorisImg = document.createElement("img");
         newFavorisImg.src = onSearchActivityInUserFavoris(e) ? "./Icons/Icon-Favoris-Sel.webp" : "./Icons/Icon-Favoris.webp";
-        newFavorisImg.className = "favoris";
+        newFavorisImg.classList.add("favoris");
 
 
 
