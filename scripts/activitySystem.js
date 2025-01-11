@@ -200,7 +200,7 @@ let activityToInsertFormat = {
 
 let allUserActivityArray = [], //Contient toutes les activités créé par l'utilisateur
     userActivityListToDisplay = [], // contient les activités triées et filtrées à afficher
-    maxActivityPerCycle = 20,//Nbre d'élément maximale à afficher avant d'avoir le bouton "afficher plus"
+    maxActivityPerCycle = 15,//Nbre d'élément maximale à afficher avant d'avoir le bouton "afficher plus"
     userActivityListIndexToStart = 0, //Index de démarrage pour l'affichage d'activité
     currentActivityDataInView,//contient les données d'une activité en cours d'affichage. Permet de comparer les modifications
     activityTagPlanned  = "planifie",
