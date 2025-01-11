@@ -74,7 +74,7 @@ function sendRewardMobileNotify(title, body) {
         navigator.serviceWorker.ready.then(swRegistration => {
             swRegistration.showNotification(title, {
                 badge :"./Icons/notifyBadge48.png",
-                icon: "./Icons/Logo_MSS-192.png",
+                icon: "./Icons/notifyRewardsColor192.png",
                 body: body,
                 vibrate: [200, 100, 200],
             });
