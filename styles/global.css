@@ -772,7 +772,9 @@ div.confirmationDeleteBdD p{
     margin-left: 20px;
 }
 
-
+select.setting{
+    margin-bottom: 20px;
+}
 
 /*---------------------- INFO ------------------------------------*/
 
