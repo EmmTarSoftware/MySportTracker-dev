@@ -104,6 +104,52 @@ function onDeleteBDD() {
 
 
 
+
+// ------------------------  Paramètre utilisateur -------------------------
+
+
+// Mode d'affichage commentaire
+
+function onChangeSettingCommentActivity(newSetting,tag) {
+    let cssClassTarget = "";
+
+
+    // Choisit la nouvelle classe
+    switch (newSetting) {
+        case "Collapse":
+            cssClassTarget = "item-data-comment-collapse";
+            break;
+        case "Compact":
+            cssClassTarget = "item-data-comment-compact";
+            break;
+        case "Expand":
+            cssClassTarget = "item-data-comment-expand";
+            break;
+    
+        default:
+            break;
+    }
+
+    // Récupère tous les éléments avec le tag "planifié"
+    const activitiesTargetArray = document.querySelectorAll(`[data-type=${tag}]`);
+
+    activitiesTargetArray.forEach(e=>{
+        // utilisation de className pour supprimer toutes les class d'avant
+        e.className = cssClassTarget;
+    });
+
+}
+
+
+
+
+
+
+
+
+
+
+
 function onOpenMenuSetting() {
 
     

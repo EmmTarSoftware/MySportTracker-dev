@@ -150,6 +150,22 @@
     <div id="divSetting" class="new-interface">
 
 
+        <p>
+            <label class="labelSetting" for="">Affichage activité effectuée :</label>
+            <select name="" id="" onchange="onChangeSettingCommentActivity(this.value,activityTagDone)">
+                <option value="Collapse">Réduit</option>
+                    <option value="Compact">Compacté</option>
+                    <option value="Expand">Déployé</option>
+            </select>
+
+            <label class="labelSetting" for="">Affichage activité planifiée :</label>
+            <select name="" id="" onchange="onChangeSettingCommentActivity(this.value,activityTagPlanned)">
+                <option value="Collapse">Réduit</option>
+                    <option value="Compact">Compacté</option>
+                    <option value="Expand">Déployé</option>
+            </select>
+        </p>
+
         <!-- Exporter des donnes -->
         <p>
             <label class="labelSetting" for="fileInputJsonTask">Exporter ses données :</label>

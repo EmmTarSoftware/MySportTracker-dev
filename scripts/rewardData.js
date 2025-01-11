@@ -967,7 +967,7 @@ const allRewardsObject = {
     },
     "GYMNASTIQUE-D-100-SEANCES": {
         imgRef: "./Badges/Badge-GYMNASTIQUE-D.webp",
-        title: "Equilibriste",
+        title: "En équilibre",
         activityName: "GYMNASTIQUE",
         groupColor: "nuance-pink",
         text: "100 séances de gymnastique"

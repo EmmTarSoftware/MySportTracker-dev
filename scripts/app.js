@@ -339,10 +339,27 @@ function isDateAfterToday(inputDate) {
     const dateToCompare = new Date(inputDate);
 
     // Compare les dates : retourne true si la date entrée est après aujourd'hui
+    //ATTENTION : "Aujourd'hui" comment à partir d'1 heure du matin pour l'application
     return dateToCompare > today;
 }
 
+
+
+
+
+
+
+
+
 // ------------------------- CONDITION D'UTILISATION ---------------------------
+
+
+
+
+
+
+
+
 
 
 
@@ -392,7 +409,25 @@ onCheckConditionUtilisation();
 
 
 
+
+
+
+
+
+
+
+
+
 // ------------------------------  LANCEMENT création de la base de donnée ------------------------------
+
+
+
+
+
+
+
+
+
 
 let db,
     dbName = "MSS-DataBase",

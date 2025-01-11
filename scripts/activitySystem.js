@@ -202,8 +202,9 @@ let allUserActivityArray = [], //Contient toutes les activités créé par l'uti
     userActivityListToDisplay = [], // contient les activités triées et filtrées à afficher
     maxActivityPerCycle = 20,//Nbre d'élément maximale à afficher avant d'avoir le bouton "afficher plus"
     userActivityListIndexToStart = 0, //Index de démarrage pour l'affichage d'activité
-    currentActivityDataInView;//contient les données d'une activité en cours d'affichage. Permet de comparer les modifications
-
+    currentActivityDataInView,//contient les données d'une activité en cours d'affichage. Permet de comparer les modifications
+    activityTagPlanned  = "planifie",
+    activityTagDone = "effectue";
 
 
 
@@ -551,9 +552,14 @@ function onInsertOneActivity(activity,isLastIndex) {
 
     let newItemComment = document.createElement("p");
     if (activity.isPlanned) {
-        newItemComment.classList.add("item-data-comment-planned");
+        newItemComment.setAttribute("data-type",activityTagPlanned);
+        // Ici , intégrer la condition set selon le mode chosit pour "planifié"
+        newItemComment.classList.add("item-data-comment-collapse");
+
     } else {
-        newItemComment.classList.add("item-data-comment");
+        newItemComment.setAttribute("data-type",activityTagDone);
+        // Ici , intégrer la condition set selon le mode chosit pour "normal"
+        newItemComment.classList.add("item-data-comment-collapse");
     }
 
 
@@ -839,6 +845,7 @@ function onFormatActivity() {
 
     // Gestion planification  : les dates après la date du jour sont obligatoirement des activités planifiées
     // si date ultérieur automatiquement planifié sinon, regarde la valeur checkbox
+    //ATTENTION : "Aujourd'hui" comment à partir d'1 heure du matin pour l'application
     const isPlannedBySystem = isDateAfterToday(inputDateRef.value);
     activityToInsertFormat.isPlanned = isPlannedBySystem ? true : inputIsPlannedRef.checked;
 

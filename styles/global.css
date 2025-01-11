@@ -418,23 +418,26 @@ p.item-data-location{
     width: 100px;
 }
 
-p.item-data-comment{
+p.item-data-comment-collapse{
     white-space: nowrap; /* Pour éviter le retour à la ligne */
 	overflow: hidden; /*Cache le texte qui dépasse */
-    /* font-style: italic; */
     font-size: 0.8rem;
   	text-overflow: ellipsis; /*Ajoute des points de suspension (...) pour indiquer que du texte est masqué*/
-    width: 100px;
+    width: 100px;/*ne pas retirer*/
     color: #555;
 }
 
-p.item-data-comment-planned{
-    white-space: normal; /* Pour éviter le retour à la ligne */
-	overflow: hidden; /*Cache le texte qui dépasse */
-    /* font-style: italic; */
+p.item-data-comment-compact{
+    white-space: normal;
     font-size: 0.8rem;
-  	text-overflow: ellipsis; /*Ajoute des points de suspension (...) pour indiquer que du texte est masqué*/
-    width: 100px;
+    width: 100px;/*ne pas retirer*/
+    color: #555;
+}
+
+p.item-data-comment-expand{
+	white-space: pre-wrap;
+    font-size: 0.8rem;
+    width: 100px;/*ne pas retirer*/
     color: #555;
 }
 
