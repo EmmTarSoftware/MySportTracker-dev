@@ -105,6 +105,13 @@ function onGenerateActivityOptionFilter(allActivityData) {
     allOption.innerHTML = "Tous";
     selectorRef.appendChild(allOption);
 
+    // Ajouter l'option "Planifiées" juste après
+    let plannedOption = document.createElement("option");
+    plannedOption.value = "PLANNED";
+    plannedOption.innerHTML = "Planifiées";
+    selectorRef.appendChild(plannedOption);
+
+
     // Ajouter les autres options des activités existantes triées
     allActivityData.forEach(activity => {
         let newOption = document.createElement("option");
@@ -137,7 +144,16 @@ function onFilterActivity(sortType,filterType,activityArray) {
 
         if (devMode === true){console.log("Demande de trie sur toutes les données");};
         onSortActivity(sortType,activityArray);
-    }else{
+
+    } else if (filterType === "PLANNED"){
+        if (devMode === true){console.log("Demande de filtre sur les activités planifiées");};
+
+        allDataFiltered = allUserActivityArray.filter(item =>{
+            return item.isPlanned === true;
+        });
+        onSortActivity(sortType,allDataFiltered);
+
+    } else {
 
         allDataFiltered = allUserActivityArray.filter(item =>{
             return item.name === filterType;

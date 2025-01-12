@@ -327,7 +327,7 @@ button.btn-sort-Selected{
 .item-planned {
     opacity: 0.7;
     box-shadow: none;
-    border: dashed 1px #a9a9a9;
+    border: dashed 2px #a9a9a9;
     /* background-color: rgb(223, 223, 223); */
     background-color: rgb(235, 235, 235);
 }
