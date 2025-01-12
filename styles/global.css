@@ -9,7 +9,7 @@
     --colorMainTheme5 : #e414ff;
     --colorMainTheme6 : #ff9e01;
     --colorLightGray : #fff;
-    --boxShadow : 0 2px 5px rgba(0, 0, 0, 0.1);
+    --boxShadow : 0 2px 5px rgba(0, 0, 0, 0.2);
     --boxShadowPlus : rgba(0, 0, 0, 0.15) 2px 2px 4px;
 }
 
@@ -325,8 +325,9 @@ button.btn-sort-Selected{
 }
 
 .item-planned {
-    opacity: 0.5;
+    opacity: 0.7;
     box-shadow: none;
+    border: dashed 1px #a9a9a9;
 }
 
 /*Style pour avoir une marge en dessous du dernier item*/
@@ -501,16 +502,13 @@ div.activityPreview{
 
 img.activityPreview{
     width: 35px;
-    display: inline;
 }
 
 /* Icone de planification */
-div.activityPreview span {
-    position: fixed;
-    top: 70px;
-    right: 15px;
-    font-size: 35px;
-    opacity: 1;
+div.activityPreview p {
+    padding:0px;
+    font-size: 0.8rem;
+    color:#555;
 }
 
 

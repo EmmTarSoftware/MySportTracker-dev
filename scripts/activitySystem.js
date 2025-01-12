@@ -521,12 +521,12 @@ function onInsertOneActivity(activity,isLastIndex) {
     let newItemDate = document.createElement("p");
     newItemDate.classList.add("item-data-date");
     if (activity.date === dateToday) {
-        newItemDate.innerHTML = activity.isPlanned ? "⏳ Auj." : "Auj.";
+        newItemDate.innerHTML = activity.isPlanned ? "🗓️ Auj." : "Auj.";
     }else if (activity.date === dateYesterday) {
-        newItemDate.innerHTML = activity.isPlanned ? "⏳ Hier" : "Hier";
+        newItemDate.innerHTML = activity.isPlanned ? "🗓️ Hier" : "Hier";
     }else{
         const dateActivityFormated = onFormatDateToFr(activity.date);
-        newItemDate.innerHTML = activity.isPlanned ? `⏳ ${dateActivityFormated}` : `${dateActivityFormated}`;
+        newItemDate.innerHTML = activity.isPlanned ? `🗓️ ${dateActivityFormated}` : `${dateActivityFormated}`;
     };
 
     
@@ -688,7 +688,7 @@ function onChangeActivityPreview(dataName) {
 
 // Set l'icone "temporaire" dans la prévisualisation
 function onChangeActivityPlanned(checkBoxValue) {
-    pEditorActivityPreviewPlannedIconRef.innerHTML = checkBoxValue ? "⏳":"";
+    pEditorActivityPreviewPlannedIconRef.innerHTML = checkBoxValue ? "🗓️ Cette activité est planifiée.":"";
 }
 
 
@@ -788,7 +788,7 @@ function onEditActivity(activityTarget) {
     // l'image de prévisualisation 
     imgEditorActivityPreviewRef.src = activityChoiceArray[activityTarget.name].imgRef;
     // prévisualisation coché temporaire
-    pEditorActivityPreviewPlannedIconRef.innerHTML = activityTarget.isPlanned ? "⏳" : "";
+    pEditorActivityPreviewPlannedIconRef.innerHTML = activityTarget.isPlanned ? "🗓️ Cette activité est planifiée." : "";
 };
 
 
