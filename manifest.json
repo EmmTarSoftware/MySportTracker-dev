@@ -1,5 +1,7 @@
 {
     "name": "Mon Suivi Sportif",
+    "short_name": "MSS",
+    "description": "Une application pour suivre et améliorer vos performances sportives.",
     "icons": [
         {
             "src": "Icons/Logo_MSS-192.png",
@@ -13,8 +15,10 @@
         }
     ],
     "start_url": "index.html",
+    "scope": "./",
+    "orientation": "portrait",
     "display": "standalone",
     "background_color": "#ffffff",
     "theme_color": "#0081C9",
-    "short_name": "MSS"
+    "lang": "fr"
 }
