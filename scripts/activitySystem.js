@@ -521,12 +521,12 @@ function onInsertOneActivity(activity,isLastIndex) {
     let newItemDate = document.createElement("p");
     newItemDate.classList.add("item-data-date");
     if (activity.date === dateToday) {
-        newItemDate.innerHTML = activity.isPlanned ? "🗓️ Auj." : "Auj.";
+        newItemDate.innerHTML = activity.isPlanned ? "Auj. 🗓️" : "Auj.";
     }else if (activity.date === dateYesterday) {
-        newItemDate.innerHTML = activity.isPlanned ? "🗓️ Hier" : "Hier";
+        newItemDate.innerHTML = activity.isPlanned ? "Hier 🗓️" : "Hier";
     }else{
         const dateActivityFormated = onFormatDateToFr(activity.date);
-        newItemDate.innerHTML = activity.isPlanned ? `🗓️ ${dateActivityFormated}` : `${dateActivityFormated}`;
+        newItemDate.innerHTML = activity.isPlanned ? `${dateActivityFormated} 🗓️` : `${dateActivityFormated}`;
     };
 
     
