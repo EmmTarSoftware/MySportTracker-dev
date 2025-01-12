@@ -454,9 +454,9 @@ function onDisplayRewardsFullScreen(rewardName) {
 
     // set les éléments et affiche
         imgRewardsFullScreenRef.src = allRewardsObject[rewardName].imgRef;
-        imgRewardsFullScreenRef.style.display = "block";
+
         pRewardsFullScreenTitleRef.innerHTML = allRewardsObject[rewardName].title;
-        pRewardsFullScreenTitleRef.style.display = "block";
+
         pRewardsFullScreenTextRef.innerHTML = `Tu as pratiqué ${allRewardsObject[rewardName].text}.`;
 
     document.getElementById("divFullScreenRewards").classList.add("show");

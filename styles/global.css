@@ -9,8 +9,8 @@
     --colorMainTheme5 : #e414ff;
     --colorMainTheme6 : #ff9e01;
     --colorLightGray : #fff;
-    --boxShadow : 0 2px 5px rgba(0, 0, 0, 0.2);
-    --boxShadowPlus : rgba(0, 0, 0, 0.15) 2px 2px 4px;
+    --boxShadow : 0 2px 5px rgba(0, 0, 0, 0.1);
+    --boxShadowPlus : 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 
@@ -321,7 +321,7 @@ button.btn-sort-Selected{
     background-color: var(--colorLightGray); 
     padding: 10px 5px 10px 5px;
     border-radius: 10px;
-    box-shadow: var(--boxShadow);
+    box-shadow: var(--boxShadowPlus);
 }
 
 .item-planned {
@@ -699,6 +699,14 @@ button.btn-menu-setting{
     background-color:#fff;
 }
 
+
+h3.settingCategorie{
+    margin-left: 10px;
+    color: var(--colorMainTheme6);
+}
+
+
+
 p.settingAlert{
     margin-left: 10px;
     padding-left: 10px;
@@ -978,10 +986,10 @@ select.graph-stat{
 
 
 .popupReward {
-    width: 250px;
+    width: 100px;
     /* height: 5px; */
     padding: 5px;
-    background-color: var(--colorMainTheme2);
+    background-color: var(--colorMainTheme1);
     color: white;
     text-align: center;
     font-weight: bold;
@@ -994,7 +1002,6 @@ select.graph-stat{
     transition: opacity 0.3s ease;
     left: 0;
     right: 0;
-    box-shadow: var(--boxShadow);
     z-index: 1000;
 
 }
@@ -1004,6 +1011,9 @@ select.graph-stat{
     opacity: 1;
 }
 
+.popupReward img{
+    width: 30px;
+}
 
 
 
@@ -1151,6 +1161,7 @@ img.rewardsListDisable {
 }
 
 /* En plein écran */
+/* Cette div fait également office de bouton pour fermer la vue */
 div.fullScreenTrophy {
     background-color: rgba(230, 230, 230, 0.9);
     z-index: 2;
@@ -1167,18 +1178,19 @@ div.fullScreenTrophy.show {
     display: flex; /* Change display pour l'afficher */
 }
 
-div.fullScreenTrophy.show img.trophyFullScreen, p.trophy{
-   animation: trophyVisualisation 200ms forwards;
+/* La div contenant l'ensemble des éléments du reward */
+div.fullScreenTrophy div{
+    border: solid 1px var(--colorMainTheme1);
+    background-color: var(--colorLightGray);
+    border-radius: 20px;
+    animation: trophyVisualisation 200ms forwards;
+    text-align: center;
 }
 
 
 img.trophyFullScreen{
     width: 300px;
-    border: solid 1px var(--colorMainTheme1);
-    border-radius: 20px;
     margin: 10px;
-    background-color: rgb(255, 255, 255);
-    box-shadow: var(--boxShadowPlus);
 }
 
 
@@ -1187,22 +1199,18 @@ img.trophyFullScreen{
 p.trophy{
     border: none;
     padding: 5px 20px 5px 20px;
-    border: solid 1px var(--colorMainTheme1);
-    border-radius: 5px;
-    background-color: rgb(255, 255, 255);
-    box-shadow: var(--boxShadowPlus);
     font-weight: bold;
     color: var(--colorMainTheme1);
+    text-align: center;
 }
 
 p.trophyDetail{
     border: none;
     padding: 5px 20px 5px 20px;
-    border-radius: 5px;
-    background-color: rgb(255, 255, 255);
     text-align: center;
     padding: 20px;
     margin-left: 20px;margin-right: 20px;
+    color: #555;
 }
 
 

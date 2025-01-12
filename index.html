@@ -150,24 +150,38 @@
     <!-- ----------------------------------      DIV SETTING        ------------------------------------------------>
     <div id="divSetting" class="new-interface">
 
+        <h3 class="settingCategorie">Affichage</h3>
 
         <p>
-            <label class="labelSetting" for="">Affichage activité effectuée :</label>
-            <select class="setting" name="" id="selectSettingCommentModeDone" onchange="onChangeSettingCommentActivity(this.value,activityTagDone,'done')">
-                <option value="Collapse">Réduit</option>
-                    <option value="Compact">Compacté</option>
-                    <option value="Expand">Déployé</option>
-            </select>
-        </p>
-        <p>
-            <label class="labelSetting" for="">Affichage activité planifiée :</label>
+            <label class="labelSetting" for="">Activité planifiées :</label>
             <select class="setting" name="" id="selectSettingCommentModePlanned" onchange="onChangeSettingCommentActivity(this.value,activityTagPlanned,'planned')">
                 <option value="Collapse">Réduit</option>
                     <option value="Compact">Compacté</option>
                     <option value="Expand">Déployé</option>
             </select>
         </p>
+        <p>
+            <label class="labelSetting" for="">Activités réalisées :</label>
+            <select class="setting" name="" id="selectSettingCommentModeDone" onchange="onChangeSettingCommentActivity(this.value,activityTagDone,'done')">
+                <option value="Collapse">Réduit</option>
+                    <option value="Compact">Compacté</option>
+                    <option value="Expand">Déployé</option>
+            </select>
+        </p>
 
+
+        <H3 class="settingCategorie">Notifications</H3>
+        <div>
+            <p>
+                <label for="">Statut des notifications :</label>
+            </p>
+            
+            <p class="settingAlert" id="pMobileNotifyStatus">Vérification en cours...</p>
+        </div>
+
+
+
+        <h3 class="settingCategorie">Données</h3>
         <!-- Exporter des donnes -->
         <p>
             <label class="labelSetting" for="fileInputJsonTask">Exporter ses données :</label>
@@ -207,7 +221,10 @@
             </p>
             <p id="pResultDeleteBdD" class="setting-action-result"></p>
         </div>
-       
+
+
+
+        <h3 class="settingCategorie">Divers</h3>
         <!-- Mode developpeur -->
         <div>    
             <p>
@@ -221,13 +238,7 @@
             <input type="checkbox" id="inputCheckboxDevMode" onchange="onChangeDevModeStatus(this)">
         </div>
 
-        <div>
-            <p>
-                <label for="">Notification :</label>
-            </p>
-            
-            <p class="settingAlert" id="pMobileNotifyStatus">Vérification en cours...</p>
-        </div>
+
     </div>
 
     <!-- Div confirmation suppression des données -->
@@ -421,9 +432,14 @@
 
 
     <div onclick="onHiddenFullscreenRewards()" id="divFullScreenRewards" class="fullScreenTrophy">
-        <img id="imgRewardsFullScreen" src="" alt="" class="trophyFullScreen">
-        <p id="pRewardsFullScreenTitle" class="trophy">Titre</p>
-        <p id="pRewardsFullScreenText" class="trophyDetail">Texte detail</p>
+        <div>
+            <p>
+                <img id="imgRewardsFullScreen" src="./Badges/Badge-BASKETBALL-A.webp" alt="" class="trophyFullScreen">
+            </p>
+            
+            <p id="pRewardsFullScreenTitle" class="trophy">Titre</p>
+            <p id="pRewardsFullScreenText" class="trophyDetail">Tu as pratiqué 5 séances de basket ball</p>
+        </div>
     </div>
 
 
@@ -496,7 +512,7 @@
     <!-- ----------------------------------      DIV POPUP NOTIFY      ------------------------------------------------>
     <div id="popupNotify" class="popupNotify">Activité supprimée !</div>
     <div id="popupReward" class="popupReward">
-        Recompense obtenue !
+        <img src="./Icons/notifyRewardsColor192.png" alt="" srcset="">
     </div>
 
     <!-- ----------------------------------  FIN   DIV POPUP NOTIFY     ------------------------------------------------>
