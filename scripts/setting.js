@@ -85,6 +85,9 @@ function onDeleteBDD() {
     localStorage.removeItem(cookiesUserFavorisName);
     localStorage.removeItem(cookiesConditionUtilisation_keyName);
     localStorage.removeItem(cookiesDevModeName);
+    localStorage.removeItem(cookiesSettingCommentDoneMode_Name);
+    localStorage.removeItem(cookiesSettingCommentPlannedMode_Name);
+
 
     // La base de donnée
     let requestDelete = indexedDB.deleteDatabase(dbName);
