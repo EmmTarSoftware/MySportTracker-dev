@@ -803,6 +803,15 @@ select.setting{
 
 /* -------------------------------- CONDITION D'UTILISATION -------------------- */
 
+
+
+
+
+
+
+
+
+
 .condition-interface{
     display: none;
     position: fixed;
@@ -873,6 +882,16 @@ div.buttonAcceptation{
 
 
 /* ---------------------------------------    STAT -----------------------------*/
+
+
+
+
+
+
+
+
+
+
 
 
 div.stat{
@@ -983,7 +1002,20 @@ select.graph-stat{
     display: flex;
 }
 
+
+
+
+
+
+
+
 /* ---------------------------------------- RECOMPENSES ------------------------------ */
+
+
+
+
+
+
 
 
 
@@ -1151,7 +1183,7 @@ img.rewardsListDisable {
 
 
 
-@keyframes trophyVisualisation {
+@keyframes animRewardVisualisation {
     from {
         opacity: 0;
         transform: scale(0.5);
@@ -1182,10 +1214,10 @@ div.fullScreenTrophy.show {
 
 /* La div contenant l'ensemble des éléments du reward */
 div.fullScreenTrophy div{
-    border: solid 1px var(--colorMainTheme1);
+    border: solid 2px var(--colorMainTheme1);
     background-color: var(--colorLightGray);
     border-radius: 20px;
-    animation: trophyVisualisation 200ms forwards;
+    animation: animRewardVisualisation 200ms forwards;
     text-align: center;
 }
 
