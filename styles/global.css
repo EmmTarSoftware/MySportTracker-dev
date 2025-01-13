@@ -163,7 +163,7 @@ img.activity{
 
 
 
-input, textarea {
+input:not([type="checkbox"]), textarea {
     width: calc(100% - 20px); /* 100% moins les 10px de padding gauche et droite */
     height: 25px;
     padding: 0 10px; /* Ajoute un padding intérieur de 10px */
@@ -1311,9 +1311,16 @@ p.trophyDetail{
 
 
 
+div.checkboxContainer{
+    margin-left: 10px;
+    text-align: center;
+    width: calc(100% - 20px);
+}
 
-
-
+input[type="checkbox"]{
+ transform: scale(1.8);
+ margin-bottom: 20px;
+}
 
 
 /* pour afficher des items pendant un devellopement qui sont caché par défaut */
