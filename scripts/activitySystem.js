@@ -308,9 +308,10 @@ function onResetActivityInputs() {
     inputDistanceRef.value = "";
     inputDurationRef.value = "00:00:00";
     textareaCommentRef.value = "";
-    selectorCategoryChoiceRef.value = "C.A.P";
     inputIsPlannedRef.checked = false;
 
+    // pour le selecteur d'activité, met le premier éléments qui à dans favoris, ou sinon CAP par défaut, C.A.P
+    selectorCategoryChoiceRef.value = userFavoris.length > 0 ? userFavoris[0] : "C.A.P";
 
     // l'image de prévisualisation 
     imgEditorActivityPreviewRef.src = activityChoiceArray["C.A.P"].imgRef;
