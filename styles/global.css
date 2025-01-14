@@ -1319,9 +1319,15 @@ div.checkboxContainer{
 
 input[type="checkbox"]{
  transform: scale(1.5);
- margin-bottom: 20px;
-}
 
+}
+span.spanCheckbox{
+    margin-top: 15px; margin-bottom: 15px;
+    margin-left: 10px;
+    color: var(--colorMainTheme1);
+    font-weight: bold;
+    display: inline-block;
+}
 
 /* pour afficher des items pendant un devellopement qui sont caché par défaut */
 
