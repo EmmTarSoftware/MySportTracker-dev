@@ -148,10 +148,6 @@ img.activity{
 
 
 
-/* Style pour les champs requis */
-.fieldRequired{
-    border : solid 3px red;
-}
 
 
 .filter{
@@ -1330,6 +1326,10 @@ span.spanCheckbox{
 }
 
 /* pour afficher des items pendant un devellopement qui sont caché par défaut */
+/* Style pour les champs requis */
+input.fieldRequired{
+    border : solid 3px red;
+}
 
 .dev{
     display: inline-block;
