@@ -699,8 +699,9 @@ button.btn-menu-setting{
 
 
 h3.settingCategorie{
-    margin-left: 10px;
     color: var(--colorMainTheme6);
+    display: flex; margin: auto;
+    margin-bottom: 20px;margin-top: 20px;
 }
 
 
@@ -708,6 +709,13 @@ h3.settingCategorie{
 p.settingAlert{
     margin-left: 10px;
     padding-left: 10px;
+}
+
+span.settingSeparator{
+width: calc(100% - 20px);
+margin-left: 10px; margin-top: 20px;
+display: block;
+border-bottom: solid 1px #acacac;
 }
 
 

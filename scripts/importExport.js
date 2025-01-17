@@ -60,17 +60,23 @@ function downloadJSON(data, filename) {
 // -------------------------------- IMPORT -----------------------------------------------------
 
 
-
+let baseStoreCount = 0;
 // Fonction d'importation depuis JSON
 function importBdD(inputRef, pResultRef) {
     const fileInput = document.getElementById(inputRef);
     let textResultRef = document.getElementById(pResultRef);
 
+    baseStoreCount = 0;
+    onSetLockSettingButton(true);
+
     if (fileInput.files.length > 0) {
+        textResultRef.innerHTML = "Veuillez patienter...";
         const selectedFile = fileInput.files[0];
         const reader = new FileReader();
 
         reader.onload = function (e) {
+            
+
             try {
                 // Charger et analyser le JSON
                 const jsonData = JSON.parse(e.target.result);
@@ -95,8 +101,12 @@ function importBdD(inputRef, pResultRef) {
 
                             transaction.oncomplete = function () {
                                 console.log(`Imported ${storeName} to IndexedDB successfully.`);
-                                textResultRef.innerHTML = "Import Réussi ! Veuillez relancer l'application.";
-                                onShowNotifyPopup(notifyTextArray.exportSuccess);
+                                baseStoreCount++;
+                                if (baseStoreCount === storeNames.length) {
+                                    eventImportDataSucess(pResultRef);
+                                }
+
+
                             };
 
                             transaction.onerror = function (error) {
@@ -116,5 +126,32 @@ function importBdD(inputRef, pResultRef) {
     } else {
         console.error('Aucun fichier sélectionné.');
         textResultRef.innerHTML = "Aucun fichier sélectionné !";
+        onSetLockSettingButton(false);
     }
 };
+
+// Action lors du succes d'un import
+function eventImportDataSucess(textResultRef) {
+    document.getElementById(textResultRef).innerHTML = "Import Réussi !";
+    onShowNotifyPopup(notifyTextArray.exportSuccess);
+    setTimeout(() => {
+        location.reload();
+      }, "2000");
+}
+
+function onSetLockSettingButton(isDisable){
+    let buttonArray = [
+        "selectSettingCommentModePlanned",
+        "selectSettingCommentModeDone",
+        "btnExportBdD",
+        "fileInputJsonTask",
+        "btnImportBdD",
+        "btnDeteteBdd",
+        "btnReturnFromSetting"
+    ]
+
+
+    buttonArray.forEach(e=>{
+        document.getElementById(e).disabled = isDisable === true;
+    })
+}

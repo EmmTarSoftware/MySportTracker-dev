@@ -169,7 +169,7 @@
             </select>
         </p>
 
-
+        <span class="settingSeparator"></span>
         <H3 class="settingCategorie">Notifications</H3>
         <div>
             <p>
@@ -180,7 +180,7 @@
         </div>
 
 
-
+        <span class="settingSeparator"></span>
         <h3 class="settingCategorie">Données</h3>
         <!-- Exporter des donnes -->
         <p>
@@ -192,21 +192,21 @@
         </div>
 
 
-
          <!-- Import des données -->
          <p>
             <label class="labelSetting" for="fileInputJsonTask">Importer des données :</label>
             <input type="file" id="fileInputJsonTask" accept=".json">
         </p>
-
-        <div class="btn-import-export">
-            <button class="btn-menu-setting" onclick="importBdD('fileInputJsonTask','pImportActivityResult')" id="btnImportBdD"><img src="./Icons/Icon-Upload.webp" alt="" srcset="" ></button>
-        </div>
         <div>
             <p id="pImportActivityResult" class="setting-action-result">
                 <!-- Injection du texte -->
             </p>
         </div>
+
+        <div class="btn-import-export">
+            <button class="btn-menu-setting" onclick="importBdD('fileInputJsonTask','pImportActivityResult')" id="btnImportBdD"><img src="./Icons/Icon-Upload.webp" alt="" srcset="" ></button>
+        </div>
+
 
 
 
@@ -217,13 +217,13 @@
         </div>
         <div class="setting-align-center">
             <p>
-                <button class="delete-data" onclick="onClickDeleteDataBaseFromSetting()">Supprimer toutes mes données</button>
+                <button class="delete-data" id="btnDeteteBdd" onclick="onClickDeleteDataBaseFromSetting()">Supprimer toutes mes données</button>
             </p>
             <p id="pResultDeleteBdD" class="setting-action-result"></p>
         </div>
 
 
-
+        <span class="settingSeparator"></span>
         <h3 class="settingCategorie">Divers</h3>
         <!-- Mode developpeur -->
         <div>    
@@ -261,7 +261,7 @@
 
 
     <div id="divBtnSetting" class="button-editor">
-        <button class="btn-menu" onclick="onClickReturnFromSetting()"><img src="./Icons/Icon-Return-cancel.webp" alt="Icone"></button>  
+        <button class="btn-menu" id="btnReturnFromSetting" onclick="onClickReturnFromSetting()"><img src="./Icons/Icon-Return-cancel.webp" alt="Icone"></button>  
     </div>
 
     <!-- ----------------------------------  FIN    DIV SETTING     ------------------------------------------------>
@@ -407,7 +407,7 @@
             <p class="release-licence"><strong>Mon Suivi Sportif</strong> </p>
             <p class="release-licence">Une application pour gérer vos activités sportives.</p>
             <p class="release-licence">Optimisée pour Google Chrome.</p>
-            <p class="release-licence"><strong>Version :</strong>  1.4.0</p>
+            <p class="release-licence"><strong>Version :</strong>  1.4.1</p>
             <p class="release-licence"><strong>Développement/Conception :</strong> Emmanuel TARACONAT</p>
             <p class="release-licence"><strong>Collaboration :</strong> Morgane C.</p>
             <p class="release-licence"><strong>Contact :</strong> <a href="mailto:emmtarsoftware@gmail.com">emmtarsoftware@gmail.com</a></p>

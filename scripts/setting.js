@@ -62,6 +62,11 @@ function onConfirmDeleteDataBase(event) {
 
     document.getElementById("divConfirmDeleteDataBase").classList.remove("show");
     onChangeDisplay([],[],[],[],["divSetting","divBtnSetting"],[],[]);
+
+    // Verrouillage des boutons du menu setting
+    onSetLockSettingButton(true);
+
+
     onDeleteBDD();
 }
 
@@ -93,12 +98,12 @@ function onDeleteBDD() {
     let requestDelete = indexedDB.deleteDatabase(dbName);
 
 
-    document.getElementById("pResultDeleteBdD").innerHTML = "Base de donnée supprimée ! Veuillez relancer l'application.";
+    document.getElementById("pResultDeleteBdD").innerHTML = "Base de donnée supprimée ! Veuillez patienter.";
 
-    // Masque le bouton de retour pour obliger l'utilisateur à relancer ou fermer l'application et desactive les boutons d'import/export
-    document.getElementById("divBtnSetting").style.display = "none";
-    document.getElementById("btnExportBdD").style.display = "none";
-    document.getElementById("btnImportBdD").style.display = "none";
+    // Relance l'application
+    setTimeout(() => {
+        location.reload();
+    }, 2000);
 };
 
 
