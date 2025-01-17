@@ -112,6 +112,7 @@ function importBdD(inputRef, pResultRef) {
                             transaction.onerror = function (error) {
                                 console.error(`Erreur lors de l'importation de ${storeName}:`, error);
                                 textResultRef.innerHTML = "Erreur lors de l'importation.";
+                                onSetLockSettingButton(false);
                             };
                         };
                     }
@@ -119,6 +120,7 @@ function importBdD(inputRef, pResultRef) {
             } catch (error) {
                 console.error('Erreur lors du parsing du JSON:', error);
                 textResultRef.innerHTML = "Erreur d'importation.";
+                onSetLockSettingButton(false);
             }
         };
 
@@ -132,7 +134,7 @@ function importBdD(inputRef, pResultRef) {
 
 // Action lors du succes d'un import
 function eventImportDataSucess(textResultRef) {
-    document.getElementById(textResultRef).innerHTML = "Import Réussi !";
+    document.getElementById(textResultRef).innerHTML = "Import Réussi ! Veuillez patienter...";
     onShowNotifyPopup(notifyTextArray.exportSuccess);
     setTimeout(() => {
         location.reload();
@@ -140,6 +142,9 @@ function eventImportDataSucess(textResultRef) {
 }
 
 function onSetLockSettingButton(isDisable){
+    if (devMode === true) {console.log("Gestion de blocage ou déblocage des boutons : " + isDisable);};
+
+
     let buttonArray = [
         "selectSettingCommentModePlanned",
         "selectSettingCommentModeDone",
@@ -152,6 +157,6 @@ function onSetLockSettingButton(isDisable){
 
 
     buttonArray.forEach(e=>{
-        document.getElementById(e).disabled = isDisable === true;
+        document.getElementById(e).disabled = isDisable;
     })
 }

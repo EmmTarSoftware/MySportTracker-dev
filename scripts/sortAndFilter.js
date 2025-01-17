@@ -53,7 +53,7 @@ function onSetIconSort() {
     if (currentSortType === "dateRecente" || currentSortType === "dateAncienne") {
         btnSortDate.classList.add("btn-sort-Selected");
         btnSortDate.classList.remove("btn-sort");
-        btnSortDate.innerHTML = currentSortType === "dateRecente" ? "Date ▼" : "Date ▲";
+        btnSortDate.innerHTML = currentSortType === "dateRecente" ? "Date ▲" : "Date ▼";
 
     } else {
         btnSortDate.classList.add("btn-sort");
