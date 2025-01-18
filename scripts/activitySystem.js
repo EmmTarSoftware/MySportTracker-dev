@@ -204,7 +204,8 @@ let allUserActivityArray = [], //Contient toutes les activités créé par l'uti
     userActivityListIndexToStart = 0, //Index de démarrage pour l'affichage d'activité
     currentActivityDataInView,//contient les données d'une activité en cours d'affichage. Permet de comparer les modifications
     activityTagPlanned  = "planifie",
-    activityTagDone = "effectue";
+    activityTagDone = "effectue",
+    isActivityPlannedExist = false;
 
 
 

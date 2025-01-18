@@ -80,7 +80,7 @@ let defaultFilter = "ALL",
 
 // Génération du filtre sur les catégorie d'activité
 function onGenerateDynamiqueFilter(allData) {
-    
+    isActivityPlannedExist = false;
     let dynamicFilterList = [];
 
 
@@ -89,12 +89,20 @@ function onGenerateDynamiqueFilter(allData) {
         if (!dynamicFilterList.includes(data.name))  {
             dynamicFilterList.push(data.name);
         };
+
+        // recherche la présence d'au moins une activité planifiée et stop recherche lorsque trouvé
+        if (isActivityPlannedExist === false && data.isPlanned === true) {
+            isActivityPlannedExist = true;
+        }
     });
+
+
+    if (devMode === true){console.log("Activité plannifié existante = " + isActivityPlannedExist);};
 
     dynamicFilterList.sort();
 
     if (devMode === true){
-        console.log("[ TRIE] valeur de dynamicFilterList = " );
+        console.log("[TRIE] valeur de dynamicFilterList = " );
         console.log(dynamicFilterList);
     };
 
@@ -117,11 +125,15 @@ function onGenerateActivityOptionFilter(allActivityData) {
     allOption.innerHTML = "Tous";
     selectorRef.appendChild(allOption);
 
-    // Ajouter l'option "Planifiées" juste après
-    let plannedOption = document.createElement("option");
-    plannedOption.value = "PLANNED";
-    plannedOption.innerHTML = "Planifiées";
-    selectorRef.appendChild(plannedOption);
+    // Ajouter l'option "Planifiées" juste après si existe
+    if (isActivityPlannedExist) {
+        let plannedOption = document.createElement("option");
+        plannedOption.value = "PLANNED";
+        plannedOption.innerHTML = "Planifiées";
+        selectorRef.appendChild(plannedOption);
+    }
+
+    
 
 
     // Ajouter les autres options des activités existantes triées
