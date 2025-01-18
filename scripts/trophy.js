@@ -350,7 +350,14 @@ function onLoadUserRewardsList() {
 
         // la div contenant un reward
         let newDivRewardCard = document.createElement("div");
-        newDivRewardCard.onclick = function () {
+        newDivRewardCard.onclick = function (event) {
+            // si c'est un new reward, enleve la class newRewards lorsque clique dessus
+            if (event.currentTarget.classList.contains("newRewards")) {
+                event.currentTarget.classList.remove("newRewards");
+            }
+
+
+            // affiche en plein écran
             onDisplayRewardsFullScreen(e);
         };
 

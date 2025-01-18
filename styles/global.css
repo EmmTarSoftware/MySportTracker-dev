@@ -1157,7 +1157,7 @@ img.rewardCardDisable {
 @keyframes pulse {
     0% {
         transform: scale(1);
-        box-shadow: 0 0 0 rgba(255, 189, 23, 0.7); /* Lumière dorée */
+        box-shadow: 0 0 0 rgba(255, 189, 23, 0.5); /* Lumière dorée */
     }
     50% {
         transform: scale(1.05);
@@ -1165,7 +1165,7 @@ img.rewardCardDisable {
     }
     100% {
         transform: scale(1);
-        box-shadow: 0 0 0 rgba(255, 189, 23, 0.7);
+        box-shadow: 0 0 0 rgba(255, 189, 23, 0.5);
     }
 }
 
