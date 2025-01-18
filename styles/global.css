@@ -797,7 +797,16 @@ select.setting{
     padding : 0px; margin: 0px;
 }
 
+div.imgQRcode{
+    width: calc(100% - 20px);
+    text-align: center;
+}
 
+img.imgQRcode{
+    width: 200px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+}
 
 
 
@@ -1336,8 +1345,14 @@ span.spanCheckbox{
 /* pour afficher des items pendant un devellopement qui sont caché par défaut */
 /* Style pour les champs requis */
 input.fieldRequired{
-    border : solid 3px red;
+    border : solid 2px red;
+    border-radius: 5px;
 }
+
+
+
+
+
 
 .dev{
     display: inline-block;
