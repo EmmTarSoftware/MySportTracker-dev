@@ -384,7 +384,7 @@ function onUpdateActivityBddList(isCheckRewardRequiered,activityTargetForReward)
         
 
         // Remet les tries et filtres par défaut
-        onResetSortAndFilter();
+        // onResetSortAndFilter();//a retirer
 
         // Generation du trie dynamique
         onGenerateDynamiqueFilter(allUserActivityArray);
@@ -794,10 +794,6 @@ function onEditActivity(activityTarget) {
 };
 
 
-// Enregistrement de l'activité modifié
-function onSaveModifiedActivity() {
-    if (devMode === true){console.log("Demande de sauvegarde de la modification de l'activité");};
-}
 
 // -------------------------- Création d'activité ---------------------------------
 

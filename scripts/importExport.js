@@ -158,5 +158,6 @@ function onSetLockSettingButton(isDisable){
 
     buttonArray.forEach(e=>{
         document.getElementById(e).disabled = isDisable;
+        document.getElementById(e).style.visibility = isDisable ?"hidden" :"visible";
     })
 }

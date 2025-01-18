@@ -8,7 +8,7 @@ let btnSortDistanceRef = document.getElementById("btnSortDistance"),
 
 // Remet les tries et filtres par défaut
 function onResetSortAndFilter(){
-    if (devMode === true){console.log("Réinitialiser les filtres et trie par défaut");};
+    if (devMode === true){console.log("[SORT FILTER] Réinitialiser les filtres et trie par défaut");};
 
     currentFilter = defaultFilter;
     currentSortType = "dateRecente";
@@ -19,7 +19,7 @@ function onResetSortAndFilter(){
 // Set les icones de trie selon le trie en cours
 function onSetIconSort() {
 
-    if (devMode === true){console.log("modifie de style des icones de filtre");};
+    if (devMode === true){console.log("[SORT FILTER] modifie de style des icones de filtre");};
     
     //reset les texte de filtre
     btnSortDistanceRef.innerHTML = "Distance";
@@ -82,7 +82,7 @@ let defaultFilter = "ALL",
 function onGenerateDynamiqueFilter(allData) {
     isActivityPlannedExist = false;
     let dynamicFilterList = [];
-
+    let allFilterForControl = [];//uniquement pour comparer des filtres
 
     // Recupère les nouvelle catégorie présente dans la liste en cours
     allData.forEach(data=>{
@@ -96,13 +96,25 @@ function onGenerateDynamiqueFilter(allData) {
         }
     });
 
+    if (devMode === true){console.log("[SORT FILTER] Activité plannifié existante = " + isActivityPlannedExist);};
 
-    if (devMode === true){console.log("Activité plannifié existante = " + isActivityPlannedExist);};
+
+    // regarde si le filtre en cours existe encore, s'il n'existe plus, reset filtre et trie
+    allFilterForControl = [...dynamicFilterList];
+    if(isActivityPlannedExist){
+        allFilterForControl.push("PLANNED");
+    };
+
+    if (!allFilterForControl.includes(currentFilter) && currentFilter != defaultFilter ) {
+        if (devMode === true){console.log(`[SORT FILTER] Filtre en cours : ${currentFilter} non présent. réinitialisation`);};
+        onResetSortAndFilter();
+    }
+
 
     dynamicFilterList.sort();
 
     if (devMode === true){
-        console.log("[TRIE] valeur de dynamicFilterList = " );
+        console.log("[SORT FILTER] valeur de dynamicFilterList = " );
         console.log(dynamicFilterList);
     };
 
@@ -133,9 +145,6 @@ function onGenerateActivityOptionFilter(allActivityData) {
         selectorRef.appendChild(plannedOption);
     }
 
-    
-
-
     // Ajouter les autres options des activités existantes triées
     allActivityData.forEach(activity => {
         let newOption = document.createElement("option");
@@ -144,6 +153,8 @@ function onGenerateActivityOptionFilter(allActivityData) {
         selectorRef.appendChild(newOption);
     });
 
+    // Je set la valeur de l'option selon le filtre en cours
+    selectorRef.value = currentFilter;
 
 };
 
@@ -154,8 +165,8 @@ function onFilterActivity(sortType,filterType,activityArray) {
 
 
     if (devMode === true){
-        console.log("fonction de filtre sur activité");
-        console.log("type de trie = " + sortType + " type de filtre = " + filterType);
+        console.log("[SORT FILTER] fonction de filtre sur activité");
+        console.log("[SORT FILTER] type de trie = " + sortType + " type de filtre = " + filterType);
     };
 
     let allDataFiltered = [];
@@ -166,11 +177,11 @@ function onFilterActivity(sortType,filterType,activityArray) {
         // Insertion de tous les activités dans la liste
 
 
-        if (devMode === true){console.log("Demande de trie sur toutes les données");};
+        if (devMode === true){console.log(" [SORT FILTER] Demande de trie sur toutes les données");};
         onSortActivity(sortType,activityArray);
 
     } else if (filterType === "PLANNED"){
-        if (devMode === true){console.log("Demande de filtre sur les activités planifiées");};
+        if (devMode === true){console.log(" [SORT FILTER] Demande de filtre sur les activités planifiées");};
 
         allDataFiltered = allUserActivityArray.filter(item =>{
             return item.isPlanned === true;
@@ -182,7 +193,7 @@ function onFilterActivity(sortType,filterType,activityArray) {
         allDataFiltered = allUserActivityArray.filter(item =>{
             return item.name === filterType;
         });
-        if (devMode === true){console.log("Demande de trie sur les données filtré");};
+        if (devMode === true){console.log("[SORT FILTER] Demande de trie sur les données filtré");};
         // Lance le trie uniquement sur les éléments filtré
         onSortActivity(sortType,allDataFiltered);
 
@@ -197,7 +208,7 @@ function onFilterActivity(sortType,filterType,activityArray) {
 // Changement du filtre via action de l'utilisateur
 function onChangeSelectorFilter(){
 
-    if (devMode === true){console.log("changement de selecteur du filtre pour = " + selectorRef.value);};
+    if (devMode === true){console.log(" [SORT FILTER] changement de selecteur du filtre pour = " + selectorRef.value);};
     currentFilter = selectorRef.value;
 
     onFilterActivity(currentSortType,currentFilter,allUserActivityArray);
@@ -221,7 +232,7 @@ let currentSortType = "dateRecente";
 
 // Fonction de selecteur de trie personnalisé (appelé depuis l'utilisateur)
 function onUserChangeSortType(sortCategory) {
-    if (devMode === true){console.log("type de trie précédent : "+ currentSortType);};
+    if (devMode === true){console.log("[SORT FILTER] type de trie précédent : "+ currentSortType);};
 
 
     switch (sortCategory) {
@@ -250,12 +261,12 @@ function onUserChangeSortType(sortCategory) {
         break;
     
         default:
-            console.log("erreur lors du changement de categorie de trie");
+            console.log(" [SORT FILTER] erreur lors du changement de categorie de trie");
         break;
     };
 
 
-    if (devMode === true){console.log(`Changement du type de trie sur ${sortCategory}  pour ${currentSortType}`);};
+    if (devMode === true){console.log(`[SORT FILTER] Changement du type de trie sur ${sortCategory}  pour ${currentSortType}`);};
 
 
 
@@ -273,7 +284,7 @@ function onUserChangeSortType(sortCategory) {
 // Fonction du trie
 function onSortActivity(sortType,filteredData) {
 
-    if (devMode === true){console.log("Demande de trie par : " + sortType );};
+    if (devMode === true){console.log("[SORT FILTER] Demande de trie par : " + sortType );};
 
     if (sortType === "dateRecente") {
         filteredData.sort((a, b) => {
@@ -304,7 +315,7 @@ function onSortActivity(sortType,filteredData) {
 
     // Mettre à jour le style également
 
-    if (devMode === true){console.log("appel la fonction de trie");};
+    if (devMode === true){console.log(" [SORT FILTER] appel la fonction de trie");};
     onSetIconSort();
 
 
