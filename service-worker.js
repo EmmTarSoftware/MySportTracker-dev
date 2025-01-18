@@ -5,8 +5,27 @@ const basePath = serviceWorkerUrl.replace(/service-worker\.js$/, '');
 console.log(`[SERVICE WORKER] : BasePath = ${basePath}`);
 
 // Nom de la version du cache
-const CACHE_VERSION = "V26";
+const CACHE_VERSION = "V27";
 const STATIC_CACHE = `static-${CACHE_VERSION}`;
+
+
+// Les js et css
+const ASSETS = [
+  `${basePath}styles/global.css`,
+  `${basePath}scripts/activitySystem.js`,
+  `${basePath}scripts/app.js`,
+  `${basePath}scripts/favoris.js`,
+  `${basePath}scripts/importExport.js`,
+  `${basePath}scripts/info.js`,
+  `${basePath}scripts/profil.js`,
+  `${basePath}scripts/notify.js`,
+  `${basePath}scripts/rewardData.js`,
+  `${basePath}scripts/setting.js`,
+  `${basePath}scripts/sortAndFilter.js`,
+  `${basePath}scripts/stat.js`,
+  `${basePath}scripts/rewards.js`
+];
+
 
 // Fichiers à mettre en cache
 const STATIC_FILES = [
@@ -239,7 +258,7 @@ const BADGES = [
 
 // Combiner toutes les ressources dans un seul tableau et dédupliquer
 //Ajout de Set pour s'assurer qu'aucune URL dupliquée ne soit incluse dans ALL_FILES_TO_CACHE
-const ALL_FILES_TO_CACHE = [...new Set([...STATIC_FILES, ...ICONS, ...IMAGES, ...BADGES])];
+const ALL_FILES_TO_CACHE = [...new Set([...STATIC_FILES, ...ICONS, ...IMAGES, ...BADGES, ...ASSETS])];
 
 // Évènement d'installation
 self.addEventListener("install", (event) => {
