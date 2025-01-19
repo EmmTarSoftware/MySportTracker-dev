@@ -199,7 +199,7 @@ textarea:focus, input:focus, select:focus{
 
 /* --------------- DIV HEADER------------------------------------------- */
 
-
+/* header prod */
 div.header{
     width: 100%;   
     display: flex;
@@ -207,6 +207,12 @@ div.header{
     background-color: var(--colorMainTheme1);
     margin-bottom: 10px;
 }
+
+/* header local */
+div.header-dev{
+    background-color: gray;
+}
+
 
 p.app-title{
     display: inline;

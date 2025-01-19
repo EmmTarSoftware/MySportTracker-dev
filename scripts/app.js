@@ -549,6 +549,13 @@ divItemListRef.addEventListener('scroll', () => {
 
 
 
+// Detection de l'environnement (test prod ou local)
+console.log("Environnement : ", window.envConfig.environment);
+if (window.envConfig.environment != "production") {
+    document.getElementById("divHeader").classList.add("header-dev");
+    console.log("configuration style dev");
+}
+
 
 
 onStartDataBase();
