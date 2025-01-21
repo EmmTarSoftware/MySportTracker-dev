@@ -434,8 +434,11 @@ let db,
     activityStoreName = "activityList",
     profilStoreName = "profil",
     rewardsStoreName = "Recompenses",
+    // Nom des stores à importer et exporter dans les fonctions import export. 
+    storeNames = [activityStoreName, profilStoreName, rewardsStoreName];//Ajouter tous les noms des stores ici
     currentBaseVersion = 5,
     cookiesBddVersion_KeyName = "Mind2Task-bddVersion";
+    
 
 
 function onStartDataBase() {

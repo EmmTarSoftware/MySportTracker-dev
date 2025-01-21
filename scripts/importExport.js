@@ -1,7 +1,6 @@
 // La date du jour pour l'export
 let exportDate;
 
-
 // Fonction pour exporter tous les stores de la base de données
 function exportData() {
     // Set la date du jour
@@ -11,9 +10,6 @@ function exportData() {
 
     // Créer un objet pour stocker toutes les données des stores
     let allStoresData = {};
-
-    // Nom des stores à exporter
-    let storeNames = [activityStoreName, profilStoreName, rewardsStoreName]; 
 
     // Parcourir tous les stores
     let completedStores = 0;
@@ -61,6 +57,7 @@ function downloadJSON(data, filename) {
 
 
 let baseStoreCount = 0;
+
 // Fonction d'importation depuis JSON
 function importBdD(inputRef, pResultRef) {
     const fileInput = document.getElementById(inputRef);
@@ -75,14 +72,9 @@ function importBdD(inputRef, pResultRef) {
         const reader = new FileReader();
 
         reader.onload = function (e) {
-            
-
             try {
                 // Charger et analyser le JSON
                 const jsonData = JSON.parse(e.target.result);
-
-                // Nom des stores à importer
-                let storeNames = [activityStoreName, profilStoreName, rewardsStoreName]; 
 
                 // Commencer une transaction en lecture/écriture pour chaque store
                 storeNames.forEach(storeName => {
@@ -94,27 +86,35 @@ function importBdD(inputRef, pResultRef) {
                         const clearRequest = objectStore.clear();
 
                         clearRequest.onsuccess = function () {
-                            // Ajouter les nouvelles données
-                            jsonData[storeName].forEach(function (item) {
-                                objectStore.add(item);
-                            });
+                            // Vérification du format des données avant l'ajout
+                            if (Array.isArray(jsonData[storeName])) {
+                                jsonData[storeName].forEach(item => {
+                                    objectStore.add(item);
+                                });
 
-                            transaction.oncomplete = function () {
-                                console.log(`Imported ${storeName} to IndexedDB successfully.`);
-                                baseStoreCount++;
-                                if (baseStoreCount === storeNames.length) {
-                                    eventImportDataSucess(pResultRef);
-                                }
+                                transaction.oncomplete = function () {
+                                    console.log(`Imported ${storeName} to IndexedDB successfully.`);
+                                    baseStoreCount++;
+                                    if (baseStoreCount === storeNames.length) {
+                                        eventImportDataSucess(pResultRef);
+                                    }
+                                };
 
-
-                            };
-
-                            transaction.onerror = function (error) {
-                                console.error(`Erreur lors de l'importation de ${storeName}:`, error);
-                                textResultRef.innerHTML = "Erreur lors de l'importation.";
+                                transaction.onerror = function (error) {
+                                    console.error(`Erreur lors de l'importation de ${storeName}:`, error);
+                                    textResultRef.innerHTML = `Erreur lors de l'importation de ${storeName}.`;
+                                    onSetLockSettingButton(false);
+                                };
+                            } else {
+                                console.error(`${storeName} n'est pas un tableau valide.`);
+                                textResultRef.innerHTML = `Erreur dans le format des données pour ${storeName}.`;
                                 onSetLockSettingButton(false);
-                            };
+                            }
                         };
+                    } else {
+                        console.error(`Le store ${storeName} est absent du fichier JSON.`);
+                        textResultRef.innerHTML = `Le store ${storeName} est absent du fichier JSON.`;
+                        onSetLockSettingButton(false);
                     }
                 });
             } catch (error) {
@@ -131,6 +131,7 @@ function importBdD(inputRef, pResultRef) {
         onSetLockSettingButton(false);
     }
 };
+
 
 // Action lors du succes d'un import
 function eventImportDataSucess(textResultRef) {
