@@ -729,7 +729,7 @@ button.delete-data{
     background-color: rgb(255, 128, 128);
     border: none;
     border-radius: 5px;
-    box-shadow: var(--boxShadow);
+    /* box-shadow: var(--boxShadow); */
     padding: 10px;
     font-weight: bold;
     margin-left: 10px;
@@ -796,11 +796,13 @@ select.setting{
 }
 
 /*---------------------- INFO ------------------------------------*/
+div.release-licence{
+    width: calc(100% - 20px);
+    padding-left: 10px;
+}
 
-
-.release-licence{
+p.release-licence{
     text-align: left;
-    padding : 0px; margin: 0px;
 }
 
 div.imgQRcode{
@@ -845,6 +847,12 @@ img.imgQRcode{
     overflow-y: auto; /* Permet le défilement vertical si nécessaire */
     padding: 10px; /* Ajoute un petit espace intérieur */
     box-sizing: border-box; /* Inclut les bordures et padding dans les dimensions */
+}
+
+
+.condition-interface p{
+    text-align: justify;
+    margin-left: 10px;
 }
 
 h3.conditionUtilisation{
