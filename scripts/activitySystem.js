@@ -902,11 +902,23 @@ function onCheckIfModifiedRequired(activityToInsertFormat) {
         onLeaveMenu("Activity");
     }
 
-
-
 }
 
 
+
+
+
+
+
+// retrait de l'indication de champ obligatoire si activé, lorsque l'utilisateur
+//  modifie quelque chose dans le champ date
+function onInputDateChange() {
+
+    if (inputDateRef.classList.contains("fieldRequired")) {
+        inputDateRef.classList.remove("fieldRequired");
+    }
+    
+}
 
 // Insertion d'une nouvelle activité
 
