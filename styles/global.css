@@ -2,15 +2,19 @@
 
 :root{
     --colorLightRed : rgb(255, 151, 151);
-    --colorMainTheme1 :#0081C9;
-    --colorMainTheme2 : #ffbd17;
+    --colorMainTheme1 : #30849e;
+    --colorMainTheme2 : #40cccd;
     --colorMainTheme3 : #86E5FF;
     --colorMainTheme4 : #5BC0F8;
     --colorMainTheme5 : #e414ff;
-    --colorMainTheme6 : #ff9e01;
+    --colorMainTheme6 :#ff5780;
     --colorLightGray : #fff;
     --boxShadow : 0 2px 5px rgba(0, 0, 0, 0.1);
     --boxShadowPlus : 0 2px 5px rgba(0, 0, 0, 0.2);
+    --themeGradientBlue : linear-gradient(#26a0b8, #40cccd);
+    --themeGradientPink : linear-gradient(#ff5780,#fc97b0);
+    --themePinkDark: #ff5780;
+    --themePinkLight: #ffa8be;
 }
 
 
@@ -51,7 +55,7 @@ button.btn-menu{
 
 
 button.delete{
-    background-color: var(--colorMainTheme2);
+    background: var(--themeGradientPink);
 }
 
 
@@ -72,7 +76,7 @@ div.confirmationDelete.show {
 
 
 button.deleteConfirm{
-    background-color: var(--colorMainTheme2);
+    background: var(--themeGradientPink);
     margin-bottom: -200px;
     width: 70px;
     height: 70px;
@@ -204,13 +208,13 @@ div.header{
     width: 100%;   
     display: flex;
     justify-content: space-between; /* Espace entre chaque paragraphe */
-    background-color: var(--colorMainTheme1);
+    background: var(--themeGradientBlue);
     margin-bottom: 10px;
 }
 
 /* header local */
 div.header-dev{
-    background-color: gray;
+    background: gray;
 }
 
 
@@ -248,7 +252,7 @@ p.user-pseudo{
 .item-container-head {
     width: 87%;     
     display: flex;       
-    background-color: var(--colorMainTheme2); 
+    background: var(--themeGradientPink); 
     padding: 5px;
     margin-bottom: 15px;
     margin-left: 15px;
@@ -454,8 +458,9 @@ button.btnFocus{
 }
 
 button.btnFlottant{
-    /* background-color: var(--colorMainTheme1); */
-    background-color: rgba(0, 129, 201, 0.8);
+    background: linear-gradient(rgba(38,160,184,0.8), rgba(64,204,205,0.8));
+
+
     width: 50px; height: 50px;
     border: none;
     border-radius: 10px;
@@ -781,7 +786,7 @@ div.confirmationDeleteBdD.show {
 
 
 button.deleteConfirmBdD{
-    background-color: var(--colorMainTheme2);
+    background: var(--themeGradientPink);
     margin-bottom: -200px;
     width: 70px;
     height: 70px;
@@ -1019,7 +1024,7 @@ div.stat-months {
     position: relative;
     width: 100%;
     height: var(--progress);
-    background: linear-gradient(180deg, #4CAF50, #81C784);
+    background: var(--themeGradientPink);
     border-radius: 10px;
     transition: height 0.3s ease;
 }
@@ -1050,7 +1055,7 @@ select.graph-stat{
     width: 100px;
     /* height: 5px; */
     padding: 5px;
-    background-color: var(--colorMainTheme1);
+    background: var(--themeGradientBlue);
     color: white;
     text-align: center;
     font-weight: bold;
@@ -1084,13 +1089,13 @@ select.graph-stat{
 /* Animation pour faire clignoter le background avec différentes couleurs */
 @keyframes borderBlink {
     0% {
-        background-color: "";
+        background: "";
     }
     50% {
-        background-color: var(--colorMainTheme2);
+        background: var(--themePinkLight);
     }
     100% {
-        background-color: "";
+        background: "";
     }
 }
 
@@ -1180,15 +1185,15 @@ img.rewardCardDisable {
 @keyframes pulse {
     0% {
         transform: scale(1);
-        box-shadow: 0 0 0 rgba(255, 189, 23, 0.5); /* Lumière dorée */
+        box-shadow: 0 0 0 rgba(255, 87, 128, 0.5); /* Lumière dorée */
     }
     50% {
         transform: scale(1.05);
-        box-shadow: 0 0 10px rgba(255, 189, 23, 1); /* Lumière dorée */
+        box-shadow: 0 0 10px rgba(255, 87, 128, 1); /* Lumière dorée */
     }
     100% {
         transform: scale(1);
-        box-shadow: 0 0 0 rgba(255, 189, 23, 0.5);
+        box-shadow: 0 0 0 rgba(255, 87, 128, 0.5);
     }
 }
 

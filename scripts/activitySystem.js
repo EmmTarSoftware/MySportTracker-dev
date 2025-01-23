@@ -315,7 +315,7 @@ function onResetActivityInputs() {
     selectorCategoryChoiceRef.value = userFavoris.length > 0 ? userFavoris[0] : "C.A.P";
 
     // l'image de prévisualisation 
-    imgEditorActivityPreviewRef.src = activityChoiceArray["C.A.P"].imgRef;
+    imgEditorActivityPreviewRef.src = userFavoris.length > 0 ? activityChoiceArray[userFavoris[0]].imgRef  : activityChoiceArray["C.A.P"].imgRef;
     pEditorActivityPreviewPlannedIconRef.innerHTML = "";
 
     inputDateRef.classList.remove("fieldRequired");
