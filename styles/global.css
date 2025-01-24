@@ -334,7 +334,6 @@ button.btn-sort-Selected{
     opacity: 0.7;
     box-shadow: none;
     border: dashed 2px var(--colorMainTheme1);
-    /* background-color: rgb(223, 223, 223); */
     background-color: rgb(235, 235, 235);
 }
 
@@ -775,12 +774,12 @@ div.confirmationDeleteBdD{
     height:100vh;
     position: absolute;
     background-color: #ececec;
+
 }
 
 div.confirmationDeleteBdD.show {
     display: flex; /* Change display pour l'afficher */
     flex-direction: column;
-    justify-content:center;
     align-items: center;
 }
 
@@ -879,8 +878,8 @@ div.entete-condition{
 
 div.buttonAcceptation{
     width: 100%;
-    margin-top: 50px;
-    margin-bottom: 50px;
+    margin-top: 40px;
+    margin-bottom: 40px;
     text-align: center;
 }
 
