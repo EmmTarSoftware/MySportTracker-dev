@@ -5,7 +5,7 @@ const basePath = serviceWorkerUrl.replace(/service-worker\.js$/, '');
 console.log(`[SERVICE WORKER] : BasePath = ${basePath}`);
 
 // Nom de la version du cache
-const CACHE_VERSION = "V29";
+const CACHE_VERSION = "V30";
 const STATIC_CACHE = `static-${CACHE_VERSION}`;
 
 
@@ -15,7 +15,7 @@ const ASSETS = [
   `${basePath}scripts/activitySystem.js`,
   `${basePath}scripts/app.js`,
   `${basePath}scripts/favoris.js`,
-  `${basePath}scripts/importExport.js`,
+  `${basePath}scripts/gestData.js`,
   `${basePath}scripts/info.js`,
   `${basePath}scripts/profil.js`,
   `${basePath}scripts/notify.js`,
@@ -60,6 +60,7 @@ const ICONS = [
   `${basePath}Icons/notifyRewardsColor192.png`,
   `${basePath}Icons/MSS_Prod-QR-code.webp`,
   `${basePath}Icons/Icon-Favoris-Menu.webp`,
+  `${basePath}Icons/Icon-wait.webp`,
   `${basePath}Icons/badge-locked.webp`
 ];
 

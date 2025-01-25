@@ -91,6 +91,12 @@ function onChangeMenu(menuTarget) {
             onChangeDisplay(allDivHomeToDisplayNone,["divBtnProfil"],["divProfil"],[],[],[],[]);
             onOpenMenuProfil();
         break;
+        case "GestData":
+            if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : GestData");};
+            pMenuTitleRef.innerHTML = "Gestion des données";
+            onChangeDisplay(allDivHomeToDisplayNone,["divBtnGestData"],["divGestData"],[],[],[],[]);
+            onOpenMenuGestData();
+        break;
         case "Setting":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Setting");};
             pMenuTitleRef.innerHTML = "Paramètres";
@@ -174,6 +180,10 @@ function onLeaveMenu(menuTarget) {
         case "Profil":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Profil");};
             onChangeDisplay(["divProfil","divBtnProfil"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
+        break;
+        case "GestData":
+            if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : GestData");};
+            onChangeDisplay(["divGestData","divBtnGestData"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
         break;
         case "Setting":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Setting");};

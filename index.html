@@ -147,41 +147,9 @@
 
 
 
-    <!-- ----------------------------------      DIV SETTING        ------------------------------------------------>
-    <div id="divSetting" class="new-interface">
+    <!-- ----------------------------------      DIV GESTION DONNEES        ------------------------------------------------>
+    <div id="divGestData" class="new-interface">
 
-        <h3 class="settingCategorie">Affichage</h3>
-
-        <p>
-            <label class="labelSetting" for="">Activité planifiées :</label>
-            <select class="setting" name="" id="selectSettingCommentModePlanned" onchange="onChangeSettingCommentActivity(this.value,activityTagPlanned,'planned')">
-                <option value="Collapse">Réduit</option>
-                    <option value="Compact">Compacté</option>
-                    <option value="Expand">Déployé</option>
-            </select>
-        </p>
-        <p>
-            <label class="labelSetting" for="">Activités réalisées :</label>
-            <select class="setting" name="" id="selectSettingCommentModeDone" onchange="onChangeSettingCommentActivity(this.value,activityTagDone,'done')">
-                <option value="Collapse">Réduit</option>
-                    <option value="Compact">Compacté</option>
-                    <option value="Expand">Déployé</option>
-            </select>
-        </p>
-
-        <span class="settingSeparator"></span>
-        <H3 class="settingCategorie">Notifications</H3>
-        <div>
-            <p>
-                <label for="">Statut des notifications :</label>
-            </p>
-            
-            <p class="settingAlert" id="pMobileNotifyStatus">Vérification en cours...</p>
-        </div>
-
-
-        <span class="settingSeparator"></span>
-        <h3 class="settingCategorie">Données</h3>
         <!-- Exporter des donnes -->
         <p>
             <label class="labelSetting" for="fileInputJsonTask">Exporter ses données :</label>
@@ -217,27 +185,9 @@
         </div>
         <div class="setting-align-center">
             <p>
-                <button class="delete-data" id="btnDeteteBdd" onclick="onClickDeleteDataBaseFromSetting()">Supprimer toutes mes données</button>
-            </p>
-            <p id="pResultDeleteBdD" class="setting-action-result"></p>
-        </div>
-
-
-        <span class="settingSeparator"></span>
-        <h3 class="settingCategorie">Divers</h3>
-        <!-- Mode developpeur -->
-        <div>    
-            <p>
-                <label for="">Mode LOG développeur : </label>
-            </p>
-            <p class="settingAlert">
-                ⚠️Impact sur les performances !
+                <button class="delete-data" id="btnDeteteBdd" onclick="onClickDeleteDataBaseFromGestData()">Supprimer toutes mes données</button>
             </p>
         </div>
-        <div class="setting-align-center">
-            <input type="checkbox" id="inputCheckboxDevMode" onchange="onChangeDevModeStatus(this)">
-        </div>
-
 
     </div>
 
@@ -261,13 +211,68 @@
 
 
 
+    <div id="divBtnGestData" class="button-editor">
+        <button class="btn-menu" id="btnReturnFromGestData" onclick="onClickReturnFromGestData()"><img src="./Icons/Icon-Return-cancel.webp" alt="Icone"></button>  
+    </div>
+
+    <!-- ----------------------------------  FIN    GESTION DONNEES     ------------------------------------------------>
+
+    <!-- ----------------------------------      DIV SETTING        ------------------------------------------------>
+    <div id="divSetting" class="new-interface">
+        <h3 class="settingCategorie">Affichage</h3>
+
+        <p>
+            <label class="labelSetting" for="">Activité planifiées :</label>
+            <select class="setting" name="" id="selectSettingCommentModePlanned" onchange="onChangeSettingCommentActivity(this.value,activityTagPlanned,'planned')">
+                <option value="Collapse">Réduit</option>
+                    <option value="Compact">Compacté</option>
+                    <option value="Expand">Déployé</option>
+            </select>
+        </p>
+        <p>
+            <label class="labelSetting" for="">Activités réalisées :</label>
+            <select class="setting" name="" id="selectSettingCommentModeDone" onchange="onChangeSettingCommentActivity(this.value,activityTagDone,'done')">
+                <option value="Collapse">Réduit</option>
+                    <option value="Compact">Compacté</option>
+                    <option value="Expand">Déployé</option>
+            </select>
+        </p>
+
+        <span class="settingSeparator"></span>
+        <H3 class="settingCategorie">Notifications</H3>
+        <div>
+            <p>
+                <label for="">Statut des notifications :</label>
+            </p>
+            
+            <p class="settingAlert" id="pMobileNotifyStatus">Vérification en cours...</p>
+        </div>
+
+        
+        <span class="settingSeparator"></span>
+        <h3 class="settingCategorie">Divers</h3>
+        <!-- Mode developpeur -->
+        <div>    
+            <p>
+                <label for="">Mode LOG développeur : </label>
+            </p>
+            <p class="settingAlert">
+                ⚠️Impact sur les performances !
+            </p>
+        </div>
+        <div class="setting-align-center">
+            <input type="checkbox" id="inputCheckboxDevMode" onchange="onChangeDevModeStatus(this)">
+        </div>
+
+
+    </div>
+
     <div id="divBtnSetting" class="button-editor">
         <button class="btn-menu" id="btnReturnFromSetting" onclick="onClickReturnFromSetting()"><img src="./Icons/Icon-Return-cancel.webp" alt="Icone"></button>  
     </div>
-
+    
     <!-- ----------------------------------  FIN    DIV SETTING     ------------------------------------------------>
-
-
+    
 
     <!-- ----------------------------------      DIV FAVORIS        ------------------------------------------------>
 
@@ -405,13 +410,13 @@
 
     <!-- ----------------------------------      DIV INFO        ------------------------------------------------>
     <div id="divInfo" class="new-interface">
-        <div class="imgQRcode">
+        <div class="center">
             <img class="imgQRcode" src="./Icons/MSS_Prod-QR-code.webp" alt="" srcset="">
         </div>
         <div class="release-licence">
             <p class="release-licence">Une application pour gérer vos activités sportives.</p>
             <p class="release-licence">Optimisée pour Google Chrome.</p>
-            <p class="release-licence"><strong>Version :</strong>  1.4.17</p>
+            <p class="release-licence"><strong>Version :</strong>  1.4.18</p>
             <p class="release-licence"><strong>Développement/Conception :</strong> Emmanuel TARACONAT.</p>
             <p class="release-licence"><strong>Collaboration :</strong> Morgane C.</p>
             <p class="release-licence"><strong>Licence :</strong><a href="https://creativecommons.org/licenses/by-nc/4.0/"  target="_blank">CC BY-NC 4.0</a>.</p>
@@ -482,7 +487,7 @@
                     N'oublie pas d'<b>effectuer des sauvegardes</b> (menu "Paramètres") de temps en temps pour éviter toute perte.
                 </li>
                 <li>
-                    <b>Ne stocke pas d'informations sensibles</b> (mots de passe, informations bancaires ou personnels, etc...) dans l'application.
+                    <b>Ne stocke pas d'informations sensibles</b> (mots de passe, informations bancaires ou personnelles, etc...) dans l'application.
                 </li>
             </ul>
         </p>
@@ -524,6 +529,7 @@
         <div class="main-menu-sup-button-area">
             <button onclick="onClickMenuSup(event,'Profil')">Profil</button>
             <button onclick="onClickMenuSup(event,'Setting')">Paramètres</button>
+            <button onclick="onClickMenuSup(event,'GestData')">Gestion des données</button>
             <button onclick="onClickMenuSup(event,'Info')">A propos</button>
         </div>
     </div>
@@ -541,7 +547,7 @@
     <script src="./scripts/stat.js"></script>
     <script src="./scripts/rewardData.js"></script>
     <script src="./scripts/rewards.js"></script>
-    <script src="./scripts/importExport.js"></script>
+    <script src="./scripts/gestData.js"></script>
     <script src="./scripts/app.js"></script>
 </body>
 </html>

@@ -5,6 +5,24 @@ let devMode = false,
     cookiesDevModeName = "MSS-devMode";
 
 
+
+
+
+
+function onOpenMenuSetting() {
+
+    
+};
+    
+    
+    
+    
+    
+
+
+
+
+
 // Vérification de l'engeristrement du cookies en local storage
 function onCheckDevModeValueInLocalStorage() {
     console.log("[DEV] vérification de l'existance du cookies devMode ");
@@ -34,82 +52,6 @@ function onChangeDevModeStatus(mode) {
     console.log("[DEV] enregistrement en cookies");
     localStorage.setItem(cookiesDevModeName,devMode);
 }
-
-
-
-
-
-// -----------------------------------------------  Suppression des données de la base ----------------------------
-
-
-
-
-
-
-// Demande de suppression
-function onClickDeleteDataBaseFromSetting() {
-    if (devMode === true) {console.log("Demande de suppression des données de la base");};
-
-    document.getElementById("divConfirmDeleteDataBase").classList.add("show");
-
-    onChangeDisplay([],[],[],["divSetting","divBtnSetting"],[],[],[]);
-}
-
-function onConfirmDeleteDataBase(event) {
-    
-    event.stopPropagation();
-    if (devMode === true) {console.log("Confirmation de la demande de suppression des données");};
-
-    document.getElementById("divConfirmDeleteDataBase").classList.remove("show");
-    onChangeDisplay([],[],[],[],["divSetting","divBtnSetting"],[],[]);
-
-    // Verrouillage des boutons du menu setting
-    onSetLockSettingButton(true);
-
-
-    onDeleteBDD();
-}
-
-
-function onCancelDeleteDataBase(params) {
-    if (devMode === true) {console.log("annulation de la demande de suppression des données");};
-
-    document.getElementById("divConfirmDeleteDataBase").classList.remove("show");
-    onChangeDisplay([],[],[],[],["divSetting","divBtnSetting"],[],[]);
-}
-
-
-
-
-
-// Fonction de suppression de la base et des favoris
-function onDeleteBDD() {
-   
-    if (devMode === true) {console.log("Lancement de la suppression");};
-    // Les cookies 
-    localStorage.removeItem(cookiesUserFavorisName);
-    localStorage.removeItem(cookiesConditionUtilisation_keyName);
-    localStorage.removeItem(cookiesDevModeName);
-    localStorage.removeItem(cookiesSettingCommentDoneMode_Name);
-    localStorage.removeItem(cookiesSettingCommentPlannedMode_Name);
-
-
-    // La base de donnée
-    let requestDelete = indexedDB.deleteDatabase(dbName);
-
-
-    document.getElementById("pResultDeleteBdD").innerHTML = "Base de donnée supprimée ! Veuillez patienter.";
-
-    // Relance l'application
-    setTimeout(() => {
-        location.reload();
-    }, 2000);
-};
-
-
-
-
-
 
 
 
@@ -230,23 +172,6 @@ function onChangeSettingCommentActivity(newSetting,tag,categoryTarget) {
     };
 
 }
-
-
-
-
-
-
-
-
-function onOpenMenuSetting() {
-
-    
-};
-
-
-
-
-
 
 
 
