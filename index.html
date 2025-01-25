@@ -79,7 +79,7 @@
 
             <p class="activity-editor">
                 <span class="spanCheckbox">Planifiée : </span>
-                <input class="test" id="inputIsPlanned" type="checkbox" onchange="onChangeActivityPlanned(this.checked)">
+                <input id="inputIsPlanned" type="checkbox" onchange="onChangeActivityPlanned(this.checked)">
             </p>
 
             <p class="activity-editor">
@@ -156,7 +156,7 @@
             
         </p>
         <div class="btn-import-export">
-            <button class="btn-menu-setting" onclick="exportData()" id="btnExportBdD"><img src="./Icons/Icon-Download.webp" alt="Icone"></button>
+            <button class="btn-menu-setting" onclick="exportData(false)" id="btnExportBdD"><img src="./Icons/Icon-Download.webp" alt="Icone"></button>
         </div>
 
 
@@ -237,6 +237,27 @@
                     <option value="Expand">Déployé</option>
             </select>
         </p>
+
+
+        <!-- TRAVAIL AUTO SAVE -->
+        <span class="settingSeparator"></span>
+        <H3 class="settingCategorie">Sauvegarde automatique</H3>
+        <p>
+            <span class="spanCheckbox">Activation : </span>
+            <input id="inputSettingIsAutoSave" type="checkbox"">
+        </p>
+        <p>
+            <span class="spanCheckbox">Tous les (en jours): </span>
+            <input id="inputSettingSaveFrequency" type="number" value="7" max="30" onchange="onDataInSettingSaveFrequencyChange()">
+        </p>
+        <p>
+            <label for="">Dernière sauvegarde automatique :</label>
+        </p>
+        <p id="pSettingLastAutoSaveDate" class="settingAlert">
+            <!-- Injection -->
+        </p>        
+
+        <!-- FIN TRAVAIL AUTO SAVE -->
 
         <span class="settingSeparator"></span>
         <H3 class="settingCategorie">Notifications</H3>
@@ -417,7 +438,7 @@
         <div class="release-licence">
             <p class="release-licence">Une application pour gérer vos activités sportives.</p>
             <p class="release-licence">Optimisée pour Google Chrome.</p>
-            <p class="release-licence"><strong>Version :</strong>  1.4.20</p>
+            <p class="release-licence"><strong>Version :</strong>  1.4.22</p>
             <p class="release-licence"><strong>Développement/Conception :</strong> Emmanuel TARACONAT.</p>
             <p class="release-licence"><strong>Collaboration :</strong> Morgane C.</p>
             <p class="release-licence"><strong>Licence :</strong><a href="https://creativecommons.org/licenses/by-nc/4.0/"  target="_blank">CC BY-NC 4.0</a>.</p>
@@ -538,6 +559,7 @@
 
 </div>
     <script src="./configEnv.js"></script>
+    <script src="./scripts/globalFunction.js"></script>
     <script src="./scripts/setting.js"></script>
     <script src="./scripts/notify.js"></script>
     <script src="./scripts/profil.js"></script>

@@ -19,7 +19,7 @@ function onOpenMenuGestData() {
 let exportDate;
 
 // Fonction pour exporter tous les stores de la base de données
-function exportData() {
+function exportData(isAutoSave) {
     // Set la date du jour
     exportDate = onFindDateTodayUS();
 
@@ -46,6 +46,14 @@ function exportData() {
             // Si tous les stores sont exportés, on les télécharge
             if (completedStores === storeNames.length) {
                 downloadJSON(allStoresData, `MSS_${exportDate}_${userInfo.pseudo}.json`);
+
+                if (isAutoSave) {
+                    if (devMode === true) {console.log("[AUTOSAVE] Fin de sauvegarde automatique. Lancement activité liste ");};
+
+                    eventAutoSaveResult();
+                    // Premiere remplissage de la base avec le formation de trie par défaut
+                    onUpdateActivityBddList(false);
+                }
             }
         };
 
@@ -73,8 +81,123 @@ function downloadJSON(data, filename) {
 
 
 
+// ----------------------------     sauvegarde automatique     ----------------------------------
 
 
+
+
+
+
+let cookiesLastSaveDate_name = "MSS_lastAutoSaveDate",
+lastAutoSaveDate = null;
+
+// Vérification de l'engeristrement du cookies DEV MODE en local storage
+function onCheckSaveDateInLocalStorage() {
+    if (devMode === true) {console.log("[AUTOSAVE] vérification de l'existance du cookies lastSaveDate ");};
+
+    if (localStorage.getItem(cookiesLastSaveDate_name) === null){
+        localStorage.setItem(cookiesLastSaveDate_name, null);
+        if (devMode === true) {console.log("[AUTOSAVE] Creation du cookies :  " + cookiesLastSaveDate_name);};
+    }else{
+        console.log("[AUTOSAVE] cookies existants, chargement dans la variable ");
+        lastAutoSaveDate = localStorage.getItem(cookiesLastSaveDate_name);
+        if (devMode === true) {console.log("[AUTOSAVE] date de la dernière sauvegarde : " + lastAutoSaveDate);};
+    };
+
+    // Set la checkbox selon la valeur de devMode
+    document.getElementById("pSettingLastAutoSaveDate").innerHTML = lastAutoSaveDate === "null" ? "Date inconnue" : onFormatDateToFr(lastAutoSaveDate);
+
+};
+
+onCheckSaveDateInLocalStorage();
+
+
+
+// Verification condition autosave
+function onCheckAutoSaveCondition() {
+
+    if (devMode === true) {console.log("[AUTOSAVE] Vérification des conditions de sauvegarde");};
+
+    let isSaveRequired = false;
+
+    // Si cookies last date est vide = AutoSAVE
+    if (lastAutoSaveDate === "null") {
+        // Lancement fonction autoSave
+        if (devMode === true) {console.log("[AUTOSAVE] date en cookie null demande de sauvegarde");};
+        exportData(true);
+    }else{
+        // sinon controle l'intervalle entre date du jour et date derniere sauvegarde
+
+        isSaveRequired = compareDateAutoSave(lastAutoSaveDate,userSetting.autoSaveFrequency);
+
+        if (devMode === true) {
+            console.log("[AUTOSAVE] Date derniere sauvegarde existante en cookies");
+        };
+
+
+        if (isSaveRequired) {
+            if (devMode === true) {console.log("[AUTOSAVE] date plus valide. Demande de sauvegarde");};
+            exportData(true);
+        }else{
+            if (devMode === true) {console.log("[AUTOSAVE] date encore valide. Pas de sauvegarde");};
+            // Premiere remplissage de la base avec le formation de trie par défaut
+            onUpdateActivityBddList(false);
+        }
+    }
+
+}
+
+// fonction pour savoir si la date d'ancienne sauvegarde est encore valide ou non
+
+function compareDateAutoSave(lastDateSave, frequency) {
+    // Convertir la date de sauvegarde en un objet Date
+    const d1 = new Date(lastDateSave); 
+    const d2 = new Date(); // Date actuelle
+
+    // Vérifier si d1 est une date valide
+    if (isNaN(d1.getTime())) {
+        console.error("[AUTOSAVE] La date de sauvegarde est invalide :", lastDateSave);
+        return false; // Sortie pour éviter des comportements imprévisibles
+    }
+
+    // Calculer la différence en millisecondes
+    const differenceMs = Math.abs(d2 - d1);
+
+    // Convertir la différence en jours
+    const differenceEnJours = differenceMs / (1000 * 60 * 60 * 24);
+
+    // Mode débogage
+    if (devMode === true) { 
+        console.log("[AUTOSAVE] Comparaison des dates");
+        console.log("[AUTOSAVE] Date de dernière sauvegarde :", d1);
+        console.log("[AUTOSAVE] Date du jour :", d2);
+        console.log("[AUTOSAVE] Fréquence (jours) :", frequency);
+        console.log("[AUTOSAVE] Différence en jours :", differenceEnJours);
+    }
+
+    // Vérifier si la différence dépasse le seuil
+    return differenceEnJours >= frequency;
+}
+
+
+
+
+function eventAutoSaveResult(){
+    if (devMode === true) {console.log("[AUTOSAVE] Fin de sauvegarde, actualisation des éléments");};
+
+    // récupère la date du jours
+    const today = new Date();
+    const formattedDate = today.toISOString().split('T')[0]; // Format YYYY-MM-DD
+
+
+    //Mise a jour du cookie et variable
+    localStorage.setItem(cookiesLastSaveDate_name, formattedDate);
+    lastAutoSaveDate = formattedDate;
+
+    //Mise à jour du texte :
+    document.getElementById("pSettingLastAutoSaveDate").innerHTML = onFormatDateToFr(lastAutoSaveDate);
+
+};
 
 
 
@@ -246,8 +369,9 @@ function onDeleteBDD() {
     localStorage.removeItem(cookiesUserFavorisName);
     localStorage.removeItem(cookiesConditionUtilisation_keyName);
     localStorage.removeItem(cookiesDevModeName);
-
-
+    localStorage.removeItem(cookiesLastSaveDate_name);
+    localStorage.removeItem(cookiesBddVersion_KeyName);
+    localStorage.removeItem('MSS_notifyPermission');
     // La base de donnée
     let requestDelete = indexedDB.deleteDatabase(dbName);
 

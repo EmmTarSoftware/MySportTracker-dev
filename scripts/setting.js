@@ -62,7 +62,9 @@ function onChangeDevModeStatus(mode) {
 
 let defaultSetting = {
     displayCommentDoneMode : "Collapse",
-    displayCommentPlannedMode : "Collapse"
+    displayCommentPlannedMode : "Collapse",
+    isAutoSaveEnabled : false,
+    autoSaveFrequency : 7
 };
 
 let userSetting = {},
@@ -75,7 +77,9 @@ let userSetting = {},
 
 
 let selectSettingCommentModePlannedRef,
-selectSettingCommentModeDoneRef;
+    selectSettingCommentModeDoneRef,
+    inputSettingIsAutoSaveRef,
+    inputSettingSaveFrequencyRef;
 
 
 
@@ -83,12 +87,16 @@ selectSettingCommentModeDoneRef;
 function onReferenceItemsSetting() {
     selectSettingCommentModePlannedRef =  document.getElementById("selectSettingCommentModePlanned");
     selectSettingCommentModeDoneRef = document.getElementById("selectSettingCommentModeDone");
+    inputSettingIsAutoSaveRef = document.getElementById("inputSettingIsAutoSave");
+    inputSettingSaveFrequencyRef = document.getElementById("inputSettingSaveFrequency");
 }
 
 function onSetSettingItems() {
     if (devMode === true){console.log("[SETTING] set les éléments du menu Paramètre");};
     selectSettingCommentModePlannedRef.value = userSetting.displayCommentPlannedMode;
     selectSettingCommentModeDoneRef.value = userSetting.displayCommentDoneMode;
+    inputSettingIsAutoSaveRef.checked = userSetting.isAutoSaveEnabled;
+    inputSettingSaveFrequencyRef.value = userSetting.autoSaveFrequency;
 
 };
 
@@ -169,9 +177,16 @@ function onSetSettingFromOpeningAPP(settingExtracted) {
     currentCommentPlannedClassName = onSearchCommentClassNameByMode(userSetting.displayCommentPlannedMode);
 
 
+    // 
+    if (userSetting.isAutoSaveEnabled) {
+        console.log("[SETTING] Autosave activité. Demande de vérification des conditions");
+        onCheckAutoSaveCondition();
+    }else{
+        console.log("[SETTING] AutoSave non activé. Demande d'actualisation de la liste d'activité");
+        // Premiere remplissage de la base avec le formation de trie par défaut
+        onUpdateActivityBddList(false);
+    }
 
-    // Premiere remplissage de la base avec le formation de trie par défaut
-    onUpdateActivityBddList(false);
 }
 
 
@@ -179,11 +194,27 @@ function onSetSettingFromOpeningAPP(settingExtracted) {
 
 // Clique sur save Setting
 function onClickSaveFromSetting() {
+
+
+    // controle champ obligatoire pour sauvegarde automatique si activé
+    if (devMode === true){console.log("[SETTING] controle des champs requis");};
+    let emptyFieldSaveFrequency = onCheckEmptyField(inputSettingSaveFrequencyRef.value);
+    
+    if (inputSettingIsAutoSaveRef.checked === true && emptyFieldSaveFrequency === true) {
+        if (devMode === true){console.log("[SETTING] Champ obligatoire 'frequence save' non remplis");};
+    
+        inputSettingSaveFrequencyRef.classList.add("fieldRequired");
+        return
+    };
+    
+
     // Lancement de sauvegarde des paramètres uniquement si modifié
    // Création d'une liste de champs à comparer
     const fieldsToCompare = [
         { oldValue: userSetting.displayCommentDoneMode, newValue: selectSettingCommentModeDoneRef.value },
         { oldValue: userSetting.displayCommentPlannedMode, newValue: selectSettingCommentModePlannedRef.value },
+        { oldValue: userSetting.isAutoSaveEnabled, newValue: inputSettingIsAutoSaveRef.checked },
+        { oldValue: userSetting.autoSaveFrequency, newValue: inputSettingSaveFrequencyRef.value }
     ];
 
 
@@ -207,6 +238,9 @@ function onSaveUserSetting() {
     // Met tous les éléments des inputs dans la variable userSetting
     userSetting.displayCommentDoneMode = selectSettingCommentModeDoneRef.value;
     userSetting.displayCommentPlannedMode = selectSettingCommentModePlannedRef.value;
+    userSetting.isAutoSaveEnabled = inputSettingIsAutoSaveRef.checked;
+    userSetting.autoSaveFrequency = inputSettingSaveFrequencyRef.value;
+
 
     // demande d'actualisation du mode d'affichage selon les paramètres
     onUpdateCSSDisplayMode();
@@ -239,6 +273,10 @@ function onInsertSettingModificationInDB(e) {
 
         modifiedData.displayCommentDoneMode = e.displayCommentDoneMode;
         modifiedData.displayCommentPlannedMode = e.displayCommentPlannedMode;
+        modifiedData.isAutoSaveEnabled = e.isAutoSaveEnabled;
+        modifiedData.autoSaveFrequency = e.autoSaveFrequency;
+
+
 
         let insertModifiedData = store.put(modifiedData);
 
@@ -330,12 +368,26 @@ function onUpdateCSSDisplayMode(){
 }
 
 
+// enleve l'alerte l'input de frequence d'activité si un changement est constaté
+function onDataInSettingSaveFrequencyChange(){
+    if (inputSettingSaveFrequencyRef.classList.contains("fieldRequired")) {
+        inputSettingSaveFrequencyRef.classList.remove("fieldRequired");
+    }
+
+}
+
+
+
+function onResetSettingItems() {
+    // Retire la class css field required au cas ou pour l'input saveFrequency
+    inputSettingSaveFrequencyRef.classList.remove("fieldRequired");
+}
 
 
 
 // Retour depuis Setting
 function onClickReturnFromSetting() {
-
+    onResetSettingItems();
 
     // ferme le menu
     onLeaveMenu("Setting");

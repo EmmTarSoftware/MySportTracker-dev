@@ -5,13 +5,14 @@ const basePath = serviceWorkerUrl.replace(/service-worker\.js$/, '');
 console.log(`[SERVICE WORKER] : BasePath = ${basePath}`);
 
 // Nom de la version du cache
-const CACHE_VERSION = "V30";
+const CACHE_VERSION = "V31";
 const STATIC_CACHE = `static-${CACHE_VERSION}`;
 
 
 // Les js et css
 const ASSETS = [
   `${basePath}styles/global.css`,
+  `${basePath}scripts/globalFunction.js`,
   `${basePath}scripts/activitySystem.js`,
   `${basePath}scripts/app.js`,
   `${basePath}scripts/favoris.js`,
