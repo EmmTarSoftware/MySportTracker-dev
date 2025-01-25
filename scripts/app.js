@@ -577,7 +577,7 @@ divItemListRef.addEventListener('scroll', () => {
     }, 200); // Réapparaît après 200ms une fois le scroll arrêté
 });
 
-
+ 
 
 // Detection de l'environnement (test prod ou local)
 console.log("Environnement : ", window.envConfig.environment);
