@@ -444,10 +444,11 @@ let db,
     activityStoreName = "activityList",
     profilStoreName = "profil",
     rewardsStoreName = "Recompenses",
+    settingStoreName = "Setting",
     // Nom des stores à importer et exporter dans les fonctions import export. 
-    storeNames = [activityStoreName, profilStoreName, rewardsStoreName];//Ajouter tous les noms des stores ici
-    currentBaseVersion = 5,
-    cookiesBddVersion_KeyName = "Mind2Task-bddVersion";
+    storeNames = [activityStoreName, profilStoreName, rewardsStoreName,settingStoreName],//Ajouter tous les noms des stores ici
+    currentBaseVersion = 6,
+    cookiesBddVersion_KeyName = "MSS-bddVersion";
     
 
 
@@ -455,7 +456,8 @@ function onStartDataBase() {
     let openRequest = indexedDB.open(dbName,currentBaseVersion);
 
     let isNewProfilRequiered = false,//boolean pour savoir si je créer un nouveau profils ou non
-        isNewRewardsBdDRequired = false;//boolean pour savoir si je créer un élément initiale pour les récompenses dans la base
+        isNewRewardsBdDRequired = false,//boolean pour savoir si je créer un élément initiale pour les récompenses dans la base
+        isNewSettingBdDRequired = false;//boolean pour savoir si je créer un élément initiale pour les setting dans la base
     // Traitement selon résultat
 
    
@@ -472,7 +474,6 @@ function onStartDataBase() {
             activityStore.createIndex('date','date',{unique:false});
             activityStore.createIndex('distance','distance',{unique:false});
             activityStore.createIndex('duration','duration',{unique:false});
-
         };
 
 
@@ -484,6 +485,14 @@ function onStartDataBase() {
             isNewProfilRequiered = true;
         };
 
+
+        // Creation du store pour les Setting
+        if (!db.objectStoreNames.contains(settingStoreName)) {
+            let profilStore = db.createObjectStore(settingStoreName, {keyPath:'key',autoIncrement: true});
+            if (devMode === true){console.log("[ DATABASE PROFIL] Creation du magasin " + settingStoreName);};
+
+            isNewSettingBdDRequired = true;
+        };
 
         // Creation du store pour les récompenses
         if (!db.objectStoreNames.contains(rewardsStoreName)) {
@@ -520,6 +529,16 @@ function onStartDataBase() {
             onExtractProfilFromDB();
         };
         
+
+        if (isNewSettingBdDRequired === true) {
+            // Creation d'un profil par defaut dans la base
+            if (devMode === true){console.log("[ DATABASE PROFIL] demande de création des paramètres par defaut");};
+            onCreateDefaultSettingInBase(defaultSetting);
+        }else{
+            // Lancement des éléments du profil
+            onExtractSettingFromDB();
+        };
+
         if (isNewRewardsBdDRequired === true) {
             // Creation d'un profil par defaut dans la base
             if (devMode === true){console.log("[ DATABASE REWARDS] demande de création d'un ARRAY par defaut");};
@@ -530,8 +549,6 @@ function onStartDataBase() {
         };
 
 
-        // Premiere remplissage de la base avec le formation de trie par défaut
-        onUpdateActivityBddList(false);
     };
 
 

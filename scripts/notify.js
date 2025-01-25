@@ -7,7 +7,8 @@ let notifyTextArray = {
     modification : "Activité modifiée !",
     saveprofil : "Profil sauvegardé !",
     exportSuccess : "Données exportées !",
-    importSuccess : "Données importées"
+    importSuccess : "Données importées",
+    saveSetting : "Paramètres modifiés !"
 };
 
 

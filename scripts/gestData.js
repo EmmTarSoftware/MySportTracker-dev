@@ -109,6 +109,8 @@ function importBdD(inputRef, pResultRef) {
 
                 // Commencer une transaction en lecture/écriture pour chaque store
                 storeNames.forEach(storeName => {
+                    baseStoreCount++;
+
                     if (jsonData[storeName]) {
                         const transaction = db.transaction([storeName], 'readwrite');
                         const objectStore = transaction.objectStore(storeName);
@@ -125,7 +127,9 @@ function importBdD(inputRef, pResultRef) {
 
                                 transaction.oncomplete = function () {
                                     console.log(`Imported ${storeName} to IndexedDB successfully.`);
-                                    baseStoreCount++;
+
+
+                                    // Lorsque toutes les transactions sont effectuée
                                     if (baseStoreCount === storeNames.length) {
                                         eventImportDataSucess(pResultRef);
                                     }
@@ -140,12 +144,16 @@ function importBdD(inputRef, pResultRef) {
                                 console.error(`${storeName} n'est pas un tableau valide.`);
                                 textResultRef.innerHTML = `Erreur dans le format des données pour ${storeName}.`;
                                 onSetLockGestDataButton(false);
+
+
                             }
                         };
                     } else {
                         console.error(`Le store ${storeName} est absent du fichier JSON.`);
-                        textResultRef.innerHTML = `Le store ${storeName} est absent du fichier JSON.`;
-                        onSetLockGestDataButton(false);
+                        // Lorsque toutes les transactions sont effectuée
+                        if (baseStoreCount === storeNames.length) {
+                            eventImportDataSucess(pResultRef);
+                        }
                     }
                 });
             } catch (error) {
@@ -167,6 +175,14 @@ function importBdD(inputRef, pResultRef) {
 
 
 
+// Action lors du succes d'un import
+function eventImportDataSucess(textResultRef) {
+    onDisplayTextDataBaseEvent(false);
+    onShowNotifyPopup(notifyTextArray.importSuccess);
+    setTimeout(() => {
+        location.reload();
+      }, "2000");
+}
 
 
 
@@ -230,8 +246,6 @@ function onDeleteBDD() {
     localStorage.removeItem(cookiesUserFavorisName);
     localStorage.removeItem(cookiesConditionUtilisation_keyName);
     localStorage.removeItem(cookiesDevModeName);
-    localStorage.removeItem(cookiesSettingCommentDoneMode_Name);
-    localStorage.removeItem(cookiesSettingCommentPlannedMode_Name);
 
 
     // La base de donnée
@@ -253,14 +267,6 @@ function onDeleteBDD() {
 
 
 
-// Action lors du succes d'un import
-function eventImportDataSucess(textResultRef) {
-    onDisplayTextDataBaseEvent(false);
-    onShowNotifyPopup(notifyTextArray.exportSuccess);
-    setTimeout(() => {
-        location.reload();
-      }, "2000");
-}
 
 
 // Verrouillage interraction utilisateur pendant les actions
