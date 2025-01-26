@@ -179,8 +179,21 @@ function onSetSettingFromOpeningAPP(settingExtracted) {
 
     // 
     if (userSetting.isAutoSaveEnabled) {
-        console.log("[SETTING] Autosave activité. Demande de vérification des conditions");
-        onCheckAutoSaveCondition();
+        console.log("[SETTING] Autosave activité.");
+
+        if (localStorage.getItem(cookiesFirstReloardImport_name) === "true") {
+            if (devMode === true){
+                console.log("[AUTOSAVE] Redémarrage venant d'un import. Pas d'autoSave. Demande actualisation de la liste d'activité");
+                console.log("[AUTOSAVE] Passage du cookie FirstReloardImport à : false");
+            };
+            localStorage.setItem(cookiesFirstReloardImport_name,false);
+            onUpdateActivityBddList(false);
+        }else{
+            if (devMode === true){console.log("[SETTING] Autosave activité. Demande de vérification des conditions");};
+            onCheckAutoSaveCondition();
+        }
+
+        
     }else{
         console.log("[SETTING] AutoSave non activé. Demande d'actualisation de la liste d'activité");
         // Premiere remplissage de la base avec le formation de trie par défaut

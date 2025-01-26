@@ -730,7 +730,7 @@ border-bottom: solid 1px #acacac;
 
 
 button.delete-data{
-    background-color: var(--colorMainTheme6);
+    background: var(--themeGradientPink);
     border: none;
     border-radius: 5px;
     padding: 10px;
@@ -785,7 +785,7 @@ div.confirmationDeleteBdD.show {
 
 
 button.deleteConfirmBdD{
-    background: var(--colorMainTheme6);
+    background: var(--themeGradientPink);
     margin-bottom: -200px;
     width: 70px;
     height: 70px;

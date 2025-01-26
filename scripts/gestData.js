@@ -45,14 +45,20 @@ function exportData(isAutoSave) {
 
             // Si tous les stores sont exportés, on les télécharge
             if (completedStores === storeNames.length) {
-                downloadJSON(allStoresData, `MSS_${exportDate}_${userInfo.pseudo}.json`);
-
+                
+                // Le nommage ne sera pas le même si sauvegarde automatique
                 if (isAutoSave) {
+                    downloadJSON(allStoresData, `MSS_AUTOSAVE_${exportDate}.json`);
                     if (devMode === true) {console.log("[AUTOSAVE] Fin de sauvegarde automatique. Lancement activité liste ");};
 
                     eventAutoSaveResult();
+
+                    // La sauvegarde automatique à lieu au lancement de l'application
+                    // Ensuite la liste d'activité est chargé. Ne pas retirer la fonction ci-desous
                     // Premiere remplissage de la base avec le formation de trie par défaut
                     onUpdateActivityBddList(false);
+                }else{
+                    downloadJSON(allStoresData, `MSS_${exportDate}_${userInfo.pseudo}.json`);
                 }
             }
         };
@@ -89,27 +95,55 @@ function downloadJSON(data, filename) {
 
 
 let cookiesLastSaveDate_name = "MSS_lastAutoSaveDate",
-lastAutoSaveDate = null;
+    lastAutoSaveDate;
 
 // Vérification de l'engeristrement du cookies DEV MODE en local storage
 function onCheckSaveDateInLocalStorage() {
     if (devMode === true) {console.log("[AUTOSAVE] vérification de l'existance du cookies lastSaveDate ");};
 
+    console.log(localStorage.getItem(cookiesLastSaveDate_name));
+
     if (localStorage.getItem(cookiesLastSaveDate_name) === null){
-        localStorage.setItem(cookiesLastSaveDate_name, null);
+        localStorage.setItem(cookiesLastSaveDate_name,"noSet");
         if (devMode === true) {console.log("[AUTOSAVE] Creation du cookies :  " + cookiesLastSaveDate_name);};
     }else{
         console.log("[AUTOSAVE] cookies existants, chargement dans la variable ");
-        lastAutoSaveDate = localStorage.getItem(cookiesLastSaveDate_name);
-        if (devMode === true) {console.log("[AUTOSAVE] date de la dernière sauvegarde : " + lastAutoSaveDate);};
     };
 
+    // set la variable selon le contenu du cookies
+    lastAutoSaveDate = localStorage.getItem(cookiesLastSaveDate_name);
+    if (devMode === true) {console.log("[AUTOSAVE] date de la dernière sauvegarde : " + lastAutoSaveDate);};
+
     // Set la checkbox selon la valeur de devMode
-    document.getElementById("pSettingLastAutoSaveDate").innerHTML = lastAutoSaveDate === "null" ? "Date inconnue" : onFormatDateToFr(lastAutoSaveDate);
+    document.getElementById("pSettingLastAutoSaveDate").innerHTML = lastAutoSaveDate === "noSet" ? "Date inconnue" : onFormatDateToFr(lastAutoSaveDate);
 
 };
 
 onCheckSaveDateInLocalStorage();
+
+
+
+
+//Protection autosave pour inutile  
+//pour savoir si le rechargement est du à un import 
+// Si c'est le cas, empeche la sauvegarde automatique si activée à ce moment
+//lors de l'import, cette element sera à true. et au redémarre, après le controle il repassera à false.
+let cookiesFirstReloardImport_name = "MSS_FirstReloadAfterImport";
+
+function onCheckCookiesFirstReloardImport() {
+    
+    // Creation du cookie s'il n'existe pas
+    if (localStorage.getItem(cookiesFirstReloardImport_name) === null){
+        localStorage.setItem(cookiesFirstReloardImport_name,false);
+        if (devMode === true) {console.log("[AUTOSAVE] Creation du cookies :  " + cookiesFirstReloardImport_name);};
+    }
+
+}
+
+onCheckCookiesFirstReloardImport();
+
+
+
 
 
 
@@ -121,9 +155,9 @@ function onCheckAutoSaveCondition() {
     let isSaveRequired = false;
 
     // Si cookies last date est vide = AutoSAVE
-    if (lastAutoSaveDate === "null") {
+    if (lastAutoSaveDate === "noSet") {
         // Lancement fonction autoSave
-        if (devMode === true) {console.log("[AUTOSAVE] date en cookie null demande de sauvegarde");};
+        if (devMode === true) {console.log("[AUTOSAVE] date en cookie noSet demande de sauvegarde");};
         exportData(true);
     }else{
         // sinon controle l'intervalle entre date du jour et date derniere sauvegarde
@@ -300,6 +334,10 @@ function importBdD(inputRef, pResultRef) {
 
 // Action lors du succes d'un import
 function eventImportDataSucess(textResultRef) {
+
+    // set le cookies d'information d'import pour éviter une export lors du redémarrage
+    localStorage.setItem(cookiesFirstReloardImport_name,true);
+
     onDisplayTextDataBaseEvent(false);
     onShowNotifyPopup(notifyTextArray.importSuccess);
     setTimeout(() => {
@@ -371,6 +409,7 @@ function onDeleteBDD() {
     localStorage.removeItem(cookiesDevModeName);
     localStorage.removeItem(cookiesLastSaveDate_name);
     localStorage.removeItem(cookiesBddVersion_KeyName);
+    localStorage.removeItem(cookiesFirstReloardImport_name);
     localStorage.removeItem('MSS_notifyPermission');
     // La base de donnée
     let requestDelete = indexedDB.deleteDatabase(dbName);
