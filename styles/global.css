@@ -721,6 +721,14 @@ p.settingAlert{
     padding-left: 10px;
 }
 
+
+p.settingAlertComment{
+    margin-left: 10px;
+    padding-left: 10px;
+    font-size: 0.8rem;
+    color: #909090;
+}
+
 span.settingSeparator{
 width: calc(100% - 20px);
 margin-left: 10px; margin-top: 20px;
@@ -1386,7 +1394,6 @@ input.fieldRequired{
     border : solid 2px var(--colorMainTheme6);
     border-radius: 5px;
 }
-
 
 
 

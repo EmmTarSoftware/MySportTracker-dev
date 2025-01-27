@@ -64,6 +64,8 @@ let defaultSetting = {
     displayCommentDoneMode : "Collapse",
     displayCommentPlannedMode : "Collapse",
     isAutoSaveEnabled : false,
+    lastAutoSaveDate : "noSet",
+    lastManualSaveDate : "noSet",
     autoSaveFrequency : 7
 };
 
@@ -177,23 +179,16 @@ function onSetSettingFromOpeningAPP(settingExtracted) {
     currentCommentPlannedClassName = onSearchCommentClassNameByMode(userSetting.displayCommentPlannedMode);
 
 
+    // Set la date de la dernière sauvegarde auto
+    document.getElementById("pSettingLastAutoSaveDate").innerHTML = userSetting.lastAutoSaveDate === "noSet" ? "Dernière sauvegarde automatique : inconnue" : `Dernière sauvegarde automatique : ${onFormatDateToFr(userSetting.lastAutoSaveDate)}`;
+    //Set la date de la dernière sauvegarde manuelle
+    document.getElementById("pGestDataLastExportDate").innerHTML = userSetting.lastManualSaveDate === "noSet" ? "Dernier export : inconnu" : `Dernier export : ${onFormatDateToFr(userSetting.lastManualSaveDate)}`;
+
     // 
     if (userSetting.isAutoSaveEnabled) {
-        console.log("[SETTING] Autosave activité.");
-
-        if (localStorage.getItem(cookiesFirstReloardImport_name) === "true") {
-            if (devMode === true){
-                console.log("[AUTOSAVE] Redémarrage venant d'un import. Pas d'autoSave. Demande actualisation de la liste d'activité");
-                console.log("[AUTOSAVE] Passage du cookie FirstReloardImport à : false");
-            };
-            localStorage.setItem(cookiesFirstReloardImport_name,false);
-            onUpdateActivityBddList(false);
-        }else{
-            if (devMode === true){console.log("[SETTING] Autosave activité. Demande de vérification des conditions");};
-            onCheckAutoSaveCondition();
-        }
-
-        
+        console.log("[SETTING] Autosave activée.");
+        if (devMode === true){console.log("[SETTING] Autosave activité. Demande de vérification des conditions");};
+        onCheckAutoSaveCondition();
     }else{
         console.log("[SETTING] AutoSave non activé. Demande d'actualisation de la liste d'activité");
         // Premiere remplissage de la base avec le formation de trie par défaut

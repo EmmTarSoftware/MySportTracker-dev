@@ -153,12 +153,17 @@
         <!-- Exporter des donnes -->
         <p>
             <label class="labelSetting" for="fileInputJsonTask">Exporter ses données :</label>
-            
         </p>
-        <div class="btn-import-export">
-            <button class="btn-menu-setting" onclick="exportData(false)" id="btnExportBdD"><img src="./Icons/Icon-Download.webp" alt="Icone"></button>
+        <div>
+            <p id="pGestDataLastExportDate" class="settingAlertComment">
+                <!-- Injection -->
+            </p> 
         </div>
 
+
+        <div class="btn-import-export">
+            <button class="btn-menu-setting" onclick="eventSaveData(false)" id="btnExportBdD"><img src="./Icons/Icon-Download.webp" alt="Icone"></button>
+        </div>
 
          <!-- Import des données -->
          <p>
@@ -248,14 +253,11 @@
             <input id="inputSettingIsAutoSave" type="checkbox"">
         </p>
         <p>
-            <span class="spanCheckbox">Tous les (en jours): </span>
+            <span class="spanCheckbox">Fréquence (en jours) : </span>
             <input id="inputSettingSaveFrequency" type="number" value="7" max="30" onchange="onDataInSettingSaveFrequencyChange()">
         </p>
-        <p>
-            <label for="">Dernière sauvegarde automatique :</label>
-        </p>
         <div>
-            <p id="pSettingLastAutoSaveDate" class="settingAlert">
+            <p id="pSettingLastAutoSaveDate" class="settingAlertComment">
                 <!-- Injection -->
             </p> 
         </div>
@@ -281,7 +283,7 @@
             <p>
                 <label for="">Mode LOG développeur : </label>
             </p>
-            <p class="settingAlert">
+            <p class="settingAlertComment">
                 ⚠️Impact sur les performances !
             </p>
         </div>
@@ -442,7 +444,7 @@
         <div class="release-licence">
             <p class="release-licence">Une application pour gérer vos activités sportives.</p>
             <p class="release-licence">Optimisée pour Google Chrome.</p>
-            <p class="release-licence"><strong>Version :</strong>  1.4.23</p>
+            <p class="release-licence"><strong>Version :</strong>  1.4.24</p>
             <p class="release-licence"><strong>Développement/Conception :</strong> Emmanuel TARACONAT.</p>
             <p class="release-licence"><strong>Collaboration :</strong> Morgane C.</p>
             <p class="release-licence"><strong>Licence :</strong><a href="https://creativecommons.org/licenses/by-nc/4.0/"  target="_blank">CC BY-NC 4.0</a>.</p>

@@ -9,19 +9,73 @@ function onOpenMenuGestData() {
 
 // ---------------------     EXPORT -------------------------------------
 
-
-
-
-
-
+//Lors d'un export manual ou auto
+// Step 1 sauvegarde de la date du jour dans setting
+//Step 2 lancement de export
 
 // La date du jour pour l'export
 let exportDate;
 
-// Fonction pour exporter tous les stores de la base de données
-function exportData(isAutoSave) {
+
+function eventSaveData(isAutoSave) {
+
+    // Sauvegarde la date dans setting
     // Set la date du jour
     exportDate = onFindDateTodayUS();
+
+    if (devMode === true){
+        console.log("[SAVE] Demande d'export des données");
+        console.log("[SAVE] demande automatique ? : " + isAutoSave);
+        console.log("[SAVE] sauvegarde de la date dans les setting");
+    };
+
+    let transaction = db.transaction(settingStoreName,"readwrite");
+    let store = transaction.objectStore(settingStoreName);
+    let modifyRequest = store.getAll(IDBKeyRange.only(1));
+
+    modifyRequest.onsuccess = function () {
+        if (devMode === true){console.log("modifyRequest = success");};
+
+        let modifiedData = modifyRequest.result[0];
+
+        if (isAutoSave) {
+            modifiedData.lastAutoSaveDate = exportDate;
+        }else{
+            modifiedData.lastManualSaveDate = exportDate;
+        }
+
+        let insertModifiedData = store.put(modifiedData);
+
+        insertModifiedData.onsuccess = function (){
+            if (devMode === true){console.log("[ DATABASE SAVE] insert ModifiedData = success");};
+
+        };
+
+        insertModifiedData.onerror = function (){
+            if (devMode === true){console.log("[ DATABASE SAVE] insert ModifiedData = error",insertModifiedData.error); };
+        };
+    };
+
+    modifyRequest.onerror = function(){
+        if (devMode === true){console.log("[ DATABASE SAVE] ModifyRequest = error");};
+    };
+
+    transaction.oncomplete = function(){
+        if (devMode === true){console.log("[ DATABASE SAVE] Transaction insertion modification setting complété !");};
+
+
+        // suite à enregistrement de la date, export des données
+        exportData(isAutoSave);
+    };
+}
+
+
+
+
+
+// Fonction pour exporter tous les stores de la base de données
+function exportData(isAutoSave) {
+    
 
     console.log("Demande d'exportation des données");
 
@@ -51,7 +105,7 @@ function exportData(isAutoSave) {
                     downloadJSON(allStoresData, `MSS_AUTOSAVE_${exportDate}.json`);
                     if (devMode === true) {console.log("[AUTOSAVE] Fin de sauvegarde automatique. Lancement activité liste ");};
 
-                    eventAutoSaveResult();
+                    eventSaveResult(isAutoSave);
 
                     // La sauvegarde automatique à lieu au lancement de l'application
                     // Ensuite la liste d'activité est chargé. Ne pas retirer la fonction ci-desous
@@ -59,6 +113,7 @@ function exportData(isAutoSave) {
                     onUpdateActivityBddList(false);
                 }else{
                     downloadJSON(allStoresData, `MSS_${exportDate}_${userInfo.pseudo}.json`);
+                    eventSaveResult(isAutoSave);
                 }
             }
         };
@@ -94,58 +149,6 @@ function downloadJSON(data, filename) {
 
 
 
-let cookiesLastSaveDate_name = "MSS_lastAutoSaveDate",
-    lastAutoSaveDate;
-
-// Vérification de l'engeristrement du cookies DEV MODE en local storage
-function onCheckSaveDateInLocalStorage() {
-    if (devMode === true) {console.log("[AUTOSAVE] vérification de l'existance du cookies lastSaveDate ");};
-
-    console.log(localStorage.getItem(cookiesLastSaveDate_name));
-
-    if (localStorage.getItem(cookiesLastSaveDate_name) === null){
-        localStorage.setItem(cookiesLastSaveDate_name,"noSet");
-        if (devMode === true) {console.log("[AUTOSAVE] Creation du cookies :  " + cookiesLastSaveDate_name);};
-    }else{
-        console.log("[AUTOSAVE] cookies existants, chargement dans la variable ");
-    };
-
-    // set la variable selon le contenu du cookies
-    lastAutoSaveDate = localStorage.getItem(cookiesLastSaveDate_name);
-    if (devMode === true) {console.log("[AUTOSAVE] date de la dernière sauvegarde : " + lastAutoSaveDate);};
-
-    // Set la checkbox selon la valeur de devMode
-    document.getElementById("pSettingLastAutoSaveDate").innerHTML = lastAutoSaveDate === "noSet" ? "Date inconnue" : onFormatDateToFr(lastAutoSaveDate);
-
-};
-
-onCheckSaveDateInLocalStorage();
-
-
-
-
-//Protection autosave pour inutile  
-//pour savoir si le rechargement est du à un import 
-// Si c'est le cas, empeche la sauvegarde automatique si activée à ce moment
-//lors de l'import, cette element sera à true. et au redémarre, après le controle il repassera à false.
-let cookiesFirstReloardImport_name = "MSS_FirstReloadAfterImport";
-
-function onCheckCookiesFirstReloardImport() {
-    
-    // Creation du cookie s'il n'existe pas
-    if (localStorage.getItem(cookiesFirstReloardImport_name) === null){
-        localStorage.setItem(cookiesFirstReloardImport_name,false);
-        if (devMode === true) {console.log("[AUTOSAVE] Creation du cookies :  " + cookiesFirstReloardImport_name);};
-    }
-
-}
-
-onCheckCookiesFirstReloardImport();
-
-
-
-
-
 
 // Verification condition autosave
 function onCheckAutoSaveCondition() {
@@ -155,23 +158,23 @@ function onCheckAutoSaveCondition() {
     let isSaveRequired = false;
 
     // Si cookies last date est vide = AutoSAVE
-    if (lastAutoSaveDate === "noSet") {
+    if (userSetting.lastAutoSaveDate === "noSet") {
         // Lancement fonction autoSave
-        if (devMode === true) {console.log("[AUTOSAVE] date en cookie noSet demande de sauvegarde");};
-        exportData(true);
+        if (devMode === true) {console.log("[AUTOSAVE] date dans userSetting noSet demande de sauvegarde");};
+        eventSaveData(true);
     }else{
         // sinon controle l'intervalle entre date du jour et date derniere sauvegarde
 
-        isSaveRequired = compareDateAutoSave(lastAutoSaveDate,userSetting.autoSaveFrequency);
+        isSaveRequired = compareDateAutoSave(userSetting.lastAutoSaveDate,userSetting.autoSaveFrequency);
 
         if (devMode === true) {
-            console.log("[AUTOSAVE] Date derniere sauvegarde existante en cookies");
+            console.log("[AUTOSAVE] Date derniere sauvegarde existante dans userSETTING");
         };
 
 
         if (isSaveRequired) {
             if (devMode === true) {console.log("[AUTOSAVE] date plus valide. Demande de sauvegarde");};
-            exportData(true);
+            eventSaveData(true);
         }else{
             if (devMode === true) {console.log("[AUTOSAVE] date encore valide. Pas de sauvegarde");};
             // Premiere remplissage de la base avec le formation de trie par défaut
@@ -216,21 +219,20 @@ function compareDateAutoSave(lastDateSave, frequency) {
 
 
 
-function eventAutoSaveResult(){
-    if (devMode === true) {console.log("[AUTOSAVE] Fin de sauvegarde, actualisation des éléments");};
+function eventSaveResult(isAutoSave){
+    if (devMode === true) {console.log("[AUTOSAVE] Fin de sauvegarde, actualisation set la date au bon emplacement");};
 
-    // récupère la date du jours
-    const today = new Date();
-    const formattedDate = today.toISOString().split('T')[0]; // Format YYYY-MM-DD
+    if (isAutoSave) {
+        // Mise à jour du texte et de la variable userSetting ici
+        userSetting.lastAutoSaveDate = exportDate;
+        document.getElementById("pSettingLastAutoSaveDate").innerHTML = `Dernière sauvegarde automatique : ${onFormatDateToFr(userSetting.lastAutoSaveDate)}`;
+    }else{
+        // Mise à jour du texte et de la variable userSetting ici
+        userSetting.lastManualSaveDate = exportDate;
+        document.getElementById("pGestDataLastExportDate").innerHTML = `Dernier export : ${onFormatDateToFr(userSetting.lastManualSaveDate)}`;
+    }
 
-
-    //Mise a jour du cookie et variable
-    localStorage.setItem(cookiesLastSaveDate_name, formattedDate);
-    lastAutoSaveDate = formattedDate;
-
-    //Mise à jour du texte :
-    document.getElementById("pSettingLastAutoSaveDate").innerHTML = onFormatDateToFr(lastAutoSaveDate);
-
+    console.log(userSetting);
 };
 
 
@@ -333,10 +335,7 @@ function importBdD(inputRef, pResultRef) {
 
 
 // Action lors du succes d'un import
-function eventImportDataSucess(textResultRef) {
-
-    // set le cookies d'information d'import pour éviter une export lors du redémarrage
-    localStorage.setItem(cookiesFirstReloardImport_name,true);
+function eventImportDataSucess() {
 
     onDisplayTextDataBaseEvent(false);
     onShowNotifyPopup(notifyTextArray.importSuccess);
@@ -407,9 +406,7 @@ function onDeleteBDD() {
     localStorage.removeItem(cookiesUserFavorisName);
     localStorage.removeItem(cookiesConditionUtilisation_keyName);
     localStorage.removeItem(cookiesDevModeName);
-    localStorage.removeItem(cookiesLastSaveDate_name);
     localStorage.removeItem(cookiesBddVersion_KeyName);
-    localStorage.removeItem(cookiesFirstReloardImport_name);
     localStorage.removeItem('MSS_notifyPermission');
     // La base de donnée
     let requestDelete = indexedDB.deleteDatabase(dbName);
