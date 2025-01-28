@@ -225,11 +225,11 @@ function eventSaveResult(isAutoSave){
     if (isAutoSave) {
         // Mise à jour du texte et de la variable userSetting ici
         userSetting.lastAutoSaveDate = exportDate;
-        document.getElementById("pSettingLastAutoSaveDate").innerHTML = `Dernière sauvegarde automatique : ${onFormatDateToFr(userSetting.lastAutoSaveDate)}`;
+        document.getElementById("pSettingLastAutoSaveDate").innerHTML = onFormatDateToFr(userSetting.lastAutoSaveDate);
     }else{
         // Mise à jour du texte et de la variable userSetting ici
         userSetting.lastManualSaveDate = exportDate;
-        document.getElementById("pGestDataLastExportDate").innerHTML = `Dernier export : ${onFormatDateToFr(userSetting.lastManualSaveDate)}`;
+        document.getElementById("pGestDataLastExportDate").innerHTML = `Date dernier export : ${onFormatDateToFr(userSetting.lastManualSaveDate)}`;
     }
 
     console.log(userSetting);

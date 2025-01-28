@@ -7,14 +7,6 @@
     <link rel="stylesheet" href="./styles/global.css">
     <link rel="manifest" href="manifest.json">
     <title>Mon Suivi Sportif</title>
-
-    <script>
-        window.addEventListener('load',()=>{
-            if ("serviceWorker" in navigator){
-                navigator.serviceWorker.register('service-worker.js');
-            }
-        })
-    </script>
 </head>
 <body>
 
@@ -155,7 +147,7 @@
             <label class="labelSetting" for="fileInputJsonTask">Exporter ses données :</label>
         </p>
         <div>
-            <p id="pGestDataLastExportDate" class="settingAlertComment">
+            <p id="pGestDataLastExportDate" class="settingAlert">
                 <!-- Injection -->
             </p> 
         </div>
@@ -246,7 +238,7 @@
 
         <!-- TRAVAIL AUTO SAVE -->
         <span class="settingSeparator"></span>
-        <H3 class="settingCategorie">Sauvegarde automatique</H3>
+        <H3 class="settingCategorie">Export automatique</H3>
 
         <p>
             <span class="spanCheckbox">Activation : </span>
@@ -256,10 +248,15 @@
             <span class="spanCheckbox">Fréquence (en jours) : </span>
             <input id="inputSettingSaveFrequency" type="number" value="7" max="30" onchange="onDataInSettingSaveFrequencyChange()">
         </p>
+        <span class="spanCheckbox">Dernier export auto : </span>
         <div>
-            <p id="pSettingLastAutoSaveDate" class="settingAlertComment">
+            <p id="pSettingLastAutoSaveDate" class="settingAlert">
                 <!-- Injection -->
-            </p> 
+            </p>
+        </div>
+
+        <div class="setting-align-center""> 
+            <p class="settingAlertComment">ℹ️ Sauvegarde effectuée au lancement de l'application.</p>
         </div>
        
 
@@ -283,14 +280,16 @@
             <p>
                 <label for="">Mode LOG développeur : </label>
             </p>
+        </div>
+ 
+        <div class="setting-align-center">
+            <input type="checkbox" id="inputCheckboxDevMode" onchange="onChangeDevModeStatus(this)">
+        </div>
+        <div class="setting-align-center">
             <p class="settingAlertComment">
                 ⚠️Impact sur les performances !
             </p>
         </div>
-        <div class="setting-align-center">
-            <input type="checkbox" id="inputCheckboxDevMode" onchange="onChangeDevModeStatus(this)">
-        </div>
-
 
     </div>
 
@@ -444,10 +443,12 @@
         <div class="release-licence">
             <p class="release-licence">Une application pour gérer vos activités sportives.</p>
             <p class="release-licence">Optimisée pour Google Chrome.</p>
-            <p class="release-licence"><strong>Version :</strong>  1.4.24</p>
+            <p class="release-licence"><strong>Version :</strong>  1.4.25</p>
             <p class="release-licence"><strong>Développement/Conception :</strong> Emmanuel TARACONAT.</p>
             <p class="release-licence"><strong>Collaboration :</strong> Morgane C.</p>
             <p class="release-licence"><strong>Licence :</strong><a href="https://creativecommons.org/licenses/by-nc/4.0/"  target="_blank">CC BY-NC 4.0</a>.</p>
+            <p class="release-licence"><strong>Icônes :</strong> créées par Freepik, Smashicons, Icongeek26, Vectorslab, afif fudin, 
+                alkhalifi design, Mayor Icons, juicy_fish, Google, disponibles sur <a href="https://www.flaticon.com/" target="_blank">Flaticon.</a></p>
             <p class="release-licence"> © 2025 - TARA LAB - Tous droits réservés.</p>    
         </div>
     </div>
@@ -535,13 +536,13 @@
     <!-- ----------------------------------  FIN   DIV CONDITION ACCEPTATION    ------------------------------------------------>
 
 
-    <!-- ----------------------------------      DIV POPUP NOTIFY      ------------------------------------------------>
+    <!-- ----------------------------------      DIV POPUP NOTIFY     ------------------------------------------------>
     <div id="popupNotify" class="popupNotify">Activité supprimée !</div>
     <div id="popupReward" class="popupReward">
         <img src="./Icons/notifyRewardsColor192.png" alt="" srcset="">
     </div>
 
-    <!-- ----------------------------------  FIN   DIV POPUP NOTIFY     ------------------------------------------------>
+    <!-- ----------------------------------  FIN   DIV POPUP NOTIFY   ------------------------------------------------>
 
     <!------------------------------------- DIV Main Menu ------------------------------------------------------>
     <button class="btnFlottant" onclick="onChangeMenu('NewActivity')" id="btnNewActivity"><img src="./Icons/Icon-New.webp" alt="Icone"></button>
@@ -578,5 +579,28 @@
     <script src="./scripts/rewards.js"></script>
     <script src="./scripts/gestData.js"></script>
     <script src="./scripts/app.js"></script>
+
+    <!-- ENREGISTREMENT DU SERVICE WORKER -->
+    <script>
+        if ('serviceWorker' in navigator) {
+          // Enregistrement du service worker
+          window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/service-worker.js').then((registration) => {
+              console.log('Service Worker enregistré avec succès :', registration);
+            }).catch((error) => {
+              console.error('Échec de l\'enregistrement du Service Worker :', error);
+            });
+          });
+  
+          // Gestion des messages envoyés par le Service Worker
+          navigator.serviceWorker.addEventListener("message", (event) => {
+            if (event.data.type === "UPDATE_READY") {
+              alert(`Une nouvelle version est disponible pour ${event.data.url}. Rechargez la page pour en profiter.`);
+            }
+          });
+        } else {
+          console.warn('Service Worker non pris en charge par ce navigateur.');
+        }
+    </script>
 </body>
 </html>

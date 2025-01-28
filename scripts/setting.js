@@ -180,9 +180,9 @@ function onSetSettingFromOpeningAPP(settingExtracted) {
 
 
     // Set la date de la dernière sauvegarde auto
-    document.getElementById("pSettingLastAutoSaveDate").innerHTML = userSetting.lastAutoSaveDate === "noSet" ? "Dernière sauvegarde automatique : inconnue" : `Dernière sauvegarde automatique : ${onFormatDateToFr(userSetting.lastAutoSaveDate)}`;
+    document.getElementById("pSettingLastAutoSaveDate").innerHTML = userSetting.lastAutoSaveDate === "noSet" ? "Date Indisponible." : onFormatDateToFr(userSetting.lastAutoSaveDate);
     //Set la date de la dernière sauvegarde manuelle
-    document.getElementById("pGestDataLastExportDate").innerHTML = userSetting.lastManualSaveDate === "noSet" ? "Dernier export : inconnu" : `Dernier export : ${onFormatDateToFr(userSetting.lastManualSaveDate)}`;
+    document.getElementById("pGestDataLastExportDate").innerHTML = userSetting.lastManualSaveDate === "noSet" ? "Date dernier export : Indisponible." : `Date dernier export : ${onFormatDateToFr(userSetting.lastManualSaveDate)}`;
 
     // 
     if (userSetting.isAutoSaveEnabled) {

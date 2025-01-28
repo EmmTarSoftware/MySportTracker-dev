@@ -1079,10 +1079,9 @@ select.graph-stat{
 
 
 .popupReward {
-    width: 100px;
+    width: 60px;
     /* height: 5px; */
     padding: 5px;
-    background: var(--themeGradientBlue);
     color: white;
     text-align: center;
     font-weight: bold;

@@ -5,11 +5,10 @@ const basePath = serviceWorkerUrl.replace(/service-worker\.js$/, '');
 console.log(`[SERVICE WORKER] : BasePath = ${basePath}`);
 
 // Nom de la version du cache
-const CACHE_VERSION = "V31";
+const CACHE_VERSION = "V32";
 const STATIC_CACHE = `static-${CACHE_VERSION}`;
 
-
-// Les js et css
+// Les js et css (fichiers critiques)
 const ASSETS = [
   `${basePath}styles/global.css`,
   `${basePath}scripts/globalFunction.js`,
@@ -27,17 +26,13 @@ const ASSETS = [
   `${basePath}scripts/rewards.js`
 ];
 
-
-// Fichiers à mettre en cache
+// Fichiers statiques
 const STATIC_FILES = [
   `${basePath}offline.html`,
   `${basePath}Icons/Icon-No-Network.webp` // image pour l'état hors ligne
 ];
 
-// Liste des fichiers explicites pour les trois dossiers
-
-// Ici ne pas mettre le fichier Icon-No-Network car déjà dans STATIC_FILES
-// Pas de doublon
+// Images et ressources non critiques
 const ICONS = [
   `${basePath}Icons/Icon-Accepter.webp`,
   `${basePath}Icons/Icon-Autres.webp`,
@@ -66,7 +61,7 @@ const ICONS = [
 ];
 
 const IMAGES = [
-  `${basePath}images/icon-art-martiaux.webp`,
+   `${basePath}images/icon-art-martiaux.webp`,
   `${basePath}images/icon-autre-divers.webp`,
   `${basePath}images/icon-badminton.webp`,
   `${basePath}images/icon-baseball.webp`,
@@ -105,7 +100,7 @@ const IMAGES = [
 ];
 
 const BADGES = [
-  `${basePath}Badges/Badge-1-an.webp`,
+ `${basePath}Badges/Badge-1-an.webp`,
   `${basePath}Badges/Badge-ACTIVITE-100.webp`,
   `${basePath}Badges/BADGE-ACTIVITE-FIRST.webp`,
   `${basePath}Badges/Badge-ACTIVITE-NAUTIQUE-A.webp`,
@@ -258,13 +253,10 @@ const BADGES = [
   `${basePath}Badges/Badge-YOGA-D.webp`
 ];
 
-
-
-// Combiner toutes les ressources dans un seul tableau et dédupliquer
-//Ajout de Set pour s'assurer qu'aucune URL dupliquée ne soit incluse dans ALL_FILES_TO_CACHE
+// Combiner toutes les ressources à mettre en cache et supprimer les doublons
 const ALL_FILES_TO_CACHE = [...new Set([...STATIC_FILES, ...ICONS, ...IMAGES, ...BADGES, ...ASSETS])];
 
-// Évènement d'installation
+// Événement d'installation
 self.addEventListener("install", (event) => {
   console.log(`[SERVICE WORKER] : ${CACHE_VERSION} Installation`);
 
@@ -277,7 +269,7 @@ self.addEventListener("install", (event) => {
   );
 });
 
-// Évènement d'activation
+// Événement d'activation
 self.addEventListener("activate", (event) => {
   console.log(`[SERVICE WORKER] : Activation`);
 
@@ -287,7 +279,7 @@ self.addEventListener("activate", (event) => {
       await Promise.all(
         keys.map((key) => {
           if (key !== STATIC_CACHE) {
-            console.log(`[SERVICE WORKER] : ${CACHE_VERSION} Suppression de l'ancien cache ${key}`);
+            console.log(`[SERVICE WORKER] : Suppression de l'ancien cache ${key}`);
             return caches.delete(key);
           }
         })
@@ -295,58 +287,80 @@ self.addEventListener("activate", (event) => {
     })()
   );
 
-  self.clients.claim(); // Contrôler immédiatement les pages
+  self.clients.claim(); // Prendre le contrôle des pages immédiatement
 });
 
+// Événement de récupération des ressources
+self.addEventListener("fetch", (event) => {
+  console.log(`[SERVICE WORKER] : Interception de ${event.request.url}`);
 
+  const requestUrl = new URL(event.request.url);
 
-// Action lorsque l'utilisateur clique sur la notification (actuellement ferme la notification)
-self.addEventListener('notificationclick', event => {
+  // Vérifie si la ressource fait partie des fichiers critiques
+  if (ASSETS.includes(requestUrl.href)) {
+    // Stratégie "Network first" pour les fichiers critiques (CSS/JS)
+    event.respondWith(
+      fetch(event.request)
+        .then((networkResponse) => {
+          caches.open(STATIC_CACHE).then((cache) => {
+            cache.put(event.request, networkResponse.clone());
+          });
+          return networkResponse;
+        })
+        .catch(() => caches.match(event.request)) // Si le réseau échoue, utiliser le cache
+    );
+    return;
+  }
+
+  // Stratégie "Cache first" pour les autres fichiers
+  event.respondWith(
+    caches.match(event.request).then((cachedResponse) => {
+      return (
+        cachedResponse ||
+        fetch(event.request).then((networkResponse) => {
+          caches.open(STATIC_CACHE).then((cache) => {
+            cache.put(event.request, networkResponse.clone());
+          });
+          return networkResponse;
+        })
+      );
+    })
+  );
+});
+
+// Notification lors d'une mise à jour
+self.addEventListener("fetch", (event) => {
+  if (event.request.mode === "navigate") {
+    event.respondWith(
+      caches.match(event.request).then((cachedResponse) => {
+        const fetchPromise = fetch(event.request).then((networkResponse) => {
+          if (networkResponse.status === 200) {
+            caches.open(STATIC_CACHE).then((cache) => {
+              cache.put(event.request, networkResponse.clone());
+            });
+
+            // Notifier les clients de la mise à jour
+            self.clients.matchAll().then((clients) => {
+              clients.forEach((client) => {
+                client.postMessage({
+                  type: "UPDATE_READY",
+                  url: event.request.url,
+                });
+              });
+            });
+          }
+          return networkResponse;
+        });
+
+        return cachedResponse || fetchPromise;
+      })
+    );
+  }
+});
+
+// Gérer les clics sur les notifications
+self.addEventListener("notificationclick", (event) => {
   event.notification.close();
   console.log('Notification cliquée.');
 });
 
-
-
-// Verification des ressources lors des demandes
-self.addEventListener("fetch", (event) => {
-  console.log(`[SERVICE WORKER] : ${CACHE_VERSION} Interception de ${event.request.url}`);
-
-  event.respondWith(
-    (async () => {
-      const cache = await caches.open(STATIC_CACHE);
-      const cachedResponse = await cache.match(event.request);
-
-      // Si la ressource est en cache, retourne-la immédiatement
-      if (cachedResponse) {
-        // Retourner la réponse en cache immédiatement, tout en récupérant une nouvelle version en arrière-plan
-        const fetchPromise = fetch(event.request).then((networkResponse) => {
-          // Mettre à jour le cache en arrière-plan avec la nouvelle version de la ressource
-          cache.put(event.request, networkResponse.clone());
-          return networkResponse;
-        }).catch(() => {
-          // Si une erreur de réseau survient, retourner la page offline.html si elle est dans le cache
-          return cache.match(`${basePath}offline.html`);
-        });
-
-        // Retourner la réponse en cache immédiatement et récupérer une nouvelle version en arrière-plan
-        return cachedResponse || fetchPromise;
-      }
-
-      // Si la ressource n'est pas dans le cache et qu'il n'y a pas de réseau, retourner offline.html
-      try {
-        const networkResponse = await fetch(event.request);
-        // Si la requête réseau réussit, on met à jour le cache
-        cache.put(event.request, networkResponse.clone());
-        return networkResponse;
-      } catch (error) {
-        console.log(`[SERVICE WORKER] : ${CACHE_VERSION} Erreur réseau pour ${event.request.url}`);
-        // En cas d'échec, retourner la page offline.html
-
-        console.log(`[SERVICE WORKER] : ${CACHE_VERSION} Renvoie la page offline.html`);
-
-        return cache.match(`${basePath}offline.html`);
-      }
-    })()
-  );
-});
