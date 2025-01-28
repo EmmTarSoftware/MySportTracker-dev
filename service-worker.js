@@ -5,12 +5,12 @@ const basePath = serviceWorkerUrl.replace(/service-worker\.js$/, '');
 console.log(`[SERVICE WORKER] : BasePath = ${basePath}`);
 
 // Nom de la version du cache
-const CACHE_VERSION = "V32";
+const CACHE_VERSION = "V33"; // Incrémente la version à chaque mise à jour
 const STATIC_CACHE = `static-${CACHE_VERSION}`;
 
-// Les js et css (fichiers critiques)
-const ASSETS = [
-  `${basePath}styles/global.css`,
+// Les js et css (fichiers critiques : Network First)
+const CRITICAL_ASSETS = [
+   `${basePath}styles/global.css`,
   `${basePath}scripts/globalFunction.js`,
   `${basePath}scripts/activitySystem.js`,
   `${basePath}scripts/app.js`,
@@ -26,13 +26,13 @@ const ASSETS = [
   `${basePath}scripts/rewards.js`
 ];
 
-// Fichiers statiques
+// Fichiers à mettre en cache (non critiques : Cache First)
 const STATIC_FILES = [
   `${basePath}offline.html`,
   `${basePath}Icons/Icon-No-Network.webp` // image pour l'état hors ligne
 ];
 
-// Images et ressources non critiques
+// Liste des fichiers explicites pour les trois dossiers
 const ICONS = [
   `${basePath}Icons/Icon-Accepter.webp`,
   `${basePath}Icons/Icon-Autres.webp`,
@@ -61,7 +61,7 @@ const ICONS = [
 ];
 
 const IMAGES = [
-   `${basePath}images/icon-art-martiaux.webp`,
+  `${basePath}images/icon-art-martiaux.webp`,
   `${basePath}images/icon-autre-divers.webp`,
   `${basePath}images/icon-badminton.webp`,
   `${basePath}images/icon-baseball.webp`,
@@ -100,7 +100,7 @@ const IMAGES = [
 ];
 
 const BADGES = [
- `${basePath}Badges/Badge-1-an.webp`,
+   `${basePath}Badges/Badge-1-an.webp`,
   `${basePath}Badges/Badge-ACTIVITE-100.webp`,
   `${basePath}Badges/BADGE-ACTIVITE-FIRST.webp`,
   `${basePath}Badges/Badge-ACTIVITE-NAUTIQUE-A.webp`,
@@ -253,10 +253,10 @@ const BADGES = [
   `${basePath}Badges/Badge-YOGA-D.webp`
 ];
 
-// Combiner toutes les ressources à mettre en cache et supprimer les doublons
-const ALL_FILES_TO_CACHE = [...new Set([...STATIC_FILES, ...ICONS, ...IMAGES, ...BADGES, ...ASSETS])];
+// Combiner toutes les ressources dans un seul tableau et dédupliquer
+const ALL_FILES_TO_CACHE = [...new Set([...STATIC_FILES, ...ICONS, ...IMAGES, ...BADGES])];
 
-// Événement d'installation
+// Évènement d'installation
 self.addEventListener("install", (event) => {
   console.log(`[SERVICE WORKER] : ${CACHE_VERSION} Installation`);
 
@@ -269,9 +269,16 @@ self.addEventListener("install", (event) => {
   );
 });
 
-// Événement d'activation
-self.addEventListener("activate", (event) => {
-  console.log(`[SERVICE WORKER] : Activation`);
+// Après avoir mis à jour le cache avec la nouvelle version, envoyer un message à la page
+self.addEventListener('message', (event) => {
+  if (event.data.action === 'skipWaiting') {
+    self.skipWaiting(); // Force le service worker à prendre immédiatement le contrôle
+  }
+});
+
+// Événement d'activation : envoyer un message à la page quand la mise à jour est prête
+self.addEventListener('activate', (event) => {
+  console.log('[SERVICE WORKER] : Activation');
 
   event.waitUntil(
     (async () => {
@@ -279,88 +286,86 @@ self.addEventListener("activate", (event) => {
       await Promise.all(
         keys.map((key) => {
           if (key !== STATIC_CACHE) {
-            console.log(`[SERVICE WORKER] : Suppression de l'ancien cache ${key}`);
+            console.log(`[SERVICE WORKER] : ${CACHE_VERSION} Suppression de l'ancien cache ${key}`);
             return caches.delete(key);
           }
         })
       );
+
+      // Envoyer un message à la page pour l'informer qu'une nouvelle version est disponible
+      self.clients.matchAll().then(clients => {
+        clients.forEach(client => {
+          client.postMessage({
+            type: 'UPDATE_READY',
+            url: self.location.href // ou une autre information pertinente
+          });
+        });
+      });
+
     })()
   );
 
-  self.clients.claim(); // Prendre le contrôle des pages immédiatement
+  self.clients.claim(); // Prendre le contrôle immédiat
 });
 
-// Événement de récupération des ressources
+
+// Vérification des ressources lors des demandes
 self.addEventListener("fetch", (event) => {
-  console.log(`[SERVICE WORKER] : Interception de ${event.request.url}`);
+  console.log(`[SERVICE WORKER] : ${CACHE_VERSION} Interception de ${event.request.url}`);
 
-  const requestUrl = new URL(event.request.url);
-
-  // Vérifie si la ressource fait partie des fichiers critiques
-  if (ASSETS.includes(requestUrl.href)) {
-    // Stratégie "Network first" pour les fichiers critiques (CSS/JS)
+  // Si la demande concerne un fichier critique (JS/CSS), on utilise Network-First
+  if (CRITICAL_ASSETS.some(asset => event.request.url.includes(asset))) {
     event.respondWith(
-      fetch(event.request)
-        .then((networkResponse) => {
-          caches.open(STATIC_CACHE).then((cache) => {
-            cache.put(event.request, networkResponse.clone());
-          });
+      (async () => {
+        const cache = await caches.open(STATIC_CACHE);
+        const cachedResponse = await cache.match(event.request);
+
+        // Network-First : Essaie de récupérer depuis le réseau en priorité
+        try {
+          const networkResponse = await fetch(event.request);
+          // Cloner la réponse avant de la mettre en cache
+          const networkResponseClone = networkResponse.clone();
+          // Mettre à jour le cache en arrière-plan
+          cache.put(event.request, networkResponseClone);
           return networkResponse;
-        })
-        .catch(() => caches.match(event.request)) // Si le réseau échoue, utiliser le cache
+        } catch (error) {
+          // Si une erreur se produit, renvoyer la réponse en cache
+          return cachedResponse || cache.match(`${basePath}offline.html`);
+        }
+      })()
     );
-    return;
   }
 
-  // Stratégie "Cache first" pour les autres fichiers
-  event.respondWith(
-    caches.match(event.request).then((cachedResponse) => {
-      return (
-        cachedResponse ||
-        fetch(event.request).then((networkResponse) => {
-          caches.open(STATIC_CACHE).then((cache) => {
-            cache.put(event.request, networkResponse.clone());
-          });
-          return networkResponse;
-        })
-      );
-    })
-  );
-});
-
-// Notification lors d'une mise à jour
-self.addEventListener("fetch", (event) => {
-  if (event.request.mode === "navigate") {
+  // Si la demande concerne un fichier non critique (image, icône, etc.), on utilise Cache-First
+  else {
     event.respondWith(
-      caches.match(event.request).then((cachedResponse) => {
-        const fetchPromise = fetch(event.request).then((networkResponse) => {
-          if (networkResponse.status === 200) {
-            caches.open(STATIC_CACHE).then((cache) => {
-              cache.put(event.request, networkResponse.clone());
-            });
+      (async () => {
+        const cache = await caches.open(STATIC_CACHE);
+        const cachedResponse = await cache.match(event.request);
 
-            // Notifier les clients de la mise à jour
-            self.clients.matchAll().then((clients) => {
-              clients.forEach((client) => {
-                client.postMessage({
-                  type: "UPDATE_READY",
-                  url: event.request.url,
-                });
-              });
-            });
-          }
+        if (cachedResponse) {
+          return cachedResponse; // Si la ressource est dans le cache, la renvoyer
+        }
+
+        // Sinon, tenter de récupérer la ressource depuis le réseau
+        try {
+          const networkResponse = await fetch(event.request);
+          // Cloner la réponse avant de la mettre en cache
+          const networkResponseClone = networkResponse.clone();
+          // Mettre à jour le cache avec la nouvelle réponse
+          cache.put(event.request, networkResponseClone);
           return networkResponse;
-        });
-
-        return cachedResponse || fetchPromise;
-      })
+        } catch (error) {
+          console.log(`[SERVICE WORKER] : ${CACHE_VERSION} Erreur réseau pour ${event.request.url}`);
+          return cache.match(`${basePath}offline.html`);
+        }
+      })()
     );
   }
 });
 
-// Gérer les clics sur les notifications
-self.addEventListener("notificationclick", (event) => {
+// Action lorsque l'utilisateur clique sur la notification (actuellement ferme la notification)
+self.addEventListener('notificationclick', event => {
   event.notification.close();
   console.log('Notification cliquée.');
 });
-

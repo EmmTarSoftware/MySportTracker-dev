@@ -443,7 +443,7 @@
         <div class="release-licence">
             <p class="release-licence">Une application pour gérer vos activités sportives.</p>
             <p class="release-licence">Optimisée pour Google Chrome.</p>
-            <p class="release-licence"><strong>Version :</strong>  1.4.25</p>
+            <p class="release-licence"><strong>Version :</strong>  1.4.26</p>
             <p class="release-licence"><strong>Développement/Conception :</strong> Emmanuel TARACONAT.</p>
             <p class="release-licence"><strong>Collaboration :</strong> Morgane C.</p>
             <p class="release-licence"><strong>Licence :</strong><a href="https://creativecommons.org/licenses/by-nc/4.0/"  target="_blank">CC BY-NC 4.0</a>.</p>
@@ -591,16 +591,24 @@
               console.error('Échec de l\'enregistrement du Service Worker :', error);
             });
           });
-  
+      
           // Gestion des messages envoyés par le Service Worker
           navigator.serviceWorker.addEventListener("message", (event) => {
             if (event.data.type === "UPDATE_READY") {
               alert(`Une nouvelle version est disponible pour ${event.data.url}. Rechargez la page pour en profiter.`);
+              
+              // Demander au Service Worker de passer à la nouvelle version
+              if (confirm('Voulez-vous recharger la page pour profiter de la nouvelle version ?')) {
+                // Envoi d'un message pour forcer le service worker à sauter l'attente et devenir actif immédiatement
+                navigator.serviceWorker.ready.then((registration) => {
+                  registration.waiting.postMessage({ action: 'skipWaiting' });
+                });
+              }
             }
           });
         } else {
           console.warn('Service Worker non pris en charge par ce navigateur.');
         }
-    </script>
+      </script>
 </body>
 </html>
