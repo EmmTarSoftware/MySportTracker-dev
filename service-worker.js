@@ -5,17 +5,17 @@ const basePath = serviceWorkerUrl.replace(/service-worker\.js$/, '');
 console.log(`[SERVICE WORKER] : BasePath = ${basePath}`);
 
 // Nom de la version du cache
-const CACHE_VERSION = "V34"; // Incrémente la version à chaque mise à jour
+const CACHE_VERSION = "V35"; // Incrémente la version à chaque mise à jour
 const STATIC_CACHE = `static-${CACHE_VERSION}`;
 
 // Les js et css (fichiers critiques : Network First)
 const CRITICAL_ASSETS = [
    `${basePath}styles/global.css`,
-  `${basePath}scripts/globalFunctionV2.js`,
+  `${basePath}scripts/globalFunctionV3.js`,
   `${basePath}scripts/activitySystem.js`,
   `${basePath}scripts/app.js`,
   `${basePath}scripts/favoris.js`,
-  `${basePath}scripts/gestDataV2.js`,
+  `${basePath}scripts/gestDataV3.js`,
   `${basePath}scripts/info.js`,
   `${basePath}scripts/profil.js`,
   `${basePath}scripts/notify.js`,

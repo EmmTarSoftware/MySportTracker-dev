@@ -65,9 +65,7 @@ function onGetCurrentTime() {
     let currentTime = new Date();
 
     let formatedHours = currentTime.getHours() > 9 ? currentTime.getHours() : "0" + currentTime.getHours() ;
-    let formatedMinutes = currentTime.getMinutes() > 9 ? currentTime.getMinutes() : "0" + currentTime.getMinutes() ;
-
-    console.log("formatedHours = " + formatedHours);
+    let formatedMinutes = currentTime.getMinutes() > 9 ? currentTime.getMinutes() : "0" + currentTime.getMinutes();
 
     return `${formatedHours}:${formatedMinutes}`;
 }

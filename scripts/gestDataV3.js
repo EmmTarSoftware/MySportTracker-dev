@@ -86,7 +86,7 @@ function eventSaveData(isAutoSave) {
 function exportData(isAutoSave) {
     
 
-    console.log("Demande d'exportation des données");
+    if (devMode === true) {console.log("Demande d'exportation des données");};
 
     // Créer un objet pour stocker toutes les données des stores
     let allStoresData = {};
@@ -234,10 +234,12 @@ function eventSaveResult(isAutoSave){
     if (isAutoSave) {
         // Mise à jour du texte et de la variable userSetting ici
         userSetting.lastAutoSaveDate = exportDate;
+        userSetting.lastAutoSaveTime = exportTime;
         document.getElementById("pSettingLastAutoSaveDate").innerHTML = `Le ${onFormatDateToFr(userSetting.lastAutoSaveDate)} à ${userSetting.lastAutoSaveTime}`;
     }else{
         // Mise à jour du texte et de la variable userSetting ici
         userSetting.lastManualSaveDate = exportDate;
+        userSetting.lastManualSaveTime = exportTime;
         document.getElementById("pGestDataLastExportDate").innerHTML = `Date dernier export : le ${onFormatDateToFr(userSetting.lastManualSaveDate)} à ${userSetting.lastManualSaveTime}`;
     }
 

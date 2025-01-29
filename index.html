@@ -443,7 +443,7 @@
         <div class="release-licence">
             <p class="release-licence">Une application pour gérer vos activités sportives.</p>
             <p class="release-licence">Optimisée pour Google Chrome.</p>
-            <p class="release-licence"><strong>Version :</strong>  1.4.27</p>
+            <p class="release-licence"><strong>Version :</strong>  1.4.28</p>
             <p class="release-licence"><strong>Développement/Conception :</strong> Emmanuel TARACONAT.</p>
             <p class="release-licence"><strong>Collaboration :</strong> Morgane C.</p>
             <p class="release-licence"><strong>Licence :</strong><a href="https://creativecommons.org/licenses/by-nc/4.0/"  target="_blank">CC BY-NC 4.0</a>.</p>
@@ -595,13 +595,16 @@
           // Gestion des messages envoyés par le Service Worker
           navigator.serviceWorker.addEventListener("message", (event) => {
             if (event.data.type === "UPDATE_READY") {
-              alert(`Nouvelle version disponible. Rechargez la page pour l'obtenir.`);
+              alert(`L'application a été rechargée. Veuillez la réactualiser pour être sûr d'avoir la dernière version.`);
               
-              // Demander au Service Worker de passer à la nouvelle version
-              if (confirm("Mettre à jour l'application maintenant ?")) {
+              // Demander au Service Worker d'activer la nouvelle version
+              if (confirm("Actualiser maintenant ?")) {
                 // Envoi d'un message pour forcer le service worker à sauter l'attente et devenir actif immédiatement
                 navigator.serviceWorker.ready.then((registration) => {
-                  registration.waiting.postMessage({ action: 'skipWaiting' });
+                    if (registration.waiting) {
+                        registration.waiting.postMessage({ action: 'skipWaiting' });
+                        window.location.reload(true); // Force le rechargement complet
+                    }
                 });
               }
             }
