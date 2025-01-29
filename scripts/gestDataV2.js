@@ -14,14 +14,21 @@ function onOpenMenuGestData() {
 //Step 2 lancement de export
 
 // La date du jour pour l'export
-let exportDate;
+let exportDate,
+    exportTime,//format 00:00
+    exportTimeFileName;//format 0000
 
 
 function eventSaveData(isAutoSave) {
 
     // Sauvegarde la date dans setting
-    // Set la date du jour
+    // Set la date du jour ainsi que l'heure
     exportDate = onFindDateTodayUS();
+
+    // Set l'heure mais en retirant les ":" pour l'enregistrement du nom de fichier
+    exportTime = onGetCurrentTime();
+    exportTimeFileName = exportTime.replace(":","");
+
 
     if (devMode === true){
         console.log("[SAVE] Demande d'export des données");
@@ -40,8 +47,10 @@ function eventSaveData(isAutoSave) {
 
         if (isAutoSave) {
             modifiedData.lastAutoSaveDate = exportDate;
+            modifiedData.lastAutoSaveTime = exportTime;
         }else{
             modifiedData.lastManualSaveDate = exportDate;
+            modifiedData.lastManualSaveTime = exportTime;
         }
 
         let insertModifiedData = store.put(modifiedData);
@@ -102,7 +111,7 @@ function exportData(isAutoSave) {
                 
                 // Le nommage ne sera pas le même si sauvegarde automatique
                 if (isAutoSave) {
-                    downloadJSON(allStoresData, `MSS_AUTOSAVE_${exportDate}.json`);
+                    downloadJSON(allStoresData, `MSS_AUTOSAVE_${exportDate}_${exportTimeFileName}.json`);
                     if (devMode === true) {console.log("[AUTOSAVE] Fin de sauvegarde automatique. Lancement activité liste ");};
 
                     eventSaveResult(isAutoSave);
@@ -112,7 +121,7 @@ function exportData(isAutoSave) {
                     // Premiere remplissage de la base avec le formation de trie par défaut
                     onUpdateActivityBddList(false);
                 }else{
-                    downloadJSON(allStoresData, `MSS_${exportDate}_${userInfo.pseudo}.json`);
+                    downloadJSON(allStoresData, `MSS_${exportDate}_${exportTimeFileName}_${userInfo.pseudo}.json`);
                     eventSaveResult(isAutoSave);
                 }
             }
@@ -225,11 +234,11 @@ function eventSaveResult(isAutoSave){
     if (isAutoSave) {
         // Mise à jour du texte et de la variable userSetting ici
         userSetting.lastAutoSaveDate = exportDate;
-        document.getElementById("pSettingLastAutoSaveDate").innerHTML = onFormatDateToFr(userSetting.lastAutoSaveDate);
+        document.getElementById("pSettingLastAutoSaveDate").innerHTML = `Le ${onFormatDateToFr(userSetting.lastAutoSaveDate)} à ${userSetting.lastAutoSaveTime}`;
     }else{
         // Mise à jour du texte et de la variable userSetting ici
         userSetting.lastManualSaveDate = exportDate;
-        document.getElementById("pGestDataLastExportDate").innerHTML = `Date dernier export : ${onFormatDateToFr(userSetting.lastManualSaveDate)}`;
+        document.getElementById("pGestDataLastExportDate").innerHTML = `Date dernier export : le ${onFormatDateToFr(userSetting.lastManualSaveDate)} à ${userSetting.lastManualSaveTime}`;
     }
 
     console.log(userSetting);

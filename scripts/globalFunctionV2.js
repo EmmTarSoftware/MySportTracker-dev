@@ -60,8 +60,17 @@ function onChangeDisplay(toHide,toDisplayBlock,toDisplayFlex,toDisable,toEnable,
 };
 
 
+// retourne une l'heure actuel au format 00:00
+function onGetCurrentTime() {
+    let currentTime = new Date();
 
+    let formatedHours = currentTime.getHours() > 9 ? currentTime.getHours() : "0" + currentTime.getHours() ;
+    let formatedMinutes = currentTime.getMinutes() > 9 ? currentTime.getMinutes() : "0" + currentTime.getMinutes() ;
 
+    console.log("formatedHours = " + formatedHours);
+
+    return `${formatedHours}:${formatedMinutes}`;
+}
 
 
 

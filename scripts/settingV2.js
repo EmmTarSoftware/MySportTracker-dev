@@ -65,7 +65,9 @@ let defaultSetting = {
     displayCommentPlannedMode : "Collapse",
     isAutoSaveEnabled : false,
     lastAutoSaveDate : "noSet",
+    lastAutoSaveTime : "",
     lastManualSaveDate : "noSet",
+    lastManualSaveTime :"",
     autoSaveFrequency : 7
 };
 
@@ -180,9 +182,9 @@ function onSetSettingFromOpeningAPP(settingExtracted) {
 
 
     // Set la date de la dernière sauvegarde auto
-    document.getElementById("pSettingLastAutoSaveDate").innerHTML = userSetting.lastAutoSaveDate === "noSet" ? "Date Indisponible." : onFormatDateToFr(userSetting.lastAutoSaveDate);
+    document.getElementById("pSettingLastAutoSaveDate").innerHTML = userSetting.lastAutoSaveDate === "noSet" ? "Date Indisponible." : `Le ${onFormatDateToFr(userSetting.lastAutoSaveDate)} à ${userSetting.lastAutoSaveTime}`;
     //Set la date de la dernière sauvegarde manuelle
-    document.getElementById("pGestDataLastExportDate").innerHTML = userSetting.lastManualSaveDate === "noSet" ? "Date dernier export : Indisponible." : `Date dernier export : ${onFormatDateToFr(userSetting.lastManualSaveDate)}`;
+    document.getElementById("pGestDataLastExportDate").innerHTML = userSetting.lastManualSaveDate === "noSet" ? "Date dernier export : Indisponible." : `Date dernier export : le ${onFormatDateToFr(userSetting.lastManualSaveDate)} à ${userSetting.lastManualSaveTime}`;
 
     // 
     if (userSetting.isAutoSaveEnabled) {
