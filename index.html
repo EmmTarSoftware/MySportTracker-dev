@@ -443,7 +443,7 @@
         <div class="release-licence">
             <p class="release-licence">Une application pour gérer vos activités sportives.</p>
             <p class="release-licence">Optimisée pour Google Chrome.</p>
-            <p class="release-licence"><strong>Version :</strong>  1.4.29</p>
+            <p class="release-licence"><strong>Version :</strong>  1.4.30</p>
             <p class="release-licence"><strong>Développement/Conception :</strong> Emmanuel TARACONAT.</p>
             <p class="release-licence"><strong>Collaboration :</strong> Morgane C.</p>
             <p class="release-licence"><strong>Licence :</strong><a href="https://creativecommons.org/licenses/by-nc/4.0/"  target="_blank">CC BY-NC 4.0</a>.</p>
@@ -583,35 +583,35 @@
     <!-- ENREGISTREMENT DU SERVICE WORKER -->
     <script>
         if ('serviceWorker' in navigator) {
-          // Enregistrement du service worker
           window.addEventListener('load', () => {
             navigator.serviceWorker.register('/service-worker.js').then((registration) => {
               console.log('Service Worker enregistré avec succès :', registration);
+        
+              // Surveiller les mises à jour du SW
+              registration.addEventListener('updatefound', () => {
+                const newSW = registration.installing;
+                if (newSW) {
+                  newSW.addEventListener('statechange', () => {
+                    if (newSW.state === 'installed' && navigator.serviceWorker.controller) {
+                      alert("Nouvelle version disponible !");
+                      newSW.postMessage({ action: 'skipWaiting' });
+                    }
+                  });
+                }
+              });
             }).catch((error) => {
               console.error('Échec de l\'enregistrement du Service Worker :', error);
             });
-          });
-      
-          // Gestion des messages envoyés par le Service Worker
-          navigator.serviceWorker.addEventListener("message", (event) => {
-            if (event.data.type === "UPDATE_READY") {
-              alert(`L'application a été rechargée. Veuillez la réactualiser pour être sûr d'avoir la dernière version.`);
-              
-              // Demander au Service Worker d'activer la nouvelle version
-              if (confirm("Actualiser maintenant ?")) {
-                // Envoi d'un message pour forcer le service worker à sauter l'attente et devenir actif immédiatement
-                navigator.serviceWorker.ready.then((registration) => {
-                    if (registration.waiting) {
-                        registration.waiting.postMessage({ action: 'skipWaiting' });
-                        window.location.reload(true); // Force le rechargement complet
-                    }
-                });
-              }
-            }
+        
+            // Forcer la mise à jour immédiate en écoutant le changement de contrôleur
+            navigator.serviceWorker.addEventListener("controllerchange", () => {
+              window.location.reload();
+            });
           });
         } else {
           console.warn('Service Worker non pris en charge par ce navigateur.');
         }
-      </script>
+    </script>
+        
 </body>
 </html>
