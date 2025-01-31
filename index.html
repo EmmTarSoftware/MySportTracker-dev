@@ -443,7 +443,7 @@
         <div class="release-licence">
             <p class="release-licence">Une application pour gérer vos activités sportives.</p>
             <p class="release-licence">Optimisée pour Google Chrome.</p>
-            <p class="release-licence"><strong>Version :</strong>  1.4.30</p>
+            <p class="release-licence"><strong>Version :</strong>  1.4.31</p>
             <p class="release-licence"><strong>Développement/Conception :</strong> Emmanuel TARACONAT.</p>
             <p class="release-licence"><strong>Collaboration :</strong> Morgane C.</p>
             <p class="release-licence"><strong>Licence :</strong><a href="https://creativecommons.org/licenses/by-nc/4.0/"  target="_blank">CC BY-NC 4.0</a>.</p>
@@ -565,53 +565,55 @@
     <!------------------------------------- FIN DIV Main Menu ------------------------------------------------------>
 
 </div>
-    <script src="./configEnv.js"></script>
-    <script src="./scripts/globalFunctionV3.js"></script>
-    <script src="./scripts/settingV2.js"></script>
-    <script src="./scripts/notify.js"></script>
-    <script src="./scripts/profil.js"></script>
-    <script src="./scripts/favoris.js"></script>
-    <script src="./scripts/sortAndFilter.js"></script>
-    <script src="./scripts/activitySystem.js"></script>
-    <script src="./scripts/info.js"></script>
-    <script src="./scripts/stat.js"></script>
-    <script src="./scripts/rewardData.js"></script>
-    <script src="./scripts/rewards.js"></script>
-    <script src="./scripts/gestDataV3.js"></script>
-    <script src="./scripts/app.js"></script>
+    <script src="./configEnv.js?v=V1"></script>
+    <script src="./scripts/globalFunction.js?v=V1"></script>
+    <script src="./scripts/setting.js?v=V1"></script>
+    <script src="./scripts/notify.js?v=V1"></script>
+    <script src="./scripts/profil.js?v=V1"></script>
+    <script src="./scripts/favoris.js?v=V1"></script>
+    <script src="./scripts/sortAndFilter.js?v=V1"></script>
+    <script src="./scripts/activitySystem.js?v=V1"></script>
+    <script src="./scripts/info.js?v=V1"></script>
+    <script src="./scripts/stat.js?v=V1"></script>
+    <script src="./scripts/rewardData.js?v=V1"></script>
+    <script src="./scripts/rewards.js?v=V1"></script>
+    <script src="./scripts/gestData.js?v=V1"></script>
+    <script src="./scripts/app.js?v=V1"></script>
 
     <!-- ENREGISTREMENT DU SERVICE WORKER -->
     <script>
         if ('serviceWorker' in navigator) {
-          window.addEventListener('load', () => {
-            navigator.serviceWorker.register('/service-worker.js').then((registration) => {
-              console.log('Service Worker enregistré avec succès :', registration);
-        
-              // Surveiller les mises à jour du SW
-              registration.addEventListener('updatefound', () => {
-                const newSW = registration.installing;
-                if (newSW) {
-                  newSW.addEventListener('statechange', () => {
-                    if (newSW.state === 'installed' && navigator.serviceWorker.controller) {
-                      alert("Nouvelle version disponible !");
-                      newSW.postMessage({ action: 'skipWaiting' });
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js?v=' + Date.now())
+                .then((registration) => {
+                    console.log('Service Worker enregistré avec succès :', registration);
+                })
+                .catch((error) => {
+                    console.error("Échec de l'enregistrement du Service Worker :", error);
+                });
+            });
+    
+            navigator.serviceWorker.addEventListener("message", (event) => {
+                if (event.data.type === "UPDATE_READY") {
+                    alert("Une nouvelle version est disponible. Veuillez actualiser.");
+    
+                    if (confirm("Actualiser maintenant ?")) {
+                        navigator.serviceWorker.getRegistration().then((reg) => {
+                            if (reg && reg.waiting) {
+                                reg.waiting.postMessage({ action: 'skipWaiting' });
+    
+                                console.log("Rechargement dans 1 seconde...");
+                                setTimeout(() => {
+                                    window.location.reload(true);
+                                }, 1000);
+                            }
+                        });
                     }
-                  });
                 }
-              });
-            }).catch((error) => {
-              console.error('Échec de l\'enregistrement du Service Worker :', error);
             });
-        
-            // Forcer la mise à jour immédiate en écoutant le changement de contrôleur
-            navigator.serviceWorker.addEventListener("controllerchange", () => {
-              window.location.reload();
-            });
-          });
-        } else {
-          console.warn('Service Worker non pris en charge par ce navigateur.');
         }
     </script>
+    
         
 </body>
 </html>
