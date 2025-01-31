@@ -5,7 +5,7 @@ const basePath = serviceWorkerUrl.replace(/service-worker\.js$/, '');
 console.log(`[SERVICE WORKER] : BasePath = ${basePath}`);
 
 // Nom de la version du cache
-const CACHE_VERSION = "V38"; // Incrémente la version à chaque mise à jour
+const CACHE_VERSION = "V40"; // Incrémente la version à chaque mise à jour
 const STATIC_CACHE = `static-${CACHE_VERSION}`;
 
 // Les js et css (fichiers critiques : Network First)
@@ -274,10 +274,11 @@ self.addEventListener("install", (event) => {
 
 // Après avoir mis à jour le cache avec la nouvelle version, envoyer un message à la page
 self.addEventListener('message', (event) => {
-  if (event.data.action === 'skipWaiting') {
-    self.skipWaiting(); // Force le service worker à prendre immédiatement le contrôle
+  if (event.data && event.data.action === 'skipWaiting' && self.waiting) {
+    self.skipWaiting();
   }
 });
+
 
 
 
@@ -288,24 +289,20 @@ self.addEventListener('activate', (event) => {
   event.waitUntil(
     (async () => {
       const keys = await caches.keys();
+      console.log('Caches existants:', keys);
+      
       await Promise.all(
         keys.map((key) => {
           if (key !== STATIC_CACHE) {
-            console.log(`[SERVICE WORKER] : ${CACHE_VERSION} Suppression de l'ancien cache ${key}`);
+            console.log(`[SERVICE WORKER] : Suppression de l'ancien cache ${key}`);
             return caches.delete(key);
           }
         })
       );
 
-      // Envoyer un message aux clients pour recharger immédiatement
-      const clients = await self.clients.matchAll({ type: 'window' });
-      clients.forEach(client => {
-        client.postMessage({ type: 'UPDATE_READY' });
-      });
+      self.clients.claim();
     })()
   );
-
-  self.clients.claim(); // Prendre immédiatement le contrôle des clients
 });
 
 
