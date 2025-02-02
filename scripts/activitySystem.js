@@ -234,13 +234,13 @@ let pInterfaceActivityTitleRef = document.getElementById("pInterfaceActivityTitl
 
 
 // Génération des options d'activité dans l'éditeur d'activité
-function onGenerateActivityOptionChoice() {
+function onGenerateActivityOptionChoice(selectorChoiceId) {
 
 
     // Traite d'abord les favoris
     if (devMode === true){console.log("[Activity Choice] Lancement de la generation des choix des activités");};
 
-    let selectorRef = document.getElementById("selectorCategoryChoice");
+    let selectorRef = document.getElementById(selectorChoiceId);
     if (devMode === true){console.log("[Activity Choice] Reset les éléments");};
     selectorRef.innerHTML = "";
 
@@ -271,7 +271,8 @@ function onGenerateActivityOptionChoice() {
 
 };
 
-onGenerateActivityOptionChoice();
+// Genere la liste pour l'editeur d'activité
+onGenerateActivityOptionChoice("selectorCategoryChoice");
 
 
 
@@ -654,7 +655,7 @@ function onDeleteBtnMoreItem() {
 // ---------------------------------  EDITEUR d'activité ---------------------
 
 // Variable pour connaitre dans quel mode l'editeur d'activité est ouvert
-let activityEditorMode; //  creation, modification, newfromTemplate, newTemplate, templateModification
+let activityEditorMode; //  creation, modification, 
 
 
 
