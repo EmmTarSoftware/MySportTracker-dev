@@ -106,6 +106,14 @@ function onChangeMenu(menuTarget) {
             onChangeDisplay(allDivHomeToDisplayNone,["divBtnGestData"],["divGestData"],[],[],[],[]);
             onOpenMenuGestData();
         break;
+
+        case "GestTemplate":
+            if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : GestTemplate");};
+            pMenuTitleRef.innerHTML = "Modèles";
+            onChangeDisplay(allDivHomeToDisplayNone,["divBtnGestTemplate"],["divGestTemplate"],[],[],[],[]);
+            onOpenMenuGestTemplate();
+        break;
+
         case "Setting":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Setting");};
             pMenuTitleRef.innerHTML = "Paramètres";
@@ -132,6 +140,10 @@ function onChangeMenu(menuTarget) {
 // Les menus supplémentaires
 function onClickMainMenuSup(){
     onChangeDisplay(["btnNewActivity"],[],["divMainMenuSup"],[],[],[],[]);
+
+    if (templateAvailable) {
+        document.getElementById("btnNewFromTemplate").style.display = "none";
+    }
 };
 function onClickMenuSup(event,target) {
     event.stopPropagation();
@@ -139,9 +151,14 @@ function onClickMenuSup(event,target) {
 
     onChangeMenu(target);
 };
+
 function onAnnulMenuSup(){
     if (devMode === true){console.log("[ NAVIGATION ] Annulation menu supplémentaire");};
     onChangeDisplay(["divMainMenuSup"],["btnNewActivity"],[],[],[],[],[]);
+
+    if (templateAvailable) {
+        document.getElementById("btnNewFromTemplate").style.display = "block";
+    }
 };
 
 
@@ -193,6 +210,10 @@ function onLeaveMenu(menuTarget) {
         case "GestData":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : GestData");};
             onChangeDisplay(["divGestData","divBtnGestData"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
+        break;
+        case "GestTemplate":
+            if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : GestTemplate");};
+            onChangeDisplay(["divGestTemplate","divBtnGestTemplate"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
         break;
         case "Setting":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Setting");};
@@ -298,9 +319,10 @@ let db,
     profilStoreName = "profil",
     rewardsStoreName = "Recompenses",
     settingStoreName = "Setting",
+    templateStoreName = "Template",
     // Nom des stores à importer et exporter dans les fonctions import export. 
     storeNames = [activityStoreName, profilStoreName, rewardsStoreName,settingStoreName],//Ajouter tous les noms des stores ici
-    currentBaseVersion = 6,
+    currentBaseVersion = 7,
     cookiesBddVersion_KeyName = "MSS-bddVersion";
     
 
@@ -329,6 +351,12 @@ function onStartDataBase() {
             activityStore.createIndex('duration','duration',{unique:false});
         };
 
+        // Création du store "template"
+        if(!db.objectStoreNames.contains(templateStoreName)){
+            // si le l'object store n'existe pas
+            let templateStore = db.createObjectStore(templateStoreName, {keyPath:'key', autoIncrement: true});
+            if (devMode === true){console.log("[ DATABASE] Creation du magasin " + templateStoreName);};
+        };
 
         // Creation du store pour le profil
         if (!db.objectStoreNames.contains(profilStoreName)) {
@@ -357,8 +385,6 @@ function onStartDataBase() {
             isNewRewardsBdDRequired = true;
         };
         
-
-
         // Stoque le numéro de version de base de l'application
         localStorage.setItem(cookiesBddVersion_KeyName, currentBaseVersion.toString());
 

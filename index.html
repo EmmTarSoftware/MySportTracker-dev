@@ -321,6 +321,16 @@
 
     <!-- ----------------------------------  FIN    DIV FAVORIS     ------------------------------------------------>
 
+    <!-- ----------------------------------      DIV TEMPLATE  GESTION      ------------------------------------------------>
+    <div id="divGestTemplate" class="new-interface">
+    </div>
+
+    <div id="divBtnGestTemplate" class="button-editor">
+        <button class="btn-menu" onclick="onClickReturnFromGestTemplate()"><img src="./Icons/Icon-Return-cancel.webp" alt="Icone"></button>  
+    </div>
+
+    <!-- ----------------------------------  FIN    DIV TEMPLATE GESTION   ------------------------------------------------>
+
 
    <!-- ----------------------------------      DIV STAT        ------------------------------------------------>
     <div id="divStat" class="new-interface">
@@ -558,6 +568,7 @@
     <div id="divMainMenuSup" class="main-menu-sup" onclick="onAnnulMenuSup(event)">
         <div class="main-menu-sup-button-area">
             <button onclick="onClickMenuSup(event,'Profil')">Profil</button>
+            <button onclick="onClickMenuSup(event,'GestTemplate')">Modèles</button>
             <button onclick="onClickMenuSup(event,'Setting')">Paramètres</button>
             <button onclick="onClickMenuSup(event,'GestData')">Gestion des données</button>
             <button onclick="onClickMenuSup(event,'Info')">A propos</button>

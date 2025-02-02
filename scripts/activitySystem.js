@@ -654,7 +654,8 @@ function onDeleteBtnMoreItem() {
 // ---------------------------------  EDITEUR d'activité ---------------------
 
 // Variable pour connaitre dans quel mode l'editeur d'activité est ouvert
-let activityEditorMode; // creation ou modification
+let activityEditorMode; //  creation, modification, newfromTemplate, newTemplate, templateModification
+
 
 
 

@@ -39,3 +39,19 @@ function onUpdateModelList() {
     }
     
 }
+
+
+// Ouvre le menu
+function onOpenMenuGestTemplate() {
+    
+}
+
+
+
+
+
+
+// Quitte le menu
+function onClickReturnFromGestTemplate() {
+    onLeaveMenu("GestTemplate");
+}
