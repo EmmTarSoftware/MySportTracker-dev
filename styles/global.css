@@ -458,29 +458,39 @@ button.btnFocus{
 
 button.btnFlottant{
     background: linear-gradient(rgba(38,160,184,0.8), rgba(64,204,205,0.8));
-    width: 50px; height: 50px;
     border: none;
     border-radius: 10px;
     box-shadow: rgba(0, 0, 0, 0.30) 2px 2px 4px;;
     position: fixed;
-    bottom: 110px;
-    left: 75%;
     z-index: 4;
+}
+
+button.newActivity{
+    width: 50px; height: 50px;
+    bottom: 110px;
+    right: 75px;
     transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-button.btnFlottant.hidden {
+
+button.newActivity.hidden {
     opacity: 0;
     transform: translateY(20px);
     pointer-events: none;
 }
 
+
 button.new-from-template{
-    width: 45px; height: 45px;
+    width: 42px; height: 42px;
     bottom: 200px;
+    right: 79px;
     transition: opacity 0.3s ease, transform 0.5s ease;
 }
-
+button.new-from-template.hidden{
+    opacity: 0;
+    transform: translateY(80px);
+    pointer-events: none;
+}
 
 
 
