@@ -5,7 +5,7 @@ const basePath = serviceWorkerUrl.replace(/service-worker\.js$/, '');
 console.log(`[SERVICE WORKER] : BasePath = ${basePath}`);
 
 // Nom de la version du cache
-const CACHE_VERSION = "V41"; // Incrémente la version à chaque mise à jour
+const CACHE_VERSION = "V42"; // Incrémente la version à chaque mise à jour
 const STATIC_CACHE = `static-${CACHE_VERSION}`;
 
 // Les js et css (fichiers critiques : Network First)
@@ -301,6 +301,11 @@ self.addEventListener('activate', (event) => {
       );
 
       self.clients.claim();
+      self.clients.matchAll().then(clients => {
+        clients.forEach(client => {
+          client.postMessage({ type: "UPDATE_READY" });
+        });
+      });
     })()
   );
 });
