@@ -963,10 +963,6 @@ function onInsertNewActivity(dataToInsert) {
 };
 
 
-
-
-
-
 // Insertion d'une modification d'une activité
 function onInsertModification(e) {
     if (devMode === true){console.log("fonction d'insertion de la donnée modifié");};

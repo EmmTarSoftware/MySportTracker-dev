@@ -4,6 +4,15 @@ let allDivHomeToDisplayNone = ["divMainBtnMenu","btnNewActivity","divFilterSort"
     allDivHomeToDisplayBlock = ["divMainBtnMenu","btnNewActivity"],
     allDivHomeToDisplayFlex = ["divFilterSort","divItemList"];
 
+
+
+
+    // A RETIRER ENSUITE
+    onUpdateModelList();
+
+
+
+
 // Récupère les date du jours et de la veille
 
 function onFindDateTodayUS() {
@@ -405,6 +414,7 @@ function onStartDataBase() {
 
 
 const btnNewActivityRef = document.getElementById('btnNewActivity');
+const btnNewFromTemplateRef = document.getElementById("btnNewFromTemplate");
 let lastScrollTop = 0;
 let scrollTimeout;
 
@@ -413,11 +423,13 @@ let scrollTimeout;
 divItemListRef.addEventListener('scroll', () => {
     // Cache le bouton dès qu'il y a un mouvement de scroll
     btnNewActivityRef.classList.add('hidden');
+    btnNewFromTemplateRef.classList.add('hidden');
 
     // Empêche le bouton de réapparaître immédiatement
     clearTimeout(scrollTimeout);
     scrollTimeout = setTimeout(() => {
         btnNewActivityRef.classList.remove('hidden');
+        btnNewFromTemplateRef.classList.remove('hidden');
     }, 200); // Réapparaît après 200ms une fois le scroll arrêté
 });
 

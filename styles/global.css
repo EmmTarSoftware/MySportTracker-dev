@@ -458,8 +458,6 @@ button.btnFocus{
 
 button.btnFlottant{
     background: linear-gradient(rgba(38,160,184,0.8), rgba(64,204,205,0.8));
-
-
     width: 50px; height: 50px;
     border: none;
     border-radius: 10px;
@@ -477,7 +475,11 @@ button.btnFlottant.hidden {
     pointer-events: none;
 }
 
-
+button.new-from-template{
+    width: 45px; height: 45px;
+    bottom: 200px;
+    transition: opacity 0.3s ease, transform 0.5s ease;
+}
 
 
 

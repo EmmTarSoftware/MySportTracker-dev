@@ -11,6 +11,7 @@ const STATIC_CACHE = `static-${CACHE_VERSION}`;
 // Les js et css (fichiers critiques : Network First)
 const CRITICAL_ASSETS = [
   `${basePath}styles/global.css`,
+  `${basePath}scripts/scripts/template.js`,
   `${basePath}scripts/globalFunction.js`,
   `${basePath}scripts/activitySystem.js`,
   `${basePath}scripts/app.js`,
@@ -35,6 +36,7 @@ const STATIC_FILES = [
 // Liste des fichiers explicites pour les trois dossiers
 const ICONS = [
   `${basePath}Icons/Icon-Accepter.webp`,
+  `${basePath}Icons/Icon-From-Modele.webp`,
   `${basePath}Icons/Icon-Autres.webp`,
   `${basePath}Icons/Icon-Delete.webp`,
   `${basePath}Icons/Icon-Download.webp`,
