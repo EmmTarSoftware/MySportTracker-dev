@@ -443,7 +443,7 @@
         <div class="release-licence">
             <p class="release-licence">Une application pour gérer vos activités sportives.</p>
             <p class="release-licence">Optimisée pour Google Chrome.</p>
-            <p class="release-licence"><strong>Version :</strong>  1.4.36</p>
+            <p class="release-licence"><strong>Version :</strong>  1.4.37</p>
             <p class="release-licence"><strong>Développement/Conception :</strong> Emmanuel TARACONAT.</p>
             <p class="release-licence"><strong>Collaboration :</strong> Morgane C.</p>
             <p class="release-licence"><strong>Licence :</strong><a href="https://creativecommons.org/licenses/by-nc/4.0/"  target="_blank">CC BY-NC 4.0</a>.</p>
@@ -598,16 +598,10 @@
                     alert("Une nouvelle version est disponible. Veuillez actualiser.");
     
                     if (confirm("Actualiser maintenant ?")) {
-                        navigator.serviceWorker.getRegistration().then((reg) => {
-                            if (reg && reg.waiting) {
-                                reg.waiting.postMessage({ action: 'skipWaiting' });
-    
-                                console.log("Rechargement dans 1 seconde...");
-                                setTimeout(() => {
-                                    window.location.reload(true);
-                                }, 1000);
-                            }
-                        });
+                        console.log("Rechargement dans 1 seconde...");
+                        setTimeout(() => {
+                            window.location.reload(true);
+                        }, 1000);   
                     }
                 }
             });
