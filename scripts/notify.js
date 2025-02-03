@@ -8,7 +8,10 @@ let notifyTextArray = {
     saveprofil : "Profil sauvegardé !",
     exportSuccess : "Données exportées !",
     importSuccess : "Données importées",
-    saveSetting : "Paramètres modifiés !"
+    saveSetting : "Paramètres modifiés !",
+    templateCreation :"Modèle créé !",
+    templateModification : "Modèle modifié !",
+    templateDeleted : "Modèle supprimé !"
 };
 
 

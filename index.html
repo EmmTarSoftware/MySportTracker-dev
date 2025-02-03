@@ -324,7 +324,7 @@
     <!-- ----------------------------------      DIV TEMPLATE  GESTION      ------------------------------------------------>
     <div id="divGestTemplate" class="new-interface">
 
-        <button onclick="onClickBtnCreateTemplate()">Créer un modèle</button>
+        <button onclick="onChangeMenu('TemplateEditor')">Créer un modèle</button>
 
     </div>
 
@@ -340,9 +340,15 @@
            
             <div class="activityPreview">
                 <img id="imgTemplateEditorPreview" src="./images/icon-cap.webp" alt="" srcset="" class="activityPreview">
-                <p id="pTemplateEditorInfo">Nouveau modèle d'activité.</p>  
+                <p id="pTemplateEditorInfo">📄Modèle d'activité :</p>  
                               
             </div>
+
+            <p class="activity-editor">
+                <label for="">Titre : </label>
+                <input type="text" id="inputTemplateTitle" onchange="onInputTemplateTitleChange()" maxlength="40">
+            </p>
+
             <p class="activity-editor">
                 <label for="selectorTemplateCategoryChoice">Activité : </label>
                 <select name="category" id="selectorTemplateCategoryChoice" onchange="onChangeTemplatePreview(this.value)">
@@ -353,11 +359,6 @@
             <p class="activity-editor">
                 <span class="spanCheckbox">Planifiée : </span>
                 <input id="inputTemplateIsPlanned" type="checkbox" onchange="onChangeTemplatePlanned(this.checked)">
-            </p>
-
-            <p class="activity-editor">
-                <label for="">Date : </label>
-                <input type="date" id="inputTemplateDate" onchange="onInputTemplateDateChange()">
             </p>
 
 

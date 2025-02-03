@@ -1,3 +1,42 @@
+// Génération des options d'activité dans l'éditeur d'activité
+function onGenerateActivityOptionChoice(selectorChoiceId) {
+
+
+    // Traite d'abord les favoris
+    if (devMode === true){console.log("[Activity Choice] Lancement de la generation des choix des activités");};
+
+    let selectorRef = document.getElementById(selectorChoiceId);
+    if (devMode === true){console.log("[Activity Choice] Reset les éléments");};
+    selectorRef.innerHTML = "";
+
+    if (devMode === true){console.log("[Activity Choice] ajout des favoris si présent = " + userFavoris.length);};
+    userFavoris.sort();
+
+    userFavoris.forEach(activity => {
+
+        let newOption = document.createElement("option");
+        newOption.value = activity;
+        newOption.innerHTML = " * " +  activityChoiceArray[activity].displayName;
+        selectorRef.appendChild(newOption);
+        if (devMode === true){console.log("ajout de l'option" + activityChoiceArray[activity].displayName );};
+    });
+
+
+    // Trier le tableau par ordre alphabétique 
+    let activitySortedKey = Object.keys(activityChoiceArray);
+    activitySortedKey.sort();
+
+    // Ajouter les autres options triées
+    activitySortedKey.forEach(activity => {
+        let newOption = document.createElement("option");
+        newOption.value = activity;
+        newOption.innerHTML = activityChoiceArray[activity].displayName;
+        selectorRef.appendChild(newOption);
+    });
+
+};
+
+
 
 
 // fonction de gestion de l'affichage
