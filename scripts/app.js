@@ -7,12 +7,6 @@ let allDivHomeToDisplayNone = ["divMainBtnMenu","btnNewActivity","divFilterSort"
 
 
 
-    // A RETIRER ENSUITE
-    onUpdateModelList();
-
-
-
-
 // Récupère les date du jours et de la veille
 
 function onFindDateTodayUS() {
@@ -335,6 +329,11 @@ let db,
     
 
 
+
+
+
+//fonction de lancement de la base.
+//La liste d'activité est lancé après le menu paramètre 
 function onStartDataBase() {
     let openRequest = indexedDB.open(dbName,currentBaseVersion);
 
@@ -364,6 +363,9 @@ function onStartDataBase() {
             // si le l'object store n'existe pas
             let templateStore = db.createObjectStore(templateStoreName, {keyPath:'key', autoIncrement: true});
             if (devMode === true){console.log("[ DATABASE] Creation du magasin " + templateStoreName);};
+
+            templateStore.createIndex('title','title',{unique:true});
+            templateStore.createIndex('activityName','activityName',{unique:false});
         };
 
         // Creation du store pour le profil
@@ -418,11 +420,11 @@ function onStartDataBase() {
         
 
         if (isNewSettingBdDRequired === true) {
-            // Creation d'un profil par defaut dans la base
+            // Creation d'un paramètre par defaut dans la base
             if (devMode === true){console.log("[ DATABASE PROFIL] demande de création des paramètres par defaut");};
             onCreateDefaultSettingInBase(defaultSetting);
         }else{
-            // Lancement des éléments du profil
+            // Lancement des éléments du paramètre
             onExtractSettingFromDB();
         };
 
@@ -436,6 +438,8 @@ function onStartDataBase() {
         };
 
 
+        //extraction des modèles de la base
+        onUpdateTemplateBddList();
     };
 
 

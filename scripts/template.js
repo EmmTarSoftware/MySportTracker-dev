@@ -1,5 +1,5 @@
 
-let userTemplateListe = ["M"],
+let userTemplateList = [{activityName:"",title:"",key:""}],
     templateAvailable = false;
 
 // Génère la liste d'activité pour les modèles
@@ -21,24 +21,86 @@ let imgTemplateEditorPreviewRef = document.getElementById("imgTemplateEditorPrev
 
 
 
+// actualisation de la liste d'activité
+
+function onUpdateTemplateBddList() {
+
+    if (devMode === true){console.log("[TEMPLATE] Actualisation de la liste des modèles");};
+
+
+    // recupere les éléments dans la base et les stock dans un tableau temporaire
+    
+    let transaction = db.transaction([templateStoreName]);//readonly
+    let objectStoreTask = transaction.objectStore(templateStoreName);
+    let indexStoreTask = objectStoreTask.index("activityName");//Filtre par défaut sur l'index des types d'activité
+    let requestTask = indexStoreTask.getAll();
+
+
+    requestTask.onsuccess = function (){
+        if (devMode === true){console.log("[DATABASE] [TEMPLATE] Les éléments ont été récupéré dans la base");};
+    };
+
+    requestTask.error = function (){
+       console.log("[DATABASE] [TEMPLATE] Erreur de requete sur la base");
+    };
+
+
+    transaction.oncomplete = function (){
+        // Récupère uniquement le titre et la key des modèle
+        if (devMode === true){console.log(" [DATABASE] [TEMPLATE] Demande d'extraction uniquement pour title and key");};
+        onExtractTemplateKeyAndTitle(requestTask.result);
+    };
+};
 
 
 
+// Récupère uniquement le titre et la key des modèle
+function onExtractTemplateKeyAndTitle(data) {
+    //Reset
+    userTemplateList = [];
+
+    //Insertion
+    data.forEach(templateItem => {
+        let itemToInsert = {activityName: templateItem.activityName, title : templateItem.title , key : templateItem.key};
+        userTemplateList.push(itemToInsert);
+    });
 
 
+    // trie sur type d'activité puis par alphabétique
+    userTemplateList.sort((a, b) => {
+        if (a.activityName < b.activityName) return -1;
+        if (a.activityName > b.activityName) return 1;
+      
+        // Si activityName est identique, on trie par title
+        if (a.title < b.title) return -1;
+        if (a.title > b.title) return 1;
+      
+        return 0;
+    });
+
+
+    if (devMode === true){
+        console.log("[TEMPLATE] Demande d'extraction title and Key effectuée");
+        console.log(userTemplateList);
+        console.log("[TEMPLATE] Demande d'actualisation de l'affichage");
+    };
+
+    onUpdateTemplateList();
+        
+}
 
 
 
 
 // Actualise la liste des modele et gere les boutons selons
 
-function onUpdateModelList() {
+function onUpdateTemplateList() {
 
-    templateAvailable = userTemplateListe.length > 0;
+    templateAvailable = userTemplateList.length > 0;
 
     if (devMode === true){
         console.log("[TEMPLATE] Actualisation de la liste des modèles");
-        console.log("[TEMPLATE] Nombre de modele : " + userTemplateListe.length);
+        console.log("[TEMPLATE] Nombre de modele : " + userTemplateList.length);
     };
 
     // Gere l'affichage du bouton "new from template" selon
@@ -100,7 +162,7 @@ let templateEditorMode; //  creation, modification,
 // Format de l'objet pour une nouvelle activité
 let templateToInsertFormat = {
     title :"",
-    name :"",
+    activityName :"",
     location : "",
     distance : "",
     duration : "",
@@ -125,9 +187,9 @@ function onClickBtnCreateTemplate() {
 
 
 // Set l'image de prévisualisation d'activité dans l'éditeur
-function onChangeTemplatePreview(dataName) {
-    if (devMode === true){console.log(dataName);};
-    imgTemplateEditorPreviewRef.src = activityChoiceArray[dataName].imgRef;
+function onChangeTemplatePreview(activityName) {
+    if (devMode === true){console.log(activityName);};
+    imgTemplateEditorPreviewRef.src = activityChoiceArray[activityName].imgRef;
 } 
 
 // Set l'icone "temporaire" dans la prévisualisation
@@ -187,7 +249,7 @@ function onFormatTemplate() {
 
     //  met tous les éléments dans l'objet
 
-    templateToInsertFormat.name = selectorTemplateCategoryChoiceRef.value;
+    templateToInsertFormat.activityName = selectorTemplateCategoryChoiceRef.value;
     templateToInsertFormat.title =inputTemplateTitleRef.value;
     templateToInsertFormat.distance = inputTemplateDistanceRef.value;
     templateToInsertFormat.location = onSetToUppercase(inputTemplateLocationRef.value);
@@ -219,7 +281,7 @@ function onInsertNewTemplate(dataToInsert) {
     let insertRequest = store.add(dataToInsert);
 
     insertRequest.onsuccess = function () {
-        if (devMode === true){console.log(" [ DATABASE ] " + dataToInsert.name + "a été ajouté à la base");};
+        if (devMode === true){console.log(" [DATABASE] [TEMPLATE]" + dataToInsert.title + "a été ajouté à la base");};
 
     };
 
