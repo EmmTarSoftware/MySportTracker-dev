@@ -324,7 +324,15 @@
     <!-- ----------------------------------      DIV TEMPLATE  GESTION      ------------------------------------------------>
     <div id="divGestTemplate" class="new-interface">
 
-        <button onclick="onChangeMenu('TemplateEditor')">Créer un modèle</button>
+        <button onclick="onChangeMenu('NewTemplate')">Créer un modèle</button>
+
+        <!-- Contient la liste des template -->
+        <div id="divTemplateListMenu" class="templateList">
+            <div class="item-container">
+                <img class="templateList" src="./images/icon-baseball.webp" alt="">
+                <span>Course à pied</span>
+            </div>
+        </div>
 
     </div>
 
@@ -392,6 +400,13 @@
         </div>
 
     <!-- ---------------------------------- FIN div edit TEMPLATE ------------------------------------------------>
+
+    <!-- ----------------------------Div confirmation suppression template -------------------------------------->
+    <div id="divConfirmDeleteTemplate" onclick="onAnnulDeleteTemplate(event)" class="confirmationDelete">
+        <button id="btnConfirmDeleteTemplate" class="btn-menu deleteConfirm" onclick="onConfirmDeleteTemplate(event)"><img class="confirmSuppr" src="./Icons/Icon-Delete.webp" alt="Icone"></button>
+    </div>
+    <!---------------------------  FIN Div confirmation suppression template ------------------------------------------->
+
 
 
 

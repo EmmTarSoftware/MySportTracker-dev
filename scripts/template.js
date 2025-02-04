@@ -1,6 +1,7 @@
 
 let userTemplateList = [{activityName:"",title:"",key:""}],
-    templateAvailable = false;
+    templateAvailable = false,
+    currentTemplateInView = {};
 
 // Génère la liste d'activité pour les modèles
 onGenerateActivityOptionChoice("selectorTemplateCategoryChoice");
@@ -23,7 +24,7 @@ let imgTemplateEditorPreviewRef = document.getElementById("imgTemplateEditorPrev
 
 // actualisation de la liste d'activité
 
-function onUpdateTemplateBddList() {
+function onUpdateTemplateBddList(updateMenuListRequired) {
 
     if (devMode === true){console.log("[TEMPLATE] Actualisation de la liste des modèles");};
 
@@ -48,14 +49,14 @@ function onUpdateTemplateBddList() {
     transaction.oncomplete = function (){
         // Récupère uniquement le titre et la key des modèle
         if (devMode === true){console.log(" [DATABASE] [TEMPLATE] Demande d'extraction uniquement pour title and key");};
-        onExtractTemplateKeyAndTitle(requestTask.result);
+        onExtractTemplateKeyAndTitle(requestTask.result,updateMenuListRequired);
     };
 };
 
 
 
 // Récupère uniquement le titre et la key des modèle
-function onExtractTemplateKeyAndTitle(data) {
+function onExtractTemplateKeyAndTitle(data,updateMenuListRequired) {
     //Reset
     userTemplateList = [];
 
@@ -85,7 +86,7 @@ function onExtractTemplateKeyAndTitle(data) {
         console.log("[TEMPLATE] Demande d'actualisation de l'affichage");
     };
 
-    onUpdateTemplateList();
+    onUpdateTemplateList(updateMenuListRequired);
         
 }
 
@@ -93,8 +94,7 @@ function onExtractTemplateKeyAndTitle(data) {
 
 
 // Actualise la liste des modele et gere les boutons selons
-
-function onUpdateTemplateList() {
+function onUpdateTemplateList(updateMenuListRequired) {
 
     templateAvailable = userTemplateList.length > 0;
 
@@ -103,8 +103,16 @@ function onUpdateTemplateList() {
         console.log("[TEMPLATE] Nombre de modele : " + userTemplateList.length);
     };
 
-    // Gere l'affichage du bouton "new from template" selon
-    document.getElementById("btnNewFromTemplate").style.display = templateAvailable ? "block" : "none";
+    if (updateMenuListRequired) {
+        if (devMode === true){
+            console.log("[TEMPLATE] pour l'instant n'affiche pas le bouton 'new from template'");
+            console.log("[TEMPLATE] Car je suis dans le menu 'template'");
+        } else{
+                // Gere l'affichage du bouton "new from template" selon
+                document.getElementById("btnNewFromTemplate").style.display = templateAvailable ? "block" : "none";
+        }
+    }
+
 
 
     // Ajout ou non le bouton dans l'array de gestion générale des éléments "home"
@@ -124,15 +132,160 @@ function onUpdateTemplateList() {
         allDivHomeToDisplayBlock.splice(indexToRemove,1);
 
         if (devMode === true){console.log("[TEMPLATE] Retire le bouton aux listes de gestion");};
-
     }
     
+
+
+    // Actualise la liste des template dans le menu template si nécessaire
+    if (updateMenuListRequired) {
+        if (devMode === true){console.log("[TEMPLATE] Recré la liste de template");};
+        onCreateTemplateMenuList(userTemplateList);
+    }
 }
 
 
 // Ouvre le menu
 function onOpenMenuGestTemplate() {
+
+    // Génération de la liste des modèles
+    onCreateTemplateMenuList(userTemplateList);
+}
+
+
+
+
+
+
+
+
+
+// Génération de la liste des modèle de le menu modèle
+function onCreateTemplateMenuList(templateList) {
+    if (devMode === true){console.log(" [TEMPLATE] génération de la liste");};
+
+    let divTemplateListMenuRef = document.getElementById("divTemplateListMenu");
+    // Reset
+    divTemplateListMenuRef.innerHTML = "";
+
+
+    // Affichage en cas d'aucune modèle
+    if (templateList.length < 1) {
+        divTemplateListMenuRef.innerHTML = "Aucun modèle à afficher !";
+        return
+    }
+
+
+
+    // Génère la liste
+    templateList.forEach(e=>{
+
+        // Creation
+        let newContainer = document.createElement("div");
+        newContainer.classList.add("item-container");
+        newContainer.onclick = function (){
+            onClicOnTemplateInTemplateMenu(e.key); 
+        }
+
+        let newImg = document.createElement("img");
+        newImg.classList.add("templateList");
+        newImg.src = activityChoiceArray[e.activityName].imgRef;
+
+        let newTitle = document.createElement("span");
+        newTitle.innerHTML = e.title;
+
+        // Insertion
+
+        newContainer.appendChild(newImg);
+        newContainer.appendChild(newTitle);
+
+
+        divTemplateListMenuRef.appendChild(newContainer);
+    });
+}
+
+
+
+
+
+
+
+// ------------------- MODIFICATION de modèle --------------------------------
+
+
+
+
+
+
+// Lorsque je clique sur un modèle pour le modifier
+function onClicOnTemplateInTemplateMenu(keyRef) {
+    onResetTemplateInputs();
+
+    templateEditorMode = "modification";
+
+    // Recherche du modèle à afficher
+    onSearchTemplateToDisplay(keyRef);
+
+}
+
+// Fonction de recherche d'une activité à afficher depuis la bdd.
+function onSearchTemplateToDisplay(keyRef) {
+    if (devMode === true){console.log("[TEMPLATE] Affichage du modèle extrait dans la BdD avec la key :  " + keyRef);};
     
+
+    // recupere les éléments correspondant à la clé recherché et la stoque dans une variable
+    if (devMode === true){console.log("[TEMPLATE] lecture de la Base de Données");};
+    let transaction = db.transaction(templateStoreName);//readonly
+    let objectStore = transaction.objectStore(templateStoreName);
+    let request = objectStore.getAll(IDBKeyRange.only(keyRef));
+    
+    
+    request.onsuccess = function (){
+        if (devMode === true){
+            console.log("[DATABASE][TEMPLATE]Requete de recherche réussit");
+            console.log(request.result);
+        };
+
+
+        // Affiche la note voulue
+        let tempResult = request.result;
+        if (devMode === true){console.log(tempResult[0]);};
+        onSetTemplateItems(tempResult[0]);
+    };
+
+    request.onerror = function (){
+        console.log("[DATABASE][TEMPLATE]Requete de recherche réussit");
+    };
+
+};
+
+
+
+// Remplit l'editeur de template avec les éléments du template extrait de la base
+function onSetTemplateItems(templateItem) {
+
+
+    if (devMode === true){console.log("[TEMPLATE] Set l'editeur de modèle avec les éléments extrait de la base");};
+
+    inputTemplateTitleRef.value = templateItem.title;
+    inputTemplateLocationRef.value = templateItem.location;
+    inputTemplateDistanceRef.value = templateItem.distance;
+    inputTemplateDurationRef.value = templateItem.duration;
+    textareaTemplateCommentRef.value = templateItem.comment;
+    inputTemplateIsPlannedRef.checked = templateItem.isPlanned;
+
+
+    // pour le selecteur d'activité, met le premier éléments qui à dans favoris, ou sinon CAP par défaut, C.A.P
+    selectorTemplateCategoryChoiceRef.value = templateItem.activityName;
+
+    // l'image de prévisualisation 
+    imgTemplateEditorPreviewRef.src = activityChoiceArray[templateItem.activityName].imgRef;
+    pTemplateEditorInfoRef.innerHTML = templateItem.isPlanned ? "📄Modèle d'activité.  🗓️Planifiée :":"📄Modèle d'activité : ";
+
+
+    //met les éléments du modèle dans une variable pour comparer les modifications par la suite
+    currentTemplateInView = templateItem;
+
+    onChangeMenu("ModifyTemplate");
 }
 
 
@@ -140,10 +293,8 @@ function onOpenMenuGestTemplate() {
 
 
 
-// Quitte le menu
-function onClickReturnFromGestTemplate() {
-    onLeaveMenu("GestTemplate");
-}
+
+
 
 
 
@@ -194,7 +345,7 @@ function onChangeTemplatePreview(activityName) {
 
 // Set l'icone "temporaire" dans la prévisualisation
 function onChangeTemplatePlanned(checkBoxValue) {
-    pTemplateEditorInfoRef.innerHTML = checkBoxValue ? " 📄Modèle d'activité planifiée :🗓️ ":"📄Modèle d'activité : ";
+    pTemplateEditorInfoRef.innerHTML = checkBoxValue ? " 📄Modèle d'activité.  🗓️Planifiée ":"📄Modèle d'activité : ";
 }
 
 
@@ -233,8 +384,6 @@ function onFormatTemplate() {
     };
     
 
-
-
     // Verification des champs requis
     if (devMode === true){console.log("[TEMPLATE] controle des champs requis");};
     let emptyField = onCheckEmptyField(inputTemplateTitleRef.value);
@@ -268,6 +417,110 @@ function onFormatTemplate() {
 }
 
 
+// Sauvegarde uniquement si une modification a bien été effectuée dans les données
+function onCheckIfTemplateModifiedRequired(templateToInsertFormat) {
+    
+    // Création d'une liste de champs à comparer
+    const fieldsToCompare = [
+        { oldValue: currentTemplateInView.title, newValue:  templateToInsertFormat.title },
+        { oldValue: currentTemplateInView.activityName, newValue: templateToInsertFormat.activityName },
+        { oldValue: currentTemplateInView.distance, newValue: templateToInsertFormat.distance },
+        { oldValue: currentTemplateInView.location, newValue: templateToInsertFormat.location },
+        { oldValue: currentTemplateInView.comment, newValue:  templateToInsertFormat.comment },
+        { oldValue: currentTemplateInView.duration, newValue:  templateToInsertFormat.duration },
+        { oldValue: currentTemplateInView.isPlanned, newValue:  templateToInsertFormat.isPlanned }
+    ];
+
+    if (devMode) {
+        fieldsToCompare.forEach(e=>{
+            console.log(e);
+        });
+    };
+
+    // Vérification si une différence est présente
+    // some s'arrete automatiquement si il y a une différence
+    // Vérification si une différence est présente
+    const updateDataRequiered = fieldsToCompare.some(field => {
+        if (typeof field.oldValue === "object" && field.oldValue !== null) {
+            // Utiliser JSON.stringify pour comparer les contenus des objets
+            return JSON.stringify(field.oldValue) !== JSON.stringify(field.newValue);
+        }
+        // Comparaison simple pour les types primitifs
+        return field.oldValue != field.newValue;
+    });
+
+
+    if (updateDataRequiered) {
+        if (devMode) console.log("[TEMPLATE] Informations d'activité différentes : Lancement de l'enregistrement en BdD");
+        onInsertTemplateModification(templateToInsertFormat);
+    } else {
+        if (devMode) console.log("[TEMPLATE] Aucune modification de modèle nécessaire !");
+         //Gestion de l'affichage 
+        onLeaveMenu("TemplateEditor");
+    }
+
+}
+
+
+// Insertion d'une modification d'une activité
+function onInsertTemplateModification(e) {
+    if (devMode === true){console.log("[TEMPLATE] fonction d'insertion de la donnée modifié");};
+
+    let transaction = db.transaction(templateStoreName,"readwrite");
+    let store = transaction.objectStore(templateStoreName);
+    let modifyRequest = store.getAll(IDBKeyRange.only(currentTemplateInView.key));
+
+    
+
+    modifyRequest.onsuccess = function () {
+        console.log("[TEMPLATE]modifyRequest = success");
+
+        let modifiedData = modifyRequest.result[0];
+
+        modifiedData.title = e.title;
+        modifiedData.activityName = e.activityName;
+        modifiedData.distance = e.distance;
+        modifiedData.location = e.location;
+        modifiedData.comment = e.comment;
+        modifiedData.duration = e.duration;
+        modifiedData.isPlanned = e.isPlanned;
+
+        let insertModifiedData = store.put(modifiedData);
+
+        insertModifiedData.onsuccess = function (){
+            if (devMode === true){console.log("[DATABASE][TEMPLATE]insertModifiedData = success");};
+
+
+        };
+
+        insertModifiedData.onerror = function (){
+           console.log("[DATABASE][TEMPLATE] insertModifiedData = error",insertModifiedData.error);
+
+            
+        };
+
+
+    };
+
+    modifyRequest.onerror = function(){
+        console.log("[DATABASE][TEMPLATE] ModifyRequest = error");
+    };
+
+    transaction.oncomplete = function(){
+        if (devMode === true){console.log("[DATABASE][TEMPLATE] transaction complete");};
+        
+        // Popup notification
+        onShowNotifyPopup(notifyTextArray.templateModification);
+        
+        // Remet à jour les éléments
+        //extraction des modèles de la base
+        onUpdateTemplateBddList(true);
+
+        //Gestion de l'affichage 
+        onLeaveMenu("TemplateEditor");
+
+    };
+};
 
 
 
@@ -301,6 +554,11 @@ function onInsertNewTemplate(dataToInsert) {
 
         // Popup notification
         onShowNotifyPopup(notifyTextArray.templateCreation);
+
+        // Remet à jour les éléments
+        //extraction des modèles de la base
+        onUpdateTemplateBddList(true);
+
 
         //Gestion de l'affichage 
         onLeaveMenu("TemplateEditor");
@@ -347,6 +605,86 @@ function onResetTemplateInputs() {
 };
 
 
+// --------------------- SUPPRESSION TEMPLATE --------------------------
 
 
+// Suppression d'activité
+function onClickDeleteFromTemplateEditor() {
+    
+    if (devMode === true){console.log("[TEMPLATE]demande de suppression template ");};
+
+    // L'affiche de la div doit se faire en "flex" donc je n'utilise pas le onChangeDisplay
+    document.getElementById("divConfirmDeleteTemplate").classList.add("show");
+
+    onChangeDisplay([],[],[],["divTemplateEditor","divBtnTemplateEditor"],[],[],[]);
+};
+
+
+function onConfirmDeleteTemplate(event){
+
+    event.stopPropagation();// Empêche la propagation du clic vers la div d'annulation
+    if (devMode === true){console.log("[TEMPLATE] Confirmation de suppression de template ");};
+    // retire la class "show" pour la div de confirmation
+    document.getElementById("divConfirmDeleteTemplate").classList.remove("show");
+    onChangeDisplay([],[],[],[],["divTemplateEditor","divBtnTemplateEditor"],[],[]);
+    onDeleteTemplate(currentTemplateInView.key);
+};
+
+
+function onAnnulDeleteTemplate(event) {
+    
+    if (devMode === true){console.log("[TEMPLATE] annulation de la suppression de template ");};
+    // retire la class "show" pour la div de confirmation
+    document.getElementById("divConfirmDeleteTemplate").classList.remove("show");
+    onChangeDisplay([],[],[],[],["divTemplateEditor","divBtnTemplateEditor"],[],[]);
+
+};
+
+
+
+
+function onDeleteTemplate(keyTarget) {
+    // recupere les éléments correspondant à la clé recherché et la stoque dans une variable
+    if (devMode === true){console.log("Suppression de l'activité avec la key : " + keyTarget);};
+    let transaction = db.transaction(templateStoreName,"readwrite");//transaction en écriture
+    let objectStore = transaction.objectStore(templateStoreName);
+    let request = objectStore.delete(IDBKeyRange.only(keyTarget));
+    
+    
+    request.onsuccess = function (){
+        console.log("[DATABASE] [TEMPLATE]Requete de suppression réussit");
+    };
+
+    request.onerror = function (){
+        console.log("Erreur lors de la requete de suppression");
+                
+    };
+
+
+    transaction.oncomplete = function(){
+        console.log("transaction complete");
+        // Remet à jour les éléments
+        //extraction des modèles de la base
+        onUpdateTemplateBddList(true);
+
+
+        // Popup notification
+        onShowNotifyPopup(notifyTextArray.templateDeleted);
+
+        //Gestion de l'affichage 
+        onLeaveMenu("TemplateEditor");        
+
+    };
+
+};
+
+
+
+
+
+
+// Quitte le menu
+function onClickReturnFromGestTemplate() {
+    onLeaveMenu("GestTemplate");
+}
 

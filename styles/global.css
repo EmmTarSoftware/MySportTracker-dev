@@ -1408,6 +1408,25 @@ input.fieldRequired{
 
 
 
+/*  ---------------------------------------- TEMPLATE -----------------------------------------------------*/
+
+
+
+div.templateList{
+    width: 100%;
+}
+
+img.templateList{
+    width: 30px;
+    margin-right: 20px;
+}
+
+span.templateList{
+    width: 100%;
+}
+
+
+
 
 
 .dev{

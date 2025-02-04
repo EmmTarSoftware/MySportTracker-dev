@@ -39,13 +39,15 @@ let dateToday = onFindDateTodayUS(),
 
 // NAVIGATION DANS LES MENUS 
 
+// reference le "p" qui contient le titre du menu pour le changer
+let pMenuTitleRef = document.getElementById("pMenuTitle");
+
 
 function onChangeMenu(menuTarget) {
 
     if (devMode === true){console.log(" [ NAVIGATION ] Demande de changement menu : " + menuTarget);};
 
-    // reference le "p" qui contient le titre du menu pour le changer
-    let pMenuTitleRef = document.getElementById("pMenuTitle");
+
 
 
     switch (menuTarget) {
@@ -106,11 +108,16 @@ function onChangeMenu(menuTarget) {
             onChangeDisplay(allDivHomeToDisplayNone,["divBtnGestTemplate"],["divGestTemplate"],[],[],[],[]);
             onOpenMenuGestTemplate();
         break;
-        case "TemplateEditor":
-            if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : TemplateEditor");};
+        case "NewTemplate":
+            if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : NewTemplate");};
             pMenuTitleRef.innerHTML = "Création de modèle";
             onChangeDisplay(["divBtnGestTemplate","divGestTemplate"],["divBtnTemplateEditor"],["divTemplateEditor"],[],[],["btnDeleteTemplate"],[]);
             onClickBtnCreateTemplate();
+        break;
+        case "ModifyTemplate":
+            if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : TemplateEditor");};
+            pMenuTitleRef.innerHTML = "Modification de modèle";
+            onChangeDisplay(["divBtnGestTemplate","divGestTemplate"],["divBtnTemplateEditor"],["divTemplateEditor"],[],[],[],["btnDeleteTemplate"]);
         break;
         case "Setting":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Setting");};
@@ -141,6 +148,7 @@ function onClickMainMenuSup(){
 
     if (templateAvailable) {
         document.getElementById("btnNewFromTemplate").style.display = "none";
+        if (devMode === true){console.log("HIDE : btnNewFromTemplate");};
     }
 };
 function onClickMenuSup(event,target) {
@@ -156,6 +164,7 @@ function onAnnulMenuSup(){
 
     if (templateAvailable) {
         document.getElementById("btnNewFromTemplate").style.display = "block";
+        if (devMode === true){console.log("Display : btnNewFromTemplate");};
     }
 };
 
@@ -216,6 +225,7 @@ function onLeaveMenu(menuTarget) {
         case "TemplateEditor":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : TemplateEditor");};
             onChangeDisplay(["divBtnTemplateEditor","divTemplateEditor"],["divBtnGestTemplate"],["divGestTemplate"],[],[],[],[]);
+            pMenuTitleRef.innerHTML = "Modèles";
         break;
         case "Setting":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Setting");};
@@ -439,7 +449,7 @@ function onStartDataBase() {
 
 
         //extraction des modèles de la base
-        onUpdateTemplateBddList();
+        onUpdateTemplateBddList(false);
     };
 
 
