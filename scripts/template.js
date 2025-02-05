@@ -223,13 +223,17 @@ function onClicOnTemplateInTemplateMenu(keyRef) {
     templateEditorMode = "modification";
 
     // Recherche du modèle à afficher
-    onSearchTemplateToDisplay(keyRef);
+    onSearchTemplateToDisplay(keyRef,false);
 
 }
 
 // Fonction de recherche d'une activité à afficher depuis la bdd.
-function onSearchTemplateToDisplay(keyRef) {
-    if (devMode === true){console.log("[TEMPLATE] Affichage du modèle extrait dans la BdD avec la key :  " + keyRef);};
+function onSearchTemplateToDisplay(keyRef,isForNewActivity) {
+    if (devMode === true){
+        console.log("[TEMPLATE] Affichage du modèle extrait dans la BdD avec la key :  " + keyRef);
+        let text = isForNewActivity ? "[TEMPLATE] recherche pour créer une nouvelle activité" : "[TEMPLATE] recherche pour modification de modele";
+        console.log(text);
+    };
     
 
     // recupere les éléments correspondant à la clé recherché et la stoque dans une variable
@@ -249,11 +253,18 @@ function onSearchTemplateToDisplay(keyRef) {
         // Affiche la note voulue
         let tempResult = request.result;
         if (devMode === true){console.log(tempResult[0]);};
-        onSetTemplateItems(tempResult[0]);
+
+        if (isForNewActivity) {
+            onOpenNewActivityFromTemplate(tempResult[0]);
+        }else{
+            onSetTemplateItems(tempResult[0]);
+        }
+
+
     };
 
     request.onerror = function (){
-        console.log("[DATABASE][TEMPLATE]Requete de recherche réussit");
+        console.log("[DATABASE][TEMPLATE]Requete de recherche erreur");
     };
 
 };
@@ -695,12 +706,6 @@ function onAnnulSelectTemplate(event) {
 
 
 
-
-
-
-
-
-
 // Génération de la liste des modèle lors de la selection d'un modèle pour créer une activité
 function onCreateTemplateChoiceList() {
     if (devMode === true){console.log(" [TEMPLATE] génération de la liste pour choisir le modèle");};
@@ -718,7 +723,8 @@ function onCreateTemplateChoiceList() {
         let newContainer = document.createElement("div");
         newContainer.classList.add("item-container");
         newContainer.onclick = function (){
-            onClicOnTemplateInTemplateMenu(e.key); 
+            onChangeMenu("NewActivityFromTemplate");
+            onSearchTemplateToDisplay(e.key,true); 
         }
 
         let newImg = document.createElement("img");

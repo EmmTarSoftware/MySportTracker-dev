@@ -244,7 +244,34 @@ function onOpenNewActivity() {
     
 };
 
+function onOpenNewActivityFromTemplate(templateItem) {
+    // Initialise les éléments
+    onResetActivityInputs();
 
+
+    activityEditorMode = "creation";
+
+    if (devMode === true){console.log("ouverture de l'editeur d'activité depuis un template en mode " + activityEditorMode);};
+
+
+    console.log("Valeur de templateItem : ");
+    console.log(templateItem);
+
+
+    //Set avec le élément du template
+    inputLocationRef.value = templateItem.location;
+    inputDistanceRef.value = templateItem.distance;
+    inputDurationRef.value = templateItem.duration;
+    textareaCommentRef.value = templateItem.comment;
+    inputIsPlannedRef.checked = templateItem.isPlanned;
+
+    // pour le selecteur d'activité, met le premier éléments qui à dans favoris, ou sinon CAP par défaut, C.A.P
+    selectorCategoryChoiceRef.value = templateItem.activityName;
+
+    // l'image de prévisualisation 
+    imgEditorActivityPreviewRef.src = activityChoiceArray[templateItem.activityName].imgRef;
+    pEditorActivityPreviewPlannedIconRef.innerHTML = templateItem.isPlanned ? "🗓️ Cette activité est planifiée.":"";
+}
 
 
 // Reset les inputs du menu activité

@@ -81,6 +81,11 @@ function onChangeMenu(menuTarget) {
             onChangeDisplay(allDivHomeToDisplayNone,["divBtnActivity"],["divActivityEditor"],[],[],["btnDeleteActivity"],[]);
             onOpenNewActivity();
         break;
+        case "NewActivityFromTemplate":
+            if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : NewActivityFromTemplate");};
+            pMenuTitleRef.innerHTML = "Créer une activité";
+            onChangeDisplay(["divBtnTemplateChoice","divTemplateChoice"],["divBtnActivity"],["divActivityEditor"],[],[],["btnDeleteActivity"],[]);
+        break;
         case "EditActivity":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : EditActivity");};
             pMenuTitleRef.innerHTML = "Editer une activité";
