@@ -485,6 +485,7 @@ button.new-from-template{
     bottom: 200px;
     right: 79px;
     transition: opacity 0.3s ease, transform 0.5s ease;
+    display: none;
 }
 button.new-from-template.hidden{
     opacity: 0;
@@ -1427,6 +1428,20 @@ span.templateList{
 
 
 
+/* div de selection d'un template*/
+
+
+div.selectTemplateForActivityList{
+    display: flex;
+    flex-direction: column;   /* Empile les items verticalement */
+    gap: 15px;                /* Espace entre chaque item-container */
+    align-items: flex-start;  /* Aligne les items en haut */
+    flex-grow: 1; /* Remplit l'espace restant entre header et footer */
+    overflow-y: auto; /* Permet le défilement vertical si nécessaire */
+    padding: 10px; /* Ajoute un petit espace intérieur */
+    box-sizing: border-box; /* Inclut les bordures et padding dans les dimensions */
+    height: 70vh;
+}
 
 
 .dev{

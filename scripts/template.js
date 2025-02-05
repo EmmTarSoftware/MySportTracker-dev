@@ -107,11 +107,11 @@ function onUpdateTemplateList(updateMenuListRequired) {
         if (devMode === true){
             console.log("[TEMPLATE] pour l'instant n'affiche pas le bouton 'new from template'");
             console.log("[TEMPLATE] Car je suis dans le menu 'template'");
-        } else{
-                // Gere l'affichage du bouton "new from template" selon
-                document.getElementById("btnNewFromTemplate").style.display = templateAvailable ? "block" : "none";
-        }
-    }
+        } 
+    }else{
+        // Gere l'affichage du bouton "new from template" selon
+        document.getElementById("btnNewFromTemplate").style.display = templateAvailable ? "block" : "none";
+}
 
 
 
@@ -679,6 +679,64 @@ function onDeleteTemplate(keyTarget) {
 };
 
 
+// ---------------------------- SELECTION D'un TEMPLATE ---------------------------------
+
+
+
+
+
+function onAnnulSelectTemplate(event) {
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Génération de la liste des modèle lors de la selection d'un modèle pour créer une activité
+function onCreateTemplateChoiceList() {
+    if (devMode === true){console.log(" [TEMPLATE] génération de la liste pour choisir le modèle");};
+
+    let divTemplateChoiceListRef = document.getElementById("divTemplateChoiceList");
+    // Reset
+    divTemplateChoiceListRef.innerHTML = "";
+
+
+
+    // Génère la liste
+    userTemplateList.forEach(e=>{
+
+        // Creation
+        let newContainer = document.createElement("div");
+        newContainer.classList.add("item-container");
+        newContainer.onclick = function (){
+            onClicOnTemplateInTemplateMenu(e.key); 
+        }
+
+        let newImg = document.createElement("img");
+        newImg.classList.add("templateList");
+        newImg.src = activityChoiceArray[e.activityName].imgRef;
+
+        let newTitle = document.createElement("span");
+        newTitle.innerHTML = e.title;
+
+        // Insertion
+
+        newContainer.appendChild(newImg);
+        newContainer.appendChild(newTitle);
+
+
+        divTemplateChoiceListRef.appendChild(newContainer);
+    });
+}
 
 
 
