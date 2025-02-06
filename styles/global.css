@@ -1414,24 +1414,6 @@ input.fieldRequired{
 
 
 div.templateList{
-    width: 100%;
-}
-
-img.templateList{
-    width: 30px;
-    margin-right: 20px;
-}
-
-span.templateList{
-    width: 100%;
-}
-
-
-
-/* div de selection d'un template*/
-
-
-div.selectTemplateForActivityList{
     display: flex;
     flex-direction: column;   /* Empile les items verticalement */
     gap: 15px;                /* Espace entre chaque item-container */
@@ -1440,8 +1422,47 @@ div.selectTemplateForActivityList{
     overflow-y: auto; /* Permet le défilement vertical si nécessaire */
     padding: 10px; /* Ajoute un petit espace intérieur */
     box-sizing: border-box; /* Inclut les bordures et padding dans les dimensions */
-    height: 70vh;
+    height: 100vh;
+    width: 100%; 
 }
+
+.item-template-container {
+    width: 95%;          
+    display: flex;       
+    background-color: var(--colorLightGray); 
+    padding: 10px 5px 10px 5px;
+    border-radius: 10px;
+    box-shadow: var(--boxShadowPlus);
+}
+
+
+img.templateList{
+    width: 30px;
+    margin-right: 20px;
+}
+
+
+img.templateListSet{
+    width: 20px;height: 20px;
+    padding-top: 5px;
+    margin-right: 20px;
+}
+
+span.templateList{
+    padding-top: 10px;
+    width: 100%;
+    white-space: nowrap; /* Pour éviter le retour à la ligne */
+	overflow: hidden; /*Cache le texte qui dépasse */
+    /* font-size: 0.8rem; */
+    color: var(--colorMainTheme1);
+
+  	text-overflow: ellipsis; /*Ajoute des points de suspension (...) pour indiquer que du texte est masqué*/
+}
+
+span.gestion{
+    color: #555;
+}
+
 
 
 .dev{

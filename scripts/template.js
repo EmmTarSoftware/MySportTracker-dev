@@ -1,7 +1,8 @@
 
 let userTemplateList = [{activityName:"",title:"",key:""}],
     templateAvailable = false,
-    currentTemplateInView = {};
+    currentTemplateInView = {},
+    maxTemplate = 30;
 
 // Génère la liste d'activité pour les modèles
 onGenerateActivityOptionChoice("selectorTemplateCategoryChoice");
@@ -85,6 +86,13 @@ function onExtractTemplateKeyAndTitle(data,updateMenuListRequired) {
         console.log(userTemplateList);
         console.log("[TEMPLATE] Demande d'actualisation de l'affichage");
     };
+
+
+
+
+    //gère l'affichage du bouton de création new template selon si le max atteind
+    document.getElementById("btnCreateTemplate").disabled = userTemplateList.length >= maxTemplate ? true : false;
+
 
     onUpdateTemplateList(updateMenuListRequired);
         
@@ -175,13 +183,12 @@ function onCreateTemplateMenuList(templateList) {
     }
 
 
-
     // Génère la liste
-    templateList.forEach(e=>{
+    templateList.forEach((e,index)=>{
 
         // Creation
         let newContainer = document.createElement("div");
-        newContainer.classList.add("item-container");
+        newContainer.classList.add("item-template-container");
         newContainer.onclick = function (){
             onClicOnTemplateInTemplateMenu(e.key); 
         }
@@ -192,14 +199,30 @@ function onCreateTemplateMenuList(templateList) {
 
         let newTitle = document.createElement("span");
         newTitle.innerHTML = e.title;
+        newTitle.classList.add("templateList","gestion");
+
+        // Image "setting"
+        let newImgSet = document.createElement("img");
+        newImgSet.classList.add("templateListSet");
+        newImgSet.src = "./Icons/Icon-Set-Template.webp";
+
 
         // Insertion
 
         newContainer.appendChild(newImg);
         newContainer.appendChild(newTitle);
-
+        newContainer.appendChild(newImgSet);
 
         divTemplateListMenuRef.appendChild(newContainer);
+
+
+        // Creation de la ligne de fin pour le dernier index
+        if (index === (userTemplateList.length - 1)) {
+            let newClotureList = document.createElement("span");
+            newClotureList.classList.add("last-container");
+            newClotureList.innerHTML = "ℹ️ Créez jusqu'à 30 modèles d'activités.";
+            divTemplateListMenuRef.appendChild(newClotureList);
+        }
     });
 }
 
@@ -721,7 +744,7 @@ function onCreateTemplateChoiceList() {
 
         // Creation
         let newContainer = document.createElement("div");
-        newContainer.classList.add("item-container");
+        newContainer.classList.add("item-template-container");
         newContainer.onclick = function (){
             onChangeMenu("NewActivityFromTemplate");
             onSearchTemplateToDisplay(e.key,true); 
@@ -733,6 +756,7 @@ function onCreateTemplateChoiceList() {
 
         let newTitle = document.createElement("span");
         newTitle.innerHTML = e.title;
+        newTitle.classList.add("templateList");
 
         // Insertion
 

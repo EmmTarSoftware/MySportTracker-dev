@@ -13,6 +13,7 @@ const CRITICAL_ASSETS = [
   `${basePath}styles/global.css`,
   `${basePath}scripts/scripts/template.js`,
   `${basePath}scripts/globalFunction.js`,
+  `${basePath}scripts/activityList.js`,
   `${basePath}scripts/activitySystem.js`,
   `${basePath}scripts/app.js`,
   `${basePath}scripts/favoris.js`,
@@ -59,6 +60,8 @@ const ICONS = [
   `${basePath}Icons/MSS_Prod-QR-code.webp`,
   `${basePath}Icons/Icon-Favoris-Menu.webp`,
   `${basePath}Icons/Icon-wait.webp`,
+  `${basePath}Icons/Icon-Plus.webp`,
+  `${basePath}Icons/Icon-Set-Template.webp`,
   `${basePath}Icons/badge-locked.webp`
 ];
 

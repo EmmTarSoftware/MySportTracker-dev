@@ -115,7 +115,7 @@ function onChangeMenu(menuTarget) {
         break;
         case "GestTemplate":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : GestTemplate");};
-            pMenuTitleRef.innerHTML = "Modèles";
+            pMenuTitleRef.innerHTML = "Gestion des modèles";
             onChangeDisplay(allDivHomeToDisplayNone,["divBtnGestTemplate"],["divGestTemplate"],[],[],[],[]);
             onOpenMenuGestTemplate();
         break;
@@ -240,7 +240,7 @@ function onLeaveMenu(menuTarget) {
         case "TemplateEditor":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : TemplateEditor");};
             onChangeDisplay(["divBtnTemplateEditor","divTemplateEditor"],["divBtnGestTemplate"],["divGestTemplate"],[],[],[],[]);
-            pMenuTitleRef.innerHTML = "Modèles";
+            pMenuTitleRef.innerHTML = "Gestion des modèles";
         break;
         case "Setting":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Setting");};
@@ -348,7 +348,7 @@ let db,
     settingStoreName = "Setting",
     templateStoreName = "Template",
     // Nom des stores à importer et exporter dans les fonctions import export. 
-    storeNames = [activityStoreName, profilStoreName, rewardsStoreName,settingStoreName],//Ajouter tous les noms des stores ici
+    storeNames = [activityStoreName, profilStoreName, rewardsStoreName,settingStoreName,templateStoreName],//Ajouter tous les noms des stores ici
     currentBaseVersion = 7,
     cookiesBddVersion_KeyName = "MSS-bddVersion";
     
