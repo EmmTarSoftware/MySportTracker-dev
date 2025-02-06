@@ -3,13 +3,13 @@ function onGenerateActivityOptionChoice(selectorChoiceId) {
 
 
     // Traite d'abord les favoris
-    if (devMode === true){console.log("[Activity Choice] Lancement de la generation des choix des activités");};
+    if (devMode === true){console.log("Lancement de la generation des choix des activités");};
 
     let selectorRef = document.getElementById(selectorChoiceId);
-    if (devMode === true){console.log("[Activity Choice] Reset les éléments");};
+    if (devMode === true){console.log("Reset les éléments");};
     selectorRef.innerHTML = "";
 
-    if (devMode === true){console.log("[Activity Choice] ajout des favoris si présent = " + userFavoris.length);};
+    if (devMode === true){console.log(" ajout des favoris si présent = " + userFavoris.length);};
     userFavoris.sort();
 
     userFavoris.forEach(activity => {

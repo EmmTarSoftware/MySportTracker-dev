@@ -4,8 +4,8 @@ let userTemplateList = [{activityName:"",title:"",key:""}],
     currentTemplateInView = {},
     maxTemplate = 30;
 
-// Génère la liste d'activité pour les modèles
-onGenerateActivityOptionChoice("selectorTemplateCategoryChoice");
+
+
 
 // Reférencement
 let imgTemplateEditorPreviewRef = document.getElementById("imgTemplateEditorPreview"),
@@ -157,6 +157,13 @@ function onOpenMenuGestTemplate() {
 
     // Génération de la liste des modèles
     onCreateTemplateMenuList(userTemplateList);
+
+
+    
+    // Génère la liste d'activité pour les modèles
+    onGenerateActivityOptionChoice("selectorTemplateCategoryChoice");
+
+
 }
 
 

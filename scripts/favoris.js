@@ -118,7 +118,7 @@ function onChangeFavorisStatus(imgTarget,favorisDataName) {
     onSaveFavorisInLocalStorage();
 
     // Remet à jour les options de choix
-    onGenerateActivityOptionChoice();
+    onGenerateActivityOptionChoice("selectorCategoryChoice");
 
     if (devMode === true){
         console.log("[FAVORIS] tableau des favoris =   ");
