@@ -1446,6 +1446,7 @@ img.templateListSet{
     width: 20px;height: 20px;
     padding-top: 5px;
     margin-right: 10px;
+    opacity: 0.2;
 }
 
 span.templateList{
@@ -1462,6 +1463,48 @@ span.templateList{
 span.gestion{
     color: #555;
 }
+
+
+/* SELECTEUR DE MODELE */
+
+
+div.templateChoice {
+    z-index: 10;
+    display: none;
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.50);
+}
+
+div.templateListChoice {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: flex-start;
+    overflow-y: auto; /* Active le scroll si nécessaire */
+    padding: 40px;
+    box-sizing: border-box;
+    
+    position: absolute;
+    top: 150px; /* Démarre à 100px du haut */
+    bottom: 150px; /* S'arrête à 100px du bas */
+    left: 0;
+    right: 0;
+}
+
+
+/* Effet bouton désactivé lorsque peut plus faire de modèle */
+button:disabled {
+    opacity: 0.5;  /* Rend le bouton plus pâle */
+    cursor: not-allowed; /* Change le curseur */
+    filter: grayscale(100%); /* Rend l'image en noir et blanc */
+}
+
+button:disabled img {
+    opacity: 0.5; /* Assombrit aussi l'image */
+}
+
 
 
 

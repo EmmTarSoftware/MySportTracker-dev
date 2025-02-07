@@ -727,7 +727,9 @@ function onDeleteTemplate(keyTarget) {
 
 
 function onAnnulSelectTemplate(event) {
-    
+    event.stopPropagation();
+    if (devMode === true){console.log("Traitement pour quitter le menu : TemplateChoice");};
+    onChangeDisplay(["divTemplateChoice"],[],[],[],[],[],[]);
 }
 
 
@@ -774,6 +776,10 @@ function onCreateTemplateChoiceList() {
         divTemplateChoiceListRef.appendChild(newContainer);
     });
 }
+
+
+
+
 
 
 

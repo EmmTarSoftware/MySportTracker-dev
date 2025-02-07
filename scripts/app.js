@@ -84,7 +84,7 @@ function onChangeMenu(menuTarget) {
         case "NewActivityFromTemplate":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : NewActivityFromTemplate");};
             pMenuTitleRef.innerHTML = "Créer une activité";
-            onChangeDisplay(["divBtnTemplateChoice","divTemplateChoice"],["divBtnActivity"],["divActivityEditor"],[],[],["btnDeleteActivity"],[]);
+            onChangeDisplay(allDivHomeToDisplayNone,["divBtnActivity"],["divActivityEditor"],[],[],["btnDeleteActivity"],[]);
         break;
         case "EditActivity":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : EditActivity");};
@@ -93,9 +93,8 @@ function onChangeMenu(menuTarget) {
         break;
         case "TemplateChoice":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : TemplateChoice");};
-            pMenuTitleRef.innerHTML = "Sélection d'un modèle";
             onCreateTemplateChoiceList();
-            onChangeDisplay(allDivHomeToDisplayNone,["divBtnTemplateChoice"],["divTemplateChoice"],[],[],[],[]);
+            onChangeDisplay([],[],["divTemplateChoice"],[],[],[],[]);
         break;
 
         
@@ -209,10 +208,6 @@ function onLeaveMenu(menuTarget) {
         case "Activity":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Activity");};
             onChangeDisplay(["divActivityEditor","divBtnActivity"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],["divActivityEditor","divBtnActivity"],[],[]);
-        break;
-        case "TemplateChoice":
-            if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu : TemplateChoice");};
-            onChangeDisplay(["divTemplateChoice","divBtnTemplateChoice"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],["divActivityEditor","divBtnActivity"],[],[]);
         break;
 
         // Condition utilisateur
