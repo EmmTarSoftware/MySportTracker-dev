@@ -757,6 +757,14 @@ function onCreateTemplateChoiceList() {
             onSearchTemplateToDisplay(e.key,true); 
         }
 
+        // Style sans border botton pour le dernier
+        if (index === (userTemplateList.length - 1)) {
+            newContainer.classList.add("select-fake-last-item");
+        }
+
+
+
+
         let newImg = document.createElement("img");
         newImg.classList.add("templateList");
         newImg.src = activityChoiceArray[e.activityName].imgRef;
@@ -774,6 +782,8 @@ function onCreateTemplateChoiceList() {
         if (index === 0) {
             newBtnRadioFake.classList.add("selected");
         }
+
+
 
 
         // Insertion

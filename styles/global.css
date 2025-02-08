@@ -1503,7 +1503,9 @@ div.templateListChoice {
     padding-bottom: 10px;
 }
 
-
+.select-fake-last-item{
+    border-bottom: none;
+}
 
 span.templateListChoice{
     padding-top: 5px;
@@ -1518,6 +1520,28 @@ img.templateListChoice{
     padding-top: 5px;
     margin-right: 10px;
 }
+
+
+
+
+
+/* Effet bouton désactivé lorsque peut plus faire de modèle */
+button:disabled {
+    opacity: 0.5;  
+    cursor: not-allowed; /* Change le curseur */
+    filter: grayscale(100%); /* Rend l'image en noir et blanc */
+}
+
+button:disabled img {
+    opacity: 0.5; /* Assombrit aussi l'image */
+}
+
+
+
+
+
+/* BOUTON RADIO FAKE */
+
 
 
 .radio-button-fake {
@@ -1545,17 +1569,6 @@ img.templateListChoice{
 
 
 
-
-/* Effet bouton désactivé lorsque peut plus faire de modèle */
-button:disabled {
-    opacity: 0.5;  
-    cursor: not-allowed; /* Change le curseur */
-    filter: grayscale(100%); /* Rend l'image en noir et blanc */
-}
-
-button:disabled img {
-    opacity: 0.5; /* Assombrit aussi l'image */
-}
 
 
 
