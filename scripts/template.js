@@ -746,14 +746,12 @@ function onCreateTemplateChoiceList() {
     // Reset
     divTemplateChoiceListRef.innerHTML = "";
 
-
-
     // Génère la liste
-    userTemplateList.forEach(e=>{
+    userTemplateList.forEach((e,index)=>{
 
         // Creation
         let newContainer = document.createElement("div");
-        newContainer.classList.add("item-template-container");
+        newContainer.classList.add("item-template-container-choice");
         newContainer.onclick = function (){
             onChangeMenu("NewActivityFromTemplate");
             onSearchTemplateToDisplay(e.key,true); 
@@ -765,13 +763,24 @@ function onCreateTemplateChoiceList() {
 
         let newTitle = document.createElement("span");
         newTitle.innerHTML = e.title;
-        newTitle.classList.add("templateList");
+        newTitle.classList.add("templateListChoice");
+
+
+        // Bouton radio fake pour simuler le selecteur
+        let newBtnRadioFake = document.createElement("div");
+        newBtnRadioFake.classList.add("radio-button-fake");
+
+        // Effet bouton plein pour le premier item de la liste
+        if (index === 0) {
+            newBtnRadioFake.classList.add("selected");
+        }
+
 
         // Insertion
 
         newContainer.appendChild(newImg);
         newContainer.appendChild(newTitle);
-
+        newContainer.appendChild(newBtnRadioFake);
 
         divTemplateChoiceListRef.appendChild(newContainer);
     });

@@ -5,7 +5,7 @@ const basePath = serviceWorkerUrl.replace(/service-worker\.js$/, '');
 console.log(`[SERVICE WORKER] : BasePath = ${basePath}`);
 
 // Nom de la version du cache
-const CACHE_VERSION = "V1.5.4"; // Incrémente la version à chaque mise à jour
+const CACHE_VERSION = "V1.5.5"; // Incrémente la version à chaque mise à jour
 const STATIC_CACHE = `static-${CACHE_VERSION}`;
 
 // Les js et css (fichiers critiques : Network First)
@@ -37,6 +37,8 @@ const STATIC_FILES = [
 // Liste des fichiers explicites pour les trois dossiers
 const ICONS = [
   `${basePath}Icons/Icon-Accepter.webp`,
+  `${basePath}Icons/Icon-Select-Full.webp`,
+  `${basePath}Icons/Icon-Select-empty.webp`,
   `${basePath}Icons/Icon-From-Modele.webp`,
   `${basePath}Icons/Icon-Autres.webp`,
   `${basePath}Icons/Icon-Delete.webp`,
