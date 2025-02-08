@@ -1538,8 +1538,32 @@ button:disabled img {
 
 
 
+/* ------------------------  FAKE SELECTEUR --------------------------*/
 
 
+
+
+/* Le selecteur en lui même */
+div.fake-selector{
+    border-bottom: solid 1px var(--colorMainTheme1);
+    background-color: white;
+    height: 25px;
+    padding: 0 10px; /* Ajoute un padding intérieur de 10px */
+    margin-left: 10px;
+    width: calc(100% - 20px);
+    box-sizing: border-box; /* Inclus padding et bordures dans les dimensions */
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Sépare le texte et la flèche */
+}
+
+span.fake-selector{
+    font-size: 0.8rem;
+}
+
+svg.arrow {
+    flex-shrink: 0; /* Empêche la flèche de rétrécir */
+}
 /* BOUTON RADIO FAKE */
 
 
