@@ -61,7 +61,7 @@ function onGenerateFakeOptionList(idParentTarget) {
         newContainer.classList.add("fake-opt-item-container");
         newContainer.onclick = function (event){
             event.stopPropagation();
-            onChangeActivityTypeFromFakeSelect(e,selectorCategoryChoiceRef,fakeSelectorActivityEditorTextRef);
+            onChangeActivityTypeFromFakeSelect(e);
             onSetBtnRadio(e);
         }
     
@@ -231,16 +231,13 @@ function onResetBtnRadio() {
 // Changement de type d'activité via le fake selecteur
 function onChangeActivityTypeFromFakeSelect(activityType) {
 
-    let realSelectorTargetRef,
-        fakeSelectorTargetRef;
+    let realSelectorTargetRef;
 
         // Référence les éléments cibles
     if (fakeOptionTargetMode === "activityEditor") {
         realSelectorTargetRef = document.getElementById("selectorCategoryChoice");
-        fakeSelectorTargetRef = document.getElementById("fakeSelectorActivityEditorText");
     } else if (fakeOptionTargetMode === "templateEditor"){
         realSelectorTargetRef = document.getElementById("selectorTemplateCategoryChoice");
-        fakeSelectorTargetRef = document.getElementById("fakeSelectorTemplateEditorText");
     }else {
         console.log("ERREUR dans le mode du fake");
     }
@@ -248,9 +245,6 @@ function onChangeActivityTypeFromFakeSelect(activityType) {
 
     // set la nouvelle valeur dans le vrai selecteur caché
     realSelectorTargetRef.value = activityType;
-
-    // Ainsi que dans le fake selecteur
-    fakeSelectorTargetRef.innerHTML = activityChoiceArray[activityType].displayName;
 
 
     // set l'image de prévisualisation

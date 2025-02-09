@@ -34,7 +34,6 @@ let pInterfaceActivityTitleRef = document.getElementById("pInterfaceActivityTitl
     inputDurationRef = document.getElementById("inputDuration"),
     textareaCommentRef = document.getElementById("textareaComment"),
     selectorCategoryChoiceRef = document.getElementById("selectorCategoryChoice"),
-    fakeSelectorActivityEditorTextRef = document.getElementById("fakeSelectorActivityEditorText"),
     divItemListRef = document.getElementById("divItemList"),
     imgEditorActivityPreviewRef = document.getElementById("imgEditorActivityPreview"),
     inputIsPlannedRef = document.getElementById("inputIsPlanned"),
@@ -84,7 +83,6 @@ function onOpenNewActivityFromTemplate(templateItem) {
 
     // pour le selecteur d'activité, met le premier éléments qui à dans favoris, ou sinon CAP par défaut, C.A.P
     selectorCategoryChoiceRef.value = templateItem.activityName;
-    fakeSelectorActivityEditorTextRef.innerHTML = activityChoiceArray[templateItem.activityName].displayName;
 
     // l'image de prévisualisation 
     imgEditorActivityPreviewRef.src = activityChoiceArray[templateItem.activityName].imgRef;
@@ -104,8 +102,7 @@ function onResetActivityInputs() {
 
     // pour le selecteur d'activité, met le premier éléments qui à dans favoris, ou sinon CAP par défaut, C.A.P
     selectorCategoryChoiceRef.value = userFavoris.length > 0 ? userFavoris[0] : "C.A.P";
-    fakeSelectorActivityEditorTextRef.innerHTML = userFavoris.length > 0 ? activityChoiceArray[userFavoris[0]].displayName : activityChoiceArray["C.A.P"].displayName;
-
+   
     // l'image de prévisualisation 
     imgEditorActivityPreviewRef.src = userFavoris.length > 0 ? activityChoiceArray[userFavoris[0]].imgRef  : activityChoiceArray["C.A.P"].imgRef;
     pEditorActivityPreviewPlannedIconRef.innerHTML = "";
@@ -573,7 +570,6 @@ function onEditActivity(activityTarget) {
 
 
     selectorCategoryChoiceRef.value = activityTarget.name;
-    fakeSelectorActivityEditorTextRef.innerHTML = activityChoiceArray[activityTarget.name].displayName;
     inputDateRef.value = activityTarget.date;
     inputLocationRef.value = activityTarget.location;
     inputDistanceRef.value = activityTarget.distance;

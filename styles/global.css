@@ -1491,7 +1491,7 @@ div.fake-option-area {
     top: 50%;
     left: 10px;
     right: 10px;
-    max-height: calc(100vh - 100px); /* 50px en haut et en bas */
+    max-height: calc(100vh - 200px); /* 50px en haut et en bas */
     transform: translateY(-50%);
 }
 
@@ -1530,6 +1530,7 @@ img.fake-opt-item{
 
 span.fake-opt-item-favoris{
     color: var(--colorMainTheme1);
+    font-weight: bold;
 }
 
 span.favouriteSymbol{
@@ -1558,17 +1559,8 @@ button:disabled img {
 
 /* Le selecteur en lui même */
 div.fake-selector{
-    border-bottom: solid 1px var(--colorMainTheme1);
-    background-color: white;
-    height: 25px;
-    min-height: 25px;
-    padding: 0 10px; /* Ajoute un padding intérieur de 10px */
-    margin-left: 10px;
-    width: calc(100% - 20px);
+    width:100%;
     box-sizing: border-box; /* Inclus padding et bordures dans les dimensions */
-    display: flex;
-    align-items: center;
-    justify-content: space-between; /* Sépare le texte et la flèche */
 }
 
 span.fake-selector{
@@ -1607,8 +1599,8 @@ svg.arrow {
 }
 
 
-.masked{
-    display: none;
+.locked{
+    pointer-events: none;
 }
 
 

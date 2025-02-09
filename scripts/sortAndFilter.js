@@ -207,7 +207,7 @@ function onGenerateFakeActivityOptionFilter(allActivityData) {
     // Ajouter l'option "Planifiées" juste après si existe
     if (isActivityPlannedExist) {
         let newContainer = document.createElement("div");
-        newContainer.classList.add("fake-opt-item-container");
+        newContainer.classList.add("fake-opt-item-container","fake-opt-item-last-favourite");
         newContainer.onclick = function (event){
             event.stopPropagation();
             onChangeSelectorFilter("PLANNED","btnRadio-filter-isPlanned");
