@@ -11,6 +11,7 @@ let userTemplateList = [{activityName:"",title:"",key:""}],
 let imgTemplateEditorPreviewRef = document.getElementById("imgTemplateEditorPreview"),
     pTemplateEditorInfoRef = document.getElementById("pTemplateEditorInfo"),
     selectorTemplateCategoryChoiceRef = document.getElementById("selectorTemplateCategoryChoice"),
+    fakeSelectorTemplateEditorTextRef = document.getElementById("fakeSelectorTemplateEditorText"),
     inputTemplateIsPlannedRef = document.getElementById("inputTemplateIsPlanned"),
     inputTemplateTitleRef = document.getElementById("inputTemplateTitle"),
     inputTemplateLocationRef = document.getElementById("inputTemplateLocation"),
@@ -317,6 +318,7 @@ function onSetTemplateItems(templateItem) {
 
     // pour le selecteur d'activité, met le premier éléments qui à dans favoris, ou sinon CAP par défaut, C.A.P
     selectorTemplateCategoryChoiceRef.value = templateItem.activityName;
+    fakeSelectorTemplateEditorTextRef.innerHTML = activityChoiceArray[templateItem.activityName].displayName;
 
     // l'image de prévisualisation 
     imgTemplateEditorPreviewRef.src = activityChoiceArray[templateItem.activityName].imgRef;
@@ -637,6 +639,8 @@ function onResetTemplateInputs() {
 
     // pour le selecteur d'activité, met le premier éléments qui à dans favoris, ou sinon CAP par défaut, C.A.P
     selectorTemplateCategoryChoiceRef.value = userFavoris.length > 0 ? userFavoris[0] : "C.A.P";
+    fakeSelectorTemplateEditorTextRef.innerHTML = userFavoris.length > 0 ? activityChoiceArray[userFavoris[0]].displayName : activityChoiceArray["C.A.P"].displayName;
+
 
     // l'image de prévisualisation 
     imgTemplateEditorPreviewRef.src = userFavoris.length > 0 ? activityChoiceArray[userFavoris[0]].imgRef  : activityChoiceArray["C.A.P"].imgRef;

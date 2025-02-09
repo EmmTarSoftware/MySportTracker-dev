@@ -377,6 +377,13 @@
                 </select>
             </p>
 
+            <div class="fake-selector" onclick="onClickFakeSelect('templateEditor')">
+                <span id="fakeSelectorTemplateEditorText" class="fake-selector">Activity Name</span>
+                <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M6 9l6 6 6-6"></path>
+                </svg>
+            </div>
+
             <p class="activity-editor">
                 <span class="spanCheckbox">Planifiée : </span>
                 <input id="inputTemplateIsPlanned" type="checkbox" onchange="onChangeTemplatePlanned(this.checked)">

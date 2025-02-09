@@ -36,7 +36,7 @@ function onGenerateActivityOptionChoice(selectorChoiceId) {
 };
 
 
-
+let fakeOptionTargetMode = "";//pour connaitre à quel système s'addresse le fake selecteur (activityEditor ou templateEditor)
 
 
 function onGenerateFakeOptionList(idParentTarget) {
@@ -60,7 +60,7 @@ function onGenerateFakeOptionList(idParentTarget) {
         newContainer.classList.add("fake-opt-item-container");
         newContainer.onclick = function (event){
             event.stopPropagation();
-            onChangeActivityTypeFromFakeSelect(e,selectorCategoryChoiceRef);
+            onChangeActivityTypeFromFakeSelect(e,selectorCategoryChoiceRef,fakeSelectorActivityEditorTextRef);
         }
     
         // Style sans border botton pour le dernier
@@ -115,7 +115,7 @@ function onGenerateFakeOptionList(idParentTarget) {
         newContainer.classList.add("fake-opt-item-container");
         newContainer.onclick = function (event){
             event.stopPropagation();
-            onChangeActivityTypeFromFakeSelect(e,selectorCategoryChoiceRef);
+            onChangeActivityTypeFromFakeSelect(e);
         }
     
         // Style sans border botton pour le dernier
@@ -156,15 +156,40 @@ function onGenerateFakeOptionList(idParentTarget) {
 
 
 // Changement de type d'activité via le fake selecteur
-function onChangeActivityTypeFromFakeSelect(activityType,realSelectorTarget) {
+function onChangeActivityTypeFromFakeSelect(activityType) {
+
+    let realSelectorTargetRef,
+        fakeSelectorTargetRef;
+
+        // Référence les éléments cibles
+    if (fakeOptionTargetMode === "activityEditor") {
+        realSelectorTargetRef = document.getElementById("selectorCategoryChoice");
+        fakeSelectorTargetRef = document.getElementById("fakeSelectorActivityEditorText");
+    } else if (fakeOptionTargetMode === "templateEditor"){
+        realSelectorTargetRef = document.getElementById("selectorTemplateCategoryChoice");
+        fakeSelectorTargetRef = document.getElementById("fakeSelectorTemplateEditorText");
+    }else {
+        console.log("ERREUR dans le mode du fake");
+    }
+
 
     // set la nouvelle valeur dans le vrai selecteur caché
-    realSelectorTarget.value = activityType;
+    realSelectorTargetRef.value = activityType;
 
     // Ainsi que dans le fake selecteur
-    fakeSelectorActivityEditorTextRef.innerHTML = activityChoiceArray[activityType].displayName;
+    fakeSelectorTargetRef.innerHTML = activityChoiceArray[activityType].displayName;
 
-    onChangeActivityPreview(activityType);
+
+    // set l'image de prévisualisation
+    if (fakeOptionTargetMode === "activityEditor") {
+        onChangeActivityPreview(activityType);
+    } else if (fakeOptionTargetMode === "templateEditor"){
+        onChangeTemplatePreview(activityType);
+    }else {
+        console.log("ERREUR dans le mode du fake");
+    }
+
+
 
     // ferme le fake option
     onCloseFakeSelectOpt();
@@ -174,6 +199,11 @@ function onChangeActivityTypeFromFakeSelect(activityType,realSelectorTarget) {
 
 // Clique sur le fake selecteur
 function onClickFakeSelect(MenuTarget){
+
+
+    //set le mode d'ouverture du fake selecteur. Pour activityEditor ou templateEditor
+    fakeOptionTargetMode = MenuTarget;
+
     // Affiche le fake option
     document.getElementById("divFakeSelectOpt").style.display = "flex";
 
