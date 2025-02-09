@@ -175,6 +175,9 @@ function onGenerateFakeActivityOptionFilter(allActivityData) {
     parentTargetRef.innerHTML = "";
 
 
+    // Le bouton radio sera set par rapport au current filter
+
+
     // Ajouter l'option "Tous" au début
     let newContainer = document.createElement("div");
     newContainer.classList.add("fake-opt-item-container");
@@ -182,6 +185,11 @@ function onGenerateFakeActivityOptionFilter(allActivityData) {
         event.stopPropagation();
         onChangeSelectorFilter("ALL","btnRadio-filter-all");
     }
+    // Ajout la ligne bleu si ne créer pas l'option "PLANNED"
+    if (!isActivityPlannedExist) {
+        newContainer.classList.add("fake-opt-item-last-favourite");
+    }
+
     let newImg = document.createElement("img");
     newImg.classList.add("fake-opt-item");
     newImg.src = "./images/icon-All.webp";
@@ -192,8 +200,15 @@ function onGenerateFakeActivityOptionFilter(allActivityData) {
 
     // Bouton radio fake pour simuler le selecteur
     let newBtnRadioFake = document.createElement("div");
-    newBtnRadioFake.classList.add("radio-button-fake" ,"selected");
+    newBtnRadioFake.classList.add("radio-button-fake");
+
+    if (currentFilter === "ALL") {
+        newBtnRadioFake.classList.add("selected");
+    }
+
     newBtnRadioFake.id = "btnRadio-filter-all";
+
+
 
 
     // Insertion
@@ -212,6 +227,7 @@ function onGenerateFakeActivityOptionFilter(allActivityData) {
             event.stopPropagation();
             onChangeSelectorFilter("PLANNED","btnRadio-filter-isPlanned");
         }
+
         let newImg = document.createElement("img");
         newImg.classList.add("fake-opt-item");
         newImg.src = "./images/icon-isPlanned.webp";
@@ -224,7 +240,9 @@ function onGenerateFakeActivityOptionFilter(allActivityData) {
         let newBtnRadioFake = document.createElement("div");
         newBtnRadioFake.classList.add("radio-button-fake");
         newBtnRadioFake.id = "btnRadio-filter-isPlanned";
-
+        if (currentFilter === "PLANNED") {
+            newBtnRadioFake.classList.add("selected");
+        }
 
         // Insertion
         newContainer.appendChild(newImg);
@@ -266,6 +284,10 @@ function onGenerateFakeActivityOptionFilter(allActivityData) {
         let newBtnRadioFake = document.createElement("div");
         newBtnRadioFake.classList.add("radio-button-fake");
         newBtnRadioFake.id = "btnRadio-filter-" + e;
+        if (currentFilter === e) {
+            newBtnRadioFake.classList.add("selected");
+        }
+
 
         // Insertion
         newContainer.appendChild(newImg);
@@ -274,6 +296,11 @@ function onGenerateFakeActivityOptionFilter(allActivityData) {
 
         parentTargetRef.appendChild(newContainer);
     })
+
+
+
+
+
 
 }
 
