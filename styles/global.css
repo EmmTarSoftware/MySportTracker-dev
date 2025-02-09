@@ -1465,10 +1465,10 @@ span.gestion{
 }
 
 
-/* SELECTEUR DE MODELE */
+/* --------------------------------  FAKE SELECTEUR DE MODELE ------------------------------ */
 
 
-div.templateChoice {
+div.fake-select-area {
     z-index: 10;
     display: none;
     width: 100%;
@@ -1477,7 +1477,7 @@ div.templateChoice {
     background-color: rgba(0, 0, 0, 0.4);
 }
 
-div.templateListChoice {
+div.fake-option-area {
     background-color: white;
     border-radius: 20px;
     display: flex;
@@ -1495,7 +1495,7 @@ div.templateListChoice {
 }
 
 
-.item-template-container-choice {
+div.fake-opt-item-container {
     width: 100%;          
     display: flex;       
     border-bottom: solid 1px #dadada;
@@ -1503,11 +1503,17 @@ div.templateListChoice {
     padding-bottom: 10px;
 }
 
-.select-fake-last-item{
+div.fake-opt-item-last-container{
     border-bottom: none;
 }
 
-span.templateListChoice{
+div.fake-opt-item-last-favourite{
+    border-bottom: dashed 2px;
+    border-color: var(--colorMainTheme1);
+}
+
+
+span.fake-opt-item{
     padding-top: 5px;
     width: 100%;
     white-space: nowrap; /* Pour éviter le retour à la ligne */
@@ -1515,12 +1521,21 @@ span.templateListChoice{
   	text-overflow: ellipsis; /*Ajoute des points de suspension (...) pour indiquer que du texte est masqué*/
 }
 
-img.templateListChoice{
-    width: 20px;height: 20px;
+img.fake-opt-item{
+    width: 30px;height: 30px;
     padding-top: 5px;
     margin-right: 10px;
 }
 
+span.fake-opt-item-favoris{
+    color: var(--colorMainTheme1);
+}
+
+span.favouriteSymbol{
+    font-size: 1.2rem;
+    margin-right: 10px; margin-left: 10px;
+    color: var(--colorMainTheme1);
+}
 
 
 
@@ -1536,9 +1551,6 @@ button:disabled img {
     opacity: 0.5; /* Assombrit aussi l'image */
 }
 
-
-
-/* ------------------------  FAKE SELECTEUR --------------------------*/
 
 
 
@@ -1564,9 +1576,10 @@ span.fake-selector{
 svg.arrow {
     flex-shrink: 0; /* Empêche la flèche de rétrécir */
 }
+
+
+
 /* BOUTON RADIO FAKE */
-
-
 
 .radio-button-fake {
     width: 15px;   /* Taille fixe */

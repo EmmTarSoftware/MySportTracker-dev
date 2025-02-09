@@ -7,30 +7,6 @@ let allDivHomeToDisplayNone = ["divMainBtnMenu","btnNewActivity","divFilterSort"
 
 
 
-// Récupère les date du jours et de la veille
-
-function onFindDateTodayUS() {
-    let today = new Date();
-    let year = today.getFullYear();
-    let month = String(today.getMonth() + 1).padStart(2, '0');
-    let day = String(today.getDate()).padStart(2, '0');
-    
-    return `${year}-${month}-${day}`;
-};
-
-// La date d'hier
-function onFindDateYesterdayUS() {
-    let yesterday = new Date();
-    yesterday.setDate(yesterday.getDate() - 1); // Soustrait un jour à la date actuelle
-    
-    let year = yesterday.getFullYear();
-    let month = String(yesterday.getMonth() + 1).padStart(2, '0');
-    let day = String(yesterday.getDate()).padStart(2, '0');
-    
-    return `${year}-${month}-${day}`;
-};
-
-
 let dateToday = onFindDateTodayUS(),
     dateYesterday = onFindDateYesterdayUS();
 

@@ -98,8 +98,7 @@ onCheckFavorisInLocalStorage();
 
 // Fonction de changement d'état d'un favoris
 function onChangeFavorisStatus(imgTarget,favorisDataName) {
-
-
+    
     // Si le favoris n'existe pas, le créé change l'image. et inversement
     if (userFavoris.includes(favorisDataName)) {
         let indexToRemove = userFavoris.indexOf(favorisDataName);
@@ -119,6 +118,7 @@ function onChangeFavorisStatus(imgTarget,favorisDataName) {
 
     // Remet à jour les options de choix
     onGenerateActivityOptionChoice("selectorCategoryChoice");
+    onGenerateFakeOptionList("divFakeSelectOptList");
 
     if (devMode === true){
         console.log("[FAVORIS] tableau des favoris =   ");

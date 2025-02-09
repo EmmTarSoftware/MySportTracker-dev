@@ -1,7 +1,6 @@
 // Génération des options d'activité dans l'éditeur d'activité
 function onGenerateActivityOptionChoice(selectorChoiceId) {
 
-
     // Traite d'abord les favoris
     if (devMode === true){console.log("Lancement de la generation des choix des activités");};
 
@@ -35,6 +34,145 @@ function onGenerateActivityOptionChoice(selectorChoiceId) {
     });
 
 };
+
+
+
+
+
+function onGenerateFakeOptionList(idParentTarget) {
+    let parentTargetRef = document.getElementById(idParentTarget);
+
+    // Traite d'abord les favoris
+    if (devMode === true){
+        console.log("[FAKE SELECTOR]Lancement de la generation des choix des activités");
+        console.log("[FAKE SELECTOR] ID Parent pour insertion : " + parentTargetRef);
+    };
+
+    parentTargetRef.innerHTML = "";
+
+    if (devMode === true){console.log(" [FAKE SELECTOR] ajout des favoris si présent = " + userFavoris.length);};
+    userFavoris.sort();
+
+    userFavoris.forEach((e,index)=>{
+
+        // Creation
+        let newContainer = document.createElement("div");
+        newContainer.classList.add("fake-opt-item-container");
+        newContainer.onclick = function (){
+
+        }
+    
+        // Style sans border botton pour le dernier
+        if (index === (userFavoris.length - 1)) {
+            newContainer.classList.add("fake-opt-item-last-favourite");
+        }
+        
+        let newFavoriteSymbol = document.createElement("span");
+        newFavoriteSymbol.innerHTML = "*";
+        newFavoriteSymbol.classList.add("favouriteSymbol");
+
+
+        let newImg = document.createElement("img");
+        newImg.classList.add("fake-opt-item");
+        newImg.src = activityChoiceArray[e].imgRef;
+    
+        let newTitle = document.createElement("span");
+        newTitle.innerHTML = activityChoiceArray[e].displayName;
+        newTitle.classList.add("fake-opt-item","fake-opt-item-favoris");
+    
+    
+        // Bouton radio fake pour simuler le selecteur
+        let newBtnRadioFake = document.createElement("div");
+        newBtnRadioFake.classList.add("radio-button-fake");
+    
+        // Effet bouton plein pour le premier item de la liste
+        if (index === 0) {
+            newBtnRadioFake.classList.add("selected");
+        }
+    
+        // Insertion
+        newContainer.appendChild(newFavoriteSymbol);
+        newContainer.appendChild(newImg);
+        newContainer.appendChild(newTitle);
+        newContainer.appendChild(newBtnRadioFake);
+    
+        parentTargetRef.appendChild(newContainer);
+    });
+
+
+    if (devMode === true){console.log(" [FAKE SELECTOR] ajout du reste des types d'activités")};
+
+    // Puis toutes les type d'activités
+    let activitySortedKey = Object.keys(activityChoiceArray);
+    activitySortedKey.sort();
+
+
+    activitySortedKey.forEach((e,index)=>{
+
+        // Creation
+        let newContainer = document.createElement("div");
+        newContainer.classList.add("fake-opt-item-container");
+        newContainer.onclick = function (){
+
+        }
+    
+        // Style sans border botton pour le dernier
+        if (index === (activitySortedKey.length - 1)) {
+            newContainer.classList.add("fake-opt-item-last-container");
+        }
+      
+        let newImg = document.createElement("img");
+        newImg.classList.add("fake-opt-item");
+        newImg.src = activityChoiceArray[e].imgRef;
+    
+        let newTitle = document.createElement("span");
+        newTitle.innerHTML = activityChoiceArray[e].displayName;
+        newTitle.classList.add("fake-opt-item");
+    
+    
+        // Bouton radio fake pour simuler le selecteur
+        let newBtnRadioFake = document.createElement("div");
+        newBtnRadioFake.classList.add("radio-button-fake");
+    
+        // Effet bouton plein pour le premier item de la liste
+        if (index === 0) {
+            newBtnRadioFake.classList.add("selected");
+        }
+    
+        // Insertion
+    
+        newContainer.appendChild(newImg);
+        newContainer.appendChild(newTitle);
+        newContainer.appendChild(newBtnRadioFake);
+    
+        parentTargetRef.appendChild(newContainer);
+    });
+
+
+}
+
+
+
+
+
+
+// Clique sur le fake selecteur
+function onClickFakeSelect(MenuTarget){
+    // Affiche le fake option
+    document.getElementById("divFakeSelectOpt").style.display = "flex";
+
+}
+
+
+function onAnnulFakeSelectOpt(event){
+    document.getElementById("divFakeSelectOpt").style.display = "none";
+}
+
+
+
+
+
+
 
 
 
@@ -111,6 +249,30 @@ function onGetCurrentTime() {
 
 
 
+
+
+// Récupère les date du jours et de la veille
+
+function onFindDateTodayUS() {
+    let today = new Date();
+    let year = today.getFullYear();
+    let month = String(today.getMonth() + 1).padStart(2, '0');
+    let day = String(today.getDate()).padStart(2, '0');
+    
+    return `${year}-${month}-${day}`;
+};
+
+// La date d'hier
+function onFindDateYesterdayUS() {
+    let yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1); // Soustrait un jour à la date actuelle
+    
+    let year = yesterday.getFullYear();
+    let month = String(yesterday.getMonth() + 1).padStart(2, '0');
+    let day = String(yesterday.getDate()).padStart(2, '0');
+    
+    return `${year}-${month}-${day}`;
+};
 
 
 

@@ -69,8 +69,8 @@
                 </select>
             </p>
 
-            <div class="fake-selector">
-                <span class="fake-selector">Activity Name</span>
+            <div class="fake-selector" onclick="onClickFakeSelect('activityEditor')">
+                <span id="fakeSelectorActivityEditorText" class="fake-selector">Activity Name</span>
                 <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M6 9l6 6 6-6"></path>
                 </svg>
@@ -124,6 +124,15 @@
         <button id="btnConfirmDelete" class="btn-menu deleteConfirm" onclick="onConfirmDeleteActivity(event)"><img class="confirmSuppr" src="./Icons/Icon-Delete.webp" alt="Icone"></button>
     </div>
     <!---------------------------  FIN Div confirmation suppression activité ------------------------------------------->
+
+    <!-- ----------------------------Div FAKE SELECTOR OPTION -------------------------------------->
+    <div id="divFakeSelectOpt" class="fake-select-area" onclick="onAnnulFakeSelectOpt(event)">
+        <div id="divFakeSelectOptList" class="fake-option-area">
+            <!-- Injection des éléments -->
+        </div>
+    </div>
+
+    <!---------------------------  FIN DIV FAKE SELECTOR OPTION  ------------------------------------------->
 
 
 
@@ -337,7 +346,6 @@
                 <span>Course à pied</span>
             </div>
         </div>
-
     </div>
 
     <div id="divBtnGestTemplate" class="button-editor">
@@ -414,8 +422,8 @@
 
 
     <!-- ----------------------------Div Selection New From template -------------------------------------->
-    <div id="divTemplateChoice" class="templateChoice" onclick="onAnnulSelectTemplate(event)">
-        <div id="divTemplateChoiceList" class="templateListChoice">
+    <div id="divTemplateChoice" class="fake-select-area" onclick="onAnnulSelectTemplate(event)">
+        <div id="divTemplateChoiceList" class="fake-option-area">
             <!-- Injection des éléments -->
         </div>
     </div>

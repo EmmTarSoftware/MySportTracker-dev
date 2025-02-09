@@ -162,7 +162,7 @@ function onOpenMenuGestTemplate() {
     
     // Génère la liste d'activité pour les modèles
     onGenerateActivityOptionChoice("selectorTemplateCategoryChoice");
-
+    onGenerateFakeOptionList("divFakeSelectOptList");
 
 }
 
@@ -751,7 +751,7 @@ function onCreateTemplateChoiceList() {
 
         // Creation
         let newContainer = document.createElement("div");
-        newContainer.classList.add("item-template-container-choice");
+        newContainer.classList.add("fake-opt-item-container");
         newContainer.onclick = function (){
             onChangeMenu("NewActivityFromTemplate");
             onSearchTemplateToDisplay(e.key,true); 
@@ -759,19 +759,19 @@ function onCreateTemplateChoiceList() {
 
         // Style sans border botton pour le dernier
         if (index === (userTemplateList.length - 1)) {
-            newContainer.classList.add("select-fake-last-item");
+            newContainer.classList.add("fake-opt-item-last-container");
         }
 
 
 
 
         let newImg = document.createElement("img");
-        newImg.classList.add("templateList");
+        newImg.classList.add("fake-opt-item");
         newImg.src = activityChoiceArray[e.activityName].imgRef;
 
         let newTitle = document.createElement("span");
         newTitle.innerHTML = e.title;
-        newTitle.classList.add("templateListChoice");
+        newTitle.classList.add("fake-opt-item");
 
 
         // Bouton radio fake pour simuler le selecteur
