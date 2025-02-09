@@ -12,7 +12,6 @@ function onGenerateActivityOptionChoice(selectorChoiceId) {
     userFavoris.sort();
 
     userFavoris.forEach(activity => {
-
         let newOption = document.createElement("option");
         newOption.value = activity;
         newOption.innerHTML = " * " +  activityChoiceArray[activity].displayName;
