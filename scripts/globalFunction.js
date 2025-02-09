@@ -58,8 +58,9 @@ function onGenerateFakeOptionList(idParentTarget) {
         // Creation
         let newContainer = document.createElement("div");
         newContainer.classList.add("fake-opt-item-container");
-        newContainer.onclick = function (){
-
+        newContainer.onclick = function (event){
+            event.stopPropagation();
+            onChangeActivityTypeFromFakeSelect(e,selectorCategoryChoiceRef);
         }
     
         // Style sans border botton pour le dernier
@@ -112,8 +113,9 @@ function onGenerateFakeOptionList(idParentTarget) {
         // Creation
         let newContainer = document.createElement("div");
         newContainer.classList.add("fake-opt-item-container");
-        newContainer.onclick = function (){
-
+        newContainer.onclick = function (event){
+            event.stopPropagation();
+            onChangeActivityTypeFromFakeSelect(e,selectorCategoryChoiceRef);
         }
     
         // Style sans border botton pour le dernier
@@ -153,7 +155,21 @@ function onGenerateFakeOptionList(idParentTarget) {
 
 
 
+// Changement de type d'activité via le fake selecteur
+function onChangeActivityTypeFromFakeSelect(activityType,realSelectorTarget) {
 
+    // set la nouvelle valeur dans le vrai selecteur caché
+    realSelectorTarget.value = activityType;
+
+    // Ainsi que dans le fake selecteur
+    fakeSelectorActivityEditorTextRef.innerHTML = activityChoiceArray[activityType].displayName;
+
+    onChangeActivityPreview(activityType);
+
+    // ferme le fake option
+    onCloseFakeSelectOpt();
+
+}
 
 
 // Clique sur le fake selecteur
@@ -164,7 +180,7 @@ function onClickFakeSelect(MenuTarget){
 }
 
 
-function onAnnulFakeSelectOpt(event){
+function onCloseFakeSelectOpt(event){
     document.getElementById("divFakeSelectOpt").style.display = "none";
 }
 
