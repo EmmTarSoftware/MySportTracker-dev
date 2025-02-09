@@ -209,17 +209,10 @@ function onCreateTemplateMenuList(templateList) {
         newTitle.innerHTML = e.title;
         newTitle.classList.add("templateList","gestion");
 
-        // Image "setting"
-        let newImgSet = document.createElement("img");
-        newImgSet.classList.add("templateListSet");
-        newImgSet.src = "./Icons/Icon-Set-Template.webp";
-
-
         // Insertion
 
         newContainer.appendChild(newImg);
         newContainer.appendChild(newTitle);
-        newContainer.appendChild(newImgSet);
 
         divTemplateListMenuRef.appendChild(newContainer);
 

@@ -70,6 +70,8 @@ const ICONS = [
 const IMAGES = [
   `${basePath}images/icon-art-martiaux.webp`,
   `${basePath}images/icon-autre-divers.webp`,
+  `${basePath}images/icon-All.webp`,
+  `${basePath}images/icon-isPlanned.webp`,
   `${basePath}images/icon-badminton.webp`,
   `${basePath}images/icon-baseball.webp`,
   `${basePath}images/icon-basketball.webp`,

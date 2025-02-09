@@ -27,11 +27,12 @@
     <!-------------------------------------- div accueil  -------------------------------------------------->
        
         <div id="divFilterSort" class="item-container-head">
-            <div class="item-category-selector">
-                <select  class="item-category-selector" name="category" id="selectorCategoryFilter" onchange="onChangeSelectorFilter()">
+            <div class="item-category-selector" onclick="onClickFakeSelectFilter()">
+                <select  class="item-category-selector" name="category" id="selectorCategoryFilter">
                     <!-- Injection des options-->
                 </select>
             </div>
+
             <div class="item-data-container">
                 <div class="item-data-area1">
                     <button id="btnSortDistance" class="btn-sort" onclick="onUserChangeSortType('distance')">Distance</button>
@@ -42,6 +43,12 @@
         </div>          
 
 
+        <!-- Fake selecteur pour le filtre d'activité menu principale -->
+        <div id="divFakeSelectOptFilterActivity" class="fake-select-area" onclick="onCloseFakeSelectFilter(event)">
+            <div id="divFakeSelectOptFilterActivityList" class="fake-option-area">
+                <!-- Injection des éléments -->
+            </div>
+        </div>
 
         <div id="divItemList" class="items-list ">
             <!-- Injection des items -->

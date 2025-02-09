@@ -272,6 +272,7 @@ select.item-category-selector{
     width: 50px;
     border-radius: 5px;
     color: var(--colorMainTheme1);
+    pointer-events: none;
 }
 
 

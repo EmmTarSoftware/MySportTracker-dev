@@ -127,7 +127,6 @@ function onGenerateDynamiqueFilter(allData) {
 // Génération des options d'activité pour le filtre avec tri
 function onGenerateActivityOptionFilter(allActivityData) {
 
-
     selectorRef.innerHTML = "";
 
 
@@ -156,7 +155,152 @@ function onGenerateActivityOptionFilter(allActivityData) {
     // Je set la valeur de l'option selon le filtre en cours
     selectorRef.value = currentFilter;
 
+
+    // Génère les fakes options
+    onGenerateFakeActivityOptionFilter(allActivityData);
 };
+
+
+
+
+function onGenerateFakeActivityOptionFilter(allActivityData) {
+    let parentTargetRef = document.getElementById("divFakeSelectOptFilterActivityList");
+
+    // Traite d'abord les favoris
+    if (devMode === true){
+        console.log("[FAKE SELECTOR] Lancement de la generation des choix des activités dans le filtre");
+        console.log("[FAKE SELECTOR] ID Parent pour insertion : " + parentTargetRef);
+    };
+
+    parentTargetRef.innerHTML = "";
+
+
+    // Ajouter l'option "Tous" au début
+    let newContainer = document.createElement("div");
+    newContainer.classList.add("fake-opt-item-container");
+    newContainer.onclick = function (event){
+        event.stopPropagation();
+        onChangeSelectorFilter("ALL","btnRadio-filter-all");
+    }
+    let newImg = document.createElement("img");
+    newImg.classList.add("fake-opt-item");
+    newImg.src = "./images/icon-All.webp";
+
+    let newTitle = document.createElement("span");
+    newTitle.innerHTML = "Tous";
+    newTitle.classList.add("fake-opt-item");
+
+    // Bouton radio fake pour simuler le selecteur
+    let newBtnRadioFake = document.createElement("div");
+    newBtnRadioFake.classList.add("radio-button-fake" ,"selected");
+    newBtnRadioFake.id = "btnRadio-filter-all";
+
+
+    // Insertion
+    newContainer.appendChild(newImg);
+    newContainer.appendChild(newTitle);
+    newContainer.appendChild(newBtnRadioFake);
+
+    parentTargetRef.appendChild(newContainer);
+
+
+    // Ajouter l'option "Planifiées" juste après si existe
+    if (isActivityPlannedExist) {
+        let newContainer = document.createElement("div");
+        newContainer.classList.add("fake-opt-item-container");
+        newContainer.onclick = function (event){
+            event.stopPropagation();
+            onChangeSelectorFilter("PLANNED","btnRadio-filter-isPlanned");
+        }
+        let newImg = document.createElement("img");
+        newImg.classList.add("fake-opt-item");
+        newImg.src = "./images/icon-isPlanned.webp";
+
+        let newTitle = document.createElement("span");
+        newTitle.innerHTML = "Planifiées";
+        newTitle.classList.add("fake-opt-item");
+
+        // Bouton radio fake pour simuler le selecteur
+        let newBtnRadioFake = document.createElement("div");
+        newBtnRadioFake.classList.add("radio-button-fake");
+        newBtnRadioFake.id = "btnRadio-filter-isPlanned";
+
+
+        // Insertion
+        newContainer.appendChild(newImg);
+        newContainer.appendChild(newTitle);
+        newContainer.appendChild(newBtnRadioFake);
+
+        parentTargetRef.appendChild(newContainer);
+    }
+
+
+    // Ajout de reste des activités
+    allActivityData.forEach((e,index)=>{
+
+        console.log(e);
+         // Creation
+        let newContainer = document.createElement("div");
+        newContainer.classList.add("fake-opt-item-container");
+        newContainer.onclick = function (event){
+            event.stopPropagation();
+            onChangeSelectorFilter(e,"btnRadio-filter-"+e);
+        }
+
+
+        // Style sans border botton pour le dernier
+        if (index === (allActivityData.length - 1)) {
+            newContainer.classList.add("fake-opt-item-last-container");
+        }
+
+        let newImg = document.createElement("img");
+        newImg.classList.add("fake-opt-item");
+        newImg.src = activityChoiceArray[e].imgRef;
+
+        let newTitle = document.createElement("span");
+        newTitle.innerHTML = activityChoiceArray[e].displayName;
+        newTitle.classList.add("fake-opt-item");
+
+
+        // Bouton radio fake pour simuler le selecteur
+        let newBtnRadioFake = document.createElement("div");
+        newBtnRadioFake.classList.add("radio-button-fake");
+        newBtnRadioFake.id = "btnRadio-filter-" + e;
+
+        // Insertion
+        newContainer.appendChild(newImg);
+        newContainer.appendChild(newTitle);
+        newContainer.appendChild(newBtnRadioFake);
+
+        parentTargetRef.appendChild(newContainer);
+    })
+
+}
+
+
+
+
+// Clique sur le fake selecteur
+function onClickFakeSelectFilter(){
+    // Affiche le fake option
+    document.getElementById("divFakeSelectOptFilterActivity").style.display = "flex";
+
+}
+
+
+function onCloseFakeSelectFilter(event){
+    document.getElementById("divFakeSelectOptFilterActivity").style.display = "none";
+}
+
+
+
+
+
+
+
+
+
+
 
 
 // Fonction de filtre de l'affichage des activité
@@ -206,16 +350,40 @@ function onFilterActivity(sortType,filterType,activityArray) {
 
 
 // Changement du filtre via action de l'utilisateur
-function onChangeSelectorFilter(){
+function onChangeSelectorFilter(value,idBtnRadioTarget){
+
 
     if (devMode === true){console.log(" [SORT FILTER] changement de selecteur du filtre pour = " + selectorRef.value);};
-    currentFilter = selectorRef.value;
+    currentFilter = value;
 
+    // Set également le vrai selecteur
+    selectorRef.value = value;
+
+    // Retire les boutons radio plein à tous les boutons
+    onResetFakeSelecFilterRadio();
+
+    // le met à l'option en cours
+    document.getElementById(idBtnRadioTarget).classList.add("selected");
+
+    onCloseFakeSelectFilter();
     onFilterActivity(currentSortType,currentFilter,allUserActivityArray);
+
 };
 
 
+function onResetFakeSelecFilterRadio() {
+       // Pour rechercher dans les enfants d'un parent spécifique
+       let parent = document.getElementById("divFakeSelectOptFilterActivityList");
 
+
+       // Retire les boutons radio plein
+       let elementToRemoveClass = parent.querySelectorAll(".selected");
+       elementToRemoveClass.forEach(e=>{
+           e.classList.remove("selected");
+       });
+
+       console.log("fin de reset");
+}
 
 
 

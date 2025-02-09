@@ -4,9 +4,9 @@ function onGenerateActivityOptionChoice(selectorChoiceId) {
     // Traite d'abord les favoris
     if (devMode === true){console.log("Lancement de la generation des choix des activités");};
 
-    let selectorRef = document.getElementById(selectorChoiceId);
+    let selectorChoiceRef = document.getElementById(selectorChoiceId);
     if (devMode === true){console.log("Reset les éléments");};
-    selectorRef.innerHTML = "";
+    selectorChoiceRef.innerHTML = "";
 
     if (devMode === true){console.log(" ajout des favoris si présent = " + userFavoris.length);};
     userFavoris.sort();
@@ -15,7 +15,7 @@ function onGenerateActivityOptionChoice(selectorChoiceId) {
         let newOption = document.createElement("option");
         newOption.value = activity;
         newOption.innerHTML = " * " +  activityChoiceArray[activity].displayName;
-        selectorRef.appendChild(newOption);
+        selectorChoiceRef.appendChild(newOption);
         if (devMode === true){console.log("ajout de l'option" + activityChoiceArray[activity].displayName );};
     });
 
@@ -29,7 +29,7 @@ function onGenerateActivityOptionChoice(selectorChoiceId) {
         let newOption = document.createElement("option");
         newOption.value = activity;
         newOption.innerHTML = activityChoiceArray[activity].displayName;
-        selectorRef.appendChild(newOption);
+        selectorChoiceRef.appendChild(newOption);
     });
 
 };
@@ -170,7 +170,7 @@ function onSetBtnRadio(idTargetToAdd) {
 
 
     // Retire les boutons radio plein
-    let elementToRemoveClass = document.querySelectorAll(".selected");
+    let elementToRemoveClass = parent.querySelectorAll(".selected");
     elementToRemoveClass.forEach(e=>{
         e.classList.remove("selected");
     });
@@ -205,7 +205,7 @@ function onResetBtnRadio() {
 
 
      // Retire les boutons radio plein
-     let elementToRemoveClass = document.querySelectorAll(".selected");
+     let elementToRemoveClass = parent.querySelectorAll(".selected");
      elementToRemoveClass.forEach(e=>{
          e.classList.remove("selected");
      });
