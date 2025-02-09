@@ -305,6 +305,7 @@ function onSearchTemplateToDisplay(keyRef,isForNewActivity) {
 // Remplit l'editeur de template avec les éléments du template extrait de la base
 function onSetTemplateItems(templateItem) {
 
+    onSetBtnRadio(templateItem.activityName);
 
     if (devMode === true){console.log("[TEMPLATE] Set l'editeur de modèle avec les éléments extrait de la base");};
 

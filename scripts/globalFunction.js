@@ -48,6 +48,8 @@ function onGenerateFakeOptionList(idParentTarget) {
     };
 
     parentTargetRef.innerHTML = "";
+    let firstFavorisName = "C.A.P"; // Utilisé pour que la première activité favorite, et l'activité identique dans le reste de la liste ai le meme bouton radio
+
 
     if (devMode === true){console.log(" [FAKE SELECTOR] ajout des favoris si présent = " + userFavoris.length);};
     userFavoris.sort();
@@ -60,6 +62,7 @@ function onGenerateFakeOptionList(idParentTarget) {
         newContainer.onclick = function (event){
             event.stopPropagation();
             onChangeActivityTypeFromFakeSelect(e,selectorCategoryChoiceRef,fakeSelectorActivityEditorTextRef);
+            onSetBtnRadio(e);
         }
     
         // Style sans border botton pour le dernier
@@ -84,10 +87,13 @@ function onGenerateFakeOptionList(idParentTarget) {
         // Bouton radio fake pour simuler le selecteur
         let newBtnRadioFake = document.createElement("div");
         newBtnRadioFake.classList.add("radio-button-fake");
+        newBtnRadioFake.id = "btnRadio-fav-" + e;
     
-        // Effet bouton plein pour le premier item de la liste
+
+        // Effet bouton plein pour le premier favoris
         if (index === 0) {
             newBtnRadioFake.classList.add("selected");
+            firstFavorisName = e;
         }
     
         // Insertion
@@ -115,6 +121,7 @@ function onGenerateFakeOptionList(idParentTarget) {
         newContainer.onclick = function (event){
             event.stopPropagation();
             onChangeActivityTypeFromFakeSelect(e);
+            onSetBtnRadio(e);
         }
     
         // Style sans border botton pour le dernier
@@ -134,9 +141,10 @@ function onGenerateFakeOptionList(idParentTarget) {
         // Bouton radio fake pour simuler le selecteur
         let newBtnRadioFake = document.createElement("div");
         newBtnRadioFake.classList.add("radio-button-fake");
-    
-        // Effet bouton plein pour le premier item de la liste
-        if (index === 0) {
+        newBtnRadioFake.id = "btnRadio-"+e;
+
+        // Effet bouton plein pour l'activité identique au premier favoris
+        if (e === firstFavorisName) {
             newBtnRadioFake.classList.add("selected");
         }
     
@@ -149,9 +157,75 @@ function onGenerateFakeOptionList(idParentTarget) {
         parentTargetRef.appendChild(newContainer);
     });
 
-
 }
 
+
+
+// fonction pour retirer le bouton radio plein
+
+function onSetBtnRadio(idTargetToAdd) {
+
+    // Pour rechercher dans les enfants d'un parent spécifique
+    let parent = document.getElementById("divFakeSelectOptList");
+
+
+    // Retire les boutons radio plein
+    let elementToRemoveClass = document.querySelectorAll(".selected");
+    elementToRemoveClass.forEach(e=>{
+        e.classList.remove("selected");
+    });
+    
+
+
+    // Ajoute les boutons radio plein
+    let elementsToAddClass = parent.querySelectorAll(`#btnRadio-fav-${idTargetToAdd}, #btnRadio-${idTargetToAdd}`);
+    elementsToAddClass.forEach(e=>{
+        e.classList.add("selected");
+    });
+
+    console.log(elementsToAddClass);
+
+    if (devMode === true) {
+        console.log("[FAKE SELECT] Gestion des bouton radio");
+        console.log("[FAKE SELECT] A retirer : ");
+        console.log(elementToRemoveClass);
+        console.log("[FAKE SELECT] A ajouter : ");
+        console.log(elementsToAddClass);
+    }
+}
+
+
+
+function onResetBtnRadio() {
+
+    let idForRadio = userFavoris.length > 0 ? userFavoris[0] : "C.A.P";
+
+     // Pour rechercher dans les enfants d'un parent spécifique
+     let parent = document.getElementById("divFakeSelectOptList");
+
+
+     // Retire les boutons radio plein
+     let elementToRemoveClass = document.querySelectorAll(".selected");
+     elementToRemoveClass.forEach(e=>{
+         e.classList.remove("selected");
+     });
+ 
+ 
+     // Ajoute les boutons radio plein
+     let elementsToAddClass = parent.querySelectorAll(`#btnRadio-fav-${idForRadio}, #btnRadio-${idForRadio}`);
+     elementsToAddClass.forEach(e=>{
+         e.classList.add("selected");
+     });
+ 
+ 
+     if (devMode === true) {
+         console.log("[FAKE SELECT] RESET des bouton radio");
+         console.log("[FAKE SELECT] A retirer : ");
+         console.log(elementToRemoveClass);
+         console.log("[FAKE SELECT] A ajouter : ");
+         console.log(elementsToAddClass);
+     }
+}
 
 
 // Changement de type d'activité via le fake selecteur
@@ -198,7 +272,6 @@ function onChangeActivityTypeFromFakeSelect(activityType) {
 
 // Clique sur le fake selecteur
 function onClickFakeSelect(MenuTarget){
-
 
     //set le mode d'ouverture du fake selecteur. Pour activityEditor ou templateEditor
     fakeOptionTargetMode = MenuTarget;

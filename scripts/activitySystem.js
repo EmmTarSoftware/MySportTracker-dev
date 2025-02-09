@@ -561,7 +561,8 @@ function onEditActivity(activityTarget) {
 
     // Set le mode d'edition de l'activité
     activityEditorMode = "modification";
-
+    // Set les boutons radio
+    onSetBtnRadio(activityTarget.name);
 
     if (devMode === true){console.log("ouverture de l'editeur d'activité en mode " + activityEditorMode);};
 
