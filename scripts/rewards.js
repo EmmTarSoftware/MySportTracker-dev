@@ -653,7 +653,7 @@ function onSearchSpecifyRewards(activityTarget,filteredData) {
 
 
     switch (activityTarget) {
-        case "C.A.P":
+        case "C-A-P":
             onTraiteRewardsBasicPalier(filteredData,"CAP-A-1-SEANCE","CAP-B-10-SEANCES","CAP-C-50-SEANCES","CAP-D-100-SEANCES");
             onTraiteRewardsSpecificCAP(filteredData);
             break;
@@ -899,36 +899,36 @@ function onTraiteRewardsSpecificCAP(filteredData) {
 
     // Distance = entre 10 km et 10.950 km
     if (!userRewardsArray.includes("CAP-E-10-KM")) {
-        if (devMode === true){console.log("[REWARDS] [C.A.P] Test eligibilité pour : CAP-E-10-KM");};
+        if (devMode === true){console.log("[REWARDS] [C-A-P] Test eligibilité pour : CAP-E-10-KM");};
         let isEligible = onSearchActivityWithDistanceRange(filteredData,10,10.999);
         if (isEligible) {
             rewardsEligibleArray.push("CAP-E-10-KM");
         }
-        if (devMode === true){console.log("[REWARDS] [C.A.P] Resultat : " + isEligible);};
+        if (devMode === true){console.log("[REWARDS] [C-A-P] Resultat : " + isEligible);};
     }
 
     
 
     // Distance = entre 21 km et 21.950 km
     if (!userRewardsArray.includes("CAP-F-SEMI-MARATHON")) {
-        if (devMode === true){console.log("[REWARDS] [C.A.P] Test eligibilité pour : CAP-F-SEMI-MARATHON");};
+        if (devMode === true){console.log("[REWARDS] [C-A-P] Test eligibilité pour : CAP-F-SEMI-MARATHON");};
         let isEligible = onSearchActivityWithDistanceRange(filteredData,21,21.999);
         if (isEligible) {
             rewardsEligibleArray.push("CAP-F-SEMI-MARATHON");
         }
-        if (devMode === true){console.log("[REWARDS] [C.A.P] Resultat : " + isEligible);};
+        if (devMode === true){console.log("[REWARDS] [C-A-P] Resultat : " + isEligible);};
     }
 
     
 
     // Distance =  entre 42km et 42.999 km
     if (!userRewardsArray.includes("CAP-G-MARATHON")) {
-        if (devMode === true){console.log("[REWARDS] [C.A.P] Test eligibilité pour : CAP-G-MARATHON");};
+        if (devMode === true){console.log("[REWARDS] [C-A-P] Test eligibilité pour : CAP-G-MARATHON");};
         let isEligible = onSearchActivityWithDistanceRange(filteredData,42,42.999);
         if (isEligible) {
             rewardsEligibleArray.push("CAP-G-MARATHON");
         }
-        if (devMode === true){console.log("[REWARDS] [C.A.P] Resultat : " + isEligible);};
+        if (devMode === true){console.log("[REWARDS] [C-A-P] Resultat : " + isEligible);};
     }
 
 
@@ -936,12 +936,12 @@ function onTraiteRewardsSpecificCAP(filteredData) {
     
     // Distance > 100km en une séance
     if (!userRewardsArray.includes("CAP-ULTRA-TRAIL")) {
-        if (devMode === true){console.log("[REWARDS] [C.A.P] Test eligibilité pour : CAP-ULTRA-TRAIL");};
+        if (devMode === true){console.log("[REWARDS] [C-A-P] Test eligibilité pour : CAP-ULTRA-TRAIL");};
         let isEligible = onSearchActivityWithDistanceSuperior(filteredData,100);
         if (isEligible) {
             rewardsEligibleArray.push("CAP-ULTRA-TRAIL");
         }
-        if (devMode === true){console.log("[REWARDS] [C.A.P] Resultat : " + isEligible);};
+        if (devMode === true){console.log("[REWARDS] [C-A-P] Resultat : " + isEligible);};
     }
 
     

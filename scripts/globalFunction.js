@@ -48,7 +48,7 @@ function onGenerateFakeOptionList(idParentTarget) {
     };
 
     parentTargetRef.innerHTML = "";
-    let firstFavorisName = "C.A.P"; // Utilisé pour que la première activité favorite, et l'activité identique dans le reste de la liste ai le meme bouton radio
+    let firstFavorisName = "C-A-P"; // Utilisé pour que la première activité favorite, et l'activité identique dans le reste de la liste ai le meme bouton radio
 
 
     if (devMode === true){console.log(" [FAKE SELECTOR] ajout des favoris si présent = " + userFavoris.length);};
@@ -157,6 +157,7 @@ function onGenerateFakeOptionList(idParentTarget) {
         parentTargetRef.appendChild(newContainer);
     });
 
+
 }
 
 
@@ -164,6 +165,7 @@ function onGenerateFakeOptionList(idParentTarget) {
 // fonction pour retirer le bouton radio plein
 
 function onSetBtnRadio(idTargetToAdd) {
+
 
     // Pour rechercher dans les enfants d'un parent spécifique
     let parent = document.getElementById("divFakeSelectOptList");
@@ -198,7 +200,7 @@ function onSetBtnRadio(idTargetToAdd) {
 
 function onResetBtnRadio() {
 
-    let idForRadio = userFavoris.length > 0 ? userFavoris[0] : "C.A.P";
+    let idForRadio = userFavoris.length > 0 ? userFavoris[0] : "C-A-P";
 
      // Pour rechercher dans les enfants d'un parent spécifique
      let parent = document.getElementById("divFakeSelectOptList");
@@ -224,6 +226,7 @@ function onResetBtnRadio() {
          console.log(elementToRemoveClass);
          console.log("[FAKE SELECT] A ajouter : ");
          console.log(elementsToAddClass);
+         console.log(`les ID : #btnRadio-fav-${idForRadio}, #btnRadio-${idForRadio}`);
      }
 }
 

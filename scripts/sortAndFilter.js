@@ -256,7 +256,6 @@ function onGenerateFakeActivityOptionFilter(allActivityData) {
     // Ajout de reste des activités
     allActivityData.forEach((e,index)=>{
 
-        console.log(e);
          // Creation
         let newContainer = document.createElement("div");
         newContainer.classList.add("fake-opt-item-container");
@@ -409,7 +408,6 @@ function onResetFakeSelecFilterRadio() {
            e.classList.remove("selected");
        });
 
-       console.log("fin de reset");
 }
 
 

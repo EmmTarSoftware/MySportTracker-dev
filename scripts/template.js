@@ -309,7 +309,7 @@ function onSetTemplateItems(templateItem) {
     inputTemplateIsPlannedRef.checked = templateItem.isPlanned;
 
 
-    // pour le selecteur d'activité, met le premier éléments qui à dans favoris, ou sinon CAP par défaut, C.A.P
+    // pour le selecteur d'activité, met le premier éléments qui à dans favoris, ou sinon CAP par défaut, C-A-P
     selectorTemplateCategoryChoiceRef.value = templateItem.activityName;
 
     // l'image de prévisualisation 
@@ -629,11 +629,11 @@ function onResetTemplateInputs() {
     textareaTemplateCommentRef.value = "";
     inputTemplateIsPlannedRef.checked = false;
 
-    // pour le selecteur d'activité, met le premier éléments qui à dans favoris, ou sinon CAP par défaut, C.A.P
-    selectorTemplateCategoryChoiceRef.value = userFavoris.length > 0 ? userFavoris[0] : "C.A.P";
+    // pour le selecteur d'activité, met le premier éléments qui à dans favoris, ou sinon CAP par défaut, C-A-P
+    selectorTemplateCategoryChoiceRef.value = userFavoris.length > 0 ? userFavoris[0] : "C-A-P";
 
     // l'image de prévisualisation 
-    imgTemplateEditorPreviewRef.src = userFavoris.length > 0 ? activityChoiceArray[userFavoris[0]].imgRef  : activityChoiceArray["C.A.P"].imgRef;
+    imgTemplateEditorPreviewRef.src = userFavoris.length > 0 ? activityChoiceArray[userFavoris[0]].imgRef  : activityChoiceArray["C-A-P"].imgRef;
     pTemplateEditorInfoRef.innerHTML = "📄Modèle d'activité : ";
 
     inputTemplateTitleRef.classList.remove("fieldRequired");

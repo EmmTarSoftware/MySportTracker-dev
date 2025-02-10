@@ -1,6 +1,6 @@
 // Tableau des activités
 let activityChoiceArray = {
-    "C.A.P": {
+    "C-A-P": {
         displayName : "Course à pied",
         colorNuanceClass : "nuance-blue-light",
         imgRef : "./images/icon-cap.webp"

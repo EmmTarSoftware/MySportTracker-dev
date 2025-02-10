@@ -81,7 +81,7 @@ function onOpenNewActivityFromTemplate(templateItem) {
     textareaCommentRef.value = templateItem.comment;
     inputIsPlannedRef.checked = templateItem.isPlanned;
 
-    // pour le selecteur d'activité, met le premier éléments qui à dans favoris, ou sinon CAP par défaut, C.A.P
+    // pour le selecteur d'activité, met le premier éléments qui à dans favoris, ou sinon CAP par défaut, C-A-P
     selectorCategoryChoiceRef.value = templateItem.activityName;
 
     // l'image de prévisualisation 
@@ -100,11 +100,11 @@ function onResetActivityInputs() {
     textareaCommentRef.value = "";
     inputIsPlannedRef.checked = false;
 
-    // pour le selecteur d'activité, met le premier éléments qui à dans favoris, ou sinon CAP par défaut, C.A.P
-    selectorCategoryChoiceRef.value = userFavoris.length > 0 ? userFavoris[0] : "C.A.P";
+    // pour le selecteur d'activité, met le premier éléments qui à dans favoris, ou sinon CAP par défaut, C-A-P
+    selectorCategoryChoiceRef.value = userFavoris.length > 0 ? userFavoris[0] : "C-A-P";
    
     // l'image de prévisualisation 
-    imgEditorActivityPreviewRef.src = userFavoris.length > 0 ? activityChoiceArray[userFavoris[0]].imgRef  : activityChoiceArray["C.A.P"].imgRef;
+    imgEditorActivityPreviewRef.src = userFavoris.length > 0 ? activityChoiceArray[userFavoris[0]].imgRef  : activityChoiceArray["C-A-P"].imgRef;
     pEditorActivityPreviewPlannedIconRef.innerHTML = "";
 
     inputDateRef.classList.remove("fieldRequired");
