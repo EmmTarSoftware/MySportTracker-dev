@@ -2,10 +2,12 @@
 // Variabilisation
 let userInfo = {
     pseudo :"",
+    customNotes :""
 };
 
 // Référencement
-let inputProfilUserPseudoRef;
+let inputProfilUserPseudoRef,
+textareaCustomNotesRef;
 
 
 // Ouverture du menu profil
@@ -22,6 +24,7 @@ function onOpenMenuProfil() {
 // Fonction de référencement des éléments du menu profil
 function onReferenceItemsProfils() {
     inputProfilUserPseudoRef = document.getElementById("inputProfilUserPseudo");
+    textareaCustomNotesRef = document.getElementById("textareaCustomNotes");
     if (devMode === true){console.log(" [ PROFIL ] Référence les éléments du profils.");};
 };
 
@@ -31,6 +34,9 @@ function onReferenceItemsProfils() {
 function onSetProfilItems() {
     if (devMode === true){console.log("[PROFIL] set les éléments du menu profils");};
     inputProfilUserPseudoRef.value = userInfo.pseudo;
+    textareaCustomNotesRef.value = userInfo.customNotes;
+
+    console.log("userInfo custom note : " + userInfo.customNotes);
 
 };
 
@@ -42,10 +48,12 @@ function onSetProfilItems() {
 
 // Clique sur save profil
 function onClickSaveProfil() {
+
     // Lancement de sauvegarde du nouveau profil uniquement si modifié
    // Création d'une liste de champs à comparer
     const fieldsToCompare = [
         { oldValue: userInfo.pseudo, newValue: inputProfilUserPseudoRef.value },
+        { oldValue: userInfo.customNotes, newValue: textareaCustomNotesRef.value}
     ];
 
     // Vérification si une différence est présente
@@ -70,6 +78,7 @@ function onSaveUserInfo() {
 
     // Met tous les éléments des inputs dans la variable userInfo
     userInfo.pseudo = inputProfilUserPseudoRef.value;
+    userInfo.customNotes = textareaCustomNotesRef.value;
 
     // Sauvegarde dans la base
     if (devMode === true){console.log( "[ PROFIL ] sauvegarde des users info dans les cookies.");};
@@ -127,6 +136,7 @@ function onInsertProfilModificationInDB(e) {
         let modifiedData = modifyRequest.result[0];
 
         modifiedData.pseudo = e.pseudo;
+        modifiedData.customNotes = e.customNotes;
 
         let insertModifiedData = store.put(modifiedData);
 
@@ -179,7 +189,7 @@ function onExtractProfilFromDB(){
             onSetUserInfoFromOpeningAPP(requestTask.result);
 
         } else {
-            if (devMode === true){console.log('[ DATABASE PROFIL ] Aucun élément trouvé pour le userPseudo');};
+            if (devMode === true){console.log('[ DATABASE PROFIL ] Aucun élément trouvé pour le profil');};
         }
     };
 
@@ -197,6 +207,8 @@ function onSetUserInfoFromOpeningAPP(data) {
 
     // Remplit la variable
     userInfo.pseudo = data.pseudo;
+    userInfo.customNotes = data.customNotes;
+
 
     if (devMode === true){
         console.log("[PROFIL] Valeur de userInfo = ");
