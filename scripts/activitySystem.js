@@ -63,7 +63,7 @@ function onOpenNewActivity() {
 function onOpenNewActivityFromTemplate(templateItem) {
     // Initialise les éléments
     onResetActivityInputs();
-
+    onSetBtnRadio(templateItem.activityName);
 
     activityEditorMode = "creation";
 
