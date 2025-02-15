@@ -164,6 +164,18 @@ async function deleteTemplate(templateKey) {
 }
 
 
+// Recherche de template par son id/key
+async function findTemplateById(templateId) {
+    try {
+        const template = await db.get(templateId); // Recherche dans la base
+        if (devMode) console.log("Template trouvé :", template);
+        return template; // Retourne l'objet trouvé
+    } catch (err) {
+        console.error("Erreur lors de la recherche du template :", err);
+        return null; // Retourne null si non trouvé
+    }
+}
+
 
 //  ------------------------------------------------------------------------------
 
@@ -313,58 +325,16 @@ function onCreateTemplateMenuList(templateList) {
 
 
 // Lorsque je clique sur un modèle pour le modifier
-function onClicOnTemplateInTemplateMenu(keyRef) {
+async function onClicOnTemplateInTemplateMenu(keyRef) {
     onResetTemplateInputs();
 
     templateEditorMode = "modification";
 
     // Recherche du modèle à afficher
-    onSearchTemplateToDisplay(keyRef,false);
+    let templateItem = await findTemplateById(keyRef);
+    onSetTemplateItems(templateItem);
 
 }
-
-// Fonction de recherche d'une activité à afficher depuis la bdd.
-function onSearchTemplateToDisplay(keyRef,isForNewActivity) {
-    if (devMode === true){
-        console.log("[TEMPLATE] Affichage du modèle extrait dans la BdD avec la key :  " + keyRef);
-        let text = isForNewActivity ? "[TEMPLATE] recherche pour créer une nouvelle activité" : "[TEMPLATE] recherche pour modification de modele";
-        console.log(text);
-    };
-    
-
-    // recupere les éléments correspondant à la clé recherché et la stoque dans une variable
-    if (devMode === true){console.log("[TEMPLATE] lecture de la Base de Données");};
-    let transaction = db_old.transaction(templateStoreName);//readonly
-    let objectStore = transaction.objectStore(templateStoreName);
-    let request = objectStore.getAll(IDBKeyRange.only(keyRef));
-    
-    
-    request.onsuccess = function (){
-        if (devMode === true){
-            console.log("[DATABASE][TEMPLATE]Requete de recherche réussit");
-            console.log(request.result);
-        };
-
-
-        // Affiche la note voulue
-        let tempResult = request.result;
-        if (devMode === true){console.log(tempResult[0]);};
-
-        if (isForNewActivity) {
-            onOpenNewActivityFromTemplate(tempResult[0]);
-        }else{
-            onSetTemplateItems(tempResult[0]);
-        }
-
-
-    };
-
-    request.onerror = function (){
-        console.log("[DATABASE][TEMPLATE]Requete de recherche erreur");
-    };
-
-};
-
 
 
 // Remplit l'editeur de template avec les éléments du template extrait de la base
@@ -439,7 +409,6 @@ function onClickBtnCreateTemplate() {
     // Initialise les éléments
     onResetTemplateInputs();
 
-    
 }
 
 
@@ -776,9 +745,10 @@ function onCreateTemplateChoiceList() {
         // Creation
         let newContainer = document.createElement("div");
         newContainer.classList.add("fake-opt-item-container");
-        newContainer.onclick = function (){
+        newContainer.onclick = async function (){
             onChangeMenu("NewActivityFromTemplate");
-            onSearchTemplateToDisplay(e.key,true); 
+            let templateItem = await findTemplateById(e.key);
+            onOpenNewActivityFromTemplate(templateItem);
         }
 
         // Style sans border botton pour le dernier
