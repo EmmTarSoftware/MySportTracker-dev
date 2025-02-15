@@ -1,5 +1,6 @@
 
 let userTemplateList = [{activityName:"",title:"",key:""}],
+    currentTemplateEditorID = "",
     templateAvailable = false,
     currentTemplateInView = {},
     maxTemplate = 30;
@@ -66,21 +67,6 @@ async function onLoadTemplateFromDB() {
 }
 
 
-// Séquence d'insertion d'un nouveau template
-async function eventInsertNewTemplate(templateToInsertFormat) {
-    await onInsertNewTemplateInDB(templateToInsertFormat);
-    await onLoadTemplateFromDB();
-
-
-    // Popup notification
-    onShowNotifyPopup(notifyTextArray.templateCreation);
-
-    // Remet à jour les éléments
-    onUpdateTemplateList(true);
-
-    //Gestion de l'affichage 
-    onLeaveMenu("TemplateEditor");
-}
 
 // Insertion nouveau template
 async function onInsertNewTemplateInDB(templateToInsertFormat) {
@@ -107,26 +93,15 @@ async function onInsertNewTemplateInDB(templateToInsertFormat) {
 }
 
 
-// Séquence d'insertion d'une modification
-async function eventInsertTemplateModification(templateToInsertFormat) {
-    await onInsertTemplateModificationInDB(templateToInsertFormat);
-
-    // Popup notification
-    onShowNotifyPopup(notifyTextArray.templateModification);
-
-    // Remet à jour les éléments
-    onUpdateTemplateList(true);
-
-    //Gestion de l'affichage 
-    onLeaveMenu("TemplateEditor");
-}
 
 
 // Modification template
-async function onInsertTemplateModificationInDB(templateToUpdate) {
+async function onInsertTemplateModificationInDB(templateToUpdate,key) {
+        console.log("[TEMPLATE]")
+        console.log(templateToUpdate);
     try {
         // Récupérer l'élément actuel depuis la base
-        let existingDoc = await db.get(templateToUpdate.key);
+        let existingDoc = await db.get(key);
 
         // Mettre à jour les champs nécessaires en conservant `_id` et `_rev`
         const updatedDoc = {
@@ -169,6 +144,7 @@ async function findTemplateById(templateId) {
     try {
         const template = await db.get(templateId); // Recherche dans la base
         if (devMode) console.log("Template trouvé :", template);
+        currentTemplateEditorID = templateId;
         return template; // Retourne l'objet trouvé
     } catch (err) {
         console.error("Erreur lors de la recherche du template :", err);
@@ -379,7 +355,6 @@ function onSetTemplateItems(templateItem) {
 
 
 
-
 // ---------------------------- TEMPLATE EDITEUR - -------------------------------
 
 
@@ -530,7 +505,7 @@ function onCheckIfTemplateModifiedRequired(templateToInsertFormat) {
 
     if (updateDataRequiered) {
         if (devMode) console.log("[TEMPLATE] Informations d'activité différentes : Lancement de l'enregistrement en BdD");
-        onInsertTemplateModification(templateToInsertFormat);
+        eventInsertTemplateModification(templateToInsertFormat);
     } else {
         if (devMode) console.log("[TEMPLATE] Aucune modification de modèle nécessaire !");
          //Gestion de l'affichage 
@@ -538,6 +513,41 @@ function onCheckIfTemplateModifiedRequired(templateToInsertFormat) {
     }
 
 }
+
+
+// Séquence d'insertion d'un nouveau template
+async function eventInsertNewTemplate(templateToInsertFormat) {
+    await onInsertNewTemplateInDB(templateToInsertFormat);
+    await onLoadTemplateFromDB();
+
+
+    // Popup notification
+    onShowNotifyPopup(notifyTextArray.templateCreation);
+
+    // Remet à jour les éléments
+    onUpdateTemplateList(true);
+
+    //Gestion de l'affichage 
+    onLeaveMenu("TemplateEditor");
+}
+
+
+// Séquence d'insertion d'une modification
+async function eventInsertTemplateModification(templateToInsertFormat) {
+    await onInsertTemplateModificationInDB(templateToInsertFormat,currentTemplateEditorID);
+    await onLoadTemplateFromDB();
+    
+    // Popup notification
+    onShowNotifyPopup(notifyTextArray.templateModification);
+
+    // Remet à jour les éléments
+    onUpdateTemplateList(true);
+
+    //Gestion de l'affichage 
+    onLeaveMenu("TemplateEditor");
+}
+
+
 
 
 // Insertion d'une modification d'une activité
