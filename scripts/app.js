@@ -368,16 +368,6 @@ function onStartDataBase() {
 
             isNewSettingBdDRequired = true;
         };
-
-        // Creation du store pour les récompenses
-        if (!db_old.objectStoreNames.contains(rewardsStoreName)) {
-            // Création du store avec une clé personnalisée
-            let rewardsStore = db_old.createObjectStore(rewardsStoreName, {keyPath: "rewardsKey"});
-            if (devMode === true) {
-                console.log("[DATABASE] Création du magasin " + rewardsStoreName);
-            }
-            isNewRewardsBdDRequired = true;
-        };
         
         // Stoque le numéro de version de base de l'application
         localStorage.setItem(cookiesBddVersion_KeyName, currentBaseVersion.toString());
@@ -402,14 +392,6 @@ function onStartDataBase() {
             onExtractSettingFromDB();
         };
 
-        if (isNewRewardsBdDRequired === true) {
-            // Creation d'un profil par defaut dans la base
-            if (devMode === true){console.log("[ DATABASE REWARDS] demande de création d'un ARRAY par defaut");};
-            onCreateDefaultRewardsInBase();
-        }else{
-            // Lancement des éléments du profil
-            onExtractRewardsFromDB();
-        };
 
     };
 
@@ -513,12 +495,21 @@ db.info().then(info => console.log(' [DATABASE] Base créée/ouverte :', info));
 
 
 
-
-// création des éléments de base
+// Création des éléments de base
 async function onCreateDBStore() {
     async function createStore(storeId, data) {
         try {
-            const existing = await db.get(storeId).catch(() => null); // Vérifie si le store existe
+            let existing;
+            try {
+                existing = await db.get(storeId);
+            } catch (err) {
+                if (err.status !== 404) { // Si ce n'est pas une erreur "document non trouvé", on affiche l'erreur
+                    console.error(`[DATABASE] Erreur lors de la vérification du store ${storeId}:`, err);
+                    return;
+                }
+                existing = null;
+            }
+
             if (!existing) {
                 await db.put({ _id: storeId, ...data });
                 console.log(`[DATABASE] Création du store ${storeId.toUpperCase()}`);
@@ -546,7 +537,6 @@ async function onCreateDBStore() {
     });
     await createStore(rewardsStoreName, { type: rewardsStoreName, rewards: [] });
 }
-
 
 
 
@@ -664,8 +654,6 @@ function firstActualisation() {
 
     //PROFIL : set dans le html, le nom de l'utilisateur
     document.getElementById("userPseudo").innerHTML = userInfo.pseudo;
-
-
 
     // FAVORIS
     onGenerateActivityOptionChoice("selectorCategoryChoice");
