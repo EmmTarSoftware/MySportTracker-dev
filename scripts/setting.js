@@ -106,102 +106,6 @@ function onSetSettingItems() {
 
 
 
-
-
-// Creation des paramètres par défaut
-function onCreateDefaultSettingInBase(settingToInsert) {
-    let transaction = db_old.transaction(settingStoreName,"readwrite");
-    let store = transaction.objectStore(settingStoreName);
-
-    let insertRequest = store.add(settingToInsert);
-
-    insertRequest.onsuccess = function () {
-        if (devMode === true){console.log(" [ DATABASE SETTING] Les paramètres par défaut ont été ajoutés à la base");};
-        
-    };
-
-    insertRequest.onerror = function(event){
-        console.log("[ DATABASE SETTING] Error d'insertion des paramètres par défaut");
-        let errorMsg = event.target.error.toString();
-        console.log(errorMsg);
-        
-    };
-
-    transaction.oncomplete = function(){
-        if (devMode === true){console.log("[ DATABASE SETTING] default paramètre : transaction insertData complete");};
-        // set les paramètres dans userSetting
-        onSetSettingFromOpeningAPP(defaultSetting);
-    };
-};    
-
-
-
-// Récupére les paramètres de la base de données
-function onExtractSettingFromDB(){
-    if (devMode === true){console.log("[ DATABASE SETTING] Récupère les éléments dans la base");};
-
-    let transaction = db_old.transaction([settingStoreName]);//readonly
-    let objectStoreTask = transaction.objectStore(settingStoreName);
-
-    // Rechercher un élément où la key est égal à '1'
-    let requestTask = objectStoreTask.get(1);
-
-
-    // Traitement de la requête
-    requestTask.onsuccess = function(event) {
-        if (requestTask.result) {
-            if (devMode === true){console.log('[ DATABASE SETTING] Élément trouvé : ', requestTask.result);};
-
-            onSetSettingFromOpeningAPP(requestTask.result);
-
-        } else {
-            if (devMode === true){console.log('[ DATABASE SETTING] Aucun élément trouvé pour les paramètres');};
-        }
-    };
-
-    requestTask.onerror = function(event) {
-        console.error(' [ DATABASE SETTING] Erreur lors de la récupération de l\'élément', event.target.error);
-    };
-
-};
-
-
-
-// Set les paramètres venant de la base dans user setting et ensuite lance la liste des items
-function onSetSettingFromOpeningAPP(settingExtracted) {
-    userSetting = settingExtracted;
-    if (devMode === true){
-        console.log('[SETTING] Paramètres utilisateur : ');
-        console.log(userSetting);
-        console.log("[SETTING] Mise à jours des CSS selon le mode d'affichage");
-    };
-
-    // Met à jour les css du mode d'affichage selon les paramètres
-    currentCommentDoneClassName = onSearchCommentClassNameByMode(userSetting.displayCommentDoneMode);
-    currentCommentPlannedClassName = onSearchCommentClassNameByMode(userSetting.displayCommentPlannedMode);
-
-
-    // Set la date de la dernière sauvegarde auto
-    document.getElementById("pSettingLastAutoSaveDate").innerHTML = userSetting.lastAutoSaveDate === "noSet" ? "Date Indisponible." : `Le ${onFormatDateToFr(userSetting.lastAutoSaveDate)} à ${userSetting.lastAutoSaveTime}`;
-    //Set la date de la dernière sauvegarde manuelle
-    document.getElementById("pGestDataLastExportDate").innerHTML = userSetting.lastManualSaveDate === "noSet" ? "Date dernier export : Indisponible." : `Date dernier export : le ${onFormatDateToFr(userSetting.lastManualSaveDate)} à ${userSetting.lastManualSaveTime}`;
-
-    // 
-    if (userSetting.isAutoSaveEnabled) {
-        console.log("[SETTING] Autosave activée.");
-        if (devMode === true){console.log("[SETTING] Autosave activité. Demande de vérification des conditions");};
-        onCheckAutoSaveCondition();
-    }else{
-        console.log("[SETTING] AutoSave non activé. Demande d'actualisation de la liste d'activité");
-        // Premiere remplissage de la base avec le formation de trie par défaut
-        onUpdateActivityBddList(false);
-    }
-
-}
-
-
-
-
 // Clique sur save Setting
 function onClickSaveFromSetting() {
 
@@ -257,61 +161,50 @@ function onSaveUserSetting() {
 
     // Sauvegarde dans la base
     if (devMode === true){
-        console.log("[ SETTING ] mise à jour de userSetting");
-        console.log( "[ SETTING ] demande de sauvegarde des setting dans la base ");
+        console.log("[SETTING] mise à jour de userSetting");
+        console.log( "[SETTING] demande de sauvegarde des setting dans la base ");
     };
-    onInsertSettingModificationInDB(userSetting);
+    eventSaveSetting(userSetting);
 };
 
 
+// Sequence de sauvegarde des paramètres
+async function eventSaveSetting(newSetting){
 
 
-// Fonction de modification du setting dans la base
-function onInsertSettingModificationInDB(e) {
-    if (devMode === true){console.log("fonction d'insertion des paramères modifiés");};
-
-    let transaction = db_old.transaction(settingStoreName,"readwrite");
-    let store = transaction.objectStore(settingStoreName);
-    let modifyRequest = store.getAll(IDBKeyRange.only(1));
-
-    
-
-    modifyRequest.onsuccess = function () {
-        if (devMode === true){console.log("modifyRequest = success");};
-
-        let modifiedData = modifyRequest.result[0];
-
-        modifiedData.displayCommentDoneMode = e.displayCommentDoneMode;
-        modifiedData.displayCommentPlannedMode = e.displayCommentPlannedMode;
-        modifiedData.isAutoSaveEnabled = e.isAutoSaveEnabled;
-        modifiedData.autoSaveFrequency = e.autoSaveFrequency;
+    await onInsertSettingModificationInDB(newSetting);
+    // Popup notification
+    onShowNotifyPopup(notifyTextArray.saveSetting);
+    // ferme le menu
+    onLeaveMenu("Setting");
+}
 
 
 
-        let insertModifiedData = store.put(modifiedData);
+// Modification Setting
+async function onInsertSettingModificationInDB(settingToUpdate) {
 
-        insertModifiedData.onsuccess = function (){
-            if (devMode === true){console.log("[ DATABASE SETTING] insert ModifiedData = success");};
+    try {
+        // Récupérer l'élément actuel depuis la base
+        let existingDoc = await db.get(settingStoreName);
 
+        // Mettre à jour les champs nécessaires en conservant `_id` et `_rev`
+        const updatedDoc = {
+            ...existingDoc,  // Garde _id et _rev pour la mise à jour
+            ...settingToUpdate // Remplace les valeurs avec les nouvelles
         };
 
-        insertModifiedData.onerror = function (){
-            if (devMode === true){console.log("[ DATABASE SETTING] insert ModifiedData = error",insertModifiedData.error); };
-        };
-    };
+        // Enregistrer les modifications dans la base
+        await db.put(updatedDoc);
 
-    modifyRequest.onerror = function(){
-        if (devMode === true){console.log("[ DATABASE SETTING] ModifyRequest = error");};
-    };
+        if (devMode === true ) {console.log("[SETTING] Paramètres mis à jour :", updatedDoc);};
 
-    transaction.oncomplete = function(){
-        if (devMode === true){console.log("[ DATABASE SETTING] Transaction insertion modification setting complété !");};
-        // Popup notification
-        onShowNotifyPopup(notifyTextArray.saveSetting);
-        // ferme le menu
-        onLeaveMenu("Setting");
-    };
-};
+        return updatedDoc; // Retourne l'objet mis à jour
+    } catch (err) {
+        console.error("[SETTING] Erreur lors de la mise à jour des paramètres :", err);
+    }
+}
+
 
 
 

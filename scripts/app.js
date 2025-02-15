@@ -340,11 +340,6 @@ let db_old,
 function onStartDataBase() {
     let openRequest = indexedDB.open(dbName,currentBaseVersion);
 
-    let isNewProfilRequiered = false,//boolean pour savoir si je créer un nouveau profils ou non
-        isNewRewardsBdDRequired = false,//boolean pour savoir si je créer un élément initiale pour les récompenses dans la base
-        isNewSettingBdDRequired = false;//boolean pour savoir si je créer un élément initiale pour les setting dans la base
-    // Traitement selon résultat
-
    
     // Mise à jour ou création requise
     openRequest.onupgradeneeded = function () {
@@ -361,13 +356,7 @@ function onStartDataBase() {
             activityStore.createIndex('duration','duration',{unique:false});
         };
 
-        // Creation du store pour les Setting
-        if (!db_old.objectStoreNames.contains(settingStoreName)) {
-            let profilStore = db_old.createObjectStore(settingStoreName, {keyPath:'key',autoIncrement: true});
-            if (devMode === true){console.log("[ DATABASE PROFIL] Creation du magasin " + settingStoreName);};
-
-            isNewSettingBdDRequired = true;
-        };
+ 
         
         // Stoque le numéro de version de base de l'application
         localStorage.setItem(cookiesBddVersion_KeyName, currentBaseVersion.toString());
@@ -382,15 +371,6 @@ function onStartDataBase() {
         db_old = openRequest.result
         if (devMode === true){console.log("[ DATABASE] Base ready");};
         
-
-        if (isNewSettingBdDRequired === true) {
-            // Creation d'un paramètre par defaut dans la base
-            if (devMode === true){console.log("[ DATABASE PROFIL] demande de création des paramètres par defaut");};
-            onCreateDefaultSettingInBase(defaultSetting);
-        }else{
-            // Lancement des éléments du paramètre
-            onExtractSettingFromDB();
-        };
 
 
     };
@@ -659,7 +639,31 @@ function firstActualisation() {
     onGenerateActivityOptionChoice("selectorCategoryChoice");
     onGenerateFakeOptionList("divFakeSelectOptList");
 
-    // Prémière actualisation des modèles
+
+
+    // SETTING
+    // Met à jour les css du mode d'affichage selon les paramètres
+    currentCommentDoneClassName = onSearchCommentClassNameByMode(userSetting.displayCommentDoneMode);
+    currentCommentPlannedClassName = onSearchCommentClassNameByMode(userSetting.displayCommentPlannedMode);
+
+    // Set la date de la dernière sauvegarde auto
+    document.getElementById("pSettingLastAutoSaveDate").innerHTML = userSetting.lastAutoSaveDate === "noSet" ? "Date Indisponible." : `Le ${onFormatDateToFr(userSetting.lastAutoSaveDate)} à ${userSetting.lastAutoSaveTime}`;
+    //Set la date de la dernière sauvegarde manuelle
+    document.getElementById("pGestDataLastExportDate").innerHTML = userSetting.lastManualSaveDate === "noSet" ? "Date dernier export : Indisponible." : `Date dernier export : le ${onFormatDateToFr(userSetting.lastManualSaveDate)} à ${userSetting.lastManualSaveTime}`;
+
+    if (userSetting.isAutoSaveEnabled) {
+        console.log("[SETTING] Autosave activée.");
+        if (devMode === true){console.log("[SETTING] Autosave activité. Demande de vérification des conditions");};
+        onCheckAutoSaveCondition();
+    }else{
+        console.log("[SETTING] AutoSave non activé. Demande d'actualisation de la liste d'activité");
+        // Premiere remplissage de la base avec le formation de trie par défaut
+        onUpdateActivityBddList(false);
+    }
+
+
+
+    // TEMPLATE
     onUpdateTemplateList(false);
 
 }

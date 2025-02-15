@@ -55,13 +55,6 @@ async function onInsertRewardsModificationInDB(newRewardList){
 
 
 
-
-
-
-
-
-
-
 // Nombre d'activité pour une activité désigné
 function onSearchActivityCountValue(data,activityTarget,countTarget){
     let allActivityTargetFound = data.filter(e=>{

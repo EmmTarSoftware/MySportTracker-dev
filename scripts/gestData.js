@@ -19,7 +19,7 @@ let exportDate,
     exportTimeFileName;//format 0000
 
 
-function eventSaveData(isAutoSave) {
+async function eventSaveData(isAutoSave) {
 
     // Sauvegarde la date dans setting
     // Set la date du jour ainsi que l'heure
@@ -36,46 +36,23 @@ function eventSaveData(isAutoSave) {
         console.log("[SAVE] sauvegarde de la date dans les setting");
     };
 
-    let transaction = db_old.transaction(settingStoreName,"readwrite");
-    let store = transaction.objectStore(settingStoreName);
-    let modifyRequest = store.getAll(IDBKeyRange.only(1));
+   
 
-    modifyRequest.onsuccess = function () {
-        if (devMode === true){console.log("modifyRequest = success");};
-
-        let modifiedData = modifyRequest.result[0];
-
-        if (isAutoSave) {
-            modifiedData.lastAutoSaveDate = exportDate;
-            modifiedData.lastAutoSaveTime = exportTime;
-        }else{
-            modifiedData.lastManualSaveDate = exportDate;
-            modifiedData.lastManualSaveTime = exportTime;
-        }
-
-        let insertModifiedData = store.put(modifiedData);
-
-        insertModifiedData.onsuccess = function (){
-            if (devMode === true){console.log("[ DATABASE SAVE] insert ModifiedData = success");};
-
-        };
-
-        insertModifiedData.onerror = function (){
-            if (devMode === true){console.log("[ DATABASE SAVE] insert ModifiedData = error",insertModifiedData.error); };
-        };
-    };
-
-    modifyRequest.onerror = function(){
-        if (devMode === true){console.log("[ DATABASE SAVE] ModifyRequest = error");};
-    };
-
-    transaction.oncomplete = function(){
-        if (devMode === true){console.log("[ DATABASE SAVE] Transaction insertion modification setting complété !");};
+    if (isAutoSave) {
+        userSetting.lastAutoSaveDate = exportDate;
+        userSetting.lastAutoSaveTime = exportTime;
+    }else{
+        userSetting.lastManualSaveDate = exportDate;
+        userSetting.lastManualSaveTime = exportTime;
+    }
 
 
-        // suite à enregistrement de la date, export des données
-        exportData(isAutoSave);
-    };
+    // Enregistrement date/heure dans les paramètres
+    await onInsertSettingModificationInDB(userSetting);
+
+    // suite à enregistrement de la date, export des données
+    exportData(isAutoSave);
+    
 }
 
 
@@ -232,14 +209,10 @@ function eventSaveResult(isAutoSave){
     if (devMode === true) {console.log("[AUTOSAVE] Fin de sauvegarde, actualisation set la date au bon emplacement");};
 
     if (isAutoSave) {
-        // Mise à jour du texte et de la variable userSetting ici
-        userSetting.lastAutoSaveDate = exportDate;
-        userSetting.lastAutoSaveTime = exportTime;
+        // Mise à jour du texte 
         document.getElementById("pSettingLastAutoSaveDate").innerHTML = `Le ${onFormatDateToFr(userSetting.lastAutoSaveDate)} à ${userSetting.lastAutoSaveTime}`;
     }else{
-        // Mise à jour du texte et de la variable userSetting ici
-        userSetting.lastManualSaveDate = exportDate;
-        userSetting.lastManualSaveTime = exportTime;
+        // Mise à jour du texte
         document.getElementById("pGestDataLastExportDate").innerHTML = `Date dernier export : le ${onFormatDateToFr(userSetting.lastManualSaveDate)} à ${userSetting.lastManualSaveTime}`;
     }
 
