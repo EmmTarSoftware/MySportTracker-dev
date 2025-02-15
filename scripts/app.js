@@ -313,18 +313,23 @@ onCheckConditionUtilisation();
 
 
 
-let db,
+let db_old,
     dbName = "MSS-DataBase",
-    activityStoreName = "activityList",
-    profilStoreName = "profil",
+    activityStoreName = "ActivityList",
+    activityCounterStoreName = "ActivityCount",
+    profilStoreName = "Profil",
     rewardsStoreName = "Recompenses",
     settingStoreName = "Setting",
     templateStoreName = "Template",
+    templateCounterStoreName = "TemplateCount",
+    favorisStoreName = "Favoris",
     // Nom des stores à importer et exporter dans les fonctions import export. 
     storeNames = [activityStoreName, profilStoreName, rewardsStoreName,settingStoreName,templateStoreName],//Ajouter tous les noms des stores ici
     currentBaseVersion = 7,
     cookiesBddVersion_KeyName = "MSS-bddVersion";
     
+
+
 
 
 
@@ -345,10 +350,10 @@ function onStartDataBase() {
     openRequest.onupgradeneeded = function () {
         if (devMode === true){console.log(" [ DATABASE] Initialisation de la base de donnée");};
 
-        db = openRequest.result;
-        if(!db.objectStoreNames.contains(activityStoreName)){
+        db_old = openRequest.result;
+        if(!db_old.objectStoreNames.contains(activityStoreName)){
             // si le l'object store n'existe pas
-            let activityStore = db.createObjectStore(activityStoreName, {keyPath:'key', autoIncrement: true});
+            let activityStore = db_old.createObjectStore(activityStoreName, {keyPath:'key', autoIncrement: true});
             if (devMode === true){console.log("[ DATABASE] Creation du magasin " + activityStoreName);};
 
             activityStore.createIndex('date','date',{unique:false});
@@ -356,19 +361,9 @@ function onStartDataBase() {
             activityStore.createIndex('duration','duration',{unique:false});
         };
 
-        // Création du store "template"
-        if(!db.objectStoreNames.contains(templateStoreName)){
-            // si le l'object store n'existe pas
-            let templateStore = db.createObjectStore(templateStoreName, {keyPath:'key', autoIncrement: true});
-            if (devMode === true){console.log("[ DATABASE] Creation du magasin " + templateStoreName);};
-
-            templateStore.createIndex('title','title',{unique:true});
-            templateStore.createIndex('activityName','activityName',{unique:false});
-        };
-
         // Creation du store pour le profil
-        if (!db.objectStoreNames.contains(profilStoreName)) {
-            let profilStore = db.createObjectStore(profilStoreName, {keyPath:'key',autoIncrement: true});
+        if (!db_old.objectStoreNames.contains(profilStoreName)) {
+            let profilStore = db_old.createObjectStore(profilStoreName, {keyPath:'key',autoIncrement: true});
             if (devMode === true){console.log("[ DATABASE PROFIL] Creation du magasin " + profilStoreName);};
 
             isNewProfilRequiered = true;
@@ -376,17 +371,17 @@ function onStartDataBase() {
 
 
         // Creation du store pour les Setting
-        if (!db.objectStoreNames.contains(settingStoreName)) {
-            let profilStore = db.createObjectStore(settingStoreName, {keyPath:'key',autoIncrement: true});
+        if (!db_old.objectStoreNames.contains(settingStoreName)) {
+            let profilStore = db_old.createObjectStore(settingStoreName, {keyPath:'key',autoIncrement: true});
             if (devMode === true){console.log("[ DATABASE PROFIL] Creation du magasin " + settingStoreName);};
 
             isNewSettingBdDRequired = true;
         };
 
         // Creation du store pour les récompenses
-        if (!db.objectStoreNames.contains(rewardsStoreName)) {
+        if (!db_old.objectStoreNames.contains(rewardsStoreName)) {
             // Création du store avec une clé personnalisée
-            let rewardsStore = db.createObjectStore(rewardsStoreName, {keyPath: "rewardsKey"});
+            let rewardsStore = db_old.createObjectStore(rewardsStoreName, {keyPath: "rewardsKey"});
             if (devMode === true) {
                 console.log("[DATABASE] Création du magasin " + rewardsStoreName);
             }
@@ -403,7 +398,7 @@ function onStartDataBase() {
     };
 
     openRequest.onsuccess = function(){
-        db = openRequest.result
+        db_old = openRequest.result
         if (devMode === true){console.log("[ DATABASE] Base ready");};
 
 
@@ -435,9 +430,6 @@ function onStartDataBase() {
             onExtractRewardsFromDB();
         };
 
-
-        //extraction des modèles de la base
-        onUpdateTemplateBddList(false);
     };
 
 
@@ -526,4 +518,169 @@ async function requestPersistentStorage() {
 }
   
 
-  
+// -----------------------------------  pouch DB -------------------------------------
+
+
+
+
+
+// Créer (ou ouvrir si elle existe déjà) une base de données PouchDB
+const db = new PouchDB(dbName);
+
+// Vérifier si la base est bien créée
+db.info().then(info => console.log(' [DATABASE] Base créée/ouverte :', info));
+
+
+
+
+// création des éléments de base
+async function onCreateDBStore() {
+    async function createStore(storeId, data) {
+        try {
+            const existing = await db.get(storeId).catch(() => null); // Vérifie si le store existe
+            if (!existing) {
+                await db.put({ _id: storeId, ...data });
+                console.log(`[DATABASE] Création du store ${storeId.toUpperCase()}`);
+            } else {
+                console.log(`[DATABASE] Le store ${storeId.toUpperCase()} existe déjà`);
+            }
+        } catch (err) {
+            console.error(`[DATABASE] Erreur lors de la création du store ${storeId}:`, err);
+        }
+    }
+
+    // Création des stores
+    await createStore(favorisStoreName, { type: favorisStoreName, favorisList: [] });
+    await createStore(profilStoreName, { type: profilStoreName, pseudo: "", customNotes: "" });
+    await createStore(settingStoreName, {
+        type: settingStoreName,
+        displayCommentDoneMode: "Collapse",
+        displayCommentPlannedMode: "Collapse",
+        isAutoSaveEnabled: false,
+        lastAutoSaveDate: "noSet",
+        lastAutoSaveTime: "",
+        lastManualSaveDate: "noSet",
+        lastManualSaveTime: "",
+        autoSaveFrequency: 7
+    });
+    await createStore(rewardsStoreName, { type: rewardsStoreName, rewards: [] });
+}
+
+
+
+
+// Pour la création du store de conteur d'ID pour template
+async function onInitTemplateCounterStore() {
+    try {
+        // Vérifier si le compteur existe déjà
+        let counterDoc = await db.get(templateCounterStoreName).catch(() => null);
+
+        if (!counterDoc) {
+            // Créer le store avec un compteur initial
+            counterDoc = { _id: templateCounterStoreName, type: templateCounterStoreName, counter: 0 };
+            await db.put(counterDoc);
+            if (devMode === true ) {console.log("[DATABASE] [TEMPLATE] Store Compteur template créé :", counterDoc);};
+        }
+    } catch (err) {
+        console.error("[DATABASE] [TEMPLATE] Erreur lors de l'initialisation du compteur :", err);
+    }
+}
+
+
+
+// Pour la création du store de conteur d'ID pour les activité
+async function onInitActivityCounterStore() {
+    try {
+        // Vérifier si le compteur existe déjà
+        let counterDoc = await db.get(activityCounterStoreName).catch(() => null);
+
+        if (!counterDoc) {
+            // Créer le store avec un compteur initial
+            counterDoc = { _id: activityCounterStoreName, type: activityCounterStoreName, counter: 0 };
+            await db.put(counterDoc);
+            if (devMode === true ) {console.log("[DATABASE] [ACTIVITY] Store Compteur template créé :", counterDoc);};
+        }
+    } catch (err) {
+        console.error("[DATABASE] [ACTIVITY] Erreur lors de l'initialisation du compteur :", err);
+    }
+}
+
+
+
+
+
+
+
+// Fonction pour récupérer les données des stores
+async function onLoadStores() {
+    try {
+        const profil = await db.get(profilStoreName).catch(() => null);
+        if (profil) {
+            userInfo.pseudo = profil.pseudo;
+            userInfo.customNotes = profil.customNotes;
+        }
+
+        const rewards = await db.get(rewardsStoreName).catch(() => null);
+        if (rewards) {
+            userRewardsArray = rewards.rewards;
+        }
+
+        const favoris = await db.get(favorisStoreName).catch(() => null);
+        if (favoris) {
+            userFavoris = favoris.favorisList;
+        }
+
+        const settings = await db.get(settingStoreName).catch(() => null);
+        if (settings) {
+            userSetting = { ...settings };
+        }
+
+        if (devMode === true){console.log("[DATABASE] Données chargées :", { userInfo, userRewardsArray, userFavoris, userSetting });};
+    } catch (err) {
+        console.error("[DATABASE] Erreur lors du chargement des stores :", err);
+    }
+}
+
+
+
+// fonction pour récupérer les activité et les modèles
+async function onLoadActivityFromDB () {
+    allUserActivityArray = [];
+    try {
+        const result = await db.allDocs({ include_docs: true }); // Récupère tous les documents
+
+        // Filtrer les éléments concernée
+        allUserActivityArray = result.rows
+            .map(row => row.doc)
+            .filter(doc => doc.type === activityStoreName);
+            if (devMode === true){console.log("[DATABASE] [ACTIVITY] Activités chargées :", activityStoreName);};
+    } catch (err) {
+        console.error("[DATABASE] [ACTIVITY] Erreur lors du chargement:", err);
+    }
+}
+
+
+
+
+
+// Procésus de lancement de l'application
+async function initApp() {
+    await onCreateDBStore();  // 1️⃣ Création des stores
+    await onLoadStores();       // 2️⃣ Extraction des données des stores génériques
+    await onLoadActivityFromDB(); // 3️⃣Extraction liste activité
+    await onLoadTemplateFromDB(); // Extraction liste modèle
+    await onInitActivityCounterStore();// Extraction liste modèle
+    await onInitTemplateCounterStore();// Extraction liste modèle
+}
+
+
+// Appel de la fonction après l'initialisation
+initApp().then(() => firstActualisation());
+
+function firstActualisation() {
+    if (devMode === true){console.log("Première actualisation des modèles")};
+
+    // Prémière actualisation des modèles
+    onUpdateTemplateList(false);
+
+}

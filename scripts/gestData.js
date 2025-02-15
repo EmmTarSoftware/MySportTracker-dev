@@ -36,7 +36,7 @@ function eventSaveData(isAutoSave) {
         console.log("[SAVE] sauvegarde de la date dans les setting");
     };
 
-    let transaction = db.transaction(settingStoreName,"readwrite");
+    let transaction = db_old.transaction(settingStoreName,"readwrite");
     let store = transaction.objectStore(settingStoreName);
     let modifyRequest = store.getAll(IDBKeyRange.only(1));
 
@@ -95,7 +95,7 @@ function exportData(isAutoSave) {
     let completedStores = 0;
 
     storeNames.forEach(storeName => {
-        let transaction = db.transaction([storeName], 'readonly');
+        let transaction = db_old.transaction([storeName], 'readonly');
         let store = transaction.objectStore(storeName);
 
         let exportRequest = store.getAll();
@@ -282,7 +282,7 @@ function importBdD(inputRef, pResultRef) {
                     baseStoreCount++;
 
                     if (jsonData[storeName]) {
-                        const transaction = db.transaction([storeName], 'readwrite');
+                        const transaction = db_old.transaction([storeName], 'readwrite');
                         const objectStore = transaction.objectStore(storeName);
 
                         // Supprimer les anciennes données

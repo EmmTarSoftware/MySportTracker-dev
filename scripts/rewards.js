@@ -29,7 +29,7 @@ divRewardsListRef;
 
 // Fonction de création du profil par défaut
 function onCreateDefaultRewardsInBase() {
-    let transaction = db.transaction(rewardsStoreName, "readwrite");
+    let transaction = db_old.transaction(rewardsStoreName, "readwrite");
     let store = transaction.objectStore(rewardsStoreName);
 
     // Créer un objet avec une clé personnalisée et insérer le tableau 'userRewardsArray'
@@ -72,7 +72,7 @@ function onInsertRewardsModificationInDB(e) {
         console.log("fonction d'insertion de la donnée modifiée");
     }
 
-    let transaction = db.transaction(rewardsStoreName, "readwrite");
+    let transaction = db_old.transaction(rewardsStoreName, "readwrite");
     let store = transaction.objectStore(rewardsStoreName);
 
     // Crée un objet avec une clé personnalisée 'rewardsKey'
@@ -114,7 +114,7 @@ function onExtractRewardsFromDB() {
     }
 
     // Démarre une transaction en mode 'readonly'
-    let transaction = db.transaction([rewardsStoreName], "readonly");
+    let transaction = db_old.transaction([rewardsStoreName], "readonly");
     let objectStoreTask = transaction.objectStore(rewardsStoreName);
 
     let requestTask = objectStoreTask.get("uniqueKeyForRewards"); 

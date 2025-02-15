@@ -110,7 +110,7 @@ function onSetSettingItems() {
 
 // Creation des paramètres par défaut
 function onCreateDefaultSettingInBase(settingToInsert) {
-    let transaction = db.transaction(settingStoreName,"readwrite");
+    let transaction = db_old.transaction(settingStoreName,"readwrite");
     let store = transaction.objectStore(settingStoreName);
 
     let insertRequest = store.add(settingToInsert);
@@ -140,7 +140,7 @@ function onCreateDefaultSettingInBase(settingToInsert) {
 function onExtractSettingFromDB(){
     if (devMode === true){console.log("[ DATABASE SETTING] Récupère les éléments dans la base");};
 
-    let transaction = db.transaction([settingStoreName]);//readonly
+    let transaction = db_old.transaction([settingStoreName]);//readonly
     let objectStoreTask = transaction.objectStore(settingStoreName);
 
     // Rechercher un élément où la key est égal à '1'
@@ -270,7 +270,7 @@ function onSaveUserSetting() {
 function onInsertSettingModificationInDB(e) {
     if (devMode === true){console.log("fonction d'insertion des paramères modifiés");};
 
-    let transaction = db.transaction(settingStoreName,"readwrite");
+    let transaction = db_old.transaction(settingStoreName,"readwrite");
     let store = transaction.objectStore(settingStoreName);
     let modifyRequest = store.getAll(IDBKeyRange.only(1));
 

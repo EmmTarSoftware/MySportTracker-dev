@@ -21,82 +21,155 @@ let imgTemplateEditorPreviewRef = document.getElementById("imgTemplateEditorPrev
 
 
 
-
-
-// actualisation de la liste d'activité
-
-function onUpdateTemplateBddList(updateMenuListRequired) {
-
-    if (devMode === true){console.log("[TEMPLATE] Actualisation de la liste des modèles");};
-
-
-    // recupere les éléments dans la base et les stock dans un tableau temporaire
-    
-    let transaction = db.transaction([templateStoreName]);//readonly
-    let objectStoreTask = transaction.objectStore(templateStoreName);
-    let indexStoreTask = objectStoreTask.index("activityName");//Filtre par défaut sur l'index des types d'activité
-    let requestTask = indexStoreTask.getAll();
-
-
-    requestTask.onsuccess = function (){
-        if (devMode === true){console.log("[DATABASE] [TEMPLATE] Les éléments ont été récupéré dans la base");};
-    };
-
-    requestTask.error = function (){
-       console.log("[DATABASE] [TEMPLATE] Erreur de requete sur la base");
-    };
-
-
-    transaction.oncomplete = function (){
-        // Récupère uniquement le titre et la key des modèle
-        if (devMode === true){console.log(" [DATABASE] [TEMPLATE] Demande d'extraction uniquement pour title and key");};
-        onExtractTemplateKeyAndTitle(requestTask.result,updateMenuListRequired);
-    };
-};
+// ------------------------ Fonction de gestion template ------------------------
 
 
 
-// Récupère uniquement le titre et la key des modèle
-function onExtractTemplateKeyAndTitle(data,updateMenuListRequired) {
-    //Reset
+
+
+
+// Fonction pour récupérer les templates depuis la base
+async function onLoadTemplateFromDB() {
     userTemplateList = [];
+    try {
+        const result = await db.allDocs({ include_docs: true }); // Récupère tous les documents
 
-    //Insertion
-    data.forEach(templateItem => {
-        let itemToInsert = {activityName: templateItem.activityName, title : templateItem.title , key : templateItem.key};
-        userTemplateList.push(itemToInsert);
-    });
-
-
-    // trie sur type d'activité puis par alphabétique
-    userTemplateList.sort((a, b) => {
-        if (a.activityName < b.activityName) return -1;
-        if (a.activityName > b.activityName) return 1;
-      
-        // Si activityName est identique, on trie par title
-        if (a.title < b.title) return -1;
-        if (a.title > b.title) return 1;
-      
-        return 0;
-    });
+        // Filtrer et extraire uniquement les champs nécessaires
+        userTemplateList = result.rows
+            .map(row => row.doc)
+            .filter(doc => doc.type === templateStoreName)
+            .map(({ _id, activityName, title }) => ({ key: _id, activityName: activityName, title: title })); // Associe _id à key
 
 
-    if (devMode === true){
-        console.log("[TEMPLATE] Demande d'extraction title and Key effectuée");
-        console.log(userTemplateList);
-        console.log("[TEMPLATE] Demande d'actualisation de l'affichage");
-    };
-
-
-
-
-    //gère l'affichage du bouton de création new template selon si le max atteind
-    document.getElementById("btnCreateTemplate").disabled = userTemplateList.length >= maxTemplate ? true : false;
-
-
-    onUpdateTemplateList(updateMenuListRequired);
+        // trie sur type d'activité puis par alphabétique
+        userTemplateList.sort((a, b) => {
+            if (a.activityName < b.activityName) return -1;
+            if (a.activityName > b.activityName) return 1;
         
+            // Si activityName est identique, on trie par title
+            if (a.title < b.title) return -1;
+            if (a.title > b.title) return 1;
+        
+            return 0;
+        });
+
+        //gère l'affichage du bouton de création new template selon si le max atteind
+        document.getElementById("btnCreateTemplate").disabled = userTemplateList.length >= maxTemplate ? true : false;
+
+
+        if (devMode === true) {
+            console.log("[DATABASE] [TEMPLATE] Templates chargés :", userTemplateList);
+        }
+    } catch (err) {
+        console.error("[DATABASE] [TEMPLATE] Erreur lors du chargement:", err);
+    }
 }
+
+
+// Séquence d'insertion d'un nouveau template
+async function eventInsertNewTemplate(templateToInsertFormat) {
+    await onInsertNewTemplateInDB(templateToInsertFormat);
+    await onLoadTemplateFromDB();
+
+
+    // Popup notification
+    onShowNotifyPopup(notifyTextArray.templateCreation);
+
+    // Remet à jour les éléments
+    onUpdateTemplateList(true);
+
+    //Gestion de l'affichage 
+    onLeaveMenu("TemplateEditor");
+}
+
+// Insertion nouveau template
+async function onInsertNewTemplateInDB(templateToInsertFormat) {
+    try {
+        // Obtenir le prochain ID
+        const nextId = await getNextIdNumber(templateCounterStoreName);
+
+        // Créer l'objet avec le nouvel ID
+        const newTemplate = {
+            _id: `${templateStoreName}_${nextId}`,
+            type: templateStoreName,
+            ...templateToInsertFormat
+        };
+
+        // Insérer dans la base
+        await db.put(newTemplate);
+
+        if (devMode === true ) {console.log("[DATABASE] [TEMPLATE] Template inséré :", newTemplate);};
+
+        return newTemplate;
+    } catch (err) {
+        console.error("[DATABASE] [TEMPLATE] Erreur lors de l'insertion du template :", err);
+    }
+}
+
+
+// Séquence d'insertion d'une modification
+async function eventInsertTemplateModification(templateToInsertFormat) {
+    await onInsertTemplateModificationInDB(templateToInsertFormat);
+
+    // Popup notification
+    onShowNotifyPopup(notifyTextArray.templateModification);
+
+    // Remet à jour les éléments
+    onUpdateTemplateList(true);
+
+    //Gestion de l'affichage 
+    onLeaveMenu("TemplateEditor");
+}
+
+
+// Modification template
+async function onInsertTemplateModificationInDB(templateToUpdate) {
+    try {
+        // Récupérer l'élément actuel depuis la base
+        let existingDoc = await db.get(templateToUpdate.key);
+
+        // Mettre à jour les champs nécessaires en conservant `_id` et `_rev`
+        const updatedDoc = {
+            ...existingDoc,  // Garde _id et _rev pour la mise à jour
+            ...templateToUpdate // Remplace les valeurs avec les nouvelles
+        };
+
+        // Enregistrer les modifications dans la base
+        await db.put(updatedDoc);
+
+        if (devMode === true ) {console.log("[TEMPLATE] Template mis à jour :", updatedDoc);};
+
+        return updatedDoc; // Retourne l'objet mis à jour
+    } catch (err) {
+        console.error("Erreur lors de la mise à jour du template :", err);
+    }
+}
+
+// Suppression template
+async function deleteTemplate(templateKey) {
+    try {
+        // Récupérer le document à supprimer
+        let docToDelete = await db.get(templateKey);
+
+        // Supprimer le document
+        await db.remove(docToDelete);
+
+        if (devMode === true ) {console.log("[TEMPLATE] Template supprimé :", templateKey);};
+
+        return true; // Indique que la suppression s'est bien passée
+    } catch (err) {
+        console.error("[TEMPLATE] Erreur lors de la suppression du template :", err);
+        return false; // Indique une erreur
+    }
+}
+
+
+
+//  ------------------------------------------------------------------------------
+
+
+
+
 
 
 
@@ -261,7 +334,7 @@ function onSearchTemplateToDisplay(keyRef,isForNewActivity) {
 
     // recupere les éléments correspondant à la clé recherché et la stoque dans une variable
     if (devMode === true){console.log("[TEMPLATE] lecture de la Base de Données");};
-    let transaction = db.transaction(templateStoreName);//readonly
+    let transaction = db_old.transaction(templateStoreName);//readonly
     let objectStore = transaction.objectStore(templateStoreName);
     let request = objectStore.getAll(IDBKeyRange.only(keyRef));
     
@@ -444,7 +517,8 @@ function onFormatTemplate() {
     // Demande d'insertion dans la base soit en creation ou en modification
 
     if (templateEditorMode === "creation") {
-        onInsertNewTemplate(templateToInsertFormat);
+        eventInsertNewTemplate(templateToInsertFormat);
+
     }else if(templateEditorMode === "modification"){
         onCheckIfTemplateModifiedRequired(templateToInsertFormat);
     };
@@ -501,7 +575,7 @@ function onCheckIfTemplateModifiedRequired(templateToInsertFormat) {
 function onInsertTemplateModification(e) {
     if (devMode === true){console.log("[TEMPLATE] fonction d'insertion de la donnée modifié");};
 
-    let transaction = db.transaction(templateStoreName,"readwrite");
+    let transaction = db_old.transaction(templateStoreName,"readwrite");
     let store = transaction.objectStore(templateStoreName);
     let modifyRequest = store.getAll(IDBKeyRange.only(currentTemplateInView.key));
 
@@ -556,50 +630,6 @@ function onInsertTemplateModification(e) {
 
     };
 };
-
-
-
-
-// Insertion d'un nouveau modèle
-
-function onInsertNewTemplate(dataToInsert) {
-    let transaction = db.transaction(templateStoreName,"readwrite");
-    let store = transaction.objectStore(templateStoreName);
-
-    let insertRequest = store.add(dataToInsert);
-
-    insertRequest.onsuccess = function () {
-        if (devMode === true){console.log(" [DATABASE] [TEMPLATE]" + dataToInsert.title + "a été ajouté à la base");};
-
-    };
-
-    insertRequest.onerror = function(event){
-        console.log(" [ DATABASE ] Error d'insertion d'un modèle");
-        let errorMsg = event.target.error.toString();
-       console.log(errorMsg);
-        
-    };
-
-    transaction.oncomplete = function(){
-        console.log("[ DATABASE ] transaction insertData complete");
-
-
-        // Remet à jour les éléments
-
-
-        // Popup notification
-        onShowNotifyPopup(notifyTextArray.templateCreation);
-
-        // Remet à jour les éléments
-        //extraction des modèles de la base
-        onUpdateTemplateBddList(true);
-
-
-        //Gestion de l'affichage 
-        onLeaveMenu("TemplateEditor");
-    };
-};
-
 
 
 
@@ -681,7 +711,7 @@ function onAnnulDeleteTemplate(event) {
 function onDeleteTemplate(keyTarget) {
     // recupere les éléments correspondant à la clé recherché et la stoque dans une variable
     if (devMode === true){console.log("Suppression de l'activité avec la key : " + keyTarget);};
-    let transaction = db.transaction(templateStoreName,"readwrite");//transaction en écriture
+    let transaction = db_old.transaction(templateStoreName,"readwrite");//transaction en écriture
     let objectStore = transaction.objectStore(templateStoreName);
     let request = objectStore.delete(IDBKeyRange.only(keyTarget));
     

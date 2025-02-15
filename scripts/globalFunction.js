@@ -162,6 +162,27 @@ function onGenerateFakeOptionList(idParentTarget) {
 
 
 
+
+// Génère le prochain id pour template et activity
+async function getNextIdNumber(storeTarget) {
+    try {
+        let counterDoc = await db.get(storeTarget);
+
+        // Incrémenter le compteur
+        counterDoc.counter += 1;
+
+        // Mettre à jour la base
+        await db.put(counterDoc);
+
+        if (devMode === true ) {console.log(`Nouveau compteur pour ${storeTarget} :`, counterDoc.counter);};
+
+        return counterDoc.counter; // Retourne le nouveau numéro
+    } catch (err) {
+        console.error("[TEMPLATE] Erreur lors de l'incrémentation du compteur :", err);
+    }
+}
+
+
 // fonction pour retirer le bouton radio plein
 
 function onSetBtnRadio(idTargetToAdd) {

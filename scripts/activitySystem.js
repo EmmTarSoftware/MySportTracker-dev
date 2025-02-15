@@ -136,7 +136,7 @@ function onUpdateActivityBddList(isCheckRewardRequiered,activityTargetForReward)
 
     // recupere les éléments dans la base et les stock dans un tableau temporaire
     
-    let transaction = db.transaction([activityStoreName]);//readonly
+    let transaction = db_old.transaction([activityStoreName]);//readonly
     let objectStoreTask = transaction.objectStore(activityStoreName);
     let indexStoreTask = objectStoreTask.index("date");//Filtre par défaut sur l'index des dates
     let requestTask = indexStoreTask.getAll();
@@ -527,7 +527,7 @@ function onSearchActivityInBaseToDisplay(keyRef) {
 
     // recupere les éléments correspondant à la clé recherché et la stoque dans une variable
     if (devMode === true){console.log("lecture de la Base de Données");};
-    let transaction = db.transaction(activityStoreName);//readonly
+    let transaction = db_old.transaction(activityStoreName);//readonly
     let objectStore = transaction.objectStore(activityStoreName);
     let request = objectStore.getAll(IDBKeyRange.only(keyRef));
     
@@ -714,7 +714,7 @@ function onInputDateChange() {
 // Insertion d'une nouvelle activité
 
 function onInsertNewActivity(dataToInsert) {
-    let transaction = db.transaction(activityStoreName,"readwrite");
+    let transaction = db_old.transaction(activityStoreName,"readwrite");
     let store = transaction.objectStore(activityStoreName);
 
     let insertRequest = store.add(dataToInsert);
@@ -758,7 +758,7 @@ function onInsertNewActivity(dataToInsert) {
 function onInsertModification(e) {
     if (devMode === true){console.log("fonction d'insertion de la donnée modifié");};
 
-    let transaction = db.transaction(activityStoreName,"readwrite");
+    let transaction = db_old.transaction(activityStoreName,"readwrite");
     let store = transaction.objectStore(activityStoreName);
     let modifyRequest = store.getAll(IDBKeyRange.only(currentKeyActivityInView));
 
@@ -867,7 +867,7 @@ function onAnnulDeleteActivity(event) {
 function onDeleteActivity(keyTarget) {
     // recupere les éléments correspondant à la clé recherché et la stoque dans une variable
     if (devMode === true){console.log("Suppression de l'activité avec la key : " + keyTarget);};
-    let transaction = db.transaction(activityStoreName,"readwrite");//transaction en écriture
+    let transaction = db_old.transaction(activityStoreName,"readwrite");//transaction en écriture
     let objectStore = transaction.objectStore(activityStoreName);
     let request = objectStore.delete(IDBKeyRange.only(keyTarget));
     

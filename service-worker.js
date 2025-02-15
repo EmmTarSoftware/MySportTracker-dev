@@ -11,6 +11,7 @@ const STATIC_CACHE = `static-${CACHE_VERSION}`;
 // Les js et css (fichiers critiques : Network First)
 const CRITICAL_ASSETS = [
   `${basePath}styles/global.css`,
+  `${basePath}scripts/pouchdb.min.js`,
   `${basePath}scripts/scripts/template.js`,
   `${basePath}scripts/globalFunction.js`,
   `${basePath}scripts/activityList.js`,

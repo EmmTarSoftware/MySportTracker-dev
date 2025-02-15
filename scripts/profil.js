@@ -91,7 +91,7 @@ function onSaveUserInfo() {
 
 // Creation du profils par défaut
 function onCreateDefaultProfilInBase(profilToInsert) {
-        let transaction = db.transaction(profilStoreName,"readwrite");
+        let transaction = db_old.transaction(profilStoreName,"readwrite");
         let store = transaction.objectStore(profilStoreName);
     
         let insertRequest = store.add(profilToInsert);
@@ -124,7 +124,7 @@ function onCreateDefaultProfilInBase(profilToInsert) {
 function onInsertProfilModificationInDB(e) {
     if (devMode === true){console.log("fonction d'insertion de la donnée modifié");};
 
-    let transaction = db.transaction(profilStoreName,"readwrite");
+    let transaction = db_old.transaction(profilStoreName,"readwrite");
     let store = transaction.objectStore(profilStoreName);
     let modifyRequest = store.getAll(IDBKeyRange.only(1));
 
@@ -174,7 +174,7 @@ function onInsertProfilModificationInDB(e) {
 function onExtractProfilFromDB(){
     if (devMode === true){console.log("[ DATABASE PROFIL ] Récupère les éléments dans la base");};
 
-    let transaction = db.transaction([profilStoreName]);//readonly
+    let transaction = db_old.transaction([profilStoreName]);//readonly
     let objectStoreTask = transaction.objectStore(profilStoreName);
 
     // Rechercher un élément où l'index 'userName' est égal à '1'
