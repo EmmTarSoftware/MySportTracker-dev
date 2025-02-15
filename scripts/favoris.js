@@ -72,27 +72,7 @@ function onClickReturnFromFavoris() {
 
 
 // Creation du tableau des favoris
-let userFavoris = [],
-    cookiesUserFavorisName = "MSS_userFavoris";
-
-// Vérification de l'engeristrement des favoris en local storage
-
-function onCheckFavorisInLocalStorage() {
-    if (devMode === true){console.log("[FAVORIS] vérification de l'existance du cookies des favoris ");};
-
-    if (localStorage.getItem(cookiesUserFavorisName) === null){
-        localStorage.setItem(cookiesUserFavorisName, JSON.stringify(userFavoris));
-        if (devMode === true){console.log("[FAVORIS] Creation du cookies :  " + cookiesUserFavorisName);};
-    }else{
-        if (devMode === true){console.log("[FAVORIS] cookies existants, changement dans le tableau = ");};
-        userFavoris = JSON.parse(localStorage.getItem(cookiesUserFavorisName));
-        if (devMode === true){console.log(userFavoris);};
-    };
-
-};
-
-onCheckFavorisInLocalStorage();
-
+let userFavoris = [];
 
 
 
@@ -114,12 +94,8 @@ function onChangeFavorisStatus(imgTarget,favorisDataName) {
     };
     
     // Sauvegarde du nouvel état
-    onSaveFavorisInLocalStorage();
-
-    // Remet à jour les options de choix
-    onGenerateActivityOptionChoice("selectorCategoryChoice");
-    onGenerateFakeOptionList("divFakeSelectOptList");
-
+    eventSaveFavoris(userFavoris);
+    
     if (devMode === true){
         console.log("[FAVORIS] tableau des favoris =   ");
         console.log(userFavoris);
@@ -129,14 +105,35 @@ function onChangeFavorisStatus(imgTarget,favorisDataName) {
 
 
 
+async function eventSaveFavoris(newFavorisList) {
+    await onInsertFavorisModificationInDB(newFavorisList);
+
+    // Remet à jour les options de choix
+    onGenerateActivityOptionChoice("selectorCategoryChoice");
+    onGenerateFakeOptionList("divFakeSelectOptList");
+
+}
 
 
-// Fonction de sauvegarde des favoris dans le local storage
-function onSaveFavorisInLocalStorage() {
-    if (devMode === true){console.log("[FAVORIS] enregistrement du nouvel état du tableau");};
-    localStorage.setItem(cookiesUserFavorisName, JSON.stringify(userFavoris));
-};
+// Modification des favoris
+async function onInsertFavorisModificationInDB(newFavorisList) {
+    try {
+        // Récupérer le store "favoris"
+        let favorisStore = await db.get(favorisStoreName);
 
+        // Mettre à jour la liste des favoris
+        favorisStore.favorisList = newFavorisList;
+
+        // Sauvegarder les modifications
+        await db.put(favorisStore);
+
+        if (devMode) console.log("Store FAVORIS mis à jour :", favorisStore);
+        return true; // Indique que la mise à jour est réussie
+    } catch (err) {
+        console.error("Erreur lors de la mise à jour du store FAVORIS :", err);
+        return false; // Indique une erreur
+    }
+}
 
 
 

@@ -666,6 +666,11 @@ function firstActualisation() {
     document.getElementById("userPseudo").innerHTML = userInfo.pseudo;
 
 
+
+    // FAVORIS
+    onGenerateActivityOptionChoice("selectorCategoryChoice");
+    onGenerateFakeOptionList("divFakeSelectOptList");
+
     // Prémière actualisation des modèles
     onUpdateTemplateList(false);
 
