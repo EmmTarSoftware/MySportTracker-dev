@@ -361,15 +361,6 @@ function onStartDataBase() {
             activityStore.createIndex('duration','duration',{unique:false});
         };
 
-        // Creation du store pour le profil
-        if (!db_old.objectStoreNames.contains(profilStoreName)) {
-            let profilStore = db_old.createObjectStore(profilStoreName, {keyPath:'key',autoIncrement: true});
-            if (devMode === true){console.log("[ DATABASE PROFIL] Creation du magasin " + profilStoreName);};
-
-            isNewProfilRequiered = true;
-        };
-
-
         // Creation du store pour les Setting
         if (!db_old.objectStoreNames.contains(settingStoreName)) {
             let profilStore = db_old.createObjectStore(settingStoreName, {keyPath:'key',autoIncrement: true});
@@ -400,16 +391,6 @@ function onStartDataBase() {
     openRequest.onsuccess = function(){
         db_old = openRequest.result
         if (devMode === true){console.log("[ DATABASE] Base ready");};
-
-
-        if (isNewProfilRequiered === true) {
-            // Creation d'un profil par defaut dans la base
-            if (devMode === true){console.log("[ DATABASE PROFIL] demande de création du profil par defaut");};
-            onCreateDefaultProfilInBase(userInfo);
-        }else{
-            // Lancement des éléments du profil
-            onExtractProfilFromDB();
-        };
         
 
         if (isNewSettingBdDRequired === true) {
@@ -678,7 +659,12 @@ async function initApp() {
 initApp().then(() => firstActualisation());
 
 function firstActualisation() {
-    if (devMode === true){console.log("Première actualisation des modèles")};
+    if (devMode === true){console.log("Première actualisation")};
+
+
+    //PROFIL : set dans le html, le nom de l'utilisateur
+    document.getElementById("userPseudo").innerHTML = userInfo.pseudo;
+
 
     // Prémière actualisation des modèles
     onUpdateTemplateList(false);

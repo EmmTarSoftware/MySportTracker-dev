@@ -163,7 +163,7 @@ function onUpdateActivityBddList(isCheckRewardRequiered,activityTargetForReward)
 
 
 
-        // Lance le traitement des récompense si nécessaire
+        // Lance le traitement des récompenses si nécessaire
         if (isCheckRewardRequiered) {
             onCheckReward(activityTargetForReward);
         }else{
