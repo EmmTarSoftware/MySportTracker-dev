@@ -93,12 +93,9 @@ async function onInsertNewTemplateInDB(templateToInsertFormat) {
 }
 
 
-
-
 // Modification template
 async function onInsertTemplateModificationInDB(templateToUpdate,key) {
-        console.log("[TEMPLATE]")
-        console.log(templateToUpdate);
+
     try {
         // Récupérer l'élément actuel depuis la base
         let existingDoc = await db.get(key);
@@ -410,7 +407,6 @@ function onInputTemplateTitleChange() {
     if (inputTemplateTitleRef.classList.contains("fieldRequired")) {
         inputTemplateTitleRef.classList.remove("fieldRequired");
     }
-    
 }
 
 
@@ -422,12 +418,7 @@ function onClickSaveFromTemplateEditor(){
 
 
 
-
-
-
-
 function onFormatTemplate() {
-
 
     if (templateEditorMode === "creation") {
         if (devMode === true){console.log("[TEMPLATE] Demande de création d'un nouveau modèle");};
@@ -536,7 +527,7 @@ async function eventInsertNewTemplate(templateToInsertFormat) {
 async function eventInsertTemplateModification(templateToInsertFormat) {
     await onInsertTemplateModificationInDB(templateToInsertFormat,currentTemplateEditorID);
     await onLoadTemplateFromDB();
-    
+
     // Popup notification
     onShowNotifyPopup(notifyTextArray.templateModification);
 
@@ -546,69 +537,6 @@ async function eventInsertTemplateModification(templateToInsertFormat) {
     //Gestion de l'affichage 
     onLeaveMenu("TemplateEditor");
 }
-
-
-
-
-// Insertion d'une modification d'une activité
-function onInsertTemplateModification(e) {
-    if (devMode === true){console.log("[TEMPLATE] fonction d'insertion de la donnée modifié");};
-
-    let transaction = db_old.transaction(templateStoreName,"readwrite");
-    let store = transaction.objectStore(templateStoreName);
-    let modifyRequest = store.getAll(IDBKeyRange.only(currentTemplateInView.key));
-
-    
-
-    modifyRequest.onsuccess = function () {
-        console.log("[TEMPLATE]modifyRequest = success");
-
-        let modifiedData = modifyRequest.result[0];
-
-        modifiedData.title = e.title;
-        modifiedData.activityName = e.activityName;
-        modifiedData.distance = e.distance;
-        modifiedData.location = e.location;
-        modifiedData.comment = e.comment;
-        modifiedData.duration = e.duration;
-        modifiedData.isPlanned = e.isPlanned;
-
-        let insertModifiedData = store.put(modifiedData);
-
-        insertModifiedData.onsuccess = function (){
-            if (devMode === true){console.log("[DATABASE][TEMPLATE]insertModifiedData = success");};
-
-
-        };
-
-        insertModifiedData.onerror = function (){
-           console.log("[DATABASE][TEMPLATE] insertModifiedData = error",insertModifiedData.error);
-
-            
-        };
-
-
-    };
-
-    modifyRequest.onerror = function(){
-        console.log("[DATABASE][TEMPLATE] ModifyRequest = error");
-    };
-
-    transaction.oncomplete = function(){
-        if (devMode === true){console.log("[DATABASE][TEMPLATE] transaction complete");};
-        
-        // Popup notification
-        onShowNotifyPopup(notifyTextArray.templateModification);
-        
-        // Remet à jour les éléments
-        //extraction des modèles de la base
-        onUpdateTemplateBddList(true);
-
-        //Gestion de l'affichage 
-        onLeaveMenu("TemplateEditor");
-
-    };
-};
 
 
 
@@ -649,7 +577,15 @@ function onResetTemplateInputs() {
 };
 
 
+
+
+
+
 // --------------------- SUPPRESSION TEMPLATE --------------------------
+
+
+
+
 
 
 // Suppression d'activité
@@ -671,8 +607,33 @@ function onConfirmDeleteTemplate(event){
     // retire la class "show" pour la div de confirmation
     document.getElementById("divConfirmDeleteTemplate").classList.remove("show");
     onChangeDisplay([],[],[],[],["divTemplateEditor","divBtnTemplateEditor"],[],[]);
-    onDeleteTemplate(currentTemplateInView.key);
+
+    eventDeleteTemplate(currentTemplateEditorID);
+
+
 };
+
+
+// Sequence de suppression d'un template
+async function eventDeleteTemplate(idToDelete) {
+    await deleteTemplate(idToDelete);
+    await onLoadTemplateFromDB();
+
+    // Popup notification
+    onShowNotifyPopup(notifyTextArray.templateDeleted);
+
+    // Remet à jour les éléments
+    onUpdateTemplateList(true);
+
+    //Gestion de l'affichage 
+    onLeaveMenu("TemplateEditor");
+}
+
+
+
+
+
+
 
 
 function onAnnulDeleteTemplate(event) {
