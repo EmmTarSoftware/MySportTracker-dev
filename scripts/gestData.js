@@ -181,7 +181,7 @@ function eventSaveResult(isAutoSave){
 let baseStoreCount = 0;
 
 // Fonction d'importation depuis JSON
-function importBdD(inputRef, pResultRef) {
+function importBdD_old(inputRef, pResultRef) {
     const fileInput = document.getElementById(inputRef);
     let textResultRef = document.getElementById(pResultRef);
 
@@ -264,6 +264,63 @@ function importBdD(inputRef, pResultRef) {
 
 
 
+async function importBdD(inputRef, pResultRef) {
+    const fileInput = document.getElementById(inputRef);
+    let textResultRef = document.getElementById(pResultRef);
+
+    onSetLockGestDataButton(true);
+
+    if (fileInput.files.length > 0) {
+        textResultRef.innerHTML = "Veuillez patienter...";
+        const selectedFile = fileInput.files[0];
+        const reader = new FileReader();
+
+        reader.onload = async function (e) {
+            try {
+                // Charger et analyser le JSON
+                const jsonData = JSON.parse(e.target.result);
+
+                // 1️⃣ Effacer toutes les données existantes dans PouchDB
+                const allDocs = await db.allDocs({ include_docs: true });
+                const deleteOps = allDocs.rows.map(row => ({
+                    _id: row.doc._id,
+                    _rev: row.doc._rev,
+                    _deleted: true
+                }));
+
+                if (deleteOps.length > 0) {
+                    await db.bulkDocs(deleteOps);
+                    console.log("[IMPORT] Base de données vidée avec succès.");
+                }
+
+                // 2️⃣ Ajouter les nouvelles données
+                if (Array.isArray(jsonData) && jsonData.length > 0) {
+                    const response = await db.bulkDocs(jsonData);
+                    console.log("[IMPORT] Données importées avec succès :", response);
+                    textResultRef.innerHTML = "Importation réussie !";
+                } else {
+                    console.error("[IMPORT] Fichier JSON invalide ou vide.");
+                    textResultRef.innerHTML = "Le fichier JSON ne contient pas de données valides.";
+                }
+
+                // 3️⃣ Finalisation
+                onSetLockGestDataButton(false);
+                eventImportDataSucess(pResultRef);
+
+            } catch (error) {
+                console.error('[IMPORT] Erreur lors du traitement du JSON:', error);
+                textResultRef.innerHTML = "Erreur d'importation.";
+                onSetLockGestDataButton(false);
+            }
+        };
+
+        reader.readAsText(selectedFile);
+    } else {
+        console.error('[IMPORT] Aucun fichier sélectionné.');
+        textResultRef.innerHTML = "Aucun fichier sélectionné !";
+        onSetLockGestDataButton(false);
+    }
+}
 
 
 // Action lors du succes d'un import

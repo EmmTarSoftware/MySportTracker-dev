@@ -477,8 +477,6 @@ function onUserChangeSortType(sortCategory) {
 // Fonction du trie
 function onSortActivity(sortType,filteredData) {
 
-    console.log(filteredData[0]._id);
-
     if (devMode === true){console.log("[SORT FILTER] Demande de trie par : " + sortType );};
 
     if (sortType === "dateRecente") {
