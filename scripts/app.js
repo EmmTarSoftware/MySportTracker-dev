@@ -248,7 +248,6 @@ function onGenerateConditionUtilisation() {
 // Acceptation des conditions d'utilisations
 
 function onClickAcceptCondition() {
-    localStorage.setItem(cookiesConditionUtilisation_keyName,true);
     if (devMode === true){console.log("Acceptation des conditions d'utilisation");};
 
     userInfo.conditionAccepted = true;
