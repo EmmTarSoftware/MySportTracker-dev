@@ -594,22 +594,6 @@ async function onLoadStores() {
 
 
 
-// fonction pour récupérer les activité et les modèles
-async function onLoadActivityFromDB () {
-    allUserActivityArray = [];
-    try {
-        const result = await db.allDocs({ include_docs: true }); // Récupère tous les documents
-
-        // Filtrer les éléments concernée
-        allUserActivityArray = result.rows
-            .map(row => row.doc)
-            .filter(doc => doc.type === activityStoreName);
-            if (devMode === true){console.log("[DATABASE] [ACTIVITY] Activités chargées :", activityStoreName);};
-    } catch (err) {
-        console.error("[DATABASE] [ACTIVITY] Erreur lors du chargement:", err);
-    }
-}
-
 
 
 
@@ -656,12 +640,13 @@ function firstActualisation() {
         if (devMode === true){console.log("[SETTING] Autosave activité. Demande de vérification des conditions");};
         onCheckAutoSaveCondition();
     }else{
-        console.log("[SETTING] AutoSave non activé. Demande d'actualisation de la liste d'activité");
-        // Premiere remplissage de la base avec le formation de trie par défaut
-        onUpdateActivityBddList(false);
+        // ACTIVITY
+        // Generation du trie dynamique
+        onGenerateDynamiqueFilter(allUserActivityArray);
+
+        // Lancement de l'actualisation sur le filtre en cours
+        onFilterActivity(currentSortType,currentFilter,allUserActivityArray);
     }
-
-
 
     // TEMPLATE
     onUpdateTemplateList(false);

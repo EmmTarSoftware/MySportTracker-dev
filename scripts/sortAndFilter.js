@@ -477,6 +477,8 @@ function onUserChangeSortType(sortCategory) {
 // Fonction du trie
 function onSortActivity(sortType,filteredData) {
 
+    console.log(filteredData[0]._id);
+
     if (devMode === true){console.log("[SORT FILTER] Demande de trie par : " + sortType );};
 
     if (sortType === "dateRecente") {
@@ -485,7 +487,7 @@ function onSortActivity(sortType,filteredData) {
             if (dateDiff !== 0) {
                 return dateDiff; // Tri par date décroissante
             }
-            return b.key - a.key; // Si les dates sont identiques, les activités créés en dernier (key la plus élevé) apparaitrons en premiers
+            return b._id.localeCompare(a._id); // Tri alphabétique descendant si les dates sont identiques
         });
     } else if (sortType === "dateAncienne") {
         filteredData.sort((a, b) => {
@@ -493,7 +495,7 @@ function onSortActivity(sortType,filteredData) {
             if (dateDiff !== 0) {
                 return dateDiff; // Tri par date croissante
             }
-            return a.key - b.key; // Si les dates sont identiques, les activités créés en dernier (key la plus élevé) apparaitrons en derniers
+            return a._id.localeCompare(b._id); // Tri alphabétique descendant si les dates sont identiques
         });
     }else if (sortType === "distanceCroissante") {
         filteredData.sort((a, b) => a.distance - b.distance); // Tri par distance croissante

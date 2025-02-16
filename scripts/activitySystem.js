@@ -21,8 +21,8 @@ let allUserActivityArray = [], //Contient toutes les activités créé par l'uti
     currentActivityDataInView,//contient les données d'une activité en cours d'affichage. Permet de comparer les modifications
     activityTagPlanned  = "planifie",
     activityTagDone = "effectue",
-    isActivityPlannedExist = false;
-
+    isActivityPlannedExist = false,
+    currentActivityEditorID = "";
 
 
 // Reférencement
@@ -45,6 +45,126 @@ let pInterfaceActivityTitleRef = document.getElementById("pInterfaceActivityTitl
 // Genere la liste pour l'editeur d'activité
 onGenerateActivityOptionChoice("selectorCategoryChoice");
 onGenerateFakeOptionList("divFakeSelectOptList");
+
+
+
+
+
+
+// ------------------------------Fonction générale pour activity ----------------------------------
+
+
+// fonction pour récupérer les activité et les modèles
+async function onLoadActivityFromDB () {
+    allUserActivityArray = [];
+    try {
+        const result = await db.allDocs({ include_docs: true }); // Récupère tous les documents
+
+        // Filtrer les éléments concernée
+        allUserActivityArray = result.rows
+            .map(row => row.doc)
+            .filter(doc => doc.type === activityStoreName);
+            if (devMode === true){
+                console.log("[DATABASE] [ACTIVITY] Activités chargées :", activityStoreName);
+                console.log(allUserActivityArray[0]);
+            };
+    } catch (err) {
+        console.error("[DATABASE] [ACTIVITY] Erreur lors du chargement:", err);
+    }
+}
+
+
+
+
+
+// Insertion nouveau activity
+async function onInsertNewActivityInDB(activityToInsertFormat) {
+    try {
+        // Obtenir le prochain ID
+        const nextId = await getNextIdNumber(activityCounterStoreName);
+
+        // Créer l'objet avec le nouvel ID
+        const newActivity = {
+            _id: `${activityStoreName}_${nextId}`,
+            type: activityStoreName,
+            ...activityToInsertFormat
+        };
+
+        // Insérer dans la base
+        await db.put(newActivity);
+
+        if (devMode === true ) {console.log("[DATABASE] [ACTIVITY] Activité insérée :", newActivity);};
+
+        return newActivity;
+    } catch (err) {
+        console.error("[DATABASE] [ACTIVITY] Erreur lors de l'insertion de l'activité :", err);
+    }
+}
+
+
+// Modification Activity
+async function onInsertActivityModificationInDB(activityToUpdate,key) {
+
+    try {
+        // Récupérer l'élément actuel depuis la base
+        let existingDoc = await db.get(key);
+
+        // Mettre à jour les champs nécessaires en conservant `_id` et `_rev`
+        const updatedDoc = {
+            ...existingDoc,  // Garde _id et _rev pour la mise à jour
+            ...activityToUpdate // Remplace les valeurs avec les nouvelles
+        };
+
+        // Enregistrer les modifications dans la base
+        await db.put(updatedDoc);
+
+        if (devMode === true ) {console.log("[ACTIVITY] Activité mis à jour :", updatedDoc);};
+
+        return updatedDoc; // Retourne l'objet mis à jour
+    } catch (err) {
+        console.error("Erreur lors de la mise à jour de l'activité :", err);
+    }
+}
+
+// Suppression template
+async function deleteActivity(activityKey) {
+    try {
+        // Récupérer le document à supprimer
+        let docToDelete = await db.get(activityKey);
+
+        // Supprimer le document
+        await db.remove(docToDelete);
+
+        if (devMode === true ) {console.log("[ACTIVITY] Activité supprimée :", activityKey);};
+
+        return true; // Indique que la suppression s'est bien passée
+    } catch (err) {
+        console.error("[ACTIVITY] Erreur lors de la suppression de l'activité :", err);
+        return false; // Indique une erreur
+    }
+}
+
+
+// Recherche de template par son id/key
+async function findActivityById(activityId) {
+    try {
+        const activity = await db.get(activityId); // Recherche dans la base
+        if (devMode) console.log("[ACTIVITY] Activité trouvé :", activity);
+        currentActivityEditorID = activityId;
+        return activity; // Retourne l'objet trouvé
+    } catch (err) {
+        console.error("[ACTIVITY] Erreur lors de la recherche du template :", err);
+        return null; // Retourne null si non trouvé
+    }
+}
+
+
+
+
+
+// ------------------------------FIN fonction générale pour activity ----------------------------------
+
+
 
 
 
@@ -126,65 +246,6 @@ function initMaxDate() {
 }
 
 
-// actualisation de la liste d'activité
-
-function onUpdateActivityBddList(isCheckRewardRequiered,activityTargetForReward) {
-
-    if (devMode === true){console.log("Actualisation de la liste d'activité");};
-    allUserActivityArray = [];
-
-
-    // recupere les éléments dans la base et les stock dans un tableau temporaire
-    
-    let transaction = db_old.transaction([activityStoreName]);//readonly
-    let objectStoreTask = transaction.objectStore(activityStoreName);
-    let indexStoreTask = objectStoreTask.index("date");//Filtre par défaut sur l'index des dates
-    let requestTask = indexStoreTask.getAll();
-
-
-    requestTask.onsuccess = function (){
-        if (devMode === true){console.log("[ DATABASE] ]Les éléments ont été récupéré dans la base");};
-
-    };
-
-
-    requestTask.error = function (){
-       console.log("Erreur de requete sur la base");
-    };
-
-
-    transaction.oncomplete = function (){
-        // stockage des données dans l'array des activités
-
-        if (devMode === true){console.log("stockage des données dans allUserActivityArray");};
-        allUserActivityArray = requestTask.result;
-
-        if (devMode === true){console.log(allUserActivityArray);};
-
-
-
-        // Lance le traitement des récompenses si nécessaire
-        if (isCheckRewardRequiered) {
-            onCheckReward(activityTargetForReward);
-        }else{
-            if (devMode === true){console.log("[REWARDS] pas de traitement de récompense");};
-        }
-
-        
-
-        // Remet les tries et filtres par défaut
-        // onResetSortAndFilter();//a retirer
-
-        // Generation du trie dynamique
-        onGenerateDynamiqueFilter(allUserActivityArray);
-
-        // Lancement de l'actualisation sur le filtre en cours
-        onFilterActivity(currentSortType,currentFilter,allUserActivityArray);
-
-
-    };
-};
-
 
 
 
@@ -260,7 +321,7 @@ function onInsertOneActivity(activity,isLastIndex) {
     }
 
     newItemContainer.onclick = function () {
-        onClickOnActivity(activity.key);
+        onClickOnActivity(activity._id);
     };
 
 
@@ -487,7 +548,7 @@ function onChangeActivityPlanned(checkBoxValue) {
 
 
 // ------------------------------------- Modification d'activité --------------------------------
-let currentKeyActivityInView = 0;
+
 
 
 
@@ -496,7 +557,7 @@ let currentKeyActivityInView = 0;
 function onClickOnActivity(keyRef) {
     onResetActivityInputs();
 
-
+    currentActivityEditorID = keyRef;
     // onSearchActivityInBaseToDisplay(keyRef);
     onSearchActivityToDisplay(keyRef);
     onChangeMenu("EditActivity");
@@ -509,7 +570,7 @@ function onClickOnActivity(keyRef) {
 // Fonction de recherche d'une activité à afficher depuis la AllUserActivityArray.
 function onSearchActivityToDisplay(keyRef) {
     if (devMode === true){console.log("Affichage de l'activité dans 'AllUserActivityArray' avec la key :  " + keyRef);};
-    const activityToDisplay = allUserActivityArray.find(activity => activity.key === keyRef);
+    const activityToDisplay = allUserActivityArray.find(activity => activity._id === keyRef);
 
 
     currentActivityDataInView = activityToDisplay;//pour la comparaison par la suite
@@ -562,12 +623,6 @@ function onEditActivity(activityTarget) {
     onSetBtnRadio(activityTarget.name);
 
     if (devMode === true){console.log("ouverture de l'editeur d'activité en mode " + activityEditorMode);};
-
-
-
-    // set la variable qui stocke la key de l'activité en cours de visualisation
-    currentKeyActivityInView = activityTarget.key;
-
 
     selectorCategoryChoiceRef.value = activityTarget.name;
     inputDateRef.value = activityTarget.date;
@@ -641,7 +696,7 @@ function onFormatActivity() {
 
 
     if (activityEditorMode === "creation") {
-        onInsertNewActivity(activityToInsertFormat);
+        eventInsertNewActivity(activityToInsertFormat);
     }else if(activityEditorMode === "modification"){
         onCheckIfModifiedRequired(activityToInsertFormat);
     };
@@ -686,7 +741,7 @@ function onCheckIfModifiedRequired(activityToInsertFormat) {
 
     if (updateDataRequiered) {
         if (devMode) console.log("[ACTIVITY] Informations d'activité différentes : Lancement de l'enregistrement en BdD");
-        onInsertModification(activityToInsertFormat);
+        eventInsertActivityModification(activityToInsertFormat);
     } else {
         if (devMode) console.log("[ACTIVITY] Aucune modification de d'activité nécessaire !");
          //Gestion de l'affichage 
@@ -711,115 +766,65 @@ function onInputDateChange() {
     
 }
 
-// Insertion d'une nouvelle activité
-
-function onInsertNewActivity(dataToInsert) {
-    let transaction = db_old.transaction(activityStoreName,"readwrite");
-    let store = transaction.objectStore(activityStoreName);
-
-    let insertRequest = store.add(dataToInsert);
-
-    insertRequest.onsuccess = function () {
-        if (devMode === true){console.log(" [ DATABASE ] " + dataToInsert.name + "a été ajouté à la base");};
 
 
+// Séquence d'insertion d'une nouvelle activité
 
-    };
-
-    insertRequest.onerror = function(event){
-        console.log(" [ DATABASE ] Error d'insertion activité");
-        let errorMsg = event.target.error.toString();
-       console.log(errorMsg);
-        
-    };
-
-    transaction.oncomplete = function(){
-        console.log("[ DATABASE ] transaction insertData complete");
+async function eventInsertNewActivity(dataToInsert) {
+    await onInsertNewActivityInDB(dataToInsert);
+    await onLoadActivityFromDB();
 
 
+    // est ce que la derniere activité est planifié donc pas de check reward
+    const isCheckRewardsRequiered = dataToInsert.isPlanned === false;
+    if (devMode === true){console.log("[REWARDS] Valeur de planification derniere activité  " + isCheckRewardsRequiered);};
 
-        // est ce que la derniere activité est planifié donc pas de check reward
-        const isCheckRewardsRequiered = dataToInsert.isPlanned === false;
-        if (devMode === true){console.log("[REWARDS] Valeur de planification derniere activité  " + isCheckRewardsRequiered);};
-
-        // Remet à jour les éléments
-        onUpdateActivityBddList(isCheckRewardsRequiered,dataToInsert.name);
-
-        // Popup notification
-        onShowNotifyPopup(notifyTextArray.creation);
-
-        //Gestion de l'affichage 
-        onLeaveMenu("Activity");
-    };
-};
-
-
-// Insertion d'une modification d'une activité
-function onInsertModification(e) {
-    if (devMode === true){console.log("fonction d'insertion de la donnée modifié");};
-
-    let transaction = db_old.transaction(activityStoreName,"readwrite");
-    let store = transaction.objectStore(activityStoreName);
-    let modifyRequest = store.getAll(IDBKeyRange.only(currentKeyActivityInView));
-
+    if (isCheckRewardsRequiered) {
+        onCheckReward(dataToInsert.name);
+    }
     
 
-    modifyRequest.onsuccess = function () {
-        console.log("modifyRequest = success");
+    // Generation du trie dynamique
+    onGenerateDynamiqueFilter(allUserActivityArray);
 
-        let modifiedData = modifyRequest.result[0];
+    // Lancement de l'actualisation sur le filtre en cours
+    onFilterActivity(currentSortType,currentFilter,allUserActivityArray);
 
-        modifiedData.name = e.name;
-        modifiedData.date = e.date;
-        modifiedData.distance = e.distance;
-        modifiedData.location = e.location;
-        modifiedData.comment = e.comment;
-        modifiedData.duration = e.duration;
-        modifiedData.divers = e.divers;
-        modifiedData.isPlanned = e.isPlanned;
-        // modifiedData.userInfo = e.userInfo; Les userInfo stockés dans la base lors de la création de l'activité ne doivent pas être modifiés afin de conservé les données d'origines
+    // Popup notification
+    onShowNotifyPopup(notifyTextArray.creation);
 
-        let insertModifiedData = store.put(modifiedData);
-
-        insertModifiedData.onsuccess = function (){
-            console.log("insertModifiedData = success");
+    //Gestion de l'affichage 
+    onLeaveMenu("Activity");
+}
 
 
-        };
 
-        insertModifiedData.onerror = function (){
-           console.log("insertModifiedData = error",insertModifiedData.error);
+// Séquence d'insertion d'une modification
+async function eventInsertActivityModification(dataToInsert) {
+    await onInsertActivityModificationInDB(dataToInsert,currentActivityEditorID);
+    await onLoadActivityFromDB();
 
-            
-        };
+    // est ce que la derniere activité est planifié donc pas de check reward
+    const isCheckRewardsRequiered = dataToInsert.isPlanned === false;
+    if (devMode === true){console.log("[REWARDS] Valeur de planification derniere activité  " + isCheckRewardsRequiered);};
 
+    if (isCheckRewardsRequiered) {
+        onCheckReward(dataToInsert.name);
+    }
+    
 
-    };
+    // Generation du trie dynamique
+    onGenerateDynamiqueFilter(allUserActivityArray);
 
-    modifyRequest.onerror = function(){
-        console.log("ModifyRequest = error");
-    };
+    // Lancement de l'actualisation sur le filtre en cours
+    onFilterActivity(currentSortType,currentFilter,allUserActivityArray);
 
-    transaction.oncomplete = function(){
-        console.log("transaction complete");
-        // Remet à jour les éléments
+    // Popup notification
+    onShowNotifyPopup(notifyTextArray.modification);
 
-        // est ce que la derniere activité est planifié donc pas de check reward
-        const isCheckRewardsRequiered = e.isPlanned === false;
-        if (devMode === true){console.log("[REWARDS] Valeur de planification derniere activité  " + isCheckRewardsRequiered);};
-        
-        onUpdateActivityBddList(isCheckRewardsRequiered,e.name);
-
-        // Popup notification
-        onShowNotifyPopup(notifyTextArray.modification);
-
-        //Gestion de l'affichage 
-       onLeaveMenu("Activity");
-
-    };
-};
-
-
+    //Gestion de l'affichage 
+    onLeaveMenu("Activity");
+}
 
 
 
@@ -846,10 +851,30 @@ function onConfirmDeleteActivity(event){
     if (devMode === true){console.log("Confirmation de suppression d'activité ");};
     // retire la class "show" pour la div de confirmation
     document.getElementById("divConfirmDeleteActivity").classList.remove("show");
-    onDeleteActivity(currentKeyActivityInView);
+    eventDeleteActivity(currentActivityEditorID);
 
 
 };
+
+
+// Sequence de suppression d'un template
+async function eventDeleteActivity(idToDelete) {
+    await deleteActivity(idToDelete);
+    await onLoadActivityFromDB();
+
+    // Generation du trie dynamique
+    onGenerateDynamiqueFilter(allUserActivityArray);
+
+    // Lancement de l'actualisation sur le filtre en cours
+    onFilterActivity(currentSortType,currentFilter,allUserActivityArray);
+
+    // Popup notification
+    onShowNotifyPopup(notifyTextArray.delete);
+
+    //Gestion de l'affichage 
+    onLeaveMenu("Activity");
+
+}
 
 
 function onAnnulDeleteActivity(event) {
@@ -861,44 +886,6 @@ function onAnnulDeleteActivity(event) {
 
 };
 
-
-
-
-function onDeleteActivity(keyTarget) {
-    // recupere les éléments correspondant à la clé recherché et la stoque dans une variable
-    if (devMode === true){console.log("Suppression de l'activité avec la key : " + keyTarget);};
-    let transaction = db_old.transaction(activityStoreName,"readwrite");//transaction en écriture
-    let objectStore = transaction.objectStore(activityStoreName);
-    let request = objectStore.delete(IDBKeyRange.only(keyTarget));
-    
-    
-    request.onsuccess = function (){
-        console.log("Requete de suppression réussit");
-
-
-    };
-
-    request.onerror = function (){
-        console.log("Erreur lors de la requete de suppression");
-                
-    };
-
-
-    transaction.oncomplete = function(){
-        console.log("transaction complete");
-        // Remet à jour les éléments
-        onUpdateActivityBddList(false);
-
-
-        // Popup notification
-        onShowNotifyPopup(notifyTextArray.delete);
-
-        //Gestion de l'affichage 
-        onLeaveMenu("Activity");        
-
-    };
-
-};
 
 
 
