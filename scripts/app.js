@@ -239,30 +239,6 @@ function onLeaveMenu(menuTarget) {
 
 
 
-
-
-
-
-
-
-
-
-let cookiesConditionUtilisation_keyName = "MSS-ConditionAccepted";
-
-function onCheckConditionUtilisation() {
-    if (localStorage.getItem(cookiesConditionUtilisation_keyName) === null) {
-        localStorage.setItem(cookiesConditionUtilisation_keyName,false);
-        if (devMode === true){console.log(" Creation du cookies : " + cookiesConditionUtilisation_keyName);};
-    };
-
-    if (devMode === true){console.log(localStorage.getItem(cookiesConditionUtilisation_keyName));};
-    if (localStorage.getItem(cookiesConditionUtilisation_keyName) === "false") {
-        onGenerateConditionUtilisation();
-    };
-};
-
-
-
 function onGenerateConditionUtilisation() {
     onChangeDisplay(allDivHomeToDisplayNone,["divConditionUtilisation"],[],[],[],["launch-btn"],[]);
     if (devMode === true){console.log("Génération du popup des conditions d'utilisation");};
@@ -275,6 +251,9 @@ function onClickAcceptCondition() {
     localStorage.setItem(cookiesConditionUtilisation_keyName,true);
     if (devMode === true){console.log("Acceptation des conditions d'utilisation");};
 
+    userInfo.conditionAccepted = true;
+    onInsertProfilModificationInDB(userInfo);
+
     onLeaveMenu("userCondition");
 };
 
@@ -285,7 +264,7 @@ function toggleLaunchButton() {
     launchBtn.style.visibility = selectStatusConditionRef.value === "Accepted" ? "visible" : "hidden";
 };
 
-onCheckConditionUtilisation();
+
 
 
 
@@ -458,7 +437,7 @@ async function onCreateDBStore() {
 
     // Création des stores
     await createStore(favorisStoreName, { type: favorisStoreName, favorisList: [] });
-    await createStore(profilStoreName, { type: profilStoreName, pseudo: "", customNotes: "" });
+    await createStore(profilStoreName, { type: profilStoreName, pseudo: "", customNotes: "",conditionAccepted : false });
     await createStore(settingStoreName, {
         type: settingStoreName,
         displayCommentDoneMode: "Collapse",
@@ -530,6 +509,7 @@ async function onLoadStores() {
         if (profil) {
             userInfo.pseudo = profil.pseudo;
             userInfo.customNotes = profil.customNotes;
+            userInfo.conditionAccepted = profil.conditionAccepted;
         }
 
         const rewards = await db.get(rewardsStoreName).catch(() => null);
@@ -565,8 +545,6 @@ async function initApp() {
     await onLoadStores();       // 2️⃣ Extraction des données des stores génériques
     await onLoadActivityFromDB(); // 3️⃣Extraction liste activité
     await onLoadTemplateFromDB(); // Extraction liste modèle
-    // await onInitActivityCounterStore();// Extraction liste modèle
-    // await onInitTemplateCounterStore();// Extraction liste modèle
 }
 
 
@@ -576,6 +554,12 @@ initApp().then(() => firstActualisation());
 async function firstActualisation() {
     if (devMode === true){console.log("Première actualisation")};
 
+
+    // CONDITION UTILISATION
+    if (userInfo.conditionAccepted === false) {
+        onGenerateConditionUtilisation();
+    }
+    console.log("userInfo.ConditionAccepted : " + userInfo.conditionAccepted );
 
     //PROFIL : set dans le html, le nom de l'utilisateur
     document.getElementById("userPseudo").innerHTML = userInfo.pseudo;

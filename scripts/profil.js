@@ -2,7 +2,8 @@
 // Variabilisation
 let userInfo = {
     pseudo :"",
-    customNotes :""
+    customNotes :"",
+    conditionAccepted : false
 };
 
 // Référencement
