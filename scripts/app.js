@@ -335,49 +335,6 @@ let db_old,
 
 
 
-//fonction de lancement de la base.
-//La liste d'activité est lancé après le menu paramètre 
-function onStartDataBase() {
-    let openRequest = indexedDB.open(dbName,currentBaseVersion);
-
-   
-    // Mise à jour ou création requise
-    openRequest.onupgradeneeded = function () {
-        if (devMode === true){console.log(" [ DATABASE] Initialisation de la base de donnée");};
-
-        db_old = openRequest.result;
-        if(!db_old.objectStoreNames.contains(activityStoreName)){
-            // si le l'object store n'existe pas
-            let activityStore = db_old.createObjectStore(activityStoreName, {keyPath:'key', autoIncrement: true});
-            if (devMode === true){console.log("[ DATABASE] Creation du magasin " + activityStoreName);};
-
-            activityStore.createIndex('date','date',{unique:false});
-            activityStore.createIndex('distance','distance',{unique:false});
-            activityStore.createIndex('duration','duration',{unique:false});
-        };
-
- 
-        
-        // Stoque le numéro de version de base de l'application
-        localStorage.setItem(cookiesBddVersion_KeyName, currentBaseVersion.toString());
-
-    };
-
-    openRequest.onerror = function(){
-        console.error("Error",openRequest.error);
-    };
-
-    openRequest.onsuccess = function(){
-        db_old = openRequest.result
-        if (devMode === true){console.log("[ DATABASE] Base ready");};
-        
-
-
-    };
-
-
-};
-
 
 
 //--------------------------------- BOUTON FLOTTANT ---------------------------
@@ -414,8 +371,6 @@ if (window.envConfig.environment != "production") {
 }
 
 
-
-onStartDataBase();
 
 
 
