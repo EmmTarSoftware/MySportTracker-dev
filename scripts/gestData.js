@@ -175,9 +175,9 @@ function eventSaveResult(isAutoSave){
 
 
 
-async function importBdD(inputRef, pResultRef) {
+async function eventImportBdD(inputRef) {
     const fileInput = document.getElementById(inputRef);
-    let textResultRef = document.getElementById(pResultRef);
+    let textResultRef = document.getElementById("pImportActivityResult");
 
     onSetLockGestDataButton(true);
 
@@ -188,35 +188,25 @@ async function importBdD(inputRef, pResultRef) {
 
         reader.onload = async function (e) {
             try {
+                onDisplayTextDataBaseEvent(false);
                 // Charger et analyser le JSON
                 const jsonData = JSON.parse(e.target.result);
 
-                // 1️⃣ Effacer toutes les données existantes dans PouchDB
-                const allDocs = await db.allDocs({ include_docs: true });
-                const deleteOps = allDocs.rows.map(row => ({
-                    _id: row.doc._id,
-                    _rev: row.doc._rev,
-                    _deleted: true
-                }));
+                // 1 Effacer toutes les données existantes dans PouchDB
+                await deleteBase();
 
-                if (deleteOps.length > 0) {
-                    await db.bulkDocs(deleteOps);
-                    console.log("[IMPORT] Base de données vidée avec succès.");
-                }
 
-                // 2️⃣ Ajouter les nouvelles données
-                if (Array.isArray(jsonData) && jsonData.length > 0) {
-                    const response = await db.bulkDocs(jsonData);
-                    console.log("[IMPORT] Données importées avec succès :", response);
-                    textResultRef.innerHTML = "Importation réussie !";
-                } else {
-                    console.error("[IMPORT] Fichier JSON invalide ou vide.");
-                    textResultRef.innerHTML = "Le fichier JSON ne contient pas de données valides.";
-                }
+                // 2 Créé a nouveau la base
+                db = new PouchDB(dbName);
+                // Vérifier si la base est bien créée
+                await db.info().then(info => console.log(' [DATABASE] Base créée/ouverte :', info));
 
-                // 3️⃣ Finalisation
-                onSetLockGestDataButton(false);
-                eventImportDataSucess(pResultRef);
+                // 3 crée a nouveau les stores
+                await onCreateDBStore();
+
+
+                // 4 Lance la fonction d'insertion des données
+                importBdD(jsonData);
 
             } catch (error) {
                 console.error('[IMPORT] Erreur lors du traitement du JSON:', error);
@@ -236,8 +226,8 @@ async function importBdD(inputRef, pResultRef) {
 
 // Action lors du succes d'un import
 function eventImportDataSucess() {
-
-    onDisplayTextDataBaseEvent(false);
+    console.log("wait for reload");
+    
     onShowNotifyPopup(notifyTextArray.importSuccess);
     setTimeout(() => {
         location.reload();
@@ -245,6 +235,78 @@ function eventImportDataSucess() {
 }
 
 
+
+
+async function importBdD(dataToImport) {
+    for (const e of dataToImport) {
+        // ACTIVITE
+        if (e.type === activityStoreName) {
+            Object.assign(activityToInsertFormat, {
+                name: e.name,
+                date: e.date,
+                location: e.location,
+                distance: e.distance,
+                duration: e.duration,
+                comment: e.comment,
+                divers: e.divers,
+                isPlanned: e.isPlanned
+            });
+            await onInsertNewActivityInDB(activityToInsertFormat);
+
+        // TEMPLATE
+        }else if (e.type === templateStoreName){
+            Object.assign(templateToInsertFormat, {
+                title: e.title,
+                activityName: e.activityName,
+                location: e.location,
+                distance: e.distance,
+                duration: e.duration,
+                comment: e.comment,
+                isPlanned:e.isPlanned
+            });
+            await onInsertNewTemplateInDB(templateToInsertFormat);
+
+        //REWARDS
+        }else if (e.type === rewardsStoreName){
+           await onInsertRewardsModificationInDB(e.rewards);
+
+        //SETTING
+        }else if (e.type === settingStoreName){
+            let settingToUpdate = {};
+            Object.assign(settingToUpdate, {
+                displayCommentDoneMode: e.displayCommentDoneMode,
+                displayCommentPlannedMode: e.displayCommentPlannedMode,
+                isAutoSaveEnabled: e.isAutoSaveEnabled,
+                lastAutoSaveDate: e.lastAutoSaveDate,
+                lastAutoSaveTime: e.lastAutoSaveTime,
+                lastManualSaveDate: e.lastManualSaveDate,
+                lastManualSaveTime: e.lastManualSaveTime,
+                autoSaveFrequency: e.autoSaveFrequency
+            });
+            await onInsertSettingModificationInDB(settingToUpdate);
+
+        //FAVORIS
+        }else if (e.type === favorisStoreName){
+
+           await onInsertFavorisModificationInDB(e.favorisList);
+
+        // PROFILS 
+        }else if (e.type === profilStoreName){
+            Object.assign(userInfo,{
+                pseudo : e.pseudo,
+                customNotes : e.customNotes
+            });
+            
+            await onInsertProfilModificationInDB(userInfo);
+        }
+
+    }
+
+
+
+    // 3️⃣ Finalisation
+    eventImportDataSucess();
+}
 
 
 

@@ -8,7 +8,6 @@ let activityToInsertFormat = {
     distance : "",
     duration : "",
     comment : "",
-    userInfo : {},
     divers:{},
     isPlanned : false
 };

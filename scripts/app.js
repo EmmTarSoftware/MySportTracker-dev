@@ -423,7 +423,7 @@ async function requestPersistentStorage() {
 
 
 // Créer (ou ouvrir si elle existe déjà) une base de données PouchDB
-const db = new PouchDB(dbName);
+let  db = new PouchDB(dbName);
 
 // Vérifier si la base est bien créée
 db.info().then(info => console.log(' [DATABASE] Base créée/ouverte :', info));
@@ -471,6 +471,8 @@ async function onCreateDBStore() {
         autoSaveFrequency: 7
     });
     await createStore(rewardsStoreName, { type: rewardsStoreName, rewards: [] });
+    await onInitActivityCounterStore(); 
+    await onInitTemplateCounterStore();
 }
 
 
@@ -485,7 +487,9 @@ async function onInitTemplateCounterStore() {
             // Créer le store avec un compteur initial
             counterDoc = { _id: templateCounterStoreName, type: templateCounterStoreName, counter: 0 };
             await db.put(counterDoc);
-            if (devMode === true ) {console.log("[DATABASE] [TEMPLATE] Store Compteur template créé :", counterDoc);};
+                console.log("[DATABASE] [TEMPLATE] Store Compteur template créé :", counterDoc);
+        }else{
+            console.log("[DATABASE] [TEMPLATE] Store Compteur template Existe déjà :", counterDoc);
         }
     } catch (err) {
         console.error("[DATABASE] [TEMPLATE] Erreur lors de l'initialisation du compteur :", err);
@@ -504,7 +508,9 @@ async function onInitActivityCounterStore() {
             // Créer le store avec un compteur initial
             counterDoc = { _id: activityCounterStoreName, type: activityCounterStoreName, counter: 0 };
             await db.put(counterDoc);
-            if (devMode === true ) {console.log("[DATABASE] [ACTIVITY] Store Compteur template créé :", counterDoc);};
+            console.log("[DATABASE] [ACTIVITY] Store Compteur activité créé :", counterDoc);
+        }else{
+            console.log("[DATABASE] [ACTIVITY] Store Compteur activité Existe déjà :", counterDoc);
         }
     } catch (err) {
         console.error("[DATABASE] [ACTIVITY] Erreur lors de l'initialisation du compteur :", err);
@@ -559,8 +565,8 @@ async function initApp() {
     await onLoadStores();       // 2️⃣ Extraction des données des stores génériques
     await onLoadActivityFromDB(); // 3️⃣Extraction liste activité
     await onLoadTemplateFromDB(); // Extraction liste modèle
-    await onInitActivityCounterStore();// Extraction liste modèle
-    await onInitTemplateCounterStore();// Extraction liste modèle
+    // await onInitActivityCounterStore();// Extraction liste modèle
+    // await onInitTemplateCounterStore();// Extraction liste modèle
 }
 
 
