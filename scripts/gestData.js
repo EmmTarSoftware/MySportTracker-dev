@@ -365,9 +365,7 @@ async function onDeleteBDD() {
 
     if (devMode === true) {console.log("Lancement de la suppression");};
     // Les cookies 
-    localStorage.removeItem(cookiesConditionUtilisation_keyName);
     localStorage.removeItem(cookiesDevModeName);
-    localStorage.removeItem(cookiesBddVersion_KeyName);
     localStorage.removeItem('MSS_notifyPermission');
     // La base de donnée
     await deleteBase();
