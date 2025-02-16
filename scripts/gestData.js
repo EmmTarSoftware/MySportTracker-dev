@@ -46,84 +46,51 @@ async function eventSaveData(isAutoSave) {
         userSetting.lastManualSaveTime = exportTime;
     }
 
-
     // Enregistrement date/heure dans les paramètres
     await onInsertSettingModificationInDB(userSetting);
 
     // suite à enregistrement de la date, export des données
-    exportData(isAutoSave);
-    
+    await exportDBToJson(isAutoSave);
+    eventSaveResult(isAutoSave);
 }
 
 
 
-
-
-// Fonction pour exporter tous les stores de la base de données
-function exportData(isAutoSave) {
-    
-
+async function exportDBToJson(isAutoSave) {
     if (devMode === true) {console.log("Demande d'exportation des données");};
+    try {
+        const result = await db.allDocs({ include_docs: true });
 
-    // Créer un objet pour stocker toutes les données des stores
-    let allStoresData = {};
+        // Extraire uniquement les documents
+        const exportedData = result.rows.map(row => row.doc);
 
-    // Parcourir tous les stores
-    let completedStores = 0;
-
-    storeNames.forEach(storeName => {
-        let transaction = db_old.transaction([storeName], 'readonly');
-        let store = transaction.objectStore(storeName);
-
-        let exportRequest = store.getAll();
-
-        exportRequest.onsuccess = function() {
-            // Ajouter les données de chaque store dans l'objet
-            allStoresData[storeName] = exportRequest.result;
-
-            completedStores++;
-
-            // Si tous les stores sont exportés, on les télécharge
-            if (completedStores === storeNames.length) {
-                
-                // Le nommage ne sera pas le même si sauvegarde automatique
-                if (isAutoSave) {
-                    downloadJSON(allStoresData, `MSS_AUTOSAVE_${exportDate}_${exportTimeFileName}.json`);
-                    if (devMode === true) {console.log("[AUTOSAVE] Fin de sauvegarde automatique. Lancement activité liste ");};
-
-                    eventSaveResult(isAutoSave);
-
-                    // La sauvegarde automatique à lieu au lancement de l'application
-                    // Ensuite la liste d'activité est chargé. Ne pas retirer la fonction ci-desous
-                    // Premiere remplissage de la base avec le formation de trie par défaut
-                    onUpdateActivityBddList(false);
-                }else{
-                    downloadJSON(allStoresData, `MSS_${exportDate}_${exportTimeFileName}_${userInfo.pseudo}.json`);
-                    eventSaveResult(isAutoSave);
-                }
-            }
-        };
-
-        exportRequest.onerror = function(error) {
-            console.log(`Erreur lors de l'exportation des données du store ${storeName}: `, error);
-        };
-    });
-};
-
-// Fonction de téléchargement
-function downloadJSON(data, filename) {
-    var json = JSON.stringify(data, null, 2);
-    var blob = new Blob([json], { type: 'application/json' });
-
-    var a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-};
+        // Convertir en JSON
+        const jsonData = JSON.stringify(exportedData, null, 2);
 
 
+        // Set le nom du fichier
+        let fileName = "";
+        if (isAutoSave) {
+            fileName =  `MSS_AUTOSAVE_${exportDate}_${exportTimeFileName}.json`;
+        }else{
+            fileName =  `MSS_${exportDate}_${exportTimeFileName}_${userInfo.pseudo}.json`;
+        }
+
+
+        // Télécharger le fichier JSON
+        const blob = new Blob([jsonData], { type: "application/json" });
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = fileName;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+
+        console.log("📂 Base de données exportée avec succès !");
+    } catch (err) {
+        console.error("❌ Erreur lors de l'exportation :", err);
+    }
+}
 
 
 
@@ -136,61 +103,42 @@ function downloadJSON(data, filename) {
 
 
 
-// Verification condition autosave
-function onCheckAutoSaveCondition() {
-
-    if (devMode === true) {console.log("[AUTOSAVE] Vérification des conditions de sauvegarde");};
+// Vérification condition autosave
+async function onCheckAutoSaveCondition() {
+    if (devMode === true) {
+        console.log("[AUTOSAVE] Vérification des conditions de sauvegarde");
+    }
 
     let isSaveRequired = false;
 
     // Si cookies last date est vide = AutoSAVE
     if (userSetting.lastAutoSaveDate === "noSet") {
-        // Lancement fonction autoSave
-        if (devMode === true) {console.log("[AUTOSAVE] date dans userSetting noSet demande de sauvegarde");};
-        eventSaveData(true);
-    }else{
-        // sinon controle l'intervalle entre date du jour et date derniere sauvegarde
-
-        isSaveRequired = compareDateAutoSave(userSetting.lastAutoSaveDate,userSetting.autoSaveFrequency);
-
         if (devMode === true) {
-            console.log("[AUTOSAVE] Date derniere sauvegarde existante dans userSETTING");
-        };
-
-
-        if (isSaveRequired) {
-            if (devMode === true) {console.log("[AUTOSAVE] date plus valide. Demande de sauvegarde");};
-            eventSaveData(true);
-        }else{
-            if (devMode === true) {console.log("[AUTOSAVE] date encore valide. Pas de sauvegarde");};
-            // Premiere remplissage de la base avec le formation de trie par défaut
-            onUpdateActivityBddList(false);
+            console.log("[AUTOSAVE] date dans userSetting noSet, demande de sauvegarde");
         }
+        isSaveRequired = true;
+    } else {
+        // Sinon, contrôle l'intervalle entre date du jour et date dernière sauvegarde
+        isSaveRequired = compareDateAutoSave(userSetting.lastAutoSaveDate, userSetting.autoSaveFrequency);
     }
 
+    return isSaveRequired;
 }
 
-// fonction pour savoir si la date d'ancienne sauvegarde est encore valide ou non
-
+// Fonction pour savoir si la date d'ancienne sauvegarde est encore valide ou non
 function compareDateAutoSave(lastDateSave, frequency) {
-    // Convertir la date de sauvegarde en un objet Date
-    const d1 = new Date(lastDateSave); 
+    const d1 = new Date(lastDateSave);
     const d2 = new Date(); // Date actuelle
 
-    // Vérifier si d1 est une date valide
     if (isNaN(d1.getTime())) {
         console.error("[AUTOSAVE] La date de sauvegarde est invalide :", lastDateSave);
         return false; // Sortie pour éviter des comportements imprévisibles
     }
 
-    // Calculer la différence en millisecondes
     const differenceMs = Math.abs(d2 - d1);
-
-    // Convertir la différence en jours
     const differenceEnJours = differenceMs / (1000 * 60 * 60 * 24);
 
-    // Mode débogage
-    if (devMode === true) { 
+    if (devMode === true) {
         console.log("[AUTOSAVE] Comparaison des dates");
         console.log("[AUTOSAVE] Date de dernière sauvegarde :", d1);
         console.log("[AUTOSAVE] Date du jour :", d2);
@@ -198,9 +146,9 @@ function compareDateAutoSave(lastDateSave, frequency) {
         console.log("[AUTOSAVE] Différence en jours :", differenceEnJours);
     }
 
-    // Vérifier si la différence dépasse le seuil
     return differenceEnJours >= frequency;
 }
+
 
 
 

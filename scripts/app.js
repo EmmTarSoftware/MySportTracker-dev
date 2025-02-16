@@ -612,7 +612,7 @@ async function initApp() {
 // Appel de la fonction après l'initialisation
 initApp().then(() => firstActualisation());
 
-function firstActualisation() {
+async function firstActualisation() {
     if (devMode === true){console.log("Première actualisation")};
 
 
@@ -635,18 +635,29 @@ function firstActualisation() {
     //Set la date de la dernière sauvegarde manuelle
     document.getElementById("pGestDataLastExportDate").innerHTML = userSetting.lastManualSaveDate === "noSet" ? "Date dernier export : Indisponible." : `Date dernier export : le ${onFormatDateToFr(userSetting.lastManualSaveDate)} à ${userSetting.lastManualSaveTime}`;
 
+
+    // Traitement sauvegarde automatique
     if (userSetting.isAutoSaveEnabled) {
         console.log("[SETTING] Autosave activée.");
         if (devMode === true){console.log("[SETTING] Autosave activité. Demande de vérification des conditions");};
-        onCheckAutoSaveCondition();
-    }else{
-        // ACTIVITY
-        // Generation du trie dynamique
-        onGenerateDynamiqueFilter(allUserActivityArray);
 
-        // Lancement de l'actualisation sur le filtre en cours
-        onFilterActivity(currentSortType,currentFilter,allUserActivityArray);
+        // Vérification des conditions
+        let isSaveRequired = await onCheckAutoSaveCondition();
+        console.log("Sauvegarde Automatique nécessaire :", isSaveRequired);
+
+        if (isSaveRequired) {
+            eventSaveData(true);
+        }
+
     }
+
+
+    // ACTIVITY
+    // Generation du trie dynamique
+    onGenerateDynamiqueFilter(allUserActivityArray);
+
+    // Lancement de l'actualisation sur le filtre en cours
+    onFilterActivity(currentSortType,currentFilter,allUserActivityArray);
 
     // TEMPLATE
     onUpdateTemplateList(false);
