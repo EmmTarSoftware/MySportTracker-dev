@@ -175,95 +175,6 @@ function eventSaveResult(isAutoSave){
 
 
 
-
-
-
-let baseStoreCount = 0;
-
-// Fonction d'importation depuis JSON
-function importBdD_old(inputRef, pResultRef) {
-    const fileInput = document.getElementById(inputRef);
-    let textResultRef = document.getElementById(pResultRef);
-
-    baseStoreCount = 0;
-    onSetLockGestDataButton(true);
-
-    if (fileInput.files.length > 0) {
-        textResultRef.innerHTML = "Veuillez patienter...";
-        const selectedFile = fileInput.files[0];
-        const reader = new FileReader();
-
-        reader.onload = function (e) {
-            try {
-                // Charger et analyser le JSON
-                const jsonData = JSON.parse(e.target.result);
-
-                // Commencer une transaction en lecture/écriture pour chaque store
-                storeNames.forEach(storeName => {
-                    baseStoreCount++;
-
-                    if (jsonData[storeName]) {
-                        const transaction = db_old.transaction([storeName], 'readwrite');
-                        const objectStore = transaction.objectStore(storeName);
-
-                        // Supprimer les anciennes données
-                        const clearRequest = objectStore.clear();
-
-                        clearRequest.onsuccess = function () {
-                            // Vérification du format des données avant l'ajout
-                            if (Array.isArray(jsonData[storeName])) {
-                                jsonData[storeName].forEach(item => {
-                                    objectStore.add(item);
-                                });
-
-                                transaction.oncomplete = function () {
-                                    console.log(`Imported ${storeName} to IndexedDB successfully.`);
-
-
-                                    // Lorsque toutes les transactions sont effectuée
-                                    if (baseStoreCount === storeNames.length) {
-                                        eventImportDataSucess(pResultRef);
-                                    }
-                                };
-
-                                transaction.onerror = function (error) {
-                                    console.error(`Erreur lors de l'importation de ${storeName}:`, error);
-                                    textResultRef.innerHTML = `Erreur lors de l'importation de ${storeName}.`;
-                                    onSetLockGestDataButton(false);
-                                };
-                            } else {
-                                console.error(`${storeName} n'est pas un tableau valide.`);
-                                textResultRef.innerHTML = `Erreur dans le format des données pour ${storeName}.`;
-                                onSetLockGestDataButton(false);
-
-
-                            }
-                        };
-                    } else {
-                        console.error(`Le store ${storeName} est absent du fichier JSON.`);
-                        // Lorsque toutes les transactions sont effectuée
-                        if (baseStoreCount === storeNames.length) {
-                            eventImportDataSucess(pResultRef);
-                        }
-                    }
-                });
-            } catch (error) {
-                console.error('Erreur lors du parsing du JSON:', error);
-                textResultRef.innerHTML = "Erreur d'importation.";
-                onSetLockGestDataButton(false);
-            }
-        };
-
-        reader.readAsText(selectedFile);
-    } else {
-        console.error('Aucun fichier sélectionné.');
-        textResultRef.innerHTML = "Aucun fichier sélectionné !";
-        onSetLockGestDataButton(false);
-    }
-};
-
-
-
 async function importBdD(inputRef, pResultRef) {
     const fileInput = document.getElementById(inputRef);
     let textResultRef = document.getElementById(pResultRef);
@@ -386,19 +297,18 @@ function onCancelDeleteDataBase(params) {
 
 
 // Fonction de suppression de la base et des favoris
-function onDeleteBDD() {
+async function onDeleteBDD() {
    
     onDisplayTextDataBaseEvent(true);
 
     if (devMode === true) {console.log("Lancement de la suppression");};
     // Les cookies 
-    localStorage.removeItem(cookiesUserFavorisName);
     localStorage.removeItem(cookiesConditionUtilisation_keyName);
     localStorage.removeItem(cookiesDevModeName);
     localStorage.removeItem(cookiesBddVersion_KeyName);
     localStorage.removeItem('MSS_notifyPermission');
     // La base de donnée
-    let requestDelete = indexedDB.deleteDatabase(dbName);
+    await deleteBase();
 
     // Relance l'application
     setTimeout(() => {
@@ -409,7 +319,15 @@ function onDeleteBDD() {
 
 
 
-
+async function deleteBase() {
+    try {
+        // Supprimer complètement la base de données (y compris les séquences et métadonnées)
+        await new PouchDB(dbName).destroy();
+        console.log("[DELETE] La base de données a été complètement supprimée.");
+    } catch (error) {
+        console.error("[DELETE] Erreur lors de la suppression complète de la base :", error);
+    }
+}
 
 
 // ------------------------------------ fonction générales --------------------------
