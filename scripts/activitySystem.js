@@ -31,6 +31,9 @@ let pInterfaceActivityTitleRef = document.getElementById("pInterfaceActivityTitl
     inputLocationRef = document.getElementById("inputLocation"),
     inputDistanceRef = document.getElementById("inputDistance"),
     inputDurationRef = document.getElementById("inputDuration"),
+    inputDurationActivityHoursRef = document.getElementById("inputDurationActivityHours"),
+    inputDurationActivityMinutesRef = document.getElementById("inputDurationActivityMinutes"),
+    inputDurationActivitySecondsRef = document.getElementById("inputDurationActivitySeconds"),
     textareaCommentRef = document.getElementById("textareaComment"),
     selectorCategoryChoiceRef = document.getElementById("selectorCategoryChoice"),
     divItemListRef = document.getElementById("divItemList"),
@@ -674,13 +677,15 @@ function onFormatActivity() {
     };
 
 
+
     //  met tous les éléments dans l'objet
     activityToInsertFormat.name = selectorCategoryChoiceRef.value;
     activityToInsertFormat.date = inputDateRef.value;
     activityToInsertFormat.distance = inputDistanceRef.value;
     activityToInsertFormat.location = onSetToUppercase(inputLocationRef.value);
     activityToInsertFormat.comment = textareaCommentRef.value;
-    activityToInsertFormat.duration = inputDurationRef.value;
+    // activityToInsertFormat.duration = inputDurationRef.value;
+    activityToInsertFormat.duration = onConvertInputNumberToTimeFormat();
     activityToInsertFormat.divers = {};
 
 
@@ -876,6 +881,11 @@ async function eventDeleteActivity(idToDelete) {
 }
 
 
+
+
+
+
+
 function onAnnulDeleteActivity(event) {
     
     if (devMode === true){console.log("annulation de la suppression d'activité ");};
@@ -889,3 +899,36 @@ function onAnnulDeleteActivity(event) {
 
 
 
+// gestion du format des heures en passe par des inputs number
+
+
+
+
+   // Fonction pour formater les entrées et garantir un affichage correct
+function formatNumberInput(input, max, digits) {
+    let value = parseInt(input.value, 10) || 0;
+
+    // Si la valeur dépasse la valeur max autorisée, la ramener à max
+    if (value > max) value = max;
+
+    // Formater pour afficher toujours avec le bon nombre de chiffres (2 ou 3)
+    input.value = value.toString().padStart(digits, '0');
+
+    // Mettre à jour l'affichage de l'input time
+}
+
+// Fonction pour mettre à jour l'input "time"
+function onConvertInputNumberToTimeFormat() {
+
+    let hhh = inputDurationActivityHoursRef.value.padStart(2, '0');
+    let mm = inputDurationActivityMinutesRef.value.padStart(2, '0');
+    let ss = inputDurationActivitySecondsRef.value.padStart(2, '0');
+
+    // Mettre à jour l'affichage dans le champ text
+    return `${hhh}:${mm}:${ss}`;
+}
+
+// Selectionne tout le contenu lorsque je clique dans la zone de l'input
+function selectAllText(input) {
+    input.select();  // Sélectionner tout le texte à l'intérieur de l'input
+}

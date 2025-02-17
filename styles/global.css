@@ -175,6 +175,15 @@ input:not([type="checkbox"]), textarea {
 }
 
 
+input.numberFakeMS{
+    width: 50px;
+
+}
+
+input.numberFakeH{
+    width: 60px;
+}
+
 label{
     margin-left: 10px;
     color: var(--colorMainTheme1);
