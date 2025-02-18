@@ -10,6 +10,7 @@
     --colorMainTheme6 :#ff5780;
     --colorLightGray : #fff;
     --boxShadow : 0 2px 5px rgba(0, 0, 0, 0.1);
+    --boxShadowMoins : 0 2px 5px rgba(0, 0, 0, 0.05);
     --boxShadowPlus : 0 2px 5px rgba(0, 0, 0, 0.2);
     --themeGradientBlue : linear-gradient(#26a0b8, #40cccd);
     --themeGradientPink : linear-gradient(#ff5780,#fc97b0);
@@ -182,6 +183,7 @@ div.number-container {
     justify-content: center;
     gap: 5px;
     width: 100%;
+    padding-bottom: 10px;
 }
 
 .number-container input {
@@ -215,7 +217,8 @@ div.number-container {
 }
 
 .number-container input[type="number"] {
-    -moz-appearance: textfield;
+    /* -moz-appearance: textfield; */
+    appearance: none;      
 }
 
 /* Style pour les ":" */
@@ -382,7 +385,7 @@ button.btn-sort-Selected{
     background-color: var(--colorLightGray); 
     padding: 10px 5px 10px 5px;
     border-radius: 10px;
-    box-shadow: var(--boxShadowPlus);
+    /* box-shadow: var(--boxShadowMoins); */
 }
 
 .item-planned {
