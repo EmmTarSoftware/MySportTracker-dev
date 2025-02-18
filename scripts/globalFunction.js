@@ -497,4 +497,34 @@ function isDateAfterToday(inputDate) {
 
 
 
+// Gestion convertion des heures input number en mode input time
 
+function timeFormatToInputNumber(timeString) {
+    const [hours, minutes, seconds] = timeString.split(":");
+    return {
+        hours,
+        minutes,
+        seconds
+    };
+}
+
+// Selectionne tout le contenu lorsque je clique dans la zone de l'input
+function selectAllText(input) {
+    input.select();  // Sélectionner tout le texte à l'intérieur de l'input
+}
+
+
+
+
+// Fonction pour formater les entrées et garantir un affichage correct
+function formatNumberInput(input, max, digits) {
+    let value = parseInt(input.value, 10) || 0;
+
+    // Si la valeur dépasse la valeur max autorisée, la ramener à max
+    if (value > max) value = max;
+
+    // Formater pour afficher toujours avec le bon nombre de chiffres (2 ou 3)
+    input.value = value.toString().padStart(digits, '0');
+
+    // Mettre à jour l'affichage de l'input time
+}

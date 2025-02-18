@@ -175,14 +175,59 @@ input:not([type="checkbox"]), textarea {
 }
 
 
-input.numberFakeMS{
+/* Les input number */
+div.number-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    width: 100%;
+}
+
+.number-container input {
     width: 50px;
-
+    height: 40px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    background: white;
+    color: #555;
 }
 
-input.numberFakeH{
-    width: 60px;
+.number-container input.distance {
+    width: 100px;
 }
+
+
+.number-container input:focus {
+    border-color: var(--colorMainTheme1);
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Supprimer les flèches des input number */
+.number-container input::-webkit-outer-spin-button,
+.number-container input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.number-container input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+/* Style pour les ":" */
+span.chrono-separator {
+    font-size: 22px;
+    font-weight: bold;
+    color: #555;
+}
+
+/* fin des input number */
+
+
 
 label{
     margin-left: 10px;

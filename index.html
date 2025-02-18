@@ -96,35 +96,40 @@
             </p>
 
             <p class="activity-editor">
-                <label for="">Distance (km) :  </label>
-                <input id="inputDistance" type="number">
+                <label for="">Distance :  </label>
             </p>
+            <div class="number-container">
+                <input id="inputDistance" type="number" class="distance">
+                <span class="chrono-separator">km</span>
+            </div>
         
             <p class="activity-editor">
                 <label for="">Chrono : </label>
-                <input id="inputDuration" type="time" step="2">
-                <label for="hours">Fake Times :</label>
-
-                <input type="number" id="inputDurationActivityHours" min="0" max="999" value="00" class="numberFakeH"
-                    oninput="formatNumberInput(this, 99, 2)"
-                    onfocus="selectAllText(this)" 
-                    onblur="formatNumberInput(this, 99, 2)">
-
-                
-                <span>:</span>
-                <input type="number" id="inputDurationActivityMinutes" min="0" max="59" value="00" class="numberFakeMS"
-                    oninput="formatNumberInput(this, 59, 2)"
-                    onfocus="selectAllText(this)" 
-                    onblur="formatNumberInput(this, 59, 2)">
-
-                
-                <span>:</span>
-                <input type="number" id="inputDurationActivitySeconds" min="0" max="59" value="00" class="numberFakeMS"
-                    oninput="formatNumberInput(this, 59, 2)"
-                    onfocus="selectAllText(this)" 
-                    onblur="formatNumberInput(this, 59, 2)">
-
             </p>
+
+            <div class="number-container">
+                <input type="number" id="inputDurationActivityHours" min="0" max="999" value="00"
+                oninput="formatNumberInput(this, 99, 2)"
+                onfocus="selectAllText(this)" 
+                onblur="formatNumberInput(this, 99, 2)">
+
+            
+                <span class="chrono-separator">:</span>
+                <input type="number" id="inputDurationActivityMinutes" min="0" max="59" value="00"
+                    oninput="formatNumberInput(this, 59, 2)"
+                    onfocus="selectAllText(this)" 
+                    onblur="formatNumberInput(this, 59, 2)">
+
+                
+                <span class="chrono-separator">:</span>
+                <input type="number" id="inputDurationActivitySeconds" min="0" max="59" value="00"
+                    oninput="formatNumberInput(this, 59, 2)"
+                    onfocus="selectAllText(this)" 
+                    onblur="formatNumberInput(this, 59, 2)">
+            </div>
+                
+
+
     
             
             <p>
@@ -422,14 +427,39 @@
             </p>
 
             <p class="activity-editor">
-                <label for="">Distance (km) :  </label>
-                <input id="inputTemplateDistance" type="number">
+                <label for="">Distance :  </label>
             </p>
-        
+            <div class="number-container">
+                <input id="inputTemplateDistance" type="number" class="distance">
+                <span class="chrono-separator">km</span>
+            </div>
+
             <p class="activity-editor">
                 <label for="">Chrono : </label>
-                <input id="inputTemplateDuration" type="time" step="2">
             </p>
+            <div class="number-container">
+                <input type="number" id="inputDurationTemplateHours" min="0" max="999" value="00" class="numberFakeH"
+                oninput="formatNumberInput(this, 99, 2)"
+                onfocus="selectAllText(this)" 
+                onblur="formatNumberInput(this, 99, 2)">
+
+            
+                <span>:</span>
+                <input type="number" id="inputDurationTemplateMinutes" min="0" max="59" value="00" class="numberFakeMS"
+                    oninput="formatNumberInput(this, 59, 2)"
+                    onfocus="selectAllText(this)" 
+                    onblur="formatNumberInput(this, 59, 2)">
+
+                
+                <span>:</span>
+                <input type="number" id="inputDurationTemplateSeconds" min="0" max="59" value="00" class="numberFakeMS"
+                    oninput="formatNumberInput(this, 59, 2)"
+                    onfocus="selectAllText(this)" 
+                    onblur="formatNumberInput(this, 59, 2)">
+            </div>
+
+                
+
     
             
             <p>

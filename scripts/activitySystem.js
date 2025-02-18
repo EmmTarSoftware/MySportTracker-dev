@@ -30,7 +30,6 @@ let pInterfaceActivityTitleRef = document.getElementById("pInterfaceActivityTitl
     inputDateRef = document.getElementById("inputDate"),
     inputLocationRef = document.getElementById("inputLocation"),
     inputDistanceRef = document.getElementById("inputDistance"),
-    inputDurationRef = document.getElementById("inputDuration"),
     inputDurationActivityHoursRef = document.getElementById("inputDurationActivityHours"),
     inputDurationActivityMinutesRef = document.getElementById("inputDurationActivityMinutes"),
     inputDurationActivitySecondsRef = document.getElementById("inputDurationActivitySeconds"),
@@ -199,9 +198,16 @@ function onOpenNewActivityFromTemplate(templateItem) {
     //Set avec le élément du template
     inputLocationRef.value = templateItem.location;
     inputDistanceRef.value = templateItem.distance;
-    inputDurationRef.value = templateItem.duration;
     textareaCommentRef.value = templateItem.comment;
     inputIsPlannedRef.checked = templateItem.isPlanned;
+
+
+    // gestion du format duration
+    let convertDuration = timeFormatToInputNumber(templateItem.duration);
+    inputDurationActivityHoursRef.value = convertDuration.hours;
+    inputDurationActivityMinutesRef.value = convertDuration.minutes;
+    inputDurationActivitySecondsRef.value = convertDuration.seconds;
+
 
     // pour le selecteur d'activité, met le premier éléments qui à dans favoris, ou sinon CAP par défaut, C-A-P
     selectorCategoryChoiceRef.value = templateItem.activityName;
@@ -218,7 +224,9 @@ function onResetActivityInputs() {
     inputDateRef.value = "";
     inputLocationRef.value = "";
     inputDistanceRef.value = "";
-    inputDurationRef.value = "00:00:00";
+    inputDurationActivityHoursRef.value = "00";
+    inputDurationActivityMinutesRef.value = "00";
+    inputDurationActivitySecondsRef.value = "00";
     textareaCommentRef.value = "";
     inputIsPlannedRef.checked = false;
 
@@ -630,10 +638,15 @@ function onEditActivity(activityTarget) {
     inputDateRef.value = activityTarget.date;
     inputLocationRef.value = activityTarget.location;
     inputDistanceRef.value = activityTarget.distance;
-    inputDurationRef.value = activityTarget.duration;
     textareaCommentRef.value = activityTarget.comment;
     inputIsPlannedRef.checked = activityTarget.isPlanned;
 
+
+    // gestion du format duration
+    let convertDuration = timeFormatToInputNumber(activityTarget.duration);
+    inputDurationActivityHoursRef.value = convertDuration.hours;
+    inputDurationActivityMinutesRef.value = convertDuration.minutes;
+    inputDurationActivitySecondsRef.value = convertDuration.seconds;
 
     // l'image de prévisualisation 
     imgEditorActivityPreviewRef.src = activityChoiceArray[activityTarget.name].imgRef;
@@ -684,8 +697,7 @@ function onFormatActivity() {
     activityToInsertFormat.distance = inputDistanceRef.value;
     activityToInsertFormat.location = onSetToUppercase(inputLocationRef.value);
     activityToInsertFormat.comment = textareaCommentRef.value;
-    // activityToInsertFormat.duration = inputDurationRef.value;
-    activityToInsertFormat.duration = onConvertInputNumberToTimeFormat();
+    activityToInsertFormat.duration = inputActivityNumberToTime();
     activityToInsertFormat.divers = {};
 
 
@@ -904,21 +916,10 @@ function onAnnulDeleteActivity(event) {
 
 
 
-   // Fonction pour formater les entrées et garantir un affichage correct
-function formatNumberInput(input, max, digits) {
-    let value = parseInt(input.value, 10) || 0;
 
-    // Si la valeur dépasse la valeur max autorisée, la ramener à max
-    if (value > max) value = max;
 
-    // Formater pour afficher toujours avec le bon nombre de chiffres (2 ou 3)
-    input.value = value.toString().padStart(digits, '0');
-
-    // Mettre à jour l'affichage de l'input time
-}
-
-// Fonction pour mettre à jour l'input "time"
-function onConvertInputNumberToTimeFormat() {
+// Fonction récupérer les valeur des inputs number et les convertir au format input time
+function inputActivityNumberToTime() {
 
     let hhh = inputDurationActivityHoursRef.value.padStart(2, '0');
     let mm = inputDurationActivityMinutesRef.value.padStart(2, '0');
@@ -928,7 +929,3 @@ function onConvertInputNumberToTimeFormat() {
     return `${hhh}:${mm}:${ss}`;
 }
 
-// Selectionne tout le contenu lorsque je clique dans la zone de l'input
-function selectAllText(input) {
-    input.select();  // Sélectionner tout le texte à l'intérieur de l'input
-}

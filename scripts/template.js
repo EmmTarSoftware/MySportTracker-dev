@@ -16,7 +16,9 @@ let imgTemplateEditorPreviewRef = document.getElementById("imgTemplateEditorPrev
     inputTemplateTitleRef = document.getElementById("inputTemplateTitle"),
     inputTemplateLocationRef = document.getElementById("inputTemplateLocation"),
     inputTemplateDistanceRef = document.getElementById("inputTemplateDistance"),
-    inputTemplateDurationRef = document.getElementById("inputTemplateDuration"),
+    inputDurationTemplateHoursRef = document.getElementById("inputDurationTemplateHours"),
+    inputDurationTemplateMinutesRef = document.getElementById("inputDurationTemplateMinutes"),
+    inputDurationTemplateSecondsRef = document.getElementById("inputDurationTemplateSeconds"),
     textareaTemplateCommentRef = document.getElementById("textareaTemplateComment");
 
 
@@ -320,9 +322,15 @@ function onSetTemplateItems(templateItem) {
     inputTemplateTitleRef.value = templateItem.title;
     inputTemplateLocationRef.value = templateItem.location;
     inputTemplateDistanceRef.value = templateItem.distance;
-    inputTemplateDurationRef.value = templateItem.duration;
     textareaTemplateCommentRef.value = templateItem.comment;
     inputTemplateIsPlannedRef.checked = templateItem.isPlanned;
+
+
+    // gestion du format duration
+    let convertDuration = timeFormatToInputNumber(templateItem.duration);
+    inputDurationTemplateHoursRef.value = convertDuration.hours;
+    inputDurationTemplateMinutesRef.value = convertDuration.minutes;
+    inputDurationTemplateSecondsRef.value = convertDuration.seconds;
 
 
     // pour le selecteur d'activité, met le premier éléments qui à dans favoris, ou sinon CAP par défaut, C-A-P
@@ -446,7 +454,7 @@ function onFormatTemplate() {
     templateToInsertFormat.distance = inputTemplateDistanceRef.value;
     templateToInsertFormat.location = onSetToUppercase(inputTemplateLocationRef.value);
     templateToInsertFormat.comment = textareaTemplateCommentRef.value;
-    templateToInsertFormat.duration = inputTemplateDurationRef.value;
+    templateToInsertFormat.duration = inputTemplateNumberToTime();
     templateToInsertFormat.isPlanned = inputTemplateIsPlannedRef.checked;
 
     // Demande d'insertion dans la base soit en creation ou en modification
@@ -562,7 +570,10 @@ function onResetTemplateInputs() {
     inputTemplateTitleRef.value = "";
     inputTemplateLocationRef.value = "";
     inputTemplateDistanceRef.value = "";
-    inputTemplateDurationRef.value = "00:00:00";
+
+    inputDurationTemplateHoursRef.value = "00";
+    inputDurationTemplateMinutesRef.value = "00";
+    inputDurationTemplateSecondsRef.value = "00";
     textareaTemplateCommentRef.value = "";
     inputTemplateIsPlannedRef.checked = false;
 
@@ -771,5 +782,16 @@ function onCreateTemplateChoiceList() {
 // Quitte le menu
 function onClickReturnFromGestTemplate() {
     onLeaveMenu("GestTemplate");
+}
+
+// Fonction récupérer les valeur des inputs number et les convertir au format input time
+function inputTemplateNumberToTime() {
+
+    let hhh = inputDurationTemplateHoursRef.value.padStart(2, '0');
+    let mm = inputDurationTemplateMinutesRef.value.padStart(2, '0');
+    let ss = inputDurationTemplateSecondsRef.value.padStart(2, '0');
+
+    // Mettre à jour l'affichage dans le champ text
+    return `${hhh}:${mm}:${ss}`;
 }
 
