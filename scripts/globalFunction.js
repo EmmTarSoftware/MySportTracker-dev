@@ -528,3 +528,9 @@ function formatNumberInput(input, max, digits) {
 
     // Mettre à jour l'affichage de l'input time
 }
+
+
+// Empêche l'affichage du menu contextuel
+function disableContextMenu(event) {
+    event.preventDefault();  // Empêche l'action par défaut du clic droit
+}
