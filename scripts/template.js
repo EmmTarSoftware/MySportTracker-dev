@@ -3,7 +3,7 @@ let userTemplateList = [{activityName:"",title:"",key:""}],
     currentTemplateEditorID = "",
     templateAvailable = false,
     currentTemplateInView = {},
-    maxTemplate = 2;
+    maxTemplate = 30;
 
 
 

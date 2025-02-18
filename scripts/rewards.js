@@ -290,7 +290,6 @@ function onLoadUserRewardsList() {
             // la div contenant un reward
             let newDivRewardCard = document.createElement("div");
             newDivRewardCard.classList.add("reward-card", "locked");
-            console.log(newDivRewardCard.classList);
             newDivRewardCard.onclick = function (){
                 onClickRewardLocked(this);
             };
