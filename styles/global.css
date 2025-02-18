@@ -1656,7 +1656,7 @@ svg.arrow {
 }
 
 
-.locked{
+.select-locked{
     pointer-events: none;
 }
 

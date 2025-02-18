@@ -287,10 +287,10 @@ function onLoadUserRewardsList() {
         let isPossessed = userRewardsArray.includes(key);
 
         if (!isPossessed) {
-
             // la div contenant un reward
             let newDivRewardCard = document.createElement("div");
             newDivRewardCard.classList.add("reward-card", "locked");
+            console.log(newDivRewardCard.classList);
             newDivRewardCard.onclick = function (){
                 onClickRewardLocked(this);
             };
@@ -362,6 +362,7 @@ function onHiddenFullscreenRewards() {
 // récompense verrouillé
 
 function onClickRewardLocked(itemRef) {
+    console.log("FONCTIONNE");
     // Ajout de l'effet de tremblement
     itemRef.classList.add('tremble');
 
