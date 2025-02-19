@@ -3,9 +3,6 @@
 function onOpenMenuStat(){
     if (devMode === true){console.log("Ouverture menu STAT");};
 
-
-
-    
     statActivityNonPlannedArray = allUserActivityArray.filter(activity =>{
         return activity.isPlanned === false
     });
@@ -234,6 +231,7 @@ function onTreateStatGraphic(activityList) {
             selectRef.appendChild(newOption);
         });
 
+
         // Lancement du comptage sur la première année du tableau
         getActivityStatCountByMonth(activityList,yearArray[0]);
 
@@ -267,6 +265,10 @@ function getActivityStatCountByMonth(activityList,yearTarget) {
         december: {count : 0, distance: 0 , duration : 0},
     }; 
 
+
+  
+
+
     activityList.forEach(e=>{
 
         const dateObject = new Date(e.date);
@@ -278,6 +280,14 @@ function getActivityStatCountByMonth(activityList,yearTarget) {
         // Si l'année correspond, ajoute + 1 dans le mois de l'activité
         if (year === yearTarget) { 
             countActivityByMonth[monthName].count++;
+
+            // Incrément également la distance dans le mois de l'activité
+
+            let oldDistance =  parseFloat(countActivityByMonth[monthName].distance) || 0;
+            let newDistance = parseFloat(e.distance) || 0 ;
+
+            countActivityByMonth[monthName].distance = oldDistance + newDistance;
+
         }
     });
 
@@ -295,8 +305,12 @@ function getActivityStatCountByMonth(activityList,yearTarget) {
     const maxCountMonth = Object.keys(countActivityByMonth).reduce((a, b) => countActivityByMonth[a].count > countActivityByMonth[b].count ? a : b);
     if (devMode === true){console.log("[STAT] " + maxCountMonth);};
 
+    const maxDistanceMonth = Object.keys(countActivityByMonth).reduce((a, b) => countActivityByMonth[a].distance > countActivityByMonth[b].distance ? a : b);
+    if (devMode === true){console.log("[STAT] " + maxDistanceMonth);};
 
-    onSetGraphicItems(countActivityByMonth,countActivityByMonth[maxCountMonth].count);
+
+
+    onSetGraphicItems(countActivityByMonth,countActivityByMonth[maxCountMonth].count,countActivityByMonth[maxCountMonth].distance);
 }
 
 
@@ -304,16 +318,22 @@ function getActivityStatCountByMonth(activityList,yearTarget) {
 
 // set les éléments graphiques après comptage
 
-function onSetGraphicItems(activityCount,higherCountValue) {
+function onSetGraphicItems(activityCount,higherCountValue,higherDistanceValue) {
 
 
     if (devMode === true){
         console.log("[STAT] Set le graphique");
-        console.log("[STAT] valeur maximale pour référence pourcentage  : " + higherCountValue);
+        console.log("[STAT] valeur maximale COUNT pour référence pourcentage  : " + higherCountValue);
+        console.log("[STAT] valeur maximale DISTANCE pour référence pourcentage  : " + higherDistanceValue);
     };
     monthStatNamesArray.forEach(e=>{
+        // Set pour les counts
         document.getElementById(`stat-number-${e}`).innerHTML = activityCount[e].count;
         document.getElementById(`stat-PB-${e}`).style = "--progress:" + onCalculStatPercent(higherCountValue,activityCount[e].count) + "%";
+        // Set pour les distances
+        document.getElementById(`stat-distance-${e}`).innerHTML = activityCount[e].distance;
+        document.getElementById(`stat-PB-distance-${e}`).style = "--progress:" + onCalculStatPercent(higherDistanceValue,activityCount[e].distance) + "%";
+        
     });
 
 }
@@ -376,6 +396,7 @@ function displayActivityStats(activityName) {
     const statsAllTime = getStats(activitiesTargetData);
     const stats7Days = getStats(activitiesTargetData, 7);
     const stats30Days = getStats(activitiesTargetData, 30);
+
 
     // Formater les dates des premières et dernières activités pratiquées
     const firstActivityDateFormatted = statsAllTime.firstActivityDate
