@@ -81,13 +81,137 @@ function onGenerateStatOptionFilter(allActivityTypeData) {
         selectorStatRef.appendChild(newOption);
     });
 
+
+    onGenerateFakeStatOptionFilter(allActivityTypeData);
 };
 
 
 
 
+function onGenerateFakeStatOptionFilter(allActivityData) {
+    let parentTargetRef = document.getElementById("divFakeSelectOptStatList");
+
+    // Traite d'abord les favoris
+    if (devMode === true){
+        console.log("[FAKE SELECTOR STAT] Lancement de la generation des choix des activités dans le filtre");
+        console.log("[FAKE SELECTOR STAT] ID Parent pour insertion : " + parentTargetRef);
+    };
+
+    parentTargetRef.innerHTML = "";
 
 
+    // Le bouton radio sera set sur générales
+
+
+    // Ajouter l'option "Tous" au début
+    let newContainer = document.createElement("div");
+    newContainer.classList.add("fake-opt-item-container");
+    newContainer.onclick = function (event){
+        event.stopPropagation();
+        onCloseFakeStatSelectOpt();
+        selectorStatRef.value = "GENERAL";
+        onChangeFakeSelecStatFilterRadio("btnRadio-filter-stat-general");
+        onChangeStatActivitySelector("GENERAL");
+    }
+    // Ajout la ligne bleu 
+    newContainer.classList.add("fake-opt-item-last-favourite");
+
+    let newImg = document.createElement("img");
+    newImg.classList.add("fake-opt-item");
+    newImg.src = "./images/icon-All.webp";
+
+    let newTitle = document.createElement("span");
+    newTitle.innerHTML = "Générales";
+    newTitle.classList.add("fake-opt-item");
+
+    // Bouton radio fake pour simuler le selecteur
+    let newBtnRadioFake = document.createElement("div");
+    newBtnRadioFake.classList.add("radio-button-fake","selected");
+    newBtnRadioFake.id = "btnRadio-filter-stat-general";
+
+    // Insertion
+    newContainer.appendChild(newImg);
+    newContainer.appendChild(newTitle);
+    newContainer.appendChild(newBtnRadioFake);
+
+    parentTargetRef.appendChild(newContainer);
+
+
+    // Ajout de reste des activités
+    allActivityData.forEach((e,index)=>{
+
+         // Creation
+        let newContainer = document.createElement("div");
+        newContainer.classList.add("fake-opt-item-container");
+        newContainer.onclick = function (event){
+            event.stopPropagation();
+            onCloseFakeStatSelectOpt();
+            selectorStatRef.value = e;
+            onChangeFakeSelecStatFilterRadio(`btnRadio-filter-stat-${e}`);
+            onChangeStatActivitySelector(e);
+        }
+
+
+        // Style sans border botton pour le dernier
+        if (index === (allActivityData.length - 1)) {
+            newContainer.classList.add("fake-opt-item-last-container");
+        }
+
+        let newImg = document.createElement("img");
+        newImg.classList.add("fake-opt-item");
+        newImg.src = activityChoiceArray[e].imgRef;
+
+        let newTitle = document.createElement("span");
+        newTitle.innerHTML = activityChoiceArray[e].displayName;
+        newTitle.classList.add("fake-opt-item");
+
+
+        // Bouton radio fake pour simuler le selecteur
+        let newBtnRadioFake = document.createElement("div");
+        newBtnRadioFake.classList.add("radio-button-fake");
+        newBtnRadioFake.id = "btnRadio-filter-stat-" + e;
+
+        // Insertion
+        newContainer.appendChild(newImg);
+        newContainer.appendChild(newTitle);
+        newContainer.appendChild(newBtnRadioFake);
+
+        parentTargetRef.appendChild(newContainer);
+    })
+
+}
+
+
+
+
+// Clique sur le fake selecteur
+function onClickFakeStatSelect(){
+    // Affiche le fake option
+    document.getElementById("divFakeSelectOptStat").style.display = "flex";
+}
+
+
+function onCloseFakeStatSelectOpt(event){
+    document.getElementById("divFakeSelectOptStat").style.display = "none";
+}
+
+
+// Retire les boutons radio plein à tous les boutons
+function onChangeFakeSelecStatFilterRadio(idToSelect){
+    // Pour rechercher dans les enfants d'un parent spécifique
+    let parent = document.getElementById("divFakeSelectOptStatList");
+
+
+    // Retire les boutons radio plein
+    let elementToRemoveClass = parent.querySelectorAll(".selected");
+    elementToRemoveClass.forEach(e=>{
+        e.classList.remove("selected");
+    });
+
+
+    // le met à l'option en cours
+    document.getElementById(idToSelect).classList.add("selected");
+};
 
 
 

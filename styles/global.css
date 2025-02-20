@@ -1028,6 +1028,7 @@ div.stat{
     background-color: #fff;
     border-radius: 5px;
     box-shadow: var(--boxShadowMoins);
+    margin-top: 20px;
 }
 
 .highlight{
