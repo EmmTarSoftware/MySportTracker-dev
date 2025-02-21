@@ -446,7 +446,8 @@ async function onCreateDBStore() {
         lastAutoSaveTime: "",
         lastManualSaveDate: "noSet",
         lastManualSaveTime: "",
-        autoSaveFrequency: 7
+        autoSaveFrequency: 7,
+        devMode:false
     });
     await createStore(rewardsStoreName, { type: rewardsStoreName, rewards: [] });
     await onInitActivityCounterStore(); 
@@ -551,6 +552,12 @@ async function initApp() {
 initApp().then(() => firstActualisation());
 
 async function firstActualisation() {
+
+
+    // Set le devMode
+
+    devMode = userSetting.devMode;
+
     if (devMode === true){console.log("Première actualisation")};
 
 

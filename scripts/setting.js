@@ -1,8 +1,7 @@
 
 
 // Boolean de dev pour les logs
-let devMode = false,
-    cookiesDevModeName = "MSS-devMode";
+let devMode = false;
 
 
 
@@ -18,45 +17,8 @@ function onOpenMenuSetting() {
     
     
     
-    
 
-
-
-
-
-// Vérification de l'engeristrement du cookies DEV MODE en local storage
-function onCheckDevModeValueInLocalStorage() {
-    console.log("[DEV] vérification de l'existance du cookies devMode ");
-
-    if (localStorage.getItem(cookiesDevModeName) === null){
-        localStorage.setItem(cookiesDevModeName, false);
-        console.log("[DEV] Creation du cookies :  " + cookiesDevModeName);
-    }else{
-        console.log("[DEV] cookies existants, changement dans le tableau = ");
-        devMode = localStorage.getItem(cookiesDevModeName) === "true";
-        console.log("[DEV] Dev mode = " + devMode);
-    };
-
-    // Set la checkbox selon la valeur de devMode
-    document.getElementById("inputCheckboxDevMode").checked = devMode;
-
-};
-
-onCheckDevModeValueInLocalStorage();
-
-
-// L'utilisateur change le mode de dev
-function onChangeDevModeStatus(mode) {
-    console.log("[DEV] changement du dev mode sur : " + mode.checked);
-    devMode = mode.checked;
-
-    console.log("[DEV] enregistrement en cookies");
-    localStorage.setItem(cookiesDevModeName,devMode);
-}
-
-
-
-// ------------------------  Paramètre utilisateur -------------------------
+// ------------------------  Paramètres utilisateur -------------------------
 
 
 
@@ -68,7 +30,8 @@ let defaultSetting = {
     lastAutoSaveTime : "",
     lastManualSaveDate : "noSet",
     lastManualSaveTime :"",
-    autoSaveFrequency : 7
+    autoSaveFrequency : 7,
+    devMode : false
 };
 
 let userSetting = {},
@@ -83,7 +46,8 @@ let userSetting = {},
 let selectSettingCommentModePlannedRef,
     selectSettingCommentModeDoneRef,
     inputSettingIsAutoSaveRef,
-    inputSettingSaveFrequencyRef;
+    inputSettingSaveFrequencyRef,
+    inputCheckboxDevModeRef;
 
 
 
@@ -93,6 +57,7 @@ function onReferenceItemsSetting() {
     selectSettingCommentModeDoneRef = document.getElementById("selectSettingCommentModeDone");
     inputSettingIsAutoSaveRef = document.getElementById("inputSettingIsAutoSave");
     inputSettingSaveFrequencyRef = document.getElementById("inputSettingSaveFrequency");
+    inputCheckboxDevModeRef = document.getElementById("inputCheckboxDevMode");
 }
 
 function onSetSettingItems() {
@@ -101,7 +66,7 @@ function onSetSettingItems() {
     selectSettingCommentModeDoneRef.value = userSetting.displayCommentDoneMode;
     inputSettingIsAutoSaveRef.checked = userSetting.isAutoSaveEnabled;
     inputSettingSaveFrequencyRef.value = userSetting.autoSaveFrequency;
-
+    inputCheckboxDevModeRef.checked = userSetting.devMode;
 };
 
 
@@ -128,7 +93,8 @@ function onClickSaveFromSetting() {
         { oldValue: userSetting.displayCommentDoneMode, newValue: selectSettingCommentModeDoneRef.value },
         { oldValue: userSetting.displayCommentPlannedMode, newValue: selectSettingCommentModePlannedRef.value },
         { oldValue: userSetting.isAutoSaveEnabled, newValue: inputSettingIsAutoSaveRef.checked },
-        { oldValue: userSetting.autoSaveFrequency, newValue: inputSettingSaveFrequencyRef.value }
+        { oldValue: userSetting.autoSaveFrequency, newValue: inputSettingSaveFrequencyRef.value },
+        { oldValue: userSetting.devMode, newValue: inputCheckboxDevModeRef.checked }
     ];
 
 
@@ -154,7 +120,10 @@ function onSaveUserSetting() {
     userSetting.displayCommentPlannedMode = selectSettingCommentModePlannedRef.value;
     userSetting.isAutoSaveEnabled = inputSettingIsAutoSaveRef.checked;
     userSetting.autoSaveFrequency = inputSettingSaveFrequencyRef.value;
+    userSetting.devMode = inputCheckboxDevModeRef.checked;
 
+    // Met a jour le boolean devMode
+    devMode = userSetting.devMode;
 
     // demande d'actualisation du mode d'affichage selon les paramètres
     onUpdateCSSDisplayMode();

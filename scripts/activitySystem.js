@@ -733,7 +733,6 @@ function onCheckIfModifiedRequired(activityToInsertFormat) {
         { oldValue: currentActivityDataInView.duration, newValue:  activityToInsertFormat.duration },
         { oldValue: currentActivityDataInView.divers, newValue:  activityToInsertFormat.divers },
         { oldValue: currentActivityDataInView.isPlanned, newValue:  activityToInsertFormat.isPlanned }
-        // Ne pas mettre la donnée userInfo Ici. 
     ];
 
     if (devMode) {
