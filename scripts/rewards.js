@@ -687,6 +687,9 @@ function onAffectFinalRewardsToUser() {
 
     // Lance l'event reward obtenu si besoin
     if (rewardsEligibleArray.length >=1) {
+        // Insertion dans la base de donnée
+        onInsertRewardsModificationInDB(userRewardsArray);
+
         // Recompense in APP
         rewardsEvent(rewardsEligibleArray);
         // Recompense in MOBILE
@@ -696,8 +699,7 @@ function onAffectFinalRewardsToUser() {
     }
 
 
-    // Insertion dans la base de donnée
-    onInsertRewardsModificationInDB(userRewardsArray);
+
 }
 
 

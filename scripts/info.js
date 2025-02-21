@@ -1,8 +1,8 @@
 
 
 function onOpenMenuInfo(){
-    console.log("Ouverture menu INFO");
-   }
+
+}
    
    
    

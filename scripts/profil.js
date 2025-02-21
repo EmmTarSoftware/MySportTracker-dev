@@ -37,7 +37,6 @@ function onSetProfilItems() {
     inputProfilUserPseudoRef.value = userInfo.pseudo;
     textareaCustomNotesRef.value = userInfo.customNotes;
 
-    console.log("userInfo custom note : " + userInfo.customNotes);
 
 };
 
