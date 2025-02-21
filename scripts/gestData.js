@@ -238,6 +238,14 @@ function eventImportDataSucess() {
 
 
 async function importBdD(dataToImport) {
+    console.log("IMPORTBDD");
+
+    // Récupère la taille pour traiter le texte de pourcentage 
+    let totalDataToImport = dataToImport.length,
+    pPercentImportTextRef = document.getElementById("pPercentImportText"),
+    importPercentStep = Math.floor(totalDataToImport * 0.1), // 10% arrondi vers le bas
+    importCount = 0;
+
     for (const e of dataToImport) {
         // ACTIVITE
         if (e.type === activityStoreName) {
@@ -299,6 +307,22 @@ async function importBdD(dataToImport) {
             
             await onInsertProfilModificationInDB(userInfo);
         }
+
+
+
+
+        // Traitement des pourcentages
+        importCount++;
+
+        if (importCount >= importPercentStep) {
+            let progress = Math.round((importCount / totalDataToImport) * 100);
+            requestAnimationFrame(() => {
+                pPercentImportTextRef.textContent = `${progress}%`;
+            });
+
+            importPercentStep += Math.floor(totalDataToImport * 0.1); // set le prochain palier
+        }
+
 
     }
 
@@ -435,12 +459,22 @@ function onDisplayTextDataBaseEvent(isDelete) {
     newImg.className = "waiting";
 
     let newText = document.createElement("p");
-    newText.innerHTML =  isDelete ? "Suppression en cours, veuillez patientez... ": "Import Réussi ! Veuillez patienter...";
+    newText.innerHTML =  isDelete ? "Suppression en cours, veuillez patientez... ": "Import en cours ! Veuillez patienter...";
     newText.className = "waiting";
+
+
+    //text du pourcentage lors de l'import 
+    let newPercentText = document.createElement("p");
+    newPercentText.classList.add("waiting");
+    newPercentText.id = "pPercentImportText";
+    newPercentText.textContent = "0%"
+
+    console.log("CREATION pPercentImportText");
 
     // Insertion
     newDiv.appendChild(newImg);
     newDiv.appendChild(newText);
+    newDiv.appendChild(newPercentText);
 
     divGestDataRef.appendChild(newDiv);
 }
