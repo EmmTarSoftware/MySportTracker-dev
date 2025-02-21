@@ -524,7 +524,17 @@ async function onLoadStores() {
 
         const settings = await db.get(settingStoreName).catch(() => null);
         if (settings) {
-            userSetting = { ...settings };
+            userSetting = {
+                displayCommentDoneMode : settings.displayCommentDoneMode,
+                displayCommentPlannedMode : settings.displayCommentPlannedMode,
+                isAutoSaveEnabled : settings.isAutoSaveEnabled,
+                lastAutoSaveDate : settings.lastAutoSaveDate,
+                lastAutoSaveTime : settings.lastAutoSaveTime,
+                lastManualSaveDate : settings.lastManualSaveDate,
+                lastManualSaveTime :settings.lastManualSaveTime,
+                autoSaveFrequency : settings.autoSaveFrequency,
+                devMode : settings.devMode
+            };
         }
 
         if (devMode === true){console.log("[DATABASE] Données chargées :", { userInfo, userRewardsArray, userFavoris, userSetting });};

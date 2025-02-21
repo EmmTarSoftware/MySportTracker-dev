@@ -34,10 +34,10 @@ async function onInsertRewardsModificationInDB(newRewardList){
         // Sauvegarder les modifications
         await db.put(rewardsStore);
 
-        if (devMode) console.log("Store FAVORIS mis à jour :", rewardsStore);
+        if (devMode) console.log("Store RECOMPENSE mis à jour :", rewardsStore);
         return true; // Indique que la mise à jour est réussie
     } catch (err) {
-        console.error("Erreur lors de la mise à jour du store FAVORIS :", err);
+        console.error("Erreur lors de la mise à jour du store RECOMPENSE :", err);
         return false; // Indique une erreur
     }
 }
