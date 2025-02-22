@@ -206,7 +206,7 @@ function onSetBtnRadio(idTargetToAdd) {
         e.classList.add("selected");
     });
 
-    console.log(elementsToAddClass);
+
 
     if (devMode === true) {
         console.log("[FAKE SELECT] Gestion des bouton radio");
