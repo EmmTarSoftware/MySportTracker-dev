@@ -23,6 +23,7 @@ function onOpenMenuSetting() {
 
 
 let defaultSetting = {
+    agenda :"NONE",
     displayCommentDoneMode : "Collapse",
     displayCommentPlannedMode : "Collapse",
     isAutoSaveEnabled : false,
@@ -47,7 +48,8 @@ let selectSettingCommentModePlannedRef,
     selectSettingCommentModeDoneRef,
     inputSettingIsAutoSaveRef,
     inputSettingSaveFrequencyRef,
-    inputCheckboxDevModeRef;
+    inputCheckboxDevModeRef,
+    selectSettingAgendaRef;
 
 
 
@@ -58,6 +60,7 @@ function onReferenceItemsSetting() {
     inputSettingIsAutoSaveRef = document.getElementById("inputSettingIsAutoSave");
     inputSettingSaveFrequencyRef = document.getElementById("inputSettingSaveFrequency");
     inputCheckboxDevModeRef = document.getElementById("inputCheckboxDevMode");
+    selectSettingAgendaRef = document.getElementById("selectSettingAgenda");
 }
 
 function onSetSettingItems() {
@@ -67,6 +70,7 @@ function onSetSettingItems() {
     inputSettingIsAutoSaveRef.checked = userSetting.isAutoSaveEnabled;
     inputSettingSaveFrequencyRef.value = userSetting.autoSaveFrequency;
     inputCheckboxDevModeRef.checked = userSetting.devMode;
+    selectSettingAgendaRef.value = userSetting.agenda;
 };
 
 
@@ -94,7 +98,8 @@ function onClickSaveFromSetting() {
         { oldValue: userSetting.displayCommentPlannedMode, newValue: selectSettingCommentModePlannedRef.value },
         { oldValue: userSetting.isAutoSaveEnabled, newValue: inputSettingIsAutoSaveRef.checked },
         { oldValue: userSetting.autoSaveFrequency, newValue: inputSettingSaveFrequencyRef.value },
-        { oldValue: userSetting.devMode, newValue: inputCheckboxDevModeRef.checked }
+        { oldValue: userSetting.devMode, newValue: inputCheckboxDevModeRef.checked },
+        { oldValue: userSetting.agenda, newValue: selectSettingAgendaRef.value}
     ];
 
 
@@ -121,6 +126,7 @@ function onSaveUserSetting() {
     userSetting.isAutoSaveEnabled = inputSettingIsAutoSaveRef.checked;
     userSetting.autoSaveFrequency = inputSettingSaveFrequencyRef.value;
     userSetting.devMode = inputCheckboxDevModeRef.checked;
+    userSetting.agenda = selectSettingAgendaRef.value;
 
     // Met a jour le boolean devMode
     devMode = userSetting.devMode;

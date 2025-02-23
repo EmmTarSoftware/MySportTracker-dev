@@ -439,6 +439,7 @@ async function onCreateDBStore() {
     await createStore(profilStoreName, { type: profilStoreName, pseudo: "", customNotes: "",conditionAccepted : false });
     await createStore(settingStoreName, {
         type: settingStoreName,
+        agenda : "NONE",
         displayCommentDoneMode: "Collapse",
         displayCommentPlannedMode: "Collapse",
         isAutoSaveEnabled: false,
@@ -525,6 +526,7 @@ async function onLoadStores() {
         const settings = await db.get(settingStoreName).catch(() => null);
         if (settings) {
             userSetting = {
+                agenda : settings.agenda || "NONE",
                 displayCommentDoneMode : settings.displayCommentDoneMode,
                 displayCommentPlannedMode : settings.displayCommentPlannedMode,
                 isAutoSaveEnabled : settings.isAutoSaveEnabled,

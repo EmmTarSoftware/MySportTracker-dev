@@ -161,6 +161,13 @@ async function findActivityById(activityId) {
 
 
 
+// Fonction de recherche d'une activité dans AllUserActivityArray.
+function onSearchActivity(keyRef) {
+    if (devMode === true){console.log("Affichage de l'activité dans 'AllUserActivityArray' avec la key :  " + keyRef);};
+    return allUserActivityArray.find(activity => activity._id === keyRef);
+}
+
+
 
 
 // ------------------------------FIN fonction générale pour activity ----------------------------------
@@ -388,7 +395,7 @@ function onInsertOneActivity(activity,isLastIndex) {
         newItemDate.innerHTML = activity.isPlanned ? "Hier 🗓️" : "Hier";
     }else{
         const dateActivityFormated = onFormatDateToFr(activity.date);
-        newItemDate.innerHTML = activity.isPlanned ? `${dateActivityFormated} 🗓️` : `${dateActivityFormated}`;
+        newItemDate.innerHTML = `${dateActivityFormated}`;
     };
 
     
@@ -429,6 +436,7 @@ function onInsertOneActivity(activity,isLastIndex) {
     newDivDataArea3.appendChild(newItemComment);
 
 
+
     // Insertion totale
     newDivDataContainer.appendChild(newDivDataArea1);
     newDivDataContainer.appendChild(newDivDataArea2);
@@ -436,6 +444,24 @@ function onInsertOneActivity(activity,isLastIndex) {
 
     newItemContainer.appendChild(newImageContainer);
     newItemContainer.appendChild(newDivDataContainer);
+
+    // TEST BOUTON ICS
+    if (activity.isPlanned) {
+        // Génération
+        let newBtnICS = document.createElement("button");
+        newBtnICS.innerHTML = "🗓️";
+        newBtnICS.classList.add("buttonAddCalendar");
+        newBtnICS.onclick = function (event){
+            event.stopPropagation();
+            onClickAddToCalendar(activity._id);
+        }
+        //Insertion
+        newDivDataArea2.appendChild(newBtnICS);
+    }
+
+
+
+
 
     divItemListRef.appendChild(newItemContainer);
 
@@ -568,24 +594,16 @@ function onClickOnActivity(keyRef) {
     onResetActivityInputs();
 
     currentActivityEditorID = keyRef;
-    // onSearchActivityInBaseToDisplay(keyRef);
-    onSearchActivityToDisplay(keyRef);
-    onChangeMenu("EditActivity");
 
-};
-
-
-
-
-// Fonction de recherche d'une activité à afficher depuis la AllUserActivityArray.
-function onSearchActivityToDisplay(keyRef) {
-    if (devMode === true){console.log("Affichage de l'activité dans 'AllUserActivityArray' avec la key :  " + keyRef);};
-    const activityToDisplay = allUserActivityArray.find(activity => activity._id === keyRef);
-
+    let activityToDisplay = onSearchActivity(keyRef);
 
     currentActivityDataInView = activityToDisplay;//pour la comparaison par la suite
     onEditActivity(activityToDisplay);
-}
+
+    onChangeMenu("EditActivity");
+};
+
+
 
 
 
@@ -928,3 +946,148 @@ function inputActivityNumberToTime() {
     return `${hhh}:${mm}:${ss}`;
 }
 
+// * *  *   *   *   *   * ICS   *   *   **  *   *   *   *   
+
+function onClickAddToCalendar(keyRef) {
+    let activityTarget = onSearchActivity(keyRef);
+
+    switch (userSetting.agenda) {
+        case "NONE":
+            alert("aucun agenda de selectionné!");
+            break;
+        case "ANDROID":
+            onGenerateICS(activityTarget);
+            break;
+        case "GOOGLE":
+            let urlGoogle = generateGoogleCalendarLink(activityTarget);
+            window.open(urlGoogle, "_blank"); 
+            break;
+        case "OUTLOOK":
+            let urlOutlook = generateOutlookCalendarLink(activityTarget);
+            window.open(urlOutlook,"_blank");
+            break;
+    
+        default:
+            break;
+    }
+
+}
+
+
+
+
+
+
+
+
+
+function onGenerateICS(activityTarget){
+    // Formatage
+    let commentFormated = activityTarget.comment.replace(/\r?\n/g, ' '); // Remplace tous les \n par espace
+    let dateFormated = activityTarget.date.replaceAll("-","");
+
+
+
+    const icsContent = [
+        "BEGIN:VCALENDAR",
+        "VERSION:2.0",
+        "PRODID:-//MonSuiviSportif//taralab//fr",
+        "BEGIN:VEVENT",
+        `UID:${generateUID()}@monsuivisportif.taralab.fr`,
+        `DTSTAMP:${generateDTStamp()}`,
+        `DTSTART:${dateFormated}T143000Z`,
+        `DTEND:${dateFormated}T163000Z`,
+        `SUMMARY:${activityChoiceArray[activityTarget.name].displayName}`,
+        "DESCRIPTION:" + commentFormated, 
+        `LOCATION:${activityTarget.location}`,
+        "STATUS:CONFIRMED",
+        "END:VEVENT",
+        "END:VCALENDAR"
+    ].join("\r\n"); 
+
+
+
+
+    // Génération du fichier .ics
+    const blob = new Blob([icsContent], { type: 'text/calendar' });
+    const url = URL.createObjectURL(blob);
+
+    // Télécharger le fichier
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'event.ics';
+    document.body.appendChild(a);
+    a.click();
+
+    // // Ouvrir dans l'application calendrier (Android)
+    // setTimeout(() => {
+    //     window.location.href = url;
+
+    //     // Nettoyage après ouverture
+    //     setTimeout(() => {
+    //         URL.revokeObjectURL(url);
+    //         document.body.removeChild(a);
+    //     }, 1000);
+    // }, 500);
+}
+
+
+function generateGoogleCalendarLink(activityTarget) {
+
+    let title = activityChoiceArray[activityTarget.name].displayName,
+        description = activityTarget.comment,
+        location = activityTarget.location,
+        dateFormated = activityTarget.date.replaceAll("-","");
+
+
+    description = description + "<br> <br>https://monsuivisportif.taralab.fr";//signature
+
+    let dateStart = `${dateFormated}T143000Z`,
+        dateEnd = `${dateFormated}T163000Z`;
+
+    return `https://calendar.google.com/calendar/render?action=TEMPLATE` +
+           `&text=${encodeURIComponent(title)}` +
+           `&details=${encodeURIComponent(description)}` +
+           `&location=${encodeURIComponent(location)}` +
+           `&dates=${dateStart}/${dateEnd}` +
+           `&trp=true`;
+}
+
+function generateOutlookCalendarLink(activityTarget) {
+
+    let title = activityChoiceArray[activityTarget.name].displayName,
+        description = convertLineBreaksForOutlook(activityTarget.comment),
+        location = activityTarget.location;
+
+    description = description + "<br> <br>https://monsuivisportif.taralab.fr";//signature
+
+    let dateStart = `${activityTarget.date}T14:30:00Z`,
+        dateEnd = `${activityTarget.date}T16:30:00Z`;
+
+
+    return `https://outlook.live.com/calendar/0/deeplink/compose?` +
+           `subject=${encodeURIComponent(title)}` +
+           `&body=${encodeURIComponent(description)}` +
+           `&location=${encodeURIComponent(location)}` +
+           `&startdt=${dateStart}` +
+           `&enddt=${dateEnd}` +
+           `&allday=false`;
+}
+
+
+
+function generateDTStamp() {
+    const now = new Date();  // Date actuelle
+    return now.toISOString().replace(/[-:.]/g, "").slice(0, 15) + "Z";
+}
+
+function generateUID() {
+    const now = new Date();
+    const timestamp = now.toISOString().replace(/[-:.]/g, "").slice(0, 15); // Format YYYYMMDDTHHMMSS
+    const randomPart = Math.random().toString(36).slice(2, 8); // Génère un ID aléatoire de 6 caractères
+    return `${timestamp}-${randomPart}`;
+}
+
+function convertLineBreaksForOutlook(description) {
+    return description.replace(/\n/g, "<br>"); // Remplace les retours à la ligne par %0D%0A
+}
