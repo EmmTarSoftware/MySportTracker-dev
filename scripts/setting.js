@@ -24,6 +24,9 @@ function onOpenMenuSetting() {
 
 let defaultSetting = {
     agenda :"NONE",
+    agendaScheduleStart:"08:00",
+    agendaScheduleEnd:"10:00",
+    agendaNotify:"NONE",
     displayCommentDoneMode : "Collapse",
     displayCommentPlannedMode : "Collapse",
     isAutoSaveEnabled : false,
@@ -49,7 +52,10 @@ let selectSettingCommentModePlannedRef,
     inputSettingIsAutoSaveRef,
     inputSettingSaveFrequencyRef,
     inputCheckboxDevModeRef,
-    selectSettingAgendaRef;
+    selectSettingAgendaRef,
+    inputTimeSettingScheduleStartRef,
+    inputTimeSettingScheduleEndRef,
+    selectSettingAgendaNotifyRef;
 
 
 
@@ -61,6 +67,9 @@ function onReferenceItemsSetting() {
     inputSettingSaveFrequencyRef = document.getElementById("inputSettingSaveFrequency");
     inputCheckboxDevModeRef = document.getElementById("inputCheckboxDevMode");
     selectSettingAgendaRef = document.getElementById("selectSettingAgenda");
+    inputTimeSettingScheduleStartRef = document.getElementById("inputTimeSettingScheduleStart");
+    inputTimeSettingScheduleEndRef = document.getElementById("inputTimeSettingScheduleEnd");
+    selectSettingAgendaNotifyRef = document.getElementById("selectSettingAgendaNotify");
 }
 
 function onSetSettingItems() {
@@ -71,6 +80,9 @@ function onSetSettingItems() {
     inputSettingSaveFrequencyRef.value = userSetting.autoSaveFrequency;
     inputCheckboxDevModeRef.checked = userSetting.devMode;
     selectSettingAgendaRef.value = userSetting.agenda;
+    inputTimeSettingScheduleStartRef.value = userSetting.agendaScheduleStart;
+    inputTimeSettingScheduleEndRef.value = userSetting.agendaScheduleEnd;
+    selectSettingAgendaNotifyRef.value = userSetting.agendaNotify;
 };
 
 
@@ -99,9 +111,11 @@ function onClickSaveFromSetting() {
         { oldValue: userSetting.isAutoSaveEnabled, newValue: inputSettingIsAutoSaveRef.checked },
         { oldValue: userSetting.autoSaveFrequency, newValue: inputSettingSaveFrequencyRef.value },
         { oldValue: userSetting.devMode, newValue: inputCheckboxDevModeRef.checked },
-        { oldValue: userSetting.agenda, newValue: selectSettingAgendaRef.value}
+        { oldValue: userSetting.agenda, newValue: selectSettingAgendaRef.value},
+        { oldValue: userSetting.agendaScheduleStart,  newValue: inputTimeSettingScheduleStartRef.value},
+        { oldValue: userSetting.agendaScheduleEnd, newValue: inputTimeSettingScheduleEndRef.value},
+        { oldValue: userSetting.agendaNotify, newValue: selectSettingAgendaNotifyRef.value}
     ];
-
 
     // Vérification si une différence est présente
     // some s'arrete automatiquement si il y a une différence
@@ -127,6 +141,9 @@ function onSaveUserSetting() {
     userSetting.autoSaveFrequency = inputSettingSaveFrequencyRef.value;
     userSetting.devMode = inputCheckboxDevModeRef.checked;
     userSetting.agenda = selectSettingAgendaRef.value;
+    userSetting.agendaScheduleStart = inputTimeSettingScheduleStartRef.value;
+    userSetting.agendaScheduleEnd = inputTimeSettingScheduleEndRef.value;
+    userSetting.agendaNotify = selectSettingAgendaNotifyRef.value;
 
     // Met a jour le boolean devMode
     devMode = userSetting.devMode;

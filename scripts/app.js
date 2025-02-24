@@ -440,6 +440,9 @@ async function onCreateDBStore() {
     await createStore(settingStoreName, {
         type: settingStoreName,
         agenda : "NONE",
+        agendaScheduleStart:"08:00",
+        agendaScheduleEnd:"10:00",
+        agendaNotify:"NONE",
         displayCommentDoneMode: "Collapse",
         displayCommentPlannedMode: "Collapse",
         isAutoSaveEnabled: false,
@@ -527,6 +530,9 @@ async function onLoadStores() {
         if (settings) {
             userSetting = {
                 agenda : settings.agenda || "NONE",
+                agendaScheduleStart: settings.agendaScheduleStart || "08:00",
+                agendaScheduleEnd: settings.agendaScheduleEnd || "10:00",
+                agendaNotify: settings.agendaNotify || "NONE",
                 displayCommentDoneMode : settings.displayCommentDoneMode,
                 displayCommentPlannedMode : settings.displayCommentPlannedMode,
                 isAutoSaveEnabled : settings.isAutoSaveEnabled,

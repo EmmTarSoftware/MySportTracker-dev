@@ -880,6 +880,14 @@ select.setting{
 }
 
 
+
+
+span.settingCreneau{
+    padding-top: 100px;
+    margin-left: 10px;
+}
+
+
 img.waiting{
     width: 100px;
     margin-top: 20px;
@@ -890,6 +898,14 @@ p.waiting{
     font-weight: bold;
     color: var(--colorMainTheme1);
 }
+
+
+
+
+
+
+
+
 
 /*---------------------- INFO ------------------------------------*/
 div.release-licence{

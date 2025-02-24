@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="./Icons/MSS-Logo.ico" type="image/x-icon">
-    <link rel="stylesheet" href="./styles/global.css?v=1.5.18">
+    <link rel="stylesheet" href="./styles/global.css?v=1.5.19">
     <link rel="manifest" href="manifest.json">
     <title>Mon Suivi Sportif</title>
 </head>
@@ -289,8 +289,12 @@
             </select>
         </p>
 
+
+        <!-- AGENDA -->
+        <span class="settingSeparator"></span>
+        <h3 class="settingCategorie">Agenda</h3>
         <p>
-            <label class="labelSetting" for="">Agenda :</label>
+            <label class="labelSetting" for="">Type :</label>
             <select class="setting" name="" id="selectSettingAgenda">
                 <option value="NONE">Aucun</option>
                 <option value="ANDROID">Android</option>
@@ -299,6 +303,44 @@
             </select>
         </p>
 
+        <p>
+            <label class="labelSetting" for="">Créneau par défaut :</label>
+        </p>
+
+        <div>
+            <p class="settingAlert">
+                de :
+            </p>
+        </div>
+        <p>
+            <input type="time" name="" id="inputTimeSettingScheduleStart">
+        </p>
+        <div>
+            <p class="settingAlert">
+                à :
+            </p>
+        </div>
+        <p>
+            <input type="time" name="" id="inputTimeSettingScheduleEnd">
+        </p>
+
+
+
+        <p>
+            <label class="labelSetting" for="">Notification (Android):</label>
+            <select class="setting" name="" id="selectSettingAgendaNotify">
+                <option value="NONE">Aucune</option>
+                <option value="0">Au moment de la séance</option>
+                <option value="10">10 minutes avant</option>
+                <option value="30">30 minutes avant</option>
+                <option value="1">1 heure avant</option>
+                <option value="2">2 heures avant</option>
+            </select>
+        </p>
+
+        <div class="setting-align-center""> 
+            <p class="settingAlertComment">ℹ️ Paramètrage par défaut lors d'un export agenda.</p>
+        </div>
         <!-- TRAVAIL AUTO SAVE -->
         <span class="settingSeparator"></span>
         <H3 class="settingCategorie">Export automatique</H3>
@@ -643,7 +685,7 @@
         <div class="release-licence">
             <p class="release-licence">Une application pour gérer vos activités sportives.</p>
             <p class="release-licence">Optimisée pour Google Chrome.</p>
-            <p class="release-licence"><strong>Version :</strong>  1.5.18</p>
+            <p class="release-licence"><strong>Version :</strong>  1.5.19</p>
             <p class="release-licence"><strong>Développement/Conception :</strong> Emmanuel TARACONAT.</p>
             <p class="release-licence"><strong>Collaboration :</strong> Morgane C.</p>
             <p class="release-licence"><strong>Licence :</strong><a href="https://creativecommons.org/licenses/by-nc/4.0/"  target="_blank">CC BY-NC 4.0</a>.</p>
@@ -769,21 +811,21 @@
 </div>
     <script src="./configEnv.js"></script>
     <script src="./scripts/pouchdb.min.js?v=9.0.0"></script>
-    <script src="./scripts/globalFunction.js?v=1.5.18"></script>
-    <script src="./scripts/setting.js?v=1.5.18"></script>
-    <script src="./scripts/notify.js?v=1.5.18"></script>
-    <script src="./scripts/profil.js?v=1.5.18"></script>
-    <script src="./scripts/favoris.js?v=1.5.18"></script>
-    <script src="./scripts/sortAndFilter.js?v=1.5.18"></script>
-    <script src="./scripts/activityList.js?v=1.5.18"></script>
-    <script src="./scripts/activitySystem.js?v=1.5.18"></script>
-    <script src="./scripts/info.js?v=1.5.18"></script>
-    <script src="./scripts/stat.js?v=1.5.18"></script>
-    <script src="./scripts/rewardData.js?v=1.5.18"></script>
-    <script src="./scripts/rewards.js?v=1.5.18"></script>
-    <script src="./scripts/gestData.js?v=1.5.18"></script>
-    <script src="./scripts/template.js?v=1.5.18"></script>
-    <script src="./scripts/app.js?v=1.5.18"></script>
+    <script src="./scripts/globalFunction.js?v=1.5.19"></script>
+    <script src="./scripts/setting.js?v=1.5.19"></script>
+    <script src="./scripts/notify.js?v=1.5.19"></script>
+    <script src="./scripts/profil.js?v=1.5.19"></script>
+    <script src="./scripts/favoris.js?v=1.5.19"></script>
+    <script src="./scripts/sortAndFilter.js?v=1.5.19"></script>
+    <script src="./scripts/activityList.js?v=1.5.19"></script>
+    <script src="./scripts/activitySystem.js?v=1.5.19"></script>
+    <script src="./scripts/info.js?v=1.5.19"></script>
+    <script src="./scripts/stat.js?v=1.5.19"></script>
+    <script src="./scripts/rewardData.js?v=1.5.19"></script>
+    <script src="./scripts/rewards.js?v=1.5.19"></script>
+    <script src="./scripts/gestData.js?v=1.5.19"></script>
+    <script src="./scripts/template.js?v=1.5.19"></script>
+    <script src="./scripts/app.js?v=1.5.19"></script>
 
     <!-- ENREGISTREMENT DU SERVICE WORKER -->
     <script>
