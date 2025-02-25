@@ -319,7 +319,7 @@ const allRewardsObject = {
         title: "Premiers pas",
         activityName: "COMMUN",
         groupColor: "nuance-light-bluegray",
-        text: "ta première activité"
+        text: "une première activité"
     },
     "CROSSFIT-A-1-SEANCE": {
         imgRef: "./Badges/Badge-CROSSFIT-A.webp",

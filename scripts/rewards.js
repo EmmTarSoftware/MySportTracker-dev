@@ -3,7 +3,8 @@
 let userRewardsArray = [],
     rewardsEligibleArray = [], //stockes les trophés auxquels l'utilisateur est éligible 
     newRewardsToSee = [],//les nouveaux trophé obtenu. Vidé lorsque l'utilisateur quitte le menu récompense
-    rewardAllActivityNonPlannedArray = []; // tableau qui contient les activités non planifiées
+    rewardAllActivityNonPlannedArray = [], // tableau qui contient les activités non planifiées
+    currentRewardOnFullScreen = "";
 
 
 // Reference 
@@ -336,7 +337,7 @@ function onLoadUserRewardsList() {
 // Affiche en grand la récompense
 function onDisplayRewardsFullScreen(rewardName) {
     if (devMode === true){console.log("[REWARDS]  demande de visualisation de récompense : " + rewardName);};
-
+    currentRewardOnFullScreen = rewardName;
 
     // set les éléments et affiche
         imgRewardsFullScreenRef.src = allRewardsObject[rewardName].imgRef;
@@ -894,36 +895,72 @@ function onTraiteRewardsSpecificMARCHE(filteredData) {
 
 
 
-// PARTAGE IMAGES
+// ----------------------------   PARTAGE IMAGES  --------------------------------
+
+
+
+
+
 
 
 async function shareImage(event) {
     event.stopPropagation();
-    const img = imgRewardsFullScreenRef;
 
-    const imgElement = document.getElementById("imgRewardsFullScreen");
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
 
-    // Convertir l'image en Blob via un Canvas
-    const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d");
+    // Charger l'image de fond (600x800 avec le logo en bas)
+    const background = new Image();
+    background.src = "./Icons/RewardShareBackground.webp"; // image de fond
+    
+    // Charger l'image principale (512x512)
+    const mainImage = new Image();
+    mainImage.src = allRewardsObject[currentRewardOnFullScreen].imgRef; // Image du reward
+    
+    background.onload = function() {
+        canvas.width = 600; // Largeur fixe
+        canvas.height = 800; // Hauteur fixe
 
-    canvas.width = imgElement.naturalWidth;
-    canvas.height = imgElement.naturalHeight;
-    ctx.drawImage(imgElement, 0, 0);
+        // Dessiner l'image de fond
+        ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
 
-    canvas.toBlob(async (blob) => {
-        const file = new File([blob], "image.jpg", { type: "image/jpeg" });
+        mainImage.onload = function() {
+            // Position de l'image principale (centrée en haut)
+            const xPos = (canvas.width - 512) / 2;
+            const yPos = 60; // place pour le titre
 
-        if (navigator.canShare && navigator.canShare({ files: [file] })) {
-            await navigator.share({
-                files: [file],
-                title: "Mon Suivi Sportif",
-                text: "J'ai obtenu un nouveau badge !"
-            });
-        } else {
-            alert("Le partage d'images n'est pas supporté sur ce navigateur.");
-        }
-    }, "image/jpeg");
+            // Dessiner l'image principale
+            ctx.drawImage(mainImage, xPos, yPos, 512, 512);
+
+            // Ajouter un Titre en haut
+            ctx.font = "bold 30px Arial";
+            ctx.fillStyle = "#004a9f"; // Couleur du texte
+            ctx.textAlign = "center"; // Centrer le texte
+            ctx.fillText(userInfo.pseudo, canvas.width / 2, 40); // Position du texte
+
+            // Ajouter une description sous l'image principale
+            ctx.font = "italic 16px Arial, sans-serif";
+            ctx.fillStyle = "#004a9f";
+            ctx.fillText(`A pratiqué ${allRewardsObject[currentRewardOnFullScreen].text}.`, canvas.width / 2, yPos + 550); // Juste sous l'image
+
+            // Convertir le canvas en fichier et partager
+            canvas.toBlob(blob => {
+                const file = new File([blob], "image_finale.png", { type: "image/png" });
+
+                if (navigator.share) {
+                    navigator.share({
+                        files: [file],
+                        title: "Récompense obtenue",
+                        text: "Matte ça !",
+                    })
+                    .then(() => console.log('Image partagée avec succès !'))
+                    .catch(error => console.error('Erreur de partage : ', error));
+                } else {
+                    alert("L'API Web Share n'est pas supportée sur ce navigateur.");
+                }
+            }, "image/png");
+        };
+    };
 }
 
 
