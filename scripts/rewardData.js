@@ -8,14 +8,14 @@ const allRewardsObject = {
     },
     "ACTIVITE-NAUTIQUE-B-10-SEANCES": {
         imgRef: "./Badges/Badge-ACTIVITE-NAUTIQUE-B.webp",
-        title: "Palier 10",
+        title: "Activité nautique : Palier 10",
         activityName: "ACTIVITE-NAUTIQUE",
         groupColor: "nuance-turquoise",
         text: "10 séances d'activité nautique"
     },
     "ACTIVITE-NAUTIQUE-C-50-SEANCES": {
         imgRef: "./Badges/Badge-ACTIVITE-NAUTIQUE-C.webp",
-        title: "Palier 50",
+        title: "Activité nautique : Palier 50",
         activityName: "ACTIVITE-NAUTIQUE",
         groupColor: "nuance-turquoise",
         text: "50 séances d'activité nautique"
@@ -36,14 +36,14 @@ const allRewardsObject = {
     },
     "ARTS-MARTIAUX-B-10-SEANCES": {
         imgRef: "./Badges/Badge-ARTS-MARTIAUX-B.webp",
-        title: "Palier 10",
+        title: "Arts-martiaux : Palier 10",
         activityName: "ARTS-MARTIAUX",
         groupColor: "nuance-light-bluegray",
         text: "10 séances d'arts martiaux"
     },
     "ARTS-MARTIAUX-C-50-SEANCES": {
         imgRef: "./Badges/Badge-ARTS-MARTIAUX-C.webp",
-        title: "Palier 50",
+        title: "Arts-martiaux : Palier 50",
         activityName: "ARTS-MARTIAUX",
         groupColor: "nuance-light-bluegray",
         text: "50 séances d'arts martiaux"
@@ -64,14 +64,14 @@ const allRewardsObject = {
     },
     "ATHLETISME-B-10-SEANCES": {
         imgRef: "./Badges/Badge-ATHLETISME-B.webp",
-        title: "Palier 10",
+        title: "Athletisme : Palier 10",
         activityName: "ATHLETISME",
         groupColor: "nuance-blue-light",
         text: "10 séances d'athletisme"
     },
     "ATHLETISME-C-50-SEANCES": {
         imgRef: "./Badges/Badge-ATHLETISME-C.webp",
-        title: "Palier 50",
+        title: "Athletisme : Palier 50",
         activityName: "ATHLETISME",
         groupColor: "nuance-blue-light",
         text: "50 séances d'athletisme"
@@ -99,21 +99,21 @@ const allRewardsObject = {
     },
     "BADMINTON-B-10-SEANCES": {
         imgRef: "./Badges/Badge-BADMINTON-B.webp",
-        title: "Palier 10",
+        title: "Badminton : Palier 10",
         activityName: "BADMINTON",
         groupColor: "nuance-olive",
         text: "10 séances de badminton"
     },
     "BADMINTON-C-50-SEANCES": {
         imgRef: "./Badges/Badge-BADMINTON-C.webp",
-        title: "Palier 50",
+        title: "Badminton : Palier 50",
         activityName: "BADMINTON",
         groupColor: "nuance-olive",
         text: "50 séances de badminton"
     },
     "BADMINTON-D-100-SEANCES": {
         imgRef: "./Badges/Badge-BADMINTON-D.webp",
-        title: "Coups de volant  (Palier 100)",
+        title: "As du volant  (Palier 100)",
         activityName: "BADMINTON",
         groupColor: "nuance-olive",
         text: "100 séances de badminton"
@@ -127,14 +127,14 @@ const allRewardsObject = {
     },
     "BASEBALL-B-10-SEANCES": {
         imgRef: "./Badges/Badge-BASEBALL-B.webp",
-        title: "Palier 10",
+        title: "Baseball : Palier 10",
         activityName: "BASEBALL",
         groupColor: "nuance-olive",
         text: "10 séances de baseball"
     },
     "BASEBALL-C-50-SEANCES": {
         imgRef: "./Badges/Badge-BASEBALL-C.webp",
-        title: "Palier 50",
+        title: "Baseball : Palier 50",
         activityName: "BASEBALL",
         groupColor: "nuance-olive",
         text: "50 séances de baseball"
@@ -155,14 +155,14 @@ const allRewardsObject = {
     },
     "BASKETBALL-B-10-SEANCES": {
         imgRef: "./Badges/Badge-BASKETBALL-B.webp",
-        title: "Palier 10",
+        title: "Basketball : Palier 10",
         activityName: "BASKETBALL",
         groupColor: "nuance-orange",
         text: "10 séances de basketball"
     },
     "BASKETBALL-C-50-SEANCES": {
         imgRef: "./Badges/Badge-BASKETBALL-C.webp",
-        title: "Palier 50",
+        title: "Basketball : Palier 50",
         activityName: "BASKETBALL",
         groupColor: "nuance-orange",
         text: "50 séances de basketball"
@@ -183,14 +183,14 @@ const allRewardsObject = {
     },
     "BOXE-B-10-SEANCES": {
         imgRef: "./Badges/Badge-BOXE-B.webp",
-        title: "Palier 10",
+        title: "Boxe : Palier 10",
         activityName: "BOXE",
         groupColor: "nuance-light-bluegray",
         text: "10 séances de boxe"
     },
     "BOXE-C-50-SEANCES": {
         imgRef: "./Badges/Badge-BOXE-C.webp",
-        title: "Palier 50",
+        title: "Boxe : Palier 50",
         activityName: "BOXE",
         groupColor: "nuance-light-bluegray",
         text: "50 séances de boxe"
@@ -211,14 +211,14 @@ const allRewardsObject = {
     },
     "BREAK-DANCE-B-10-SEANCES": {
         imgRef: "./Badges/Badge-BREAK-DANCE-B.webp",
-        title: "Palier 10",
+        title: "Break-dance : Palier 10",
         activityName: "BREAK-DANCE",
         groupColor: "nuance-pink",
         text: "10 séances de break-dance"
     },
     "BREAK-DANCE-C-50-SEANCES": {
         imgRef: "./Badges/Badge-BREAK-DANCE-C.webp",
-        title: "Palier 50",
+        title: "Break-dance : Palier 50",
         activityName: "BREAK-DANCE",
         groupColor: "nuance-pink",
         text: "50 séances de break-dance"
@@ -239,14 +239,14 @@ const allRewardsObject = {
     },
     "CAP-B-10-SEANCES": {
         imgRef: "./Badges/Badge-CAP-B.webp",
-        title: "Palier 10",
+        title: "Course à pied : Palier 10",
         activityName: "CAP",
         groupColor: "nuance-blue-light",
         text: "10 séances de C.A.P"
     },
     "CAP-C-50-SEANCES": {
         imgRef: "./Badges/Badge-CAP-C.webp",
-        title: "Palier 50",
+        title: "Course à pied : Palier 50",
         activityName: "CAP",
         groupColor: "nuance-blue-light",
         text: "50 séances de C.A.P"
@@ -330,14 +330,14 @@ const allRewardsObject = {
     },
     "CROSSFIT-B-10-SEANCES": {
         imgRef: "./Badges/Badge-CROSSFIT-B.webp",
-        title: "Palier 10",
+        title: "Crossfit : Palier 10",
         activityName: "CROSSFIT",
         groupColor: "nuance-red",
         text: "10 séances de crossfit"
     },
     "CROSSFIT-C-50-SEANCES": {
         imgRef: "./Badges/Badge-CROSSFIT-C.webp",
-        title: "Palier 50",
+        title: "Crossfit : Palier 50",
         activityName: "CROSSFIT",
         groupColor: "nuance-red",
         text: "50 séances de crossfit"
@@ -358,14 +358,14 @@ const allRewardsObject = {
     },
     "DANSE-B-10-SEANCES": {
         imgRef: "./Badges/Badge-DANSE-B.webp",
-        title: "Palier 10",
+        title: "Danse : Palier 10",
         activityName: "DANSE",
         groupColor: "nuance-pink",
         text: "10 séances de danse"
     },
     "DANSE-C-50-SEANCES": {
         imgRef: "./Badges/Badge-DANSE-C.webp",
-        title: "Palier 50",
+        title: "Danse : Palier 50",
         activityName: "DANSE",
         groupColor: "nuance-pink",
         text: "50 séances de danse"
@@ -386,14 +386,14 @@ const allRewardsObject = {
     },
     "EQUITATION-B-10-SEANCES": {
         imgRef: "./Badges/Badge-EQUITATION-B.webp",
-        title: "Palier 10",
+        title: "Equitation : Palier 10",
         activityName: "EQUITATION",
         groupColor: "nuance-dark-gray",
         text: "10 séances d'équitation"
     },
     "EQUITATION-C-50-SEANCES": {
         imgRef: "./Badges/Badge-EQUITATION-C.webp",
-        title: "Palier 50",
+        title: "Equitation : Palier 50",
         activityName: "EQUITATION",
         groupColor: "nuance-dark-gray",
         text: "50 séances d'équitation"
@@ -414,14 +414,14 @@ const allRewardsObject = {
     },
     "ESCALADE-B-10-SEANCES": {
         imgRef: "./Badges/Badge-ESCALADE-B.webp",
-        title: "Palier 10",
+        title: "Escalade : Palier 10",
         activityName: "ESCALADE",
         groupColor: "nuance-dark-gray",
         text: "10 séances d'escalade"
     },
     "ESCALADE-C-50-SEANCES": {
         imgRef: "./Badges/Badge-ESCALADE-C.webp",
-        title: "Palier 50",
+        title: "Escalade : Palier 50",
         activityName: "ESCALADE",
         groupColor: "nuance-dark-gray",
         text: "50 séances d'escalade"
@@ -442,14 +442,14 @@ const allRewardsObject = {
     },
     "ETIREMENT-B-10-SEANCES": {
         imgRef: "./Badges/Badge-ETIREMENT-B.webp",
-        title: "Palier 10",
+        title: "Etirement : Palier 10",
         activityName: "ETIREMENT",
         groupColor: "nuance-green-light",
         text: "10 séances d'étirement"
     },
     "ETIREMENT-C-50-SEANCES": {
         imgRef: "./Badges/Badge-ETIREMENT-C.webp",
-        title: "Palier 50",
+        title: "Etirement : Palier 50",
         activityName: "ETIREMENT",
         groupColor: "nuance-green-light",
         text: "50 séances d'étirement"
@@ -470,14 +470,14 @@ const allRewardsObject = {
     },
     "FOOTBALL-B-10-SEANCES": {
         imgRef: "./Badges/Badge-FOOTBALL-B.webp",
-        title: "Palier 10",
+        title: "Football : Palier 10",
         activityName: "FOOTBALL",
         groupColor: "nuance-orange",
         text: "10 séances de football"
     },
     "FOOTBALL-C-50-SEANCES": {
         imgRef: "./Badges/Badge-FOOTBALL-C.webp",
-        title: "Palier 50",
+        title: "Football : Palier 50",
         activityName: "FOOTBALL",
         groupColor: "nuance-orange",
         text: "50 séances de football"
@@ -498,14 +498,14 @@ const allRewardsObject = {
     },
     "FRACTIONNE-B-10-SEANCES": {
         imgRef: "./Badges/Badge-FRACTIONNE-B.webp",
-        title: "Palier 10",
+        title: "Fractionné : Palier 10",
         activityName: "FRACTIONNE",
         groupColor: "nuance-blue-light",
         text: "10 séances de fractionné"
     },
     "FRACTIONNE-C-50-SEANCES": {
         imgRef: "./Badges/Badge-FRACTIONNE-C.webp",
-        title: "Palier 50",
+        title: "Fractionné : Palier 50",
         activityName: "FRACTIONNE",
         groupColor: "nuance-blue-light",
         text: "50 séances de fractionné"
@@ -526,14 +526,14 @@ const allRewardsObject = {
     },
     "GOLF-B-10-SEANCES": {
         imgRef: "./Badges/Badge-GOLF-B.webp",
-        title: "Palier 10",
+        title: "Golf : Palier 10",
         activityName: "GOLF",
         groupColor: "nuance-olive",
         text: "10 séances de golf"
     },
     "GOLF-C-50-SEANCES": {
         imgRef: "./Badges/Badge-GOLF-C.webp",
-        title: "Palier 50",
+        title: "Golf : Palier 50",
         activityName: "GOLF",
         groupColor: "nuance-olive",
         text: "50 séances de golf"
@@ -554,14 +554,14 @@ const allRewardsObject = {
     },
     "GYMNASTIQUE-B-10-SEANCES": {
         imgRef: "./Badges/Badge-GYMNASTIQUE-B.webp",
-        title: "Palier 10",
+        title: "Gymnastique : Palier 10",
         activityName: "GYMNASTIQUE",
         groupColor: "nuance-pink",
         text: "10 séances de gymnastique"
     },
     "GYMNASTIQUE-C-50-SEANCES": {
         imgRef: "./Badges/Badge-GYMNASTIQUE-C.webp",
-        title: "Palier 50",
+        title: "Gymnastique : Palier 50",
         activityName: "GYMNASTIQUE",
         groupColor: "nuance-pink",
         text: "50 séances de gymnastique"
@@ -582,14 +582,14 @@ const allRewardsObject = {
     },
     "HANDBALL-B-10-SEANCES": {
         imgRef: "./Badges/Badge-HANDBALL-B.webp",
-        title: "Palier 10",
+        title: "Handball : Palier 10",
         activityName: "HANDBALL",
         groupColor: "nuance-orange",
         text: "10 séances de handball"
     },
     "HANDBALL-C-50-SEANCES": {
         imgRef: "./Badges/Badge-HANDBALL-C.webp",
-        title: "Palier 50",
+        title: "Handball : Palier 50",
         activityName: "HANDBALL",
         groupColor: "nuance-orange",
         text: "50 séances de handball"
@@ -610,14 +610,14 @@ const allRewardsObject = {
     },
     "MARCHE-RANDO-B-10-SEANCES": {
         imgRef: "./Badges/Badge-MARCHE-RANDO-B.webp",
-        title: "Palier 10",
+        title: "Marche / Randonnée : Palier 10",
         activityName: "MARCHE-RANDO",
         groupColor: "nuance-blue-light",
         text: "10 séances de marche ou de randonnée"
     },
     "MARCHE-RANDO-C-50-SEANCES": {
         imgRef: "./Badges/Badge-MARCHE-RANDO-C.webp",
-        title: "Palier 50",
+        title: "Marche / Randonnée : Palier 50",
         activityName: "MARCHE-RANDO",
         groupColor: "nuance-blue-light",
         text: "50 séances de marche ou de randonnée"
@@ -645,14 +645,14 @@ const allRewardsObject = {
     },
     "MUSCULATION-B-10-SEANCES": {
         imgRef: "./Badges/Badge-MUSCULATION-B.webp",
-        title: "Palier 10",
+        title: "Musculation : Palier 10",
         activityName: "MUSCULATION",
         groupColor: "nuance-red",
         text: "10 séances de musculation"
     },
     "MUSCULATION-C-50-SEANCES": {
         imgRef: "./Badges/Badge-MUSCULATION-C.webp",
-        title: "Palier 50",
+        title: "Musculation : Palier 50",
         activityName: "MUSCULATION",
         groupColor: "nuance-red",
         text: "50 séances de musculation"
@@ -673,14 +673,14 @@ const allRewardsObject = {
     },
     "NATATION-B-10-SEANCES": {
         imgRef: "./Badges/Badge-NATATION-B.webp",
-        title: "Palier 10",
+        title: "Natation : Palier 10",
         activityName: "NATATION",
         groupColor: "nuance-turquoise",
         text: "10 séances de natation"
     },
     "NATATION-C-50-SEANCES": {
         imgRef: "./Badges/Badge-NATATION-C.webp",
-        title: "Palier 50",
+        title: "Natation : Palier 50",
         activityName: "NATATION",
         groupColor: "nuance-turquoise",
         text: "50 séances de natation"
@@ -708,14 +708,14 @@ const allRewardsObject = {
     },
     "PATIN-ROLLER-B-10-SEANCES": {
         imgRef: "./Badges/Badge-PATIN-ROLLER-B.webp",
-        title: "Palier 10",
+        title: "Patin / Roller : Palier 10",
         activityName: "PATIN-ROLLER",
         groupColor: "nuance-purple",
         text: "10 séances de patin ou de roller"
     },
     "PATIN-ROLLER-C-50-SEANCES": {
         imgRef: "./Badges/Badge-PATIN-ROLLER-C.webp",
-        title: "Palier 50",
+        title: "Patin / Roller : Palier 50",
         activityName: "PATIN-ROLLER",
         groupColor: "nuance-purple",
         text: "50 séances de patin ou de roller"
@@ -736,14 +736,14 @@ const allRewardsObject = {
     },
     "RENFORCEMENT-B-10-SEANCES": {
         imgRef: "./Badges/Badge-RENFORCEMENT-B.webp",
-        title: "Palier 10",
+        title: "Renforcement : Palier 10",
         activityName: "RENFORCEMENT",
         groupColor: "nuance-red",
         text: "10 séances de renforcement"
     },
     "RENFORCEMENT-C-50-SEANCES": {
         imgRef: "./Badges/Badge-RENFORCEMENT-C.webp",
-        title: "Palier 50",
+        title: "Renforcement : Palier 50",
         activityName: "RENFORCEMENT",
         groupColor: "nuance-red",
         text: "50 séances de renforcement"
@@ -764,14 +764,14 @@ const allRewardsObject = {
     },
     "RUGBY-B-10-SEANCES": {
         imgRef: "./Badges/Badge-RUGBY-B.webp",
-        title: "Palier 10",
+        title: "Rugby : Palier 10",
         activityName: "RUGBY",
         groupColor: "nuance-orange",
         text: "10 séances de rugby"
     },
     "RUGBY-C-50-SEANCES": {
         imgRef: "./Badges/Badge-RUGBY-C.webp",
-        title: "Palier 50",
+        title: "Rugby : Palier 50",
         activityName: "RUGBY",
         groupColor: "nuance-orange",
         text: "50 séances de rugby"
@@ -792,14 +792,14 @@ const allRewardsObject = {
     },
     "SKATEBOARD-B-10-SEANCES": {
         imgRef: "./Badges/Badge-SKATEBOARD-B.webp",
-        title: "Palier 10",
+        title: "Skateboard : Palier 10",
         activityName: "SKATEBOARD",
         groupColor: "nuance-purple",
         text: "10 séances de skateboard"
     },
     "SKATEBOARD-C-50-SEANCES": {
         imgRef: "./Badges/Badge-SKATEBOARD-C.webp",
-        title: "Palier 50",
+        title: "Skateboard : Palier 50",
         activityName: "SKATEBOARD",
         groupColor: "nuance-purple",
         text: "50 séances de skateboard"
@@ -820,14 +820,14 @@ const allRewardsObject = {
     },
     "SKI-B-10-SEANCES": {
         imgRef: "./Badges/Badge-SKI-B.webp",
-        title: "Palier 10",
+        title: "Ski : Palier 10",
         activityName: "SKI",
         groupColor: "nuance-purple",
         text: "10 séances de ski"
     },
     "SKI-C-50-SEANCES": {
         imgRef: "./Badges/Badge-SKI-C.webp",
-        title: "Palier 50",
+        title: "Ski : Palier 50",
         activityName: "SKI",
         groupColor: "nuance-purple",
         text: "50 séances de ski"
@@ -848,14 +848,14 @@ const allRewardsObject = {
     },
     "SNOWBOARD-B-10-SEANCES": {
         imgRef: "./Badges/Badge-SNOWBOARD-B.webp",
-        title: "Palier 10",
+        title: "Snowboard : Palier 10",
         activityName: "SNOWBOARD",
         groupColor: "nuance-purple",
         text: "10 séances de snowboard"
     },
     "SNOWBOARD-C-50-SEANCES": {
         imgRef: "./Badges/Badge-SNOWBOARD-C.webp",
-        title: "Palier 50",
+        title: "Snowboard : Palier 50",
         activityName: "SNOWBOARD",
         groupColor: "nuance-purple",
         text: "50 séances de snowboard"
@@ -876,14 +876,14 @@ const allRewardsObject = {
     },
     "SPORT-CO-B-10-SEANCES": {
         imgRef: "./Badges/Badge-SPORT-CO-B.webp",
-        title: "Palier 10",
+        title: "Sport-co : Palier 10",
         activityName: "SPORT-CO",
         groupColor: "nuance-orange",
         text: "10 séances de sport-co"
     },
     "SPORT-CO-C-50-SEANCES": {
         imgRef: "./Badges/Badge-SPORT-CO-C.webp",
-        title: "Palier 50",
+        title: "Sport-co : Palier 50",
         activityName: "SPORT-CO",
         groupColor: "nuance-orange",
         text: "50 séances de sport-co"
@@ -904,14 +904,14 @@ const allRewardsObject = {
     },
     "TENNIS-B-10-SEANCES": {
         imgRef: "./Badges/Badge-TENNIS-B.webp",
-        title: "Palier 10",
+        title: "Tennis : Palier 10",
         activityName: "TENNIS",
         groupColor: "nuance-olive",
         text: "10 séances de tennis"
     },
     "TENNIS-C-50-SEANCES": {
         imgRef: "./Badges/Badge-TENNIS-C.webp",
-        title: "Palier 50",
+        title: "Tennis : Palier 50",
         activityName: "TENNIS",
         groupColor: "nuance-olive",
         text: "50 séances de tennis"
@@ -932,14 +932,14 @@ const allRewardsObject = {
     },
     "TENNIS-DE-TABLE-B-10-SEANCES": {
         imgRef: "./Badges/Badge-TENNIS-DE-TABLE-B.webp",
-        title: "Palier 10",
+        title: "Tennis de table : Palier 10",
         activityName: "TENNIS-TABLE",
         groupColor: "nuance-olive",
         text: "10 séances de tennis de table"
     },
     "TENNIS-DE-TABLE-C-50-SEANCES": {
         imgRef: "./Badges/Badge-TENNIS-DE-TABLE-C.webp",
-        title: "Palier 50",
+        title: "Tennis de table : Palier 50",
         activityName: "TENNIS-TABLE",
         groupColor: "nuance-olive",
         text: "50 séances de tennis de table"
@@ -967,14 +967,14 @@ const allRewardsObject = {
     },
     "VELO-B-10-SEANCES": {
         imgRef: "./Badges/Badge-VELO-B.webp",
-        title: "Palier 10",
+        title: "Vélo : Palier 10",
         activityName: "VELO",
         groupColor: "nuance-blue-light",
         text: "10 séances de vélo"
     },
     "VELO-C-50-SEANCES": {
         imgRef: "./Badges/Badge-VELO-C.webp",
-        title: "Palier 50",
+        title: "Vélo : Palier 50",
         activityName: "VELO",
         groupColor: "nuance-blue-light",
         text: "50 séances de vélo"
@@ -1009,14 +1009,14 @@ const allRewardsObject = {
     },
     "VOLLEYBALL-B-10-SEANCES": {
         imgRef: "./Badges/Badge-VOLLEYBALL-B.webp",
-        title: "Palier 10",
+        title: "Volleyball : Palier 10",
         activityName: "VOLLEYBALL",
         groupColor: "nuance-orange",
         text: "10 séances de volleyball"
     },
     "VOLLEYBALL-C-50-SEANCES": {
         imgRef: "./Badges/Badge-VOLLEYBALL-C.webp",
-        title: "Palier 50",
+        title: "Volleyball : Palier 50",
         activityName: "VOLLEYBALL",
         groupColor: "nuance-orange",
         text: "50 séances de volleyball"
@@ -1037,14 +1037,14 @@ const allRewardsObject = {
     },
     "YOGA-B-10-SEANCES": {
         imgRef: "./Badges/Badge-YOGA-B.webp",
-        title: "Palier 10",
+        title: "Yoga : Palier 10",
         activityName: "YOGA",
         groupColor: "nuance-green-light",
         text: "10 séances de yoga"
     },
     "YOGA-C-50-SEANCES": {
         imgRef: "./Badges/Badge-YOGA-C.webp",
-        title: "Palier 50",
+        title: "Yoga : Palier 50",
         activityName: "YOGA",
         groupColor: "nuance-green-light",
         text: "50 séances de yoga"
