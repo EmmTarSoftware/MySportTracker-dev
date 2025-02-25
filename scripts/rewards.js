@@ -901,41 +901,29 @@ async function shareImage(event) {
     event.stopPropagation();
     const img = imgRewardsFullScreenRef;
 
-    if (!img.complete) {
-        alert("L'image n'est pas encore chargée !");
-        return;
-    }
+    const imgElement = document.getElementById("imgRewardsFullScreen");
 
-    // Créer un canvas pour convertir l'image
+    // Convertir l'image en Blob via un Canvas
     const canvas = document.createElement("canvas");
-    canvas.width = img.naturalWidth;
-    canvas.height = img.naturalHeight;
     const ctx = canvas.getContext("2d");
-    ctx.drawImage(img, 0, 0);
 
-    // Convertir en JPG au lieu de WebP
+    canvas.width = imgElement.naturalWidth;
+    canvas.height = imgElement.naturalHeight;
+    ctx.drawImage(imgElement, 0, 0);
+
     canvas.toBlob(async (blob) => {
-        if (!blob) {
-            alert("Impossible de récupérer l'image !");
-            return;
-        }
-
         const file = new File([blob], "image.jpg", { type: "image/jpeg" });
 
         if (navigator.canShare && navigator.canShare({ files: [file] })) {
-            try {
-                await navigator.share({
-                    title: "Regarde cette image !",
-                    text: "Voici une super image à partager.",
-                    files: [file]
-                });
-            } catch (error) {
-                console.error("Partage annulé ou erreur :", error);
-            }
+            await navigator.share({
+                files: [file],
+                title: "Mon Suivi Sportif",
+                text: "J'ai obtenu un nouveau badge !"
+            });
         } else {
             alert("Le partage d'images n'est pas supporté sur ce navigateur.");
         }
-    }, "image/jpeg"); // force la conversion en JPG
+    }, "image/jpeg");
 }
 
 
