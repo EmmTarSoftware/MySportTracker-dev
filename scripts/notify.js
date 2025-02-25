@@ -215,16 +215,6 @@ function onClickAddToCalendar(keyRef) {
         case "ICS":
             onGenerateICS(activityTarget);
             break;
-        case "ANDROID":
-
-            // if (/android/i.test(navigator.userAgent)) {
-            //     addEventToAndroidCalendar(activityTarget);
-            // } else {
-            //     alert("Fonctionnalité uniquement disponible sur Android.");
-            // }
-            addEventToAndroidCalendar(activityTarget);
-            break;
-
         case "GOOGLE":
             let urlGoogle = generateGoogleCalendarLink(activityTarget);
             window.open(urlGoogle, "_blank"); 
@@ -412,28 +402,6 @@ function onConvertNotifyTimeICS() {
 
 
     return timeNotify;
-}
-
-
-
-// GENARATION POUR AGENDA ANDROID
-function addEventToAndroidCalendar(activityTarget) {
-
-    let title = activityChoiceArray[activityTarget.name].displayName,
-    location = activityTarget.location,
-    description = activityTarget.comment.replace(/\n/g, "%0A"),
-    startDate = `${activityTarget.date}T${userSetting.agendaScheduleStart}:00`,//Format : "2025-02-26T10:00:00"
-    endDate = `${activityTarget.date}T${userSetting.agendaScheduleEnd}:00`;
-
-
-    let formatedStartDate = new Date(startDate),
-    formatedEndDate = new Date(endDate);
-
-    description += "%0A%0A Activité généré depuis : %0A Mon Suivi Sportif";
-
-    const intentUrl = `intent://com.android.calendar/event?action=android.intent.action.INSERT&title=${encodeURIComponent(title)}&description=${encodeURIComponent(description)}&eventLocation=${encodeURIComponent(location)}&beginTime=${new Date(formatedStartDate).getTime()}&endTime=${new Date(formatedEndDate).getTime()}#Intent;scheme=content;package=com.google.android.calendar;end;`;
-
-    window.location.href = intentUrl;
 }
 
 
