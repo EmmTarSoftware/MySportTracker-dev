@@ -906,7 +906,7 @@ function onTraiteRewardsSpecificMARCHE(filteredData) {
 async function shareImage(event) {
     event.stopPropagation();
 
-    const canvas = document.getElementById('canvas');
+    const canvas = document.getElementById('canvasCreateShareImg');
     const ctx = canvas.getContext('2d');
 
     // Charger l'image de fond (600x800 avec le logo en bas)
