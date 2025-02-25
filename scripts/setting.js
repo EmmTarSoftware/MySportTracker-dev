@@ -26,7 +26,6 @@ let defaultSetting = {
     agenda :"NONE",
     agendaScheduleStart:"08:00",
     agendaScheduleEnd:"10:00",
-    agendaNotify:"NONE",
     displayCommentDoneMode : "Collapse",
     displayCommentPlannedMode : "Collapse",
     isAutoSaveEnabled : false,
@@ -54,8 +53,7 @@ let selectSettingCommentModePlannedRef,
     inputCheckboxDevModeRef,
     selectSettingAgendaRef,
     inputTimeSettingScheduleStartRef,
-    inputTimeSettingScheduleEndRef,
-    selectSettingAgendaNotifyRef;
+    inputTimeSettingScheduleEndRef;
 
 
 
@@ -69,7 +67,6 @@ function onReferenceItemsSetting() {
     selectSettingAgendaRef = document.getElementById("selectSettingAgenda");
     inputTimeSettingScheduleStartRef = document.getElementById("inputTimeSettingScheduleStart");
     inputTimeSettingScheduleEndRef = document.getElementById("inputTimeSettingScheduleEnd");
-    selectSettingAgendaNotifyRef = document.getElementById("selectSettingAgendaNotify");
 }
 
 function onSetSettingItems() {
@@ -82,7 +79,6 @@ function onSetSettingItems() {
     selectSettingAgendaRef.value = userSetting.agenda;
     inputTimeSettingScheduleStartRef.value = userSetting.agendaScheduleStart;
     inputTimeSettingScheduleEndRef.value = userSetting.agendaScheduleEnd;
-    selectSettingAgendaNotifyRef.value = userSetting.agendaNotify;
 };
 
 
@@ -113,8 +109,7 @@ function onClickSaveFromSetting() {
         { oldValue: userSetting.devMode, newValue: inputCheckboxDevModeRef.checked },
         { oldValue: userSetting.agenda, newValue: selectSettingAgendaRef.value},
         { oldValue: userSetting.agendaScheduleStart,  newValue: inputTimeSettingScheduleStartRef.value},
-        { oldValue: userSetting.agendaScheduleEnd, newValue: inputTimeSettingScheduleEndRef.value},
-        { oldValue: userSetting.agendaNotify, newValue: selectSettingAgendaNotifyRef.value}
+        { oldValue: userSetting.agendaScheduleEnd, newValue: inputTimeSettingScheduleEndRef.value}
     ];
 
     // Vérification si une différence est présente
@@ -143,7 +138,7 @@ function onSaveUserSetting() {
     userSetting.agenda = selectSettingAgendaRef.value;
     userSetting.agendaScheduleStart = inputTimeSettingScheduleStartRef.value;
     userSetting.agendaScheduleEnd = inputTimeSettingScheduleEndRef.value;
-    userSetting.agendaNotify = selectSettingAgendaNotifyRef.value;
+
 
     // Met a jour le boolean devMode
     devMode = userSetting.devMode;
@@ -288,6 +283,14 @@ function onCheckAgendaNotifyTime() {
 }
 
 
+function onCheckEndSchedule() {
+
+    // Si l'heure de fin est avant l'heure de début, on la met à jour
+    if (inputTimeSettingScheduleEndRef.value < inputTimeSettingScheduleStartRef.value) {
+        inputTimeSettingScheduleEndRef.value = inputTimeSettingScheduleStartRef.value;
+    }
+
+}
 
 
 

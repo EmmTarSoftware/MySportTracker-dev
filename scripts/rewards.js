@@ -889,6 +889,59 @@ function onTraiteRewardsSpecificMARCHE(filteredData) {
 
 
 
+
+
+
+
+
+// PARTAGE IMAGES
+
+
+async function shareImage(event) {
+    event.stopPropagation();
+    const img = imgRewardsFullScreenRef;
+
+    if (!img.complete) {
+        alert("L'image n'est pas encore chargée !");
+        return;
+    }
+
+    // Créer un canvas pour convertir l'image
+    const canvas = document.createElement("canvas");
+    canvas.width = img.naturalWidth;
+    canvas.height = img.naturalHeight;
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0);
+
+    // Convertir en JPG au lieu de WebP
+    canvas.toBlob(async (blob) => {
+        if (!blob) {
+            alert("Impossible de récupérer l'image !");
+            return;
+        }
+
+        const file = new File([blob], "image.jpg", { type: "image/jpeg" });
+
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            try {
+                await navigator.share({
+                    title: "Regarde cette image !",
+                    text: "Voici une super image à partager.",
+                    files: [file]
+                });
+            } catch (error) {
+                console.error("Partage annulé ou erreur :", error);
+            }
+        } else {
+            alert("Le partage d'images n'est pas supporté sur ce navigateur.");
+        }
+    }, "image/jpeg"); // force la conversion en JPG
+}
+
+
+
+
+
 //    -----------------------------     QUITTE MENU       ----------------------------------------------
 
 

@@ -212,9 +212,6 @@ function onClickAddToCalendar(keyRef) {
         case "NONE":
             alert("Veuillez sélectionner un  agenda dans 'Paramètres.'");
             break;
-        case "ICS":
-            onGenerateICS(activityTarget);
-            break;
         case "GOOGLE":
             let urlGoogle = generateGoogleCalendarLink(activityTarget);
             window.open(urlGoogle, "_blank"); 
@@ -236,67 +233,6 @@ function onClickAddToCalendar(keyRef) {
 
 
 
-
-// GENERATION ICS
-function onGenerateICS(activityTarget){
-    // Formatage
-    let commentFormated = activityTarget.comment.replace(/\r?\n/g, ' '); // Remplace tous les \n par espace
-    let dateFormated = activityTarget.date.replaceAll("-",""),
-    timeStartFormated = onConvertAgendaTime(userSetting.agendaScheduleStart),
-    timeEndFormated = onConvertAgendaTime(userSetting.agendaScheduleEnd),
-    notifyTime = onConvertNotifyTimeICS();
-
-    const icsLines = [
-        "BEGIN:VCALENDAR",
-        "VERSION:2.0",
-        "PRODID:-//MonSuiviSportif//taralab//fr",
-        "BEGIN:VEVENT",
-        `UID:${generateUID()}@monsuivisportif.taralab.fr`,
-        `DTSTAMP:${generateDTStamp()}`,
-        `DTSTART:${dateFormated}${timeStartFormated}`,
-        `DTEND:${dateFormated}${timeEndFormated}`,
-        `SUMMARY:${activityChoiceArray[activityTarget.name].displayName}`,
-        "DESCRIPTION:Activité générée depuis :\\n Mon Suivi Sportif.",
-        `LOCATION:${activityTarget.location}`,
-        "STATUS:CONFIRMED"
-    ];
-    
-    // ✅ Ajout conditionnel de la notification
-    if (userSetting.agendaNotify != "NONE") {
-        icsLines.push(
-            "BEGIN:VALARM",
-            `TRIGGER:-PT${notifyTime.system}`,
-            "ACTION:DISPLAY",
-            `DESCRIPTION:Séance de ${activityChoiceArray[activityTarget.name].displayName} ${notifyTime.user}`,
-            "END:VALARM"
-        );
-    }
-    
-    // ✅ Fin propre du fichier ICS
-    icsLines.push("END:VEVENT", "END:VCALENDAR");
-    
-    // 🔹 Maintenant, on assemble chaque ligne avec "\r\n" pour éviter d'avoir tout sur une seule ligne
-    const icsContent = icsLines.join("\r\n");
-    
-    // ✅ Vérification avant exportation
-    console.log(icsContent);
-    
-
-
-    // Génération du fichier .ics
-    const blob = new Blob([icsContent], { type: 'text/calendar' });
-    const url = URL.createObjectURL(blob);
-
-    // Télécharger le fichier
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `${activityTarget.name}_${dateFormated}.ics`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-
-}
-
 // GENERATION GOOGLE URL
 function generateGoogleCalendarLink(activityTarget) {
 
@@ -306,8 +242,6 @@ function generateGoogleCalendarLink(activityTarget) {
         dateFormated = activityTarget.date.replaceAll("-","");
         scheduleStartFormated = userSetting.agendaScheduleStart.replaceAll(":","");
         scheduleEndFormated = userSetting.agendaScheduleEnd.replaceAll(":","");
-
-
 
     description = description + "<br> <br>Mon Suivi Sportif.";//signature
 
@@ -351,58 +285,11 @@ function generateOutlookCalendarLink(activityTarget) {
 
 
 
-function generateDTStamp() {
-    const now = new Date();  // Date actuelle
-    return now.toISOString().replace(/[-:.]/g, "").slice(0, 15) + "Z";
-}
-
-function generateUID() {
-    const now = new Date();
-    const timestamp = now.toISOString().replace(/[-:.]/g, "").slice(0, 15); // Format YYYYMMDDTHHMMSS
-    const randomPart = Math.random().toString(36).slice(2, 8); // Génère un ID aléatoire de 6 caractères
-    return `${timestamp}-${randomPart}`;
-}
-
 function convertLineBreaksForOutlook(description) {
     return description.replace(/\n/g, "<br>"); // Remplace les retours à la ligne par %0D%0A
 }
 
-function onConvertAgendaTime(input) {
-    let result = input.replaceAll(":","");
-    return `T${result}00`;
-}
 
-// convertion des notifications pour les ICS
-function onConvertNotifyTimeICS() {
-    let timeNotify = {system:"",user:""};
-    switch (userSetting.agendaNotify) {
-        case "0":
-            timeNotify.system = "0M";
-            timeNotify.user = "maintenant !";
-            break;
-        case "10":
-            timeNotify.system = "10M";
-            timeNotify.user = "dans 10 min !";
-            break;
-        case "30":
-            timeNotify.system = "30M";
-            timeNotify.user = "dans 30 min !";
-            break;
-        case "1":
-            timeNotify.system = "1H";
-            timeNotify.user = "dans 1 heure !";
-            break;
-        case "2":
-            timeNotify.system = "2H";
-            timeNotify.user = "dans 2 heures !";
-            break;
-        default:
-            break;
-    }
-
-
-    return timeNotify;
-}
 
 
 

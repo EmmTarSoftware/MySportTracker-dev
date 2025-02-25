@@ -297,7 +297,6 @@
             <label class="labelSetting" for="">Type :</label>
             <select class="setting" name="" id="selectSettingAgenda">
                 <option value="NONE">Aucun</option>
-                <option value="ICS">ICS</option>
                 <option value="GOOGLE">Google</option>
                 <option value="OUTLOOK">Outlook</option>
             </select>
@@ -321,22 +320,9 @@
             </p>
         </div>
         <p>
-            <input type="time" name="" id="inputTimeSettingScheduleEnd">
+            <input type="time" name="" id="inputTimeSettingScheduleEnd" onchange="onCheckEndSchedule()">
         </p>
 
-
-
-        <p>
-            <label class="labelSetting" for="">Notification (pour ICS):</label>
-            <select class="setting" name="" id="selectSettingAgendaNotify">
-                <option value="NONE">Aucune</option>
-                <option value="0">Au moment de la séance</option>
-                <option value="10">10 minutes avant</option>
-                <option value="30">30 minutes avant</option>
-                <option value="1">1 heure avant</option>
-                <option value="2">2 heures avant</option>
-            </select>
-        </p>
 
         <div class="setting-align-center""> 
             <p class="settingAlertComment">ℹ️ Paramètrage par défaut lors d'un export agenda.</p>
@@ -722,6 +708,7 @@
             
             <p id="pRewardsFullScreenTitle" class="trophy">Titre</p>
             <p id="pRewardsFullScreenText" class="trophyDetail">Tu as pratiqué 5 séances de basket ball</p>
+            <button onclick="shareImage(event)">Share</button>
         </div>
     </div>
 
