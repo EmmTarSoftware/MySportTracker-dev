@@ -390,9 +390,9 @@ function onInsertOneActivity(activity,isLastIndex) {
     let newItemDate = document.createElement("p");
     newItemDate.classList.add("item-data-date");
     if (activity.date === dateToday) {
-        newItemDate.innerHTML = activity.isPlanned ? "Auj. 🗓️" : "Auj.";
+        newItemDate.innerHTML = "Auj.";
     }else if (activity.date === dateYesterday) {
-        newItemDate.innerHTML = activity.isPlanned ? "Hier 🗓️" : "Hier";
+        newItemDate.innerHTML = "Hier";
     }else{
         const dateActivityFormated = onFormatDateToFr(activity.date);
         newItemDate.innerHTML = `${dateActivityFormated}`;

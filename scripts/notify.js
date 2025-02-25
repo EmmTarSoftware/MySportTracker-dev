@@ -212,9 +212,13 @@ function onClickAddToCalendar(keyRef) {
         case "NONE":
             alert("Veuillez sélectionner un  agenda dans 'Paramètres.'");
             break;
-        case "ANDROID":
+        case "ICS":
             onGenerateICS(activityTarget);
             break;
+        case "ANDROID":
+            addEventToAndroidCalendar(activityTarget);
+            break;
+
         case "GOOGLE":
             let urlGoogle = generateGoogleCalendarLink(activityTarget);
             window.open(urlGoogle, "_blank"); 
@@ -237,7 +241,7 @@ function onClickAddToCalendar(keyRef) {
 
 
 
-
+// GENERATION ICS
 function onGenerateICS(activityTarget){
     // Formatage
     let commentFormated = activityTarget.comment.replace(/\r?\n/g, ' '); // Remplace tous les \n par espace
@@ -245,10 +249,6 @@ function onGenerateICS(activityTarget){
     timeStartFormated = onConvertAgendaTime(userSetting.agendaScheduleStart),
     timeEndFormated = onConvertAgendaTime(userSetting.agendaScheduleEnd),
     notifyTime = onConvertNotifyTimeICS();
-
-    
-
-
 
     const icsLines = [
         "BEGIN:VCALENDAR",
@@ -260,7 +260,7 @@ function onGenerateICS(activityTarget){
         `DTSTART:${dateFormated}${timeStartFormated}`,
         `DTEND:${dateFormated}${timeEndFormated}`,
         `SUMMARY:${activityChoiceArray[activityTarget.name].displayName}`,
-        "DESCRIPTION:Activité générée depuis :\\n monsuivisportif.taralab.fr",
+        "DESCRIPTION:Activité générée depuis :\\n Mon Suivi Sportif.",
         `LOCATION:${activityTarget.location}`,
         "STATUS:CONFIRMED"
     ];
@@ -301,7 +301,7 @@ function onGenerateICS(activityTarget){
 
 }
 
-
+// GENERATION GOOGLE URL
 function generateGoogleCalendarLink(activityTarget) {
 
     let title = activityChoiceArray[activityTarget.name].displayName,
@@ -313,7 +313,7 @@ function generateGoogleCalendarLink(activityTarget) {
 
 
 
-    description = description + "<br> <br>https://monsuivisportif.taralab.fr";//signature
+    description = description + "<br> <br>Mon Suivi Sportif.";//signature
 
     let dateStart = `${dateFormated}T${scheduleStartFormated}00`,
         dateEnd = `${dateFormated}T${scheduleEndFormated}00`;
@@ -329,13 +329,16 @@ function generateGoogleCalendarLink(activityTarget) {
            `&trp=true`;
 }
 
+
+
+// GENERATION OUtLOOK URL
 function generateOutlookCalendarLink(activityTarget) {
 
     let title = activityChoiceArray[activityTarget.name].displayName,
         description = convertLineBreaksForOutlook(activityTarget.comment),
         location = activityTarget.location;
 
-    description = description + "<br> <br>https://monsuivisportif.taralab.fr";//signature
+    description = description + "<br> <br>Mon Suivi Sportif.";//signature
 
     let dateStart = `${activityTarget.date}T${userSetting.agendaScheduleStart}:00`,
         dateEnd = `${activityTarget.date}T${userSetting.agendaScheduleEnd}:00`;
@@ -400,10 +403,29 @@ function onConvertNotifyTimeICS() {
         default:
             break;
     }
-    console.log(userSetting.agendaNotify);
-    console.log(timeNotify);
+
 
     return timeNotify;
+}
+
+
+
+// GENARATION POUR AGENDA ANDROID
+function addEventToAndroidCalendar(activityTarget) {
+
+    let title = activityChoiceArray[activityTarget.name].displayName,
+    location = activityTarget.location,
+    description = activityTarget.comment.replace(/\n/g, "%0A"),
+    startDate = `${activityTarget.date}T${userSetting.agendaScheduleStart}:00 `,//Format : "2025-02-26T10:00:00"
+    endDate = `${activityTarget.date}T${userSetting.agendaScheduleEnd}:00 `;
+
+    description += "%0A%0A Activité généré depuis : %0A Mon Suivi Sportif";
+
+
+    const intentUrl = `intent://com.android.calendar/event?action=android.intent.action.INSERT&title=${encodeURIComponent(title)}&description=${encodeURIComponent(description)}&eventLocation=${encodeURIComponent(location)}&beginTime=${new Date(startDate).getTime()}&endTime=${new Date(endDate).getTime()}#Intent;scheme=content;package=com.google.android.calendar;end;`;
+
+
+    window.location.href = intentUrl;
 }
 
 

@@ -273,6 +273,27 @@ function onDataInSettingSaveFrequencyChange(){
 
 
 
+
+
+// Fonction pour empécher les conflits d'heure de début et de fin pour l'agenda
+function onCheckAgendaNotifyTime() {
+
+    // Si l'heure de fin est avant l'heure de début, on la met à jour
+    if (inputTimeSettingScheduleEndRef.value < inputTimeSettingScheduleStartRef.value) {
+        inputTimeSettingScheduleEndRef.value = inputTimeSettingScheduleStartRef.value;
+    }
+
+    // empêche de choisir une heure de fin antérieure à l'heure de début
+    inputTimeSettingScheduleEndRef.min = inputTimeSettingScheduleStartRef.value;
+}
+
+
+
+
+
+
+
+
 function onResetSettingItems() {
     // Retire la class css field required au cas ou pour l'input saveFrequency
     inputSettingSaveFrequencyRef.classList.remove("fieldRequired");
