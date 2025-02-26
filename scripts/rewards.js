@@ -362,7 +362,6 @@ function onHiddenFullscreenRewards() {
 // récompense verrouillé
 
 function onClickRewardLocked(itemRef) {
-    console.log("FONCTIONNE");
     // Ajout de l'effet de tremblement
     itemRef.classList.add('tremble');
 
@@ -372,6 +371,79 @@ function onClickRewardLocked(itemRef) {
     }, 400);
 }
 
+
+
+// ----------------------------   PARTAGE IMAGES  --------------------------------
+
+
+
+
+
+
+
+async function shareImage(event) {
+    event.stopPropagation();
+
+    if (devMode === true){console.log("[REWARDS] demande de partage d'image");};
+
+
+    const canvas = document.getElementById('canvasCreateShareImg');
+    const ctx = canvas.getContext('2d');
+
+    // Charger l'image de fond (600x800 avec le logo en bas)
+    const background = new Image();
+    background.src = "./Icons/RewardShareBackground.webp"; // image de fond
+    
+
+    // Charger l'image principale (512x512)
+    const mainImage = new Image();
+    mainImage.src = allRewardsObject[currentRewardOnFullScreen].imgRef; // Image du reward
+    
+    background.onload = function() {
+        canvas.width = 600; // Largeur fixe
+        canvas.height = 800; // Hauteur fixe
+
+        // Dessiner l'image de fond
+        ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
+
+        mainImage.onload = function() {
+            // Position de l'image principale (centrée en haut)
+            const xPos = (canvas.width - 512) / 2;
+            const yPos = 60; // place pour le titre
+
+            // Dessiner l'image principale
+            ctx.drawImage(mainImage, xPos, yPos, 512, 512);
+
+            // Le PSEUDO en haut
+            ctx.font = "bold 40px Arial";
+            ctx.fillStyle = "#004a9f"; // Couleur du texte
+            ctx.textAlign = "center"; // Centrer le texte
+            ctx.fillText(userInfo.pseudo, canvas.width / 2, 50); // Position du texte
+
+            // La description sous l'image
+            ctx.font = "italic 22px Arial, sans-serif";
+            ctx.fillStyle = "#004a9f";
+            ctx.fillText(`A pratiqué ${allRewardsObject[currentRewardOnFullScreen].text}.`, canvas.width / 2, yPos + 550); // Juste sous l'image
+
+            // Convertir le canvas en fichier et partager
+            canvas.toBlob(blob => {
+                const file = new File([blob], "image_finale.png", { type: "image/png" });
+
+                if (navigator.share) {
+                    navigator.share({
+                        files: [file],
+                        title: "Récompense obtenue",
+                        text: "Matte ça !",
+                    })
+                    .then(() => console.log('Image partagée avec succès !'))
+                    .catch(error => console.error('Erreur de partage : ', error));
+                } else {
+                    alert("L'API Web Share n'est pas supportée sur ce navigateur.");
+                }
+            }, "image/png");
+        };
+    };
+}
 
 
 
@@ -893,75 +965,6 @@ function onTraiteRewardsSpecificMARCHE(filteredData) {
 
 
 
-
-
-// ----------------------------   PARTAGE IMAGES  --------------------------------
-
-
-
-
-
-
-
-async function shareImage(event) {
-    event.stopPropagation();
-
-    const canvas = document.getElementById('canvasCreateShareImg');
-    const ctx = canvas.getContext('2d');
-
-    // Charger l'image de fond (600x800 avec le logo en bas)
-    const background = new Image();
-    background.src = "./Icons/RewardShareBackground.webp"; // image de fond
-    
-    // Charger l'image principale (512x512)
-    const mainImage = new Image();
-    mainImage.src = allRewardsObject[currentRewardOnFullScreen].imgRef; // Image du reward
-    
-    background.onload = function() {
-        canvas.width = 600; // Largeur fixe
-        canvas.height = 800; // Hauteur fixe
-
-        // Dessiner l'image de fond
-        ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
-
-        mainImage.onload = function() {
-            // Position de l'image principale (centrée en haut)
-            const xPos = (canvas.width - 512) / 2;
-            const yPos = 60; // place pour le titre
-
-            // Dessiner l'image principale
-            ctx.drawImage(mainImage, xPos, yPos, 512, 512);
-
-            // Ajouter un Titre en haut
-            ctx.font = "bold 30px Arial";
-            ctx.fillStyle = "#004a9f"; // Couleur du texte
-            ctx.textAlign = "center"; // Centrer le texte
-            ctx.fillText(userInfo.pseudo, canvas.width / 2, 40); // Position du texte
-
-            // Ajouter une description sous l'image principale
-            ctx.font = "italic 16px Arial, sans-serif";
-            ctx.fillStyle = "#004a9f";
-            ctx.fillText(`A pratiqué ${allRewardsObject[currentRewardOnFullScreen].text}.`, canvas.width / 2, yPos + 550); // Juste sous l'image
-
-            // Convertir le canvas en fichier et partager
-            canvas.toBlob(blob => {
-                const file = new File([blob], "image_finale.png", { type: "image/png" });
-
-                if (navigator.share) {
-                    navigator.share({
-                        files: [file],
-                        title: "Récompense obtenue",
-                        text: "Matte ça !",
-                    })
-                    .then(() => console.log('Image partagée avec succès !'))
-                    .catch(error => console.error('Erreur de partage : ', error));
-                } else {
-                    alert("L'API Web Share n'est pas supportée sur ce navigateur.");
-                }
-            }, "image/png");
-        };
-    };
-}
 
 
 
