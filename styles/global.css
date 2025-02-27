@@ -1124,6 +1124,15 @@ div.stat-month {
     color: #555;
 }
 
+span.StatHigherValue{
+    font-weight: bolder;
+    color: var(--colorMainTheme1);
+    font-size: 1rem;
+}
+
+
+
+
 /* Vertical Progress Bar */
 .stat-progress-bar {
     position: relative;
@@ -1164,7 +1173,6 @@ div.statYears{
     box-shadow: var(--boxShadowMoins);
     margin-top: 20px;
 }
-
 
 
 

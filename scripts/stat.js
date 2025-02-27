@@ -492,6 +492,20 @@ function onSetResumeByYear(count,distance,hour) {
 function onSetGraphicItems(activityCount,higherCountValue,higherDistanceValue,higherDurationValue) {
 
 
+    // Retire toutes les classes "StatHigherValue" pour ceux qui les ont
+    // Pour rechercher dans les enfants d'un parent spécifique
+    let parent = document.getElementById("divStat");
+
+
+    // Retire les class StatHigherValue
+    let elementToRemoveClass = parent.querySelectorAll(".StatHigherValue");
+
+    console.log(elementToRemoveClass);
+    elementToRemoveClass.forEach(e=>{
+       e.classList.remove("StatHigherValue");
+    });
+
+
     if (devMode === true){
         console.log("[STAT] Set le graphique");
         console.log("[STAT] valeur maximale pour référence pourcentage count : " + higherCountValue);
@@ -504,19 +518,38 @@ function onSetGraphicItems(activityCount,higherCountValue,higherDistanceValue,hi
     monthStatNamesArray.forEach(e=>{
         document.getElementById(`stat-number-${e}`).innerHTML = activityCount[e].count;
         document.getElementById(`stat-PB-${e}`).style = "--progress:" + onCalculStatPercent(higherCountValue,activityCount[e].count) + "%";
+
+        // Traitement valeur la plus élevée (mise en gras)
+        if (activityCount[e].count === higherCountValue) {
+            document.getElementById(`spanGraphCountMonthName-${e}`).classList.add("StatHigherValue");
+            document.getElementById(`stat-number-${e}`).classList.add("StatHigherValue");
+        }
+
     });
 
     // DISTANCE
     monthStatNamesArray.forEach(e=>{
         document.getElementById(`stat-distance-${e}`).innerHTML = activityCount[e].distance;
         document.getElementById(`stat-PB-Distance-${e}`).style = "--progress:" + onCalculStatPercent(higherDistanceValue,activityCount[e].distance) + "%";
+
+        // Traitement valeur la plus élevée (mise en gras)
+        if (activityCount[e].distance === higherDistanceValue) {
+            document.getElementById(`spanGraphDistanceMonthName-${e}`).classList.add("StatHigherValue");
+            document.getElementById(`stat-distance-${e}`).classList.add("StatHigherValue");
+        }
     });
 
 
-    // DISTANCE
+    // DURATION
     monthStatNamesArray.forEach(e=>{
         document.getElementById(`stat-duration-${e}`).innerHTML = formatMinutesToHoursForGraph(activityCount[e].duration);
         document.getElementById(`stat-PB-Duration-${e}`).style = "--progress:" + onCalculStatPercent(higherDurationValue,activityCount[e].duration) + "%";
+
+        // Traitement valeur la plus élevée (mise en gras)
+        if (activityCount[e].count === higherCountValue) {
+            document.getElementById(`spanGraphDurationMonthName-${e}`).classList.add("StatHigherValue");
+            document.getElementById(`stat-duration-${e}`).classList.add("StatHigherValue");
+        }
     });
 
 }
@@ -748,8 +781,18 @@ function onResetStatGraph() {
 
         document.getElementById("stat-PB-" + e).style = "--progress: 0%;";
         document.getElementById("stat-number-" + e).innerHTML = "0";
+
+        // Pour les distances
+        document.getElementById("stat-PB-Distance-" + e).style = "--progress: 0%;";
+        document.getElementById("stat-distance-" + e).innerHTML = "0";
+
+        // Pour les heures
+        document.getElementById("stat-PB-Duration-" + e).style = "--progress: 0%;";
+        document.getElementById("stat-duration-" + e).innerHTML = "0";
     });
 
+
+ 
 }
 
 
