@@ -379,16 +379,16 @@ function getActivityStatCountByMonth(activityList,yearTarget) {
     let countActivityByMonth = {
         january : {count : 0, distance: 0 , duration : 0},
         february : {count : 0, distance: 0 , duration : 0},
-        march : {count : 0, distance: 0 , duration : 0},
-        april : {count : 0, distance: 0 , duration : 0},
-        may :{count : 0, distance: 0 , duration : 0},
-        june :{count : 0, distance: 0 , duration : 0},
-        july : {count : 0, distance: 0 , duration : 0}, 
-        august : {count : 0, distance: 0 , duration : 0},
-        september : {count : 0, distance: 0 , duration : 0}, 
-        october : {count : 0, distance: 0 , duration : 0},
-        november : {count : 0, distance: 0 , duration : 0},
-        december: {count : 0, distance: 0 , duration : 0},
+        march :  {count : 0, distance: 0 , duration : 0},
+        april :  {count : 0, distance: 0 , duration : 0},
+        may : {count : 0, distance: 0 , duration : 0},
+        june : {count : 0, distance: 0 , duration : 0},
+        july :  {count : 0, distance: 0 , duration : 0}, 
+        august :  {count : 0, distance: 0 , duration : 0},
+        september :  {count : 0, distance: 0 , duration : 0}, 
+        october :  {count : 0, distance: 0 , duration : 0},
+        november :  {count : 0, distance: 0 , duration : 0},
+        december:  {count : 0, distance: 0 , duration : 0},
     }; 
 
     activityList.forEach(e=>{
