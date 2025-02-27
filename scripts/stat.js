@@ -402,6 +402,18 @@ function getActivityStatCountByMonth(activityList,yearTarget) {
         // Si l'année correspond, ajoute + 1 dans le mois de l'activité
         if (year === yearTarget) { 
             countActivityByMonth[monthName].count++;
+
+            // aditionne également les distances
+
+            // ancienne valeur
+            let oldDistance = Number(countActivityByMonth[monthName].distance) || 0;
+            // Valeur à ajouter
+            let newDistance = parseFloat(e.distance);
+            // addition
+            let distanceToAdd = oldDistance + newDistance;
+            distanceToAdd = Math.round(distanceToAdd * 10) / 10;//arrondi 1 décimale
+            countActivityByMonth[monthName].distance = distanceToAdd;
+
         }
     });
 
@@ -419,8 +431,12 @@ function getActivityStatCountByMonth(activityList,yearTarget) {
     const maxCountMonth = Object.keys(countActivityByMonth).reduce((a, b) => countActivityByMonth[a].count > countActivityByMonth[b].count ? a : b);
     if (devMode === true){console.log("[STAT] " + maxCountMonth);};
 
+    // Trouve le mois avec la distance la plus élevé (mois de référence pour les 100%)
+    const maxDistanceMonth = Object.keys(countActivityByMonth).reduce((a, b) => countActivityByMonth[a].distance > countActivityByMonth[b].distance ? a : b);
+    if (devMode === true){console.log("[STAT] " + maxDistanceMonth);};
 
-    onSetGraphicItems(countActivityByMonth,countActivityByMonth[maxCountMonth].count);
+
+    onSetGraphicItems(countActivityByMonth,countActivityByMonth[maxCountMonth].count,countActivityByMonth[maxDistanceMonth].distance);
 }
 
 
@@ -428,16 +444,26 @@ function getActivityStatCountByMonth(activityList,yearTarget) {
 
 // set les éléments graphiques après comptage
 
-function onSetGraphicItems(activityCount,higherCountValue) {
+function onSetGraphicItems(activityCount,higherCountValue,higherDistanceValue) {
 
 
     if (devMode === true){
         console.log("[STAT] Set le graphique");
-        console.log("[STAT] valeur maximale pour référence pourcentage  : " + higherCountValue);
+        console.log("[STAT] valeur maximale pour référence pourcentage count : " + higherCountValue);
+        console.log("[STAT] valeur maximale pour référence pourcentage distance : " + higherDistanceValue);
     };
+
+
+    // COUNT
     monthStatNamesArray.forEach(e=>{
         document.getElementById(`stat-number-${e}`).innerHTML = activityCount[e].count;
         document.getElementById(`stat-PB-${e}`).style = "--progress:" + onCalculStatPercent(higherCountValue,activityCount[e].count) + "%";
+    });
+
+    // DISTANCE
+    monthStatNamesArray.forEach(e=>{
+        document.getElementById(`stat-distance-${e}`).innerHTML = activityCount[e].distance;
+        document.getElementById(`stat-PB-Distance-${e}`).style = "--progress:" + onCalculStatPercent(higherDistanceValue,activityCount[e].distance) + "%";
     });
 
 }

@@ -559,91 +559,170 @@
 
 
         <!-- STAT GRAPHIQUE -->
+
+        <p>
+            <select name="" id="selectStatGraphYear"class="graph-stat" onchange="onChangeSelectorYearGraph(this.value)">
+                <!-- Injection des années -->
+            </select> 
+        </p>
+
         <div class="statGraphique">
             <h3 class="stat">Répartition du nombre d'activité :</h3>
-        
-            
-            <p>
-                <select name="" id="selectStatGraphYear"class="graph-stat" onchange="onChangeSelectorYearGraph(this.value)">
-                    <!-- Injection des années -->
-                </select> 
-            </p>
-
-                <div class="stat-months">
-                    <!-- JANVIER -->
-                    <div class="stat-month">
-                        <span id="stat-number-january">0</span>
-                        <div id="stat-PB-january" class="stat-progress-bar" style="--progress: 0%;" ></div>
-                        <span>J</span>
-                    </div>
-                    <!-- FEVRIER -->
-                    <div class="stat-month">
-                        <span id="stat-number-february">0</span>
-                        <div id="stat-PB-february" class="stat-progress-bar" style="--progress: 0%;"></div>
-                        <span>F</span>
-                    </div>
-                    <!-- MARS -->
-                    <div class="stat-month">
-                        <span id="stat-number-march">0</span>
-                        <div id="stat-PB-march" class="stat-progress-bar" style="--progress: 0%;"></div>
-                        <span>M</span>
-                    </div>
-                    <!-- AVRIL -->
-                    <div class="stat-month">
-                        <span id="stat-number-april">0</span>
-                        <div id="stat-PB-april" class="stat-progress-bar" style="--progress: 0%;"></div>
-                        <span>A</span>
-                    </div>
-                    <!-- MAI -->
-                    <div class="stat-month">
-                        <span id="stat-number-may">0</span>
-                        <div id="stat-PB-may" class="stat-progress-bar" style="--progress: 0%;"></div>
-                        <span>M</span>
-                    </div>
-                    <!-- JUIN -->
-                    <div class="stat-month">
-                        <span id="stat-number-june">0</span>
-                        <div id="stat-PB-june" class="stat-progress-bar" style="--progress: 0%;"></div>
-                        <span>J</span>
-                    </div>
-                    <!-- JUILLET -->
-                    <div class="stat-month">
-                        <span id="stat-number-july">0</span>
-                        <div id="stat-PB-july" class="stat-progress-bar" style="--progress: 0%;"></div>
-                        <span>J</span>
-                    </div>
-                    <!-- AOUT -->
-                    <div class="stat-month">
-                        <span id="stat-number-august">0</span>
-                        <div id="stat-PB-august" class="stat-progress-bar" style="--progress: 0%;"></div>
-                        <span>A</span>
-                    </div>
-                    <!-- SEPTEMBRE -->
-                    <div class="stat-month">
-                        <span id="stat-number-september">0</span>
-                        <div id="stat-PB-september" class="stat-progress-bar" style="--progress: 0%;"></div>
-                        <span>S</span>
-                    </div>
-                    <!-- OCTOBRE -->
-                    <div class="stat-month">
-                        <span id="stat-number-october">0</span>
-                        <div id="stat-PB-october" class="stat-progress-bar" style="--progress: 0%;"></div>
-                        <span>O</span>
-                    </div>
-                    <!-- NOVEMBRE -->
-                    <div class="stat-month">
-                        <span id="stat-number-november">0</span>
-                        <div id="stat-PB-november" class="stat-progress-bar" style="--progress: 0%;"></div>
-                        <span>N</span>
-                    </div>
-                    <!-- DECEMBRE -->
-                    <div class="stat-month">
-                        <span id="stat-number-december">0</span>
-                        <div id="stat-PB-december" class="stat-progress-bar" style="--progress: 0%;"></div>
-                        <span>D</span>
-                    </div>
+            <!-- COUNT -->
+            <div class="stat-months">
+                <!-- JANVIER -->
+                <div class="stat-month">
+                    <span id="stat-number-january">0</span>
+                    <div id="stat-PB-january" class="stat-progress-bar" style="--progress: 0%;" ></div>
+                    <span>J</span>
+                </div>
+                <!-- FEVRIER -->
+                <div class="stat-month">
+                    <span id="stat-number-february">0</span>
+                    <div id="stat-PB-february" class="stat-progress-bar" style="--progress: 0%;"></div>
+                    <span>F</span>
+                </div>
+                <!-- MARS -->
+                <div class="stat-month">
+                    <span id="stat-number-march">0</span>
+                    <div id="stat-PB-march" class="stat-progress-bar" style="--progress: 0%;"></div>
+                    <span>M</span>
+                </div>
+                <!-- AVRIL -->
+                <div class="stat-month">
+                    <span id="stat-number-april">0</span>
+                    <div id="stat-PB-april" class="stat-progress-bar" style="--progress: 0%;"></div>
+                    <span>A</span>
+                </div>
+                <!-- MAI -->
+                <div class="stat-month">
+                    <span id="stat-number-may">0</span>
+                    <div id="stat-PB-may" class="stat-progress-bar" style="--progress: 0%;"></div>
+                    <span>M</span>
+                </div>
+                <!-- JUIN -->
+                <div class="stat-month">
+                    <span id="stat-number-june">0</span>
+                    <div id="stat-PB-june" class="stat-progress-bar" style="--progress: 0%;"></div>
+                    <span>J</span>
+                </div>
+                <!-- JUILLET -->
+                <div class="stat-month">
+                    <span id="stat-number-july">0</span>
+                    <div id="stat-PB-july" class="stat-progress-bar" style="--progress: 0%;"></div>
+                    <span>J</span>
+                </div>
+                <!-- AOUT -->
+                <div class="stat-month">
+                    <span id="stat-number-august">0</span>
+                    <div id="stat-PB-august" class="stat-progress-bar" style="--progress: 0%;"></div>
+                    <span>A</span>
+                </div>
+                <!-- SEPTEMBRE -->
+                <div class="stat-month">
+                    <span id="stat-number-september">0</span>
+                    <div id="stat-PB-september" class="stat-progress-bar" style="--progress: 0%;"></div>
+                    <span>S</span>
+                </div>
+                <!-- OCTOBRE -->
+                <div class="stat-month">
+                    <span id="stat-number-october">0</span>
+                    <div id="stat-PB-october" class="stat-progress-bar" style="--progress: 0%;"></div>
+                    <span>O</span>
+                </div>
+                <!-- NOVEMBRE -->
+                <div class="stat-month">
+                    <span id="stat-number-november">0</span>
+                    <div id="stat-PB-november" class="stat-progress-bar" style="--progress: 0%;"></div>
+                    <span>N</span>
+                </div>
+                <!-- DECEMBRE -->
+                <div class="stat-month">
+                    <span id="stat-number-december">0</span>
+                    <div id="stat-PB-december" class="stat-progress-bar" style="--progress: 0%;"></div>
+                    <span>D</span>
                 </div>
             </div>
+        </div>
+
+        <!-- DISTANCE -->
+        <div class="statGraphique">
+            <h3 class="stat">Répartition des distances :</h3>
+            <div class="stat-months">
+                <!-- JANVIER -->
+                <div class="stat-month">
+                    <span id="stat-distance-january">0</span>
+                    <div id="stat-PB-Distance-january" class="stat-progress-bar" style="--progress: 0%;" ></div>
+                    <span>J</span>
+                </div>
+                <!-- FEVRIER -->
+                <div class="stat-month">
+                    <span id="stat-distance-february">0</span>
+                    <div id="stat-PB-Distance-february" class="stat-progress-bar" style="--progress: 0%;"></div>
+                    <span>F</span>
+                </div>
+                <!-- MARS -->
+                <div class="stat-month">
+                    <span id="stat-distance-march">0</span>
+                    <div id="stat-PB-Distance-march" class="stat-progress-bar" style="--progress: 0%;"></div>
+                    <span>M</span>
+                </div>
+                <!-- AVRIL -->
+                <div class="stat-month">
+                    <span id="stat-distance-april">0</span>
+                    <div id="stat-PB-Distance-april" class="stat-progress-bar" style="--progress: 0%;"></div>
+                    <span>A</span>
+                </div>
+                <!-- MAI -->
+                <div class="stat-month">
+                    <span id="stat-distance-may">0</span>
+                    <div id="stat-PB-Distance-may" class="stat-progress-bar" style="--progress: 0%;"></div>
+                    <span>M</span>
+                </div>
+                <!-- JUIN -->
+                <div class="stat-month">
+                    <span id="stat-distance-june">0</span>
+                    <div id="stat-PB-Distance-june" class="stat-progress-bar" style="--progress: 0%;"></div>
+                    <span>J</span>
+                </div>
+                <!-- JUILLET -->
+                <div class="stat-month">
+                    <span id="stat-distance-july">0</span>
+                    <div id="stat-PB-Distance-july" class="stat-progress-bar" style="--progress: 0%;"></div>
+                    <span>J</span>
+                </div>
+                <!-- AOUT -->
+                <div class="stat-month">
+                    <span id="stat-distance-august">0</span>
+                    <div id="stat-PB-Distance-august" class="stat-progress-bar" style="--progress: 0%;"></div>
+                    <span>A</span>
+                </div>
+                <!-- SEPTEMBRE -->
+                <div class="stat-month">
+                    <span id="stat-distance-september">0</span>
+                    <div id="stat-PB-Distance-september" class="stat-progress-bar" style="--progress: 0%;"></div>
+                    <span>S</span>
+                </div>
+                <!-- OCTOBRE -->
+                <div class="stat-month">
+                    <span id="stat-distance-october">0</span>
+                    <div id="stat-PB-Distance-october" class="stat-progress-bar" style="--progress: 0%;"></div>
+                    <span>O</span>
+                </div>
+                <!-- NOVEMBRE -->
+                <div class="stat-month">
+                    <span id="stat-distance-november">0</span>
+                    <div id="stat-PB-Distance-november" class="stat-progress-bar" style="--progress: 0%;"></div>
+                    <span>N</span>
+                </div>
+                <!-- DECEMBRE -->
+                <div class="stat-month">
+                    <span id="stat-distance-december">0</span>
+                    <div id="stat-PB-Distance-december" class="stat-progress-bar" style="--progress: 0%;"></div>
+                    <span>D</span>
+                </div>
+            </div>
+        </div>
         <!-- FIN STAT GRAPHIQUE -->
          <span class="info-basDePage">ℹ️ Activités planifiées exclues des statistiques.</span>
     </div>
