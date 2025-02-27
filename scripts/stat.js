@@ -483,8 +483,10 @@ function formatMinutesToHoursForGraph(minutes) {
 // set le résumé par année
 function onSetResumeByYear(count,distance,hour) {
     let pTarget = document.getElementById("pStatResumeByYear");
+    distanceFormated = Math.round(distance * 100) / 100;
 
-    pTarget.innerHTML = `Activité(s) :<b> ${count} </b> - Distance :<b> ${distance}km</b> - Durée :<b> ${hour}</b>`;
+
+    pTarget.innerHTML = `Activité(s) :<b> ${count} </b> - Distance :<b> ${distanceFormated}km</b> - Durée :<b> ${hour}</b>`;
 }
 
 // set les éléments graphiques après comptage

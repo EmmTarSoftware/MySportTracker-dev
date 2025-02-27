@@ -1127,7 +1127,6 @@ div.stat-month {
 span.StatHigherValue{
     font-weight: bolder;
     color: var(--colorMainTheme1);
-    font-size: 1rem;
 }
 
 
