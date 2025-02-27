@@ -391,6 +391,10 @@ function getActivityStatCountByMonth(activityList,yearTarget) {
         december:  {count : 0, distance: 0 , duration : 0},
     }; 
 
+    let totalCountYear = 0,
+        totalDistanceYear = 0,
+        totalDurationYear = 0;
+
     activityList.forEach(e=>{
 
         const dateObject = new Date(e.date);
@@ -403,7 +407,6 @@ function getActivityStatCountByMonth(activityList,yearTarget) {
         if (year === yearTarget) { 
             countActivityByMonth[monthName].count++;
 
-            // aditionne également les distances
 
             // ancienne valeur
             let oldDistance = Number(countActivityByMonth[monthName].distance) || 0;
@@ -414,6 +417,26 @@ function getActivityStatCountByMonth(activityList,yearTarget) {
             distanceToAdd = Math.round(distanceToAdd * 10) / 10;//arrondi 1 décimale
             countActivityByMonth[monthName].distance = distanceToAdd;
 
+
+
+            // Additionne les durée
+            // ancienne valeur
+            let oldDuration = Number(countActivityByMonth[monthName].duration) || 0;
+            console.log("OLD DURATION",oldDuration);
+            // Valeur à ajouter
+            let newDuration = durationToMinutes(e.duration || "00:00:00");
+            console.log("NEW DURATION = ",newDuration);
+
+            let durationToAdd = oldDuration + newDuration;
+            console.log("DURATION to ADD",durationToAdd);
+            countActivityByMonth[monthName].duration = durationToAdd;
+            console.log("ARRAY VALUE = ",countActivityByMonth[monthName].duration);
+
+            // calcul également le total sur l'année
+            totalCountYear++;
+            totalDistanceYear += newDistance;
+            totalDurationYear += newDuration;
+            console.log("TOTALDURATION YEAR = ",totalDurationYear);
         }
     });
 
@@ -435,12 +458,31 @@ function getActivityStatCountByMonth(activityList,yearTarget) {
     const maxDistanceMonth = Object.keys(countActivityByMonth).reduce((a, b) => countActivityByMonth[a].distance > countActivityByMonth[b].distance ? a : b);
     if (devMode === true){console.log("[STAT] " + maxDistanceMonth);};
 
+    console.log(totalDurationYear);
+    console.log(typeof(totalDurationYear));
 
-    onSetGraphicItems(countActivityByMonth,countActivityByMonth[maxCountMonth].count,countActivityByMonth[maxDistanceMonth].distance);
+    onSetResumeByYear(totalCountYear,totalDistanceYear,formatDuration(totalDurationYear));
+    onSetGraphicItems(countActivityByMonth,countActivityByMonth[maxCountMonth].count,countActivityByMonth[maxDistanceMonth].distance,countActivityByMonth[maxCountMonth].duration);
 }
 
 
+// convertir les minutes au format 2h45
+function formatMinutesToHours(minutes) {
+    if (minutes <= 0) return "0h00"; // Gestion du cas zéro ou négatif
 
+    let hours = Math.floor(minutes / 60); // Partie entière = heures
+    let mins = minutes % 60; // Reste = minutes
+
+    return `${hours}h${mins.toString().padStart(2, "0")}`; // Ajout du "0" si nécessaire
+}
+
+
+// set le résumé par année
+function onSetResumeByYear(count,distance,hour) {
+    let pTarget = document.getElementById("pStatResumeByYear");
+
+    pTarget.innerHTML = `<b>Activité :</b> ${count} ; <b>Distance :</b> ${distance}km; <b>Heures :</b> ${hour}`;
+}
 
 // set les éléments graphiques après comptage
 
