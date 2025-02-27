@@ -4,8 +4,6 @@ function onOpenMenuStat(){
     if (devMode === true){console.log("Ouverture menu STAT");};
 
 
-
-    
     statActivityNonPlannedArray = allUserActivityArray.filter(activity =>{
         return activity.isPlanned === false
     });
@@ -461,8 +459,6 @@ function getActivityStatCountByMonth(activityList,yearTarget) {
     if (devMode === true){console.log("[STAT] " + maxDistanceMonth);};
 
 
-    console.log("totalDistanceYear",totalDistanceYear);
-
     onSetResumeByYear(totalCountYear,totalDistanceYear,formatDuration(totalDurationYear));
     onSetGraphicItems(countActivityByMonth,countActivityByMonth[maxCountMonth].count,countActivityByMonth[maxDistanceMonth].distance,countActivityByMonth[maxDurationMonth].duration);
 }
@@ -475,7 +471,7 @@ function formatMinutesToHoursForGraph(minutes) {
     let hours = Math.floor(minutes / 60); // Partie entière = heures
     let mins = minutes % 60; // Reste = minutes
     roundMins = parseInt(mins);
-
+     
     return `${hours}h${roundMins.toString().padStart(2, "0")}`; // Ajout du "0" si nécessaire
 }
 
@@ -484,9 +480,6 @@ function formatMinutesToHoursForGraph(minutes) {
 function onSetResumeByYear(count,distance,hour) {
     let pTarget = document.getElementById("pStatResumeByYear");
     distanceFormated = Math.round(distance * 100) / 100;
-
-    console.log("distance",distance);
-    console.log("distanceFormated",distanceFormated);
 
     pTarget.innerHTML = `Activité(s) :<b> ${count} </b> - Distance :<b> ${distanceFormated} km</b> - Durée :<b> ${hour}</b>`;
 }
@@ -504,7 +497,6 @@ function onSetGraphicItems(activityCount,higherCountValue,higherDistanceValue,hi
     // Retire les class StatHigherValue
     let elementToRemoveClass = parent.querySelectorAll(".StatHigherValue");
 
-    console.log(elementToRemoveClass);
     elementToRemoveClass.forEach(e=>{
        e.classList.remove("StatHigherValue");
     });
@@ -550,7 +542,7 @@ function onSetGraphicItems(activityCount,higherCountValue,higherDistanceValue,hi
         document.getElementById(`stat-PB-Duration-${e}`).style = "--progress:" + onCalculStatPercent(higherDurationValue,activityCount[e].duration) + "%";
 
         // Traitement valeur la plus élevée (mise en gras)
-        if (activityCount[e].count === higherCountValue) {
+        if (activityCount[e].duration === higherDurationValue) {
             document.getElementById(`spanGraphDurationMonthName-${e}`).classList.add("StatHigherValue");
             document.getElementById(`stat-duration-${e}`).classList.add("StatHigherValue");
         }

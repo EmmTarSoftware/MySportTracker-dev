@@ -619,7 +619,9 @@ textarea {
     padding-bottom: 30px;
 }
 
-
+textarea.notes{
+    height: 300px;
+}
 
 
 
