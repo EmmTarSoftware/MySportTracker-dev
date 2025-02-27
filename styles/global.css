@@ -1150,11 +1150,20 @@ div.stat-month {
 select.graph-stat{
     margin-top: 20px;
     display: flex;
+    text-align: center;
+    font-weight: bold;
 }
 
 
 
-
+div.statYears{
+    width: 100%;
+    text-align: center;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: var(--boxShadowMoins);
+    margin-top: 20px;
+}
 
 
 

@@ -458,22 +458,25 @@ function getActivityStatCountByMonth(activityList,yearTarget) {
     const maxDistanceMonth = Object.keys(countActivityByMonth).reduce((a, b) => countActivityByMonth[a].distance > countActivityByMonth[b].distance ? a : b);
     if (devMode === true){console.log("[STAT] " + maxDistanceMonth);};
 
-    console.log(totalDurationYear);
-    console.log(typeof(totalDurationYear));
+    // Trouve le mois avec la durée la plus élevé (mois de référence pour les 100%)
+    const maxDurationMonth = Object.keys(countActivityByMonth).reduce((a, b) => countActivityByMonth[a].duration > countActivityByMonth[b].duration ? a : b);
+    if (devMode === true){console.log("[STAT] " + maxDistanceMonth);};
+
 
     onSetResumeByYear(totalCountYear,totalDistanceYear,formatDuration(totalDurationYear));
-    onSetGraphicItems(countActivityByMonth,countActivityByMonth[maxCountMonth].count,countActivityByMonth[maxDistanceMonth].distance,countActivityByMonth[maxCountMonth].duration);
+    onSetGraphicItems(countActivityByMonth,countActivityByMonth[maxCountMonth].count,countActivityByMonth[maxDistanceMonth].distance,countActivityByMonth[maxDurationMonth].duration);
 }
 
 
 // convertir les minutes au format 2h45
-function formatMinutesToHours(minutes) {
+function formatMinutesToHoursForGraph(minutes) {
     if (minutes <= 0) return "0h00"; // Gestion du cas zéro ou négatif
 
     let hours = Math.floor(minutes / 60); // Partie entière = heures
     let mins = minutes % 60; // Reste = minutes
+    roundMins = parseInt(mins);
 
-    return `${hours}h${mins.toString().padStart(2, "0")}`; // Ajout du "0" si nécessaire
+    return `${hours}h${roundMins.toString().padStart(2, "0")}`; // Ajout du "0" si nécessaire
 }
 
 
@@ -481,18 +484,19 @@ function formatMinutesToHours(minutes) {
 function onSetResumeByYear(count,distance,hour) {
     let pTarget = document.getElementById("pStatResumeByYear");
 
-    pTarget.innerHTML = `<b>Activité :</b> ${count} ; <b>Distance :</b> ${distance}km; <b>Heures :</b> ${hour}`;
+    pTarget.innerHTML = `Activité(s) :<b> ${count} </b> - Distance :<b> ${distance}km</b> - Durée :<b> ${hour}</b>`;
 }
 
 // set les éléments graphiques après comptage
 
-function onSetGraphicItems(activityCount,higherCountValue,higherDistanceValue) {
+function onSetGraphicItems(activityCount,higherCountValue,higherDistanceValue,higherDurationValue) {
 
 
     if (devMode === true){
         console.log("[STAT] Set le graphique");
         console.log("[STAT] valeur maximale pour référence pourcentage count : " + higherCountValue);
         console.log("[STAT] valeur maximale pour référence pourcentage distance : " + higherDistanceValue);
+        console.log("[STAT] valeur maximale pour référence pourcentage heures : " + higherDurationValue);
     };
 
 
@@ -506,6 +510,13 @@ function onSetGraphicItems(activityCount,higherCountValue,higherDistanceValue) {
     monthStatNamesArray.forEach(e=>{
         document.getElementById(`stat-distance-${e}`).innerHTML = activityCount[e].distance;
         document.getElementById(`stat-PB-Distance-${e}`).style = "--progress:" + onCalculStatPercent(higherDistanceValue,activityCount[e].distance) + "%";
+    });
+
+
+    // DISTANCE
+    monthStatNamesArray.forEach(e=>{
+        document.getElementById(`stat-duration-${e}`).innerHTML = formatMinutesToHoursForGraph(activityCount[e].duration);
+        document.getElementById(`stat-PB-Duration-${e}`).style = "--progress:" + onCalculStatPercent(higherDurationValue,activityCount[e].duration) + "%";
     });
 
 }
