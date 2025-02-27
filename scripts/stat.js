@@ -411,7 +411,7 @@ function getActivityStatCountByMonth(activityList,yearTarget) {
             // ancienne valeur
             let oldDistance = Number(countActivityByMonth[monthName].distance) || 0;
             // Valeur à ajouter
-            let newDistance = parseFloat(e.distance);
+            let newDistance = parseFloat(e.distance) ||0 ;
             // addition
             let distanceToAdd = oldDistance + newDistance;
             distanceToAdd = Math.round(distanceToAdd * 10) / 10;//arrondi 1 décimale
@@ -422,21 +422,19 @@ function getActivityStatCountByMonth(activityList,yearTarget) {
             // Additionne les durée
             // ancienne valeur
             let oldDuration = Number(countActivityByMonth[monthName].duration) || 0;
-            console.log("OLD DURATION",oldDuration);
+
             // Valeur à ajouter
             let newDuration = durationToMinutes(e.duration || "00:00:00");
-            console.log("NEW DURATION = ",newDuration);
+
 
             let durationToAdd = oldDuration + newDuration;
-            console.log("DURATION to ADD",durationToAdd);
+
             countActivityByMonth[monthName].duration = durationToAdd;
-            console.log("ARRAY VALUE = ",countActivityByMonth[monthName].duration);
 
             // calcul également le total sur l'année
             totalCountYear++;
             totalDistanceYear += newDistance;
             totalDurationYear += newDuration;
-            console.log("TOTALDURATION YEAR = ",totalDurationYear);
         }
     });
 
@@ -463,6 +461,8 @@ function getActivityStatCountByMonth(activityList,yearTarget) {
     if (devMode === true){console.log("[STAT] " + maxDistanceMonth);};
 
 
+    console.log("totalDistanceYear",totalDistanceYear);
+
     onSetResumeByYear(totalCountYear,totalDistanceYear,formatDuration(totalDurationYear));
     onSetGraphicItems(countActivityByMonth,countActivityByMonth[maxCountMonth].count,countActivityByMonth[maxDistanceMonth].distance,countActivityByMonth[maxDurationMonth].duration);
 }
@@ -485,8 +485,10 @@ function onSetResumeByYear(count,distance,hour) {
     let pTarget = document.getElementById("pStatResumeByYear");
     distanceFormated = Math.round(distance * 100) / 100;
 
+    console.log("distance",distance);
+    console.log("distanceFormated",distanceFormated);
 
-    pTarget.innerHTML = `Activité(s) :<b> ${count} </b> - Distance :<b> ${distanceFormated}km</b> - Durée :<b> ${hour}</b>`;
+    pTarget.innerHTML = `Activité(s) :<b> ${count} </b> - Distance :<b> ${distanceFormated} km</b> - Durée :<b> ${hour}</b>`;
 }
 
 // set les éléments graphiques après comptage
