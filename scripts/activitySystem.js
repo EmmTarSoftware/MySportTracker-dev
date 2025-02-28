@@ -562,7 +562,8 @@ function onClickReturnFromActivityEditor() {
 
 
 function onClickSaveFromActivityEditor() {
-
+    // Verrouillage de la div pour éviter double clic et créer des problèmes
+    onLockDivDoubleClick(["divActivityEditor","divBtnActivity"]);
     // Lancement du formatage de l'activité
     onFormatActivity();
 };
@@ -704,6 +705,7 @@ function onFormatActivity() {
         if (devMode === true){console.log("[ NEW ACTIVITE ] Champ obligatoire non remplis");};
 
         inputDateRef.classList.add("fieldRequired");
+        onUnlockDivDoubleClick(["divActivityEditor","divBtnActivity"]);//retire la sécurité du clic
         return
     };
 
@@ -881,6 +883,9 @@ function onClickDeleteFromActivityEditor() {
 function onConfirmDeleteActivity(event){
 
     event.stopPropagation();// Empêche la propagation du clic vers la div d'annulation
+
+    onLockDivDoubleClick(["divActivityEditor","divBtnActivity"]);//sécurité double click
+
     if (devMode === true){console.log("Confirmation de suppression d'activité ");};
     // retire la class "show" pour la div de confirmation
     document.getElementById("divConfirmDeleteActivity").classList.remove("show");

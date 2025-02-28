@@ -85,7 +85,7 @@ function onSetSettingItems() {
 
 // Clique sur save Setting
 function onClickSaveFromSetting() {
-
+    onLockDivDoubleClick(["divBtnSetting","divSetting"]);//Sécurité clic
 
     // controle champ obligatoire pour sauvegarde automatique si activé
     if (devMode === true){console.log("[SETTING] controle des champs requis");};
@@ -95,6 +95,7 @@ function onClickSaveFromSetting() {
         if (devMode === true){console.log("[SETTING] Champ obligatoire 'frequence save' non remplis");};
     
         inputSettingSaveFrequencyRef.classList.add("fieldRequired");
+        onUnlockDivDoubleClick(["divBtnSetting","divSetting"]);//Sécurité clic retirée
         return
     };
     

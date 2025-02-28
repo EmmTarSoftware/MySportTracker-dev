@@ -1708,6 +1708,18 @@ button.buttonAddCalendar{
 }
 
 
+
+
+
+
+/* Pour éviter que l'utilisateur ait le temps de cliquer 2 fois sur le meme bouton */
+div.disabledEvent{
+    pointer-events: none;
+}
+
+
+
+
 .dev{
     display: inline-block;
 }

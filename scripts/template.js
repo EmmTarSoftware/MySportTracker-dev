@@ -420,6 +420,8 @@ function onInputTemplateTitleChange() {
 
 
 function onClickSaveFromTemplateEditor(){
+    onLockDivDoubleClick(["divBtnTemplateEditor","divTemplateEditor"]);
+
     // Lancement du formatage du modèle
     onFormatTemplate();
 }
@@ -443,6 +445,7 @@ function onFormatTemplate() {
         if (devMode === true){console.log("[TEMPLATE] Champ obligatoire non remplis");};
 
         inputTemplateTitleRef.classList.add("fieldRequired");
+        onUnlockDivDoubleClick(["divBtnTemplateEditor","divTemplateEditor"]);
         return
     };
 
@@ -601,7 +604,7 @@ function onResetTemplateInputs() {
 
 // Suppression d'activité
 function onClickDeleteFromTemplateEditor() {
-    
+
     if (devMode === true){console.log("[TEMPLATE]demande de suppression template ");};
 
     // L'affiche de la div doit se faire en "flex" donc je n'utilise pas le onChangeDisplay
@@ -615,6 +618,9 @@ function onConfirmDeleteTemplate(event){
 
     event.stopPropagation();// Empêche la propagation du clic vers la div d'annulation
     if (devMode === true){console.log("[TEMPLATE] Confirmation de suppression de template ");};
+
+    onLockDivDoubleClick(["divBtnTemplateEditor","divTemplateEditor"]);//met la sécurité double click
+
     // retire la class "show" pour la div de confirmation
     document.getElementById("divConfirmDeleteTemplate").classList.remove("show");
     onChangeDisplay([],[],[],[],["divTemplateEditor","divBtnTemplateEditor"],[],[]);
