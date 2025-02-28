@@ -294,6 +294,7 @@ async function onLoadStores() {
 
         const settings = await db.get(settingStoreName).catch(() => null);
         if (settings) {
+
             userSetting = {
                 agenda : settings.agenda || "NONE",
                 agendaScheduleStart: settings.agendaScheduleStart || "08:00",

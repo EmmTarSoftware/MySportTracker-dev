@@ -4,7 +4,6 @@
 let devMode = false;
 
 
-
 function onOpenMenuSetting() {
     // Lance le référencement des items
     onReferenceItemsSetting();

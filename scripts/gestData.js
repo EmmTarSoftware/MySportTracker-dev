@@ -282,6 +282,9 @@ async function importBdD(dataToImport) {
         }else if (e.type === settingStoreName){
             let settingToUpdate = {};
             Object.assign(settingToUpdate, {
+                agenda : e.agenda,
+                agendaScheduleStart: e.agendaScheduleStart,
+                agendaScheduleEnd: e.agendaScheduleEnd,
                 displayCommentDoneMode: e.displayCommentDoneMode,
                 displayCommentPlannedMode: e.displayCommentPlannedMode,
                 isAutoSaveEnabled: e.isAutoSaveEnabled,
@@ -289,7 +292,8 @@ async function importBdD(dataToImport) {
                 lastAutoSaveTime: e.lastAutoSaveTime,
                 lastManualSaveDate: e.lastManualSaveDate,
                 lastManualSaveTime: e.lastManualSaveTime,
-                autoSaveFrequency: e.autoSaveFrequency
+                autoSaveFrequency: e.autoSaveFrequency,
+                devMode : e.devMode
             });
             await onInsertSettingModificationInDB(settingToUpdate);
 
