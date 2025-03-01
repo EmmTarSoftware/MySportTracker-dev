@@ -26,7 +26,8 @@ const CRITICAL_ASSETS = [
   `${basePath}scripts/setting.js`,
   `${basePath}scripts/sortAndFilter.js`,
   `${basePath}scripts/stat.js`,
-  `${basePath}scripts/rewards.js`
+  `${basePath}scripts/rewards.js`,
+  `${basePath}scripts/counter.js`
 ];
 
 // Fichiers à mettre en cache (non critiques : Cache First)
@@ -67,7 +68,8 @@ const ICONS = [
   `${basePath}Icons/Icon-Set-Template.webp`,
   `${basePath}Icons/badge-locked.webp`,
   `${basePath}Icons/Icon-Share.webp`,
-  `${basePath}Icons/RewardShareBackground.webp`
+  `${basePath}Icons/RewardShareBackground.webp`,
+  `${basePath}Icons/Icon-Counter.webp`
 ];
 
 const IMAGES = [

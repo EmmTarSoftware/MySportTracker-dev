@@ -618,12 +618,13 @@ function onChangeMenu(menuTarget) {
 
 
     switch (menuTarget) {
-        case "Favoris":
-            if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Favoris");};
-            pMenuTitleRef.innerHTML = "Activités / Favoris";
-            onChangeDisplay(allDivHomeToDisplayNone,["divFavoris","divBtnFavoris"],[],[],[],[],[]);
-            onOpenMenuFavoris();
+        case "Counter":
+            if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Counter");};
+            pMenuTitleRef.innerHTML = "Compteur";
+            onChangeDisplay(allDivHomeToDisplayNone,["divBtnCounter"],["divCounter"],[],[],[],[]);
+            onOpenMenuCounter();
         break;
+        
         case "Stat":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Stat");};
             pMenuTitleRef.innerHTML = "Statistiques";
@@ -672,6 +673,12 @@ function onChangeMenu(menuTarget) {
             pMenuTitleRef.innerHTML = "Mon profil";
             onChangeDisplay(allDivHomeToDisplayNone,["divBtnProfil"],["divProfil"],[],[],[],[]);
             onOpenMenuProfil();
+        break;
+        case "Favoris":
+            if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Favoris");};
+            pMenuTitleRef.innerHTML = "Activités / Favoris";
+            onChangeDisplay(allDivHomeToDisplayNone,["divFavoris","divBtnFavoris"],[],[],[],[],[]);
+            onOpenMenuFavoris();
         break;
         case "GestData":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : GestData");};
@@ -728,6 +735,8 @@ function onClickMainMenuSup(){
         if (devMode === true){console.log("HIDE : btnNewFromTemplate");};
     }
 };
+
+
 function onClickMenuSup(event,target) {
     event.stopPropagation();
     document.getElementById("divMainMenuSup").style.display = "none";
@@ -760,10 +769,11 @@ function onLeaveMenu(menuTarget) {
 
     switch (menuTarget) {
 
-        case "Favoris":
-            if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Favoris");};
-            onChangeDisplay(["divFavoris","divBtnFavoris"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
+        case "Counter":
+            if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Counter");};
+            onChangeDisplay(["divCounter","divBtnCounter"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
         break;
+        
         case "Stat":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Stat");};
             onChangeDisplay(["divStat","divBtnStat"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
@@ -793,6 +803,10 @@ function onLeaveMenu(menuTarget) {
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Profil");};
             onChangeDisplay(["divProfil","divBtnProfil"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
             onUnlockDivDoubleClick(["divBtnProfil","divProfil"]);//Securité double clic
+        break;
+        case "Favoris":
+            if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Favoris");};
+            onChangeDisplay(["divFavoris","divBtnFavoris"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
         break;
         case "GestData":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : GestData");};
