@@ -210,7 +210,7 @@ function onClickAddToCalendar(keyRef) {
 
     switch (userSetting.agenda) {
         case "NONE":
-            alert("Veuillez sélectionner un  agenda dans 'Paramètres.'");
+            alert("Veuillez sélectionner un agenda dans 'Paramètres.'");
             break;
         case "GOOGLE":
             let urlGoogle = generateGoogleCalendarLink(activityTarget);

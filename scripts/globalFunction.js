@@ -456,6 +456,14 @@ function onSetToUppercase(e) {
     return upperCase;
 };
 
+
+//Formatage = première lettre forcé majuscule
+function onSetFirstLetterUppercase(e) {
+    let firstLetterUpperCase = e.charAt(0).toUpperCase() + e.slice(1);
+    return firstLetterUpperCase;
+};
+
+
 // detection des champs vides obligatoires
 function onCheckEmptyField(e) {
     if (e === "") {
