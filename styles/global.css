@@ -1748,6 +1748,7 @@ p.compteur-name {
     text-align: center;
     text-transform: uppercase;
 }
+
 .compteur-content {
     display: flex;
     align-items: center;
@@ -1757,7 +1758,8 @@ p.compteur-name {
 .compteur-total {
     font-size: 32px;
     font-weight: bold;
-    padding-left: 10px;
+    width: 100px;
+    text-align: center;
 }
 input.compteur {
     width: 80px;
