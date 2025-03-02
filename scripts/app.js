@@ -168,7 +168,7 @@ async function requestPersistentStorage() {
 
 
 // Créer (ou ouvrir si elle existe déjà) une base de données PouchDB
-let  db = new PouchDB(dbName);
+let  db = new PouchDB(dbName, { auto_compaction: true });//avec la suppression automatique des anciennes révisions
 
 // Vérifier si la base est bien créée
 db.info().then(info => console.log(' [DATABASE] Base créée/ouverte :', info));
