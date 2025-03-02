@@ -1858,6 +1858,33 @@ div.popup-new-counter-content input.counterName{
     margin-bottom: 40px;
 }
 
+
+div.confirmationDeleteCounter{
+    z-index: 2;
+    display: none;
+    width: 100%;
+    height:100vh;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+div.confirmationDeleteCounter.show {
+    display: flex; /* Change display pour l'afficher */
+    flex-direction: column;
+    justify-content:center;
+    align-items: center;
+}
+
+
+/* Appliquez l'animation lorsque .show est présent */
+div.confirmationDeleteCounter.show button.deleteConfirm {
+    animation: grow 200ms forwards; /* Ajoute l'animation explicite */
+}
+
+
+
+
+
 /* ------------------------------------ FIN Compteur ----------------------------------*/
 
 .dev{

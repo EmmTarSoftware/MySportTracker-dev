@@ -11,7 +11,9 @@ let notifyTextArray = {
     saveSetting : "Paramètres modifiés !",
     templateCreation :"Modèle créé !",
     templateModification : "Modèle modifié !",
-    templateDeleted : "Modèle supprimé !"
+    templateDeleted : "Modèle supprimé !",
+    counterCreated : "Compteur créé !",
+    counterDeleted : "Compteur supprimé"
 };
 
 

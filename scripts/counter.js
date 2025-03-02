@@ -174,8 +174,9 @@ function onConfirmCreateCounter() {
         newCounterDate = onFindDateTodayUS();
 
     // formatage du nom. Recherche de doublon
-    let counterDoublon = userCounterList.filter(counter => counter.name ===newCounterName);
-    if (counterDoublon.length > 0) {
+    let isCounterDoublonName = Object.values(userCounterList).some(counter => counter.name === newCounterName);
+
+    if (isCounterDoublonName) {
         if (devMode === true){console.log(" [COUNTER] Doublon de nom détecté");};
         newCounterName += "_1";
     }
@@ -204,6 +205,8 @@ async function eventInsertNewCompteur(dataToInsert) {
     // Gestion si max atteind
     gestionMaxCounterReach();
 
+    // Popup notification
+    onShowNotifyPopup(notifyTextArray.counterCreated);
 
 }
 
@@ -211,7 +214,7 @@ async function eventInsertNewCompteur(dataToInsert) {
 // Gestion si le nombre maximal de compteur atteints
 function gestionMaxCounterReach() {
         // Gestion bouton new compteur
-        document.getElementById("btnAddNewCounter").disabled = userCounterList.length >= maxCounter ? true : false;
+        document.getElementById("btnAddNewCounter").disabled = Object.keys(userCounterList).length >= maxCounter ? true : false;
 }
 
 
@@ -227,7 +230,7 @@ function onDisplayCounter() {
 
 
     // Affichage en cas d'aucune modèle
-    if (userCounterList.length < 1) {
+    if (Object.keys(userCounterList).length < 1) {
         divCounterRef.innerHTML = "Aucun compteur à afficher !";
         return
     }
@@ -240,6 +243,7 @@ function onDisplayCounter() {
         // le container du compteur
         let newCounterContainer = document.createElement("div");
             newCounterContainer.classList.add("compteur-container");
+            newCounterContainer.id = `counterContainer_${key}`;
 
         // la date
         let newCounterDate = document.createElement("p");
@@ -308,6 +312,9 @@ function onDisplayCounter() {
         // SUPPRIMER
         let newBtnCounterDelete = document.createElement("button");
             newBtnCounterDelete.classList.add("btn-menu");
+            newBtnCounterDelete.onclick = function (){
+                onClickDeleteCounter(key);
+            }
    
         let newBtnImgCounterReset = document.createElement("img");
             newBtnImgCounterReset.src = "./Icons/Icon-Delete-color.webp";
@@ -332,10 +339,10 @@ function onDisplayCounter() {
 
 
         // Creation de la ligne de fin pour le dernier index
-        if (index === (userCounterList.length - 1)) {
+        if (index === (Object.keys(userCounterList).length - 1)) {
             let newClotureList = document.createElement("span");
             newClotureList.classList.add("last-container");
-            newClotureList.innerHTML = "ℹ️ Vous pouvez créer jusqu'à 10 compteurs.";
+            newClotureList.innerHTML = `ℹ️ Vous pouvez créer jusqu'à ${maxCounter} compteurs.`;
             divCounterRef.appendChild(newClotureList);
         }
 
@@ -419,7 +426,6 @@ function onClickResetCounter(idRef) {
     let newInitDate = onFindDateTodayUS();
 
     // Set les variables
-
     userCounterList[idRef].initDate = newInitDate; 
     userCounterList[idRef].count = 0;
 
@@ -446,7 +452,7 @@ function onClickResetCounter(idRef) {
     if (devMode === true){console.log(userCounterList);};
 
 
-    
+
     // Ajouter la classe pour l'animation
     textTotalRef.classList.add("anim-reset");
 
@@ -456,6 +462,67 @@ function onClickResetCounter(idRef) {
     }, 300);
 
 }
+
+
+
+// ------------------------------------ SUPPRESSION -----------------------
+
+let idCounterToDelete = "";
+function onClickDeleteCounter(idTarget) {
+
+    idCounterToDelete = idTarget;
+
+    // Affiche le popup
+    document.getElementById("divConfirmDeleteCounter").classList.add("show");
+}
+
+
+//Annule la suppression
+function onAnnulDeleteCounter(event) {
+    document.getElementById("divConfirmDeleteCounter").classList.remove("show");
+}
+
+// Confirme la suppression
+function onConfirmDeleteCounter(event) {
+    event.stopPropagation();
+    document.getElementById("divConfirmDeleteCounter").classList.remove("show");
+    eventDeleteCounter();
+}
+
+
+
+async function eventDeleteCounter(){
+    //suppression dans la variable
+    delete userCounterList[idCounterToDelete];
+
+    // supression htlm
+    document.getElementById(`counterContainer_${idCounterToDelete}`).remove();
+
+    // Suppression base
+    deleteCounter(idCounterToDelete);
+
+    // Gestion si max atteind ou non
+    gestionMaxCounterReach();
+
+
+    // Affichage en cas d'aucun compteur
+    
+
+    if (Object.keys(userCounterList).length < 1) {
+        let divCounterRef = document.getElementById("divCounter");
+        divCounterRef.innerHTML = "Aucun compteur à afficher !";
+    }
+
+    // Popup notification
+    onShowNotifyPopup(notifyTextArray.counterDeleted);
+}
+
+
+
+
+
+
+
 
 
    // Retour depuis Info
