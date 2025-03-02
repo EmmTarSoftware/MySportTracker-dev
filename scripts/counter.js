@@ -125,8 +125,13 @@ async function deleteCounter(counterKey) {
 
 
 function onClickAddCounter() {
+    // Reset l'emplacement du nom
+    document.getElementById("newCounterName").value = "";
+    // Affiche 
     document.getElementById("divCreateCounter").style.display = "flex";
 }
+
+
 
 function onAnnulAddCounter(){
     document.getElementById("divCreateCounter").style.display = "none";
@@ -147,11 +152,21 @@ function onConfirmCreateCounter() {
 
     // Récupère le nom du compteur ou set un nom par défaut
     let newCounterName = document.getElementById("newCounterName").value || "Nouveau Compteur",
-        newCounterDate = onFindDateTodayUS(),
-        newCounterToCreate = {name: newCounterName, initDate: newCounterDate, count: 0};
+        newCounterDate = onFindDateTodayUS();
+
+    // formatage du nom. Recherche de doublon
+    let counterDoublon = userCounterList.filter(counter => counter.name ===newCounterName);
+    if (counterDoublon.length > 0) {
+        if (devMode === true){console.log(" [COUNTER] Doublon de nom détecté");};
+        newCounterName += "_1";
+    }
+
+    let newCounterToCreate = {name: newCounterName, initDate: newCounterDate, count: 0};
 
     eventInsertNewCompteur(newCounterToCreate);
 }
+
+
 
 
 // Séquence d'insertion d'un nouveau compteur
