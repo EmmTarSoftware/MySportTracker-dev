@@ -1730,6 +1730,7 @@ div.disabledEvent{
     position: relative;
     width: calc(100% - 20px);             
     background-color: var(--colorLightGray); 
+    /* background-color: #d3ffd1; */
     padding: 10px 5px 10px 5px;
     border-radius: 10px;
     margin-bottom: 20px;

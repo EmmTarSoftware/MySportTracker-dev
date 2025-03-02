@@ -310,6 +310,17 @@ async function importBdD(dataToImport) {
             });
             
             await onInsertProfilModificationInDB(userInfo);
+
+        // COMPTEUR    
+        } else if (e.type === counterStoreName){
+            let counterToInsert = {};
+            Object.assign(counterToInsert,{
+                name : e.name,
+                count : e.count,
+                initDate: e.initDate
+            });
+
+            await onInsertNewCounterInDB(counterToInsert);
         }
 
 
