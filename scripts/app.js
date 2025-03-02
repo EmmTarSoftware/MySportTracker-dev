@@ -61,13 +61,15 @@ function toggleLaunchButton() {
 let db_old,
     dbName = "MSS-DataBase",
     activityStoreName = "ActivityList",
-    activityCounterStoreName = "ActivityCount",
+    activityCountIDStoreName = "ActivityCount",
     profilStoreName = "Profil",
     rewardsStoreName = "Recompenses",
     settingStoreName = "Setting",
     templateStoreName = "Template",
-    templateCounterStoreName = "TemplateCount",
+    templateCountIDStoreName = "TemplateCount",
     favorisStoreName = "Favoris",
+    counterStoreName = "Counter",
+    counterCountIDStoreName = "CounterCount",
     // Nom des stores à importer et exporter dans les fonctions import export. 
     storeNames = [activityStoreName, profilStoreName, rewardsStoreName,settingStoreName,templateStoreName],//Ajouter tous les noms des stores ici
     currentBaseVersion = 7,
@@ -203,7 +205,11 @@ async function onCreateDBStore() {
 
     // Création des stores
     await createStore(favorisStoreName, { type: favorisStoreName, favorisList: [] });
-    await createStore(profilStoreName, { type: profilStoreName, pseudo: "", customNotes: "",conditionAccepted : false });
+    await createStore(profilStoreName, { 
+        type: profilStoreName, pseudo: "", 
+        customNotes: "",
+        conditionAccepted : false 
+    });
     await createStore(settingStoreName, {
         type: settingStoreName,
         agenda : "NONE",
@@ -220,21 +226,22 @@ async function onCreateDBStore() {
         devMode:false
     });
     await createStore(rewardsStoreName, { type: rewardsStoreName, rewards: [] });
-    await onInitActivityCounterStore(); 
-    await onInitTemplateCounterStore();
+    await onInitActivityCountIDStore(); 
+    await onInitTemplateCountIDStore();
+    await onInitCounterCountIDStore();
 }
 
 
 
-// Pour la création du store de conteur d'ID pour template
-async function onInitTemplateCounterStore() {
+// Pour la création du store de compteur d'ID pour template
+async function onInitTemplateCountIDStore() {
     try {
         // Vérifier si le compteur existe déjà
-        let counterDoc = await db.get(templateCounterStoreName).catch(() => null);
+        let counterDoc = await db.get(templateCountIDStoreName).catch(() => null);
 
         if (!counterDoc) {
             // Créer le store avec un compteur initial
-            counterDoc = { _id: templateCounterStoreName, type: templateCounterStoreName, counter: 0 };
+            counterDoc = { _id: templateCountIDStoreName, type: templateCountIDStoreName, counter: 0 };
             await db.put(counterDoc);
                 console.log("[DATABASE] [TEMPLATE] Store Compteur template créé :", counterDoc);
         }else{
@@ -247,15 +254,15 @@ async function onInitTemplateCounterStore() {
 
 
 
-// Pour la création du store de conteur d'ID pour les activité
-async function onInitActivityCounterStore() {
+// Pour la création du store de compteur d'ID pour les activité
+async function onInitActivityCountIDStore() {
     try {
         // Vérifier si le compteur existe déjà
-        let counterDoc = await db.get(activityCounterStoreName).catch(() => null);
+        let counterDoc = await db.get(activityCountIDStoreName).catch(() => null);
 
         if (!counterDoc) {
             // Créer le store avec un compteur initial
-            counterDoc = { _id: activityCounterStoreName, type: activityCounterStoreName, counter: 0 };
+            counterDoc = { _id: activityCountIDStoreName, type: activityCountIDStoreName, counter: 0 };
             await db.put(counterDoc);
             console.log("[DATABASE] [ACTIVITY] Store Compteur activité créé :", counterDoc);
         }else{
@@ -266,6 +273,25 @@ async function onInitActivityCounterStore() {
     }
 }
 
+
+// Pour la création du store de compteur d'ID pour les compteurs (les objects du menu compteur)
+async function onInitCounterCountIDStore() {
+    try {
+        // Vérifier si le compteur existe déjà
+        let counterDoc = await db.get(counterCountIDStoreName).catch(() => null);
+
+        if (!counterDoc) {
+            // Créer le store avec un compteur initial
+            counterDoc = { _id: counterCountIDStoreName, type: counterCountIDStoreName, counter: 0 };
+            await db.put(counterDoc);
+            console.log("[DATABASE] [ACTIVITY] Store Compteur activité créé :", counterDoc);
+        }else{
+            console.log("[DATABASE] [ACTIVITY] Store Compteur activité Existe déjà :", counterDoc);
+        }
+    } catch (err) {
+        console.error("[DATABASE] [ACTIVITY] Erreur lors de l'initialisation du compteur :", err);
+    }
+}
 
 
 

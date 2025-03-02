@@ -82,7 +82,7 @@ async function onLoadActivityFromDB () {
 async function onInsertNewActivityInDB(activityToInsertFormat) {
     try {
         // Obtenir le prochain ID
-        const nextId = await getNextIdNumber(activityCounterStoreName);
+        const nextId = await getNextIdNumber(activityCountIDStoreName);
 
         // Créer l'objet avec le nouvel ID
         const newActivity = {

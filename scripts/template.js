@@ -74,7 +74,7 @@ async function onLoadTemplateFromDB() {
 async function onInsertNewTemplateInDB(templateToInsertFormat) {
     try {
         // Obtenir le prochain ID
-        const nextId = await getNextIdNumber(templateCounterStoreName);
+        const nextId = await getNextIdNumber(templateCountIDStoreName);
 
         // Créer l'objet avec le nouvel ID
         const newTemplate = {
