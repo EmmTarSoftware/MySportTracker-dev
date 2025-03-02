@@ -317,7 +317,8 @@ async function importBdD(dataToImport) {
             Object.assign(counterToInsert,{
                 name : e.name,
                 count : e.count,
-                initDate: e.initDate
+                initDate: e.initDate,
+                color: e.color
             });
 
             await onInsertNewCounterInDB(counterToInsert);

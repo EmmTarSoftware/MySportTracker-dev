@@ -5,7 +5,16 @@ let userCounterList = {
 },
     maxCounter = 10;
 
+let counterColor = {
+    white: "#fff",
+    green: "#d3ffd0",
+    yellow: "#fdffd0",
+    red: "#ffd7d0",
+    blue: "#d0ebff",
+    violet: "#f7d0ff"
+};
 
+let counterColorSelected = "#fff";//utiliser lors de la création d'un compteur
 
 
 
@@ -53,6 +62,9 @@ async function onLoadCounterFromDB() {
    
 // Insertion nouveau Compteur
 async function onInsertNewCounterInDB(counterToInsert) {
+
+    console.log("counterToInsert",counterToInsert);
+
     try {
         // Obtenir le prochain ID
         const nextId = await getNextIdNumber(counterCountIDStoreName);
@@ -146,6 +158,11 @@ async function deleteCounter(counterKey) {
 function onClickAddCounter() {
     // Reset l'emplacement du nom
     document.getElementById("newCounterName").value = "";
+
+    // remet les éléments dans la couleur par défaut
+    counterColorSelected = counterColor["white"];
+    document.getElementById("divCreateCounterContent").style.backgroundColor = counterColorSelected;
+
     // Affiche 
     document.getElementById("divCreateCounter").style.display = "flex";
 }
@@ -160,6 +177,15 @@ function onAnnulAddCounter(){
 // Empeche de fermer la div lorsque l'utilisateur clique dans cette zone
 function onClickDivNewPopupContent(event) {
     event.stopPropagation();
+}
+
+
+
+// Gestion des couleurs
+
+function onChooseCounterColor(color) {
+    document.getElementById("divCreateCounterContent").style.backgroundColor = counterColor[color];
+    counterColorSelected = counterColor[color];
 }
 
 
@@ -181,7 +207,7 @@ function onConfirmCreateCounter() {
         newCounterName += "_1";
     }
 
-    let newCounterToCreate = {name: newCounterName, initDate: newCounterDate, count: 0};
+    let newCounterToCreate = {name: newCounterName, initDate: newCounterDate, count: 0, color : counterColorSelected};
 
     eventInsertNewCompteur(newCounterToCreate);
 }
@@ -243,6 +269,7 @@ function onDisplayCounter() {
         // le container du compteur
         let newCounterContainer = document.createElement("div");
             newCounterContainer.classList.add("compteur-container");
+            newCounterContainer.style.backgroundColor = userCounterList[key].color;
             newCounterContainer.id = `counterContainer_${key}`;
 
         // la date
@@ -298,7 +325,7 @@ function onDisplayCounter() {
 
         // Reset
         let newBtnCounterReset = document.createElement("button");
-            newBtnCounterReset.classList.add("btn-menu");
+            newBtnCounterReset.classList.add("btn-counter");
             newBtnCounterReset.onclick = function (){
                 onClickResetCounter(key);
             }
@@ -311,7 +338,7 @@ function onDisplayCounter() {
     
         // SUPPRIMER
         let newBtnCounterDelete = document.createElement("button");
-            newBtnCounterDelete.classList.add("btn-menu");
+            newBtnCounterDelete.classList.add("btn-counter");
             newBtnCounterDelete.onclick = function (){
                 onClickDeleteCounter(key);
             }
@@ -523,11 +550,9 @@ async function eventDeleteCounter(){
 
 
 
+// Retour depuis Info
+function onClickReturnFromCounter() {
 
-
-   // Retour depuis Info
-   function onClickReturnFromCounter() {
-   
    
        // ferme le menu
        onLeaveMenu("Counter");
