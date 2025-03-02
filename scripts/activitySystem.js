@@ -609,41 +609,6 @@ function onClickOnActivity(keyRef) {
 
 
 
-// DESACTIVEE !!!
-// Fonction de recherche d'une activité à afficher depuis la bdd.
-function onSearchActivityInBaseToDisplay(keyRef) {
-    if (devMode === true){console.log("Affichage de l'activité dans la BdD avec la key :  " + keyRef);};
-    
-
-    // recupere les éléments correspondant à la clé recherché et la stoque dans une variable
-    if (devMode === true){console.log("lecture de la Base de Données");};
-    let transaction = db_old.transaction(activityStoreName);//readonly
-    let objectStore = transaction.objectStore(activityStoreName);
-    let request = objectStore.getAll(IDBKeyRange.only(keyRef));
-    
-    
-    request.onsuccess = function (){
-        if (devMode === true){
-            console.log("Requete de recherche réussit");
-            console.log(request.result);
-        };
-
-
-        // Affiche la note voulue
-        let tempResult = request.result;
-        if (devMode === true){console.log(tempResult[0]);};
-        onEditActivity(tempResult[0]);
-    };
-
-    request.onerror = function (){
-        console.log("Erreur lors de la recherche");
-    };
-
-};
-
-
-
-
 function onEditActivity(activityTarget) {
 
     // Set le mode d'edition de l'activité
