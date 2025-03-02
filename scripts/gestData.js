@@ -197,7 +197,7 @@ async function eventImportBdD(inputRef) {
 
 
                 // 2 Créé a nouveau la base
-                db = new PouchDB(dbName);
+                db = new PouchDB(dbName, { auto_compaction: true });//avec la suppression automatique des anciennes révisions
                 // Vérifier si la base est bien créée
                 await db.info().then(info => console.log(' [DATABASE] Base créée/ouverte :', info));
 
