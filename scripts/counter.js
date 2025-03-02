@@ -1,5 +1,5 @@
 
-let userCounterList = [{name:"",initDate:"",count: 0}],
+let userCounterList = [{type:"Counter", _id:"Counter_1", name:"",initDate:"",count: 0}],
     maxCounter = 10;
 
 
@@ -119,6 +119,16 @@ async function deleteCounter(counterKey) {
 
 
 // ---------------------------------------- FIN FONCTION GLOBAL -------------------------
+
+
+
+
+
+
+
+
+
+
 
 
 //----------------------------- NOUVEAU COMPTEUR------------------------------------
@@ -253,6 +263,7 @@ function onDisplayCounter(counterList) {
             newInputCounter.type = "number";
             newInputCounter.placeholder = "Ajout";
             newInputCounter.classList.add("compteur");
+            newInputCounter.id= `inputCounter_${e._id}`;
 
 
         // LES BOUTONS
@@ -260,6 +271,9 @@ function onDisplayCounter(counterList) {
         // ajouter au compte
         let newBtnCounterAdd = document.createElement("button");
             newBtnCounterAdd.classList.add("btn-menu","btnFocus");
+            newBtnCounterAdd.onclick = function (){
+                onClickIncrementeCounter(e._id);
+            }
         
         let newBtnImgCounterAdd = document.createElement("img");
             newBtnImgCounterAdd.src = "./Icons/Icon-Accepter.webp";
@@ -319,6 +333,41 @@ function onDisplayCounter(counterList) {
 
 
 
+// ------------------------- INCREMENTATION ---------------------------------
+
+
+// lorsque j'incremente, récupère la valeur dans total, ajoute la nouvelle valeur
+// et le nouveau résultat est mis dans total ainsi que sauvegardé en base
+function onClickIncrementeCounter(idRef) {
+
+
+    // controle si valeur existe dans input
+    let inputRef = document.getElementById(`inputCounter_${idRef}`),
+        textTotalRef = document.getElementById(`counterTotal_${idRef}`);
+
+
+    if (inputRef.value === "") {
+        if (devMode === true){console.log(" [COUNTER] Aucune valeur à ajouter");};
+        return
+    }
+
+    // récupère ancien total et nouvelle valeur
+    let oldValue = parseInt(textTotalRef.innerHTML),
+        newValue = parseInt(inputRef.value);
+
+        console.log(typeof(oldValue));
+        console.log(typeof(newValue));
+
+
+    // Addition
+    let newTotal = oldValue + newValue;
+
+
+    // vite input, Set nouveau résultat et update base
+    inputRef.value = "";
+    textTotalRef.innerHTML = newTotal;
+
+}
 
 
 
