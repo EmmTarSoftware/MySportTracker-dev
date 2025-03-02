@@ -384,6 +384,17 @@ function onClickIncrementeCounter(idRef) {
     onInsertCounterModificationInDB(userCounterList[idRef],idRef);
 
     if (devMode === true){console.log(userCounterList);};
+
+
+    // ANIMATION
+
+    // Ajouter la classe pour l'animation
+    textTotalRef.classList.add("count-animated");
+
+    // Supprimer la classe après l'animation pour la rejouer à chaque changement
+    setTimeout(() => {
+        textTotalRef.classList.remove("count-animated");
+    }, 300);
     
 }
 
@@ -433,6 +444,17 @@ function onClickResetCounter(idRef) {
     onInsertCounterModificationInDB(userCounterList[idRef],idRef);
 
     if (devMode === true){console.log(userCounterList);};
+
+
+    
+    // Ajouter la classe pour l'animation
+    textTotalRef.classList.add("anim-reset");
+
+    // Supprimer la classe après l'animation pour la rejouer à chaque changement
+    setTimeout(() => {
+        textTotalRef.classList.remove("anim-reset");
+    }, 300);
+
 }
 
 

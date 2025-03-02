@@ -1755,12 +1755,46 @@ p.compteur-name {
     justify-content: space-between;
     margin-top: 10px;
 }
+
+
+
+
+/* ANIMATION COUNTER */
+
+
+@keyframes counterPop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+    100% { transform: scale(1); }
+}
+@keyframes slideUp {
+    0% { transform: translateY(5px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes slideDown {
+    0% { transform: translateY(0); opacity: 1; }
+    50% { transform: translateY(10px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+}
+
 .compteur-total {
     font-size: 32px;
     font-weight: bold;
     width: 100px;
     text-align: center;
+    transition: transform 0.2s ease-in-out, opacity 0.3s ease-in-out;
+
 }
+.compteur-total.count-animated {
+    animation: counterPop 0.3s ease-in-out;
+
+}
+
+.compteur-total.anim-reset {
+    animation: slideDown 0.4s ease-in-out;
+}
+
 input.compteur {
     width: 80px;
     height: 40px;
