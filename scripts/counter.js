@@ -1,5 +1,8 @@
 
-let userCounterList = [{type:"Counter", _id:"Counter_1", name:"",initDate:"",count: 0}],
+let userCounterList = {
+    "Counter_1": { "type": "Counter", "name": "Compteur 1", "count": 5 },
+    "Counter_2": { "type": "Counter", "name": "Compteur 2", "count": 10 }
+},
     maxCounter = 10;
 
 
@@ -18,25 +21,31 @@ async function onOpenMenuCounter(){
    
    
    
-   
-// fonction pour récupérer les compteurs
-async function onLoadCounterFromDB () {
-    userCounterList = [];
-    try {
-        const result = await db.allDocs({ include_docs: true }); // Récupère tous les documents
+async function onLoadCounterFromDB() {
+    userCounterList = {}; // Initialisation en objet
 
-        // Filtrer les éléments concernée
+    try {
+        const result = await db.allDocs({ include_docs: true });
+
+        // Filtrer et transformer en objet avec _id comme clé sans _rev
         userCounterList = result.rows
             .map(row => row.doc)
-            .filter(doc => doc.type === counterStoreName);
-            if (devMode === true){
-                console.log("[DATABASE] [ACTIVITY] Activités chargées :", counterStoreName);
-                console.log(userCounterList[0]);
-            };
+            .filter(doc => doc.type === counterStoreName)
+            .reduce((acc, { _id, _rev, ...rest }) => {
+                acc[_id] = rest; // Utilise _id comme clé et stocke le reste sans _id et _rev
+                return acc;
+            }, {});
+
+        if (devMode === true) {
+            console.log("[DATABASE] [ACTIVITY] Activités chargées :", counterStoreName);
+            console.log(userCounterList);
+        }
     } catch (err) {
         console.error("[DATABASE] [ACTIVITY] Erreur lors du chargement:", err);
     }
 }
+
+
 
 
 
@@ -223,8 +232,10 @@ function onDisplayCounter(counterList) {
         return
     }
 
+    let counterKeysList = Object.keys(userCounterList);
+
     // Génère les compteurs
-    counterList.forEach((e,index)=>{
+    counterKeysList.forEach((key,index)=>{
 
         // le container du compteur
         let newCounterContainer = document.createElement("div");
@@ -233,20 +244,20 @@ function onDisplayCounter(counterList) {
         // la date
         let newCounterDate = document.createElement("p");
             newCounterDate.classList.add("compteur-date");
-            newCounterDate.id = `counterDate_${e._id}`;
-            if (e.initDate === dateToday) {
+            newCounterDate.id = `counterDate_${key}`;
+            if (userCounterList[key].initDate === dateToday) {
                 newCounterDate.innerHTML = "Auj.";
-            }else if (e.initDate === dateYesterday) {
+            }else if (userCounterList[key].initDate === dateYesterday) {
                 newCounterDate.innerHTML = "Hier";
             }else{
-                const dateCounterFormated = onFormatDateToFr(e.initDate);
+                const dateCounterFormated = onFormatDateToFr(userCounterList[key].initDate);
                 newCounterDate.innerHTML = `${dateCounterFormated}`;
             };
 
         // Le nom du compteur
         let newCounterName = document.createElement("p");
             newCounterName.classList.add("compteur-name");
-            newCounterName.innerHTML = e.name;
+            newCounterName.innerHTML = userCounterList[key].name;
 
         // la zone d'interaction
         let newInterractionContent = document.createElement("div");
@@ -255,15 +266,15 @@ function onDisplayCounter(counterList) {
         // AFFICHAGE DU TOTAL
         let newSpanTotalCount = document.createElement("span");
             newSpanTotalCount.classList.add("compteur-total");
-            newSpanTotalCount.id = `counterTotal_${e._id}`;
-            newSpanTotalCount.innerHTML = e.count;
+            newSpanTotalCount.id = `counterTotal_${key}`;
+            newSpanTotalCount.innerHTML = userCounterList[key].count;
 
         // L'input de nombre à ajouter
         let newInputCounter = document.createElement("input");
             newInputCounter.type = "number";
             newInputCounter.placeholder = "Ajout";
             newInputCounter.classList.add("compteur");
-            newInputCounter.id= `inputCounter_${e._id}`;
+            newInputCounter.id= `inputCounter_${key}`;
 
 
         // LES BOUTONS
@@ -272,7 +283,7 @@ function onDisplayCounter(counterList) {
         let newBtnCounterAdd = document.createElement("button");
             newBtnCounterAdd.classList.add("btn-menu","btnFocus");
             newBtnCounterAdd.onclick = function (){
-                onClickIncrementeCounter(e._id);
+                onClickIncrementeCounter(key);
             }
         
         let newBtnImgCounterAdd = document.createElement("img");
@@ -352,21 +363,25 @@ function onClickIncrementeCounter(idRef) {
     }
 
     // récupère ancien total et nouvelle valeur
-    let oldValue = parseInt(textTotalRef.innerHTML),
+    let oldValue = userCounterList[idRef].count,
         newValue = parseInt(inputRef.value);
-
-        console.log(typeof(oldValue));
-        console.log(typeof(newValue));
 
 
     // Addition
     let newTotal = oldValue + newValue;
 
 
-    // vite input, Set nouveau résultat et update base
+    // vite input, Set nouveau résultat dans html, variable et update base
     inputRef.value = "";
-    textTotalRef.innerHTML = newTotal;
+    textTotalRef.innerHTML = newTotal;//le html
+    userCounterList[idRef].count = newTotal;//le tableau
+    //La base
 
+
+    onInsertCounterModificationInDB(userCounterList[idRef],idRef);
+
+    if (devMode === true){console.log(userCounterList);};
+    
 }
 
 
