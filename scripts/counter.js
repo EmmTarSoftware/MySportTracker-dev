@@ -218,7 +218,7 @@ function gestionMaxCounterReach() {
 
 
 
-function onDisplayCounter(counterList) {
+function onDisplayCounter() {
     if (devMode === true){console.log(" [COUNTER] génération de la liste");};
 
     let divCounterRef = document.getElementById("divCounter");
@@ -295,6 +295,9 @@ function onDisplayCounter(counterList) {
         // Reset
         let newBtnCounterReset = document.createElement("button");
             newBtnCounterReset.classList.add("btn-menu");
+            newBtnCounterReset.onclick = function (){
+                onClickResetCounter(key);
+            }
    
         let newBtnImgCounterDelete = document.createElement("img");
             newBtnImgCounterDelete.src = "./Icons/Icon-Reset.webp";
@@ -386,7 +389,51 @@ function onClickIncrementeCounter(idRef) {
 
 
 
+// ------------------------- RESET ---------------------------------
 
+// Lorsque je reset, recupère la date du jour
+// set la total à zero,
+// Actualise tous les éléments visual, dans la variable et en base
+
+
+function onClickResetCounter(idRef) {
+
+    // Récupère les références
+    let inputRef = document.getElementById(`inputCounter_${idRef}`),
+        textTotalRef = document.getElementById(`counterTotal_${idRef}`),
+        textDateRef = document.getElementById(`counterDate_${idRef}`);
+
+
+    // Récupère la date du jours
+    let newInitDate = onFindDateTodayUS();
+
+    // Set les variables
+
+    userCounterList[idRef].initDate = newInitDate; 
+    userCounterList[idRef].count = 0;
+
+
+    // Set le html
+    inputRef.value = "";
+    textTotalRef.innerHTML = 0;
+    // Date
+    if (newInitDate === dateToday) {
+        textDateRef.innerHTML = "Auj.";
+    }else if (newInitDate === dateYesterday) {
+        textDateRef.innerHTML = "Hier";
+    }else{
+        const dateCounterFormated = onFormatDateToFr(newInitDate);
+        textDateRef.innerHTML = `${dateCounterFormated}`;
+    };
+
+
+
+    // Actualise la base
+
+    onInsertCounterModificationInDB(userCounterList[idRef],idRef);
+
+    if (devMode === true){console.log(userCounterList);};
+}
 
 
    // Retour depuis Info
