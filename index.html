@@ -168,40 +168,28 @@
 
     <!-- ----------------------------------      DIV COMPTEUR        ------------------------------------------------>
     <div id="divCounter" class="new-interface">
-
-        <!-- EXEMPLE COMPTEUR -->
-        <div class="compteur-container">
-            <p class="compteur-date" id="init-date">27/11/2025</p>
-            <p class="compteur-name" id="compteur-name">ABDOS</p>
-            
-            <div class="compteur-content">
-                <span class="compteur-total" id="total-count">0</span>
-                <input class="compteur" type="number" id="input-value" placeholder="Ajout">
-                <button class="btn-menu btnFocus"><img src="./Icons/Icon-Accepter.webp" alt="" srcset=""></button>
-                <button class="btn-menu"><img src="./Icons/Icon-Reset.webp" alt="" srcset=""></button>
-                <button class="btn-menu"><img src="./Icons/Icon-Delete-color.webp" alt="" srcset=""></button>
-            </div>
-        </div>
-         <!-- EXEMPLE COMPTEUR -->
-         <div class="compteur-container">
-            <p class="compteur-date" id="init-date">27/11/2025</p>
-            <p class="compteur-name" id="compteur-name">TRACTIONS</p>
-            
-            <div class="compteur-content">
-                <span class="compteur-total" id="total-count">138</span>
-                <input class="compteur" type="number" id="input-value" placeholder="Ajout">
-                <button class="btn-menu btnFocus"><img src="./Icons/Icon-Accepter.webp" alt="" srcset=""></button>
-                <button class="btn-menu"><img src="./Icons/Icon-Reset.webp" alt="" srcset=""></button>
-                <button class="btn-menu"><img src="./Icons/Icon-Delete-color.webp" alt="" srcset=""></button>
-            </div>
-        </div>
-       
+        <!-- Injection de la liste des compteurs -->
     </div>
 
     <div id="divBtnCounter" class="button-editor">
         <button class="btn-menu" onclick="onClickReturnFromCounter()"><img src="./Icons/Icon-Return-cancel.webp" alt="Icone"></button>
-        <button class="btn-menu btnFocus" onclick="onClickAddCounter()"><img src="./Icons/Icon-Plus.webp" alt="Icone"></button>           
+        <button id="btnAddNewCounter" class="btn-menu btnFocus" onclick="onClickAddCounter()"><img src="./Icons/Icon-Plus.webp" alt="Icone"></button>           
     </div>
+
+    <!-- Div newCompteur Name -->
+    <div id="divCreateCounter" onclick="onAnnulAddCounter(event)" class="popup-new-counter">
+        <div class="popup-new-counter-content" onclick="onClickDivNewPopupContent(event)">
+            <p>
+                <label for="">Nom du compteur</label>
+                <input class="counterName" type="text" name="" id="newCounterName" placeholder="Nouveau compteur">
+                <button class="btn-menu" onclick="onAnnulAddCounter(event)"><img src="./Icons/Icon-Return-cancel.webp" alt="Icone"></button>
+                <button class="btn-menu btnFocus" onclick="onConfirmCreateCounter(event)"><img src="./Icons/Icon-Accepter.webp" alt="Icone"></button>
+            </p>           
+        </div>
+    </div>
+    <!-- FIN Div newCompteur Name -->
+
+
     <!-- ----------------------------------  FIN    DIV COMPTEUR     ------------------------------------------------>
 
 

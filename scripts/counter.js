@@ -1,10 +1,5 @@
 
-let userCounterList = [
-    {title:"POMPES",initDate:"15-25-2025",count:"47"},
-    {title:"TRACTIONS",initDate:"17-25-2025",count:"0"},
-    {title:"SQUAT",initDate:"15-25-2025",count:"246"}
-
-],
+let userCounterList = [{name:"",initDate:"",count: 0}],
     maxCounter = 10;
 
 
@@ -15,6 +10,8 @@ async function onOpenMenuCounter(){
 
     await onLoadCounterFromDB();
     onDisplayCounter(userCounterList);
+    // Gestion si max atteind
+    gestionMaxCounterReach();
 }
    
    
@@ -124,25 +121,64 @@ async function deleteCounter(counterKey) {
 // ---------------------------------------- FIN FONCTION GLOBAL -------------------------
 
 
+//----------------------------- NOUVEAU COMPTEUR------------------------------------
 
 
+function onClickAddCounter() {
+    document.getElementById("divCreateCounter").style.display = "flex";
+}
+
+function onAnnulAddCounter(){
+    document.getElementById("divCreateCounter").style.display = "none";
+}
+
+
+// Empeche de fermer la div lorsque l'utilisateur clique dans cette zone
+function onClickDivNewPopupContent(event) {
+    event.stopPropagation();
+}
+
+
+
+function onConfirmCreateCounter() {
+    
+    // masque le popup de création
+    document.getElementById("divCreateCounter").style.display = "none";
+
+    // Récupère le nom du compteur ou set un nom par défaut
+    let newCounterName = document.getElementById("newCounterName").value || "Nouveau Compteur",
+        newCounterDate = onFindDateTodayUS(),
+        newCounterToCreate = {name: newCounterName, initDate: newCounterDate, count: 0};
+
+    eventInsertNewCompteur(newCounterToCreate);
+}
 
 
 // Séquence d'insertion d'un nouveau compteur
 
 async function eventInsertNewCompteur(dataToInsert) {
+
+    // Formatage du nouveau compteur (nom, date et count =0)
+
     await onInsertNewCounterInDB(dataToInsert);
     await onLoadCounterFromDB();
 
 
     // fonction de création affichage des compteurs
-
+    onDisplayCounter(userCounterList);
     
+    // Gestion si max atteind
+    gestionMaxCounterReach();
+
+
 }
 
 
-
-
+// Gestion si le nombre maximal de compteur atteints
+function gestionMaxCounterReach() {
+        // Gestion bouton new compteur
+        document.getElementById("btnAddNewCounter").disabled = userCounterList.length >= maxCounter ? true : false;
+}
 
 
 
@@ -163,7 +199,7 @@ function onDisplayCounter(counterList) {
     }
 
     // Génère les compteurs
-    counterList.forEach(e=>{
+    counterList.forEach((e,index)=>{
 
         // le container du compteur
         let newCounterContainer = document.createElement("div");
@@ -173,12 +209,19 @@ function onDisplayCounter(counterList) {
         let newCounterDate = document.createElement("p");
             newCounterDate.classList.add("compteur-date");
             newCounterDate.id = `counterDate_${e._id}`;
-            newCounterDate.innerHTML = e.initDate;
+            if (e.initDate === dateToday) {
+                newCounterDate.innerHTML = "Auj.";
+            }else if (e.initDate === dateYesterday) {
+                newCounterDate.innerHTML = "Hier";
+            }else{
+                const dateCounterFormated = onFormatDateToFr(e.initDate);
+                newCounterDate.innerHTML = `${dateCounterFormated}`;
+            };
 
         // Le nom du compteur
         let newCounterName = document.createElement("p");
             newCounterName.classList.add("compteur-name");
-            newCounterName.innerHTML = e.title;
+            newCounterName.innerHTML = e.name;
 
         // la zone d'interaction
         let newInterractionContent = document.createElement("div");
@@ -243,6 +286,15 @@ function onDisplayCounter(counterList) {
         newCounterContainer.appendChild(newInterractionContent);
 
         divCounterRef.appendChild(newCounterContainer);
+
+
+        // Creation de la ligne de fin pour le dernier index
+        if (index === (userCounterList.length - 1)) {
+            let newClotureList = document.createElement("span");
+            newClotureList.classList.add("last-container");
+            newClotureList.innerHTML = "ℹ️ Vous pouvez créer jusqu'à 10 compteurs.";
+            divCounterRef.appendChild(newClotureList);
+        }
 
     });
 }

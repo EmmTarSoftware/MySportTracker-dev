@@ -1790,6 +1790,40 @@ input.compteur::-webkit-inner-spin-button {
 }
 
 
+
+/* popup nommage nouveau compteur */
+div.popup-new-counter {
+    z-index: 10;
+    display: none;
+    justify-content: center;  /* Centre horizontalement */
+    align-items: center;  /* Centre verticalement */
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+
+div.popup-new-counter-content {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+div.popup-new-counter-content p{
+    text-align: center;
+}
+
+div.popup-new-counter-content label{
+    margin-bottom: 20px;
+}
+
+div.popup-new-counter-content input.counterName{
+    margin-bottom: 40px;
+}
+
 /* ------------------------------------ FIN Compteur ----------------------------------*/
 
 .dev{
