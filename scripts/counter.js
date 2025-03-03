@@ -271,6 +271,8 @@ function onDisplayCounter() {
             newCounterContainer.classList.add("compteur-container");
             newCounterContainer.style.backgroundColor = userCounterList[key].color;
             newCounterContainer.id = `counterContainer_${key}`;
+            
+            
 
         // la date
         let newCounterDate = document.createElement("p");
@@ -306,6 +308,13 @@ function onDisplayCounter() {
             newInputCounter.placeholder = "Ajout";
             newInputCounter.classList.add("compteur");
             newInputCounter.id= `inputCounter_${key}`;
+            // Pour pouvoir valider avec la touche "entré"
+            newInputCounter.addEventListener("keydown", function(event) {
+                if (event.key === "Enter") {  // ou event.code === "Enter"
+                    event.preventDefault();
+                    onClickIncrementeCounter(key);
+                }
+            });
 
 
         // LES BOUTONS

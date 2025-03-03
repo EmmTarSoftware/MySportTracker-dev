@@ -1865,7 +1865,7 @@ div.confirmationDeleteCounter{
     width: 100%;
     height:100vh;
     position: absolute;
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: rgba(255, 255, 255, 0.9);
 }
 
 div.confirmationDeleteCounter.show {
@@ -1897,7 +1897,8 @@ button.btnChooseColor{
     border: none;
     border-radius: 10px;
     margin: 5px;
-    height: 50px;width: 50px;
+    height: 40px;width: 40px;
+    font-size: 0.7rem;
 }
 
 /* ------------------------------------ FIN Compteur ----------------------------------*/
