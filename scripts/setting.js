@@ -78,6 +78,10 @@ function onSetSettingItems() {
     selectSettingAgendaRef.value = userSetting.agenda;
     inputTimeSettingScheduleStartRef.value = userSetting.agendaScheduleStart;
     inputTimeSettingScheduleEndRef.value = userSetting.agendaScheduleEnd;
+
+     // Set la date de la dernière sauvegarde auto
+     document.getElementById("pSettingLastAutoSaveDate").innerHTML = userSetting.lastAutoSaveDate === "noSet" ? "Date Indisponible." : `Le ${onFormatDateToFr(userSetting.lastAutoSaveDate)} à ${userSetting.lastAutoSaveTime}`;
+    
 };
 
 

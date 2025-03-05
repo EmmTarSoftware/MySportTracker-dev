@@ -1,7 +1,9 @@
 
 function onOpenMenuGestData() {
 
-    
+    //Set la date de la dernière sauvegarde manuelle
+    document.getElementById("pGestDataLastExportDate").innerHTML = userSetting.lastManualSaveDate === "noSet" ? "Date dernier export : Indisponible." : `Date dernier export : le ${onFormatDateToFr(userSetting.lastManualSaveDate)} à ${userSetting.lastManualSaveTime}`;
+
 };
 
 

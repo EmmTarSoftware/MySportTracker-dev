@@ -385,16 +385,10 @@ async function firstActualisation() {
     onGenerateFakeOptionList("divFakeSelectOptList");
 
 
-
     // SETTING
     // Met à jour les css du mode d'affichage selon les paramètres
     currentCommentDoneClassName = onSearchCommentClassNameByMode(userSetting.displayCommentDoneMode);
     currentCommentPlannedClassName = onSearchCommentClassNameByMode(userSetting.displayCommentPlannedMode);
-
-    // Set la date de la dernière sauvegarde auto
-    document.getElementById("pSettingLastAutoSaveDate").innerHTML = userSetting.lastAutoSaveDate === "noSet" ? "Date Indisponible." : `Le ${onFormatDateToFr(userSetting.lastAutoSaveDate)} à ${userSetting.lastAutoSaveTime}`;
-    //Set la date de la dernière sauvegarde manuelle
-    document.getElementById("pGestDataLastExportDate").innerHTML = userSetting.lastManualSaveDate === "noSet" ? "Date dernier export : Indisponible." : `Date dernier export : le ${onFormatDateToFr(userSetting.lastManualSaveDate)} à ${userSetting.lastManualSaveTime}`;
 
 
     // Traitement sauvegarde automatique
