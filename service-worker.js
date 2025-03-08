@@ -71,7 +71,9 @@ const ICONS = [
   `${basePath}Icons/RewardShareBackground.webp`,
   `${basePath}Icons/Icon-Counter.webp`,
   `${basePath}Icons/Icon-Reset.webp`,
-  `${basePath}Icons/Icon-Delete-color.webp`
+  `${basePath}Icons/Icon-Delete-color.webp`,
+  `${basePath}Icons/Icon-Down.webp`,
+  `${basePath}Icons/Icon-Up.webp`
 ];
 
 const IMAGES = [

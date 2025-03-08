@@ -16,6 +16,8 @@ function onLockDivDoubleClick(divTargetArray) {
     });
 }
 
+
+
 function onUnlockDivDoubleClick(divTargetArray) {
     if (devMode === true){console.log("[LOCK-UNLOCK] Retire la sécurité sur le click pour : ", divTargetArray);};
 
@@ -578,6 +580,22 @@ function disableContextMenu(event) {
     event.preventDefault();  // Empêche l'action par défaut du clic droit
 }
 
+
+
+// Affiche la date au format userFriendly
+function onDisplayUserFriendlyDate(date){
+    let friendlyDate = "";
+
+    if (date === dateToday) {
+        friendlyDate = "Auj.";
+    }else if (date === dateYesterday) {
+        friendlyDate = "Hier";
+    }else{
+        friendlyDate = onFormatDateToFr(date);
+    };
+
+    return friendlyDate;
+}
 
 
 

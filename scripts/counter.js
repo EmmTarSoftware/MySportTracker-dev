@@ -1,13 +1,13 @@
 
 let userCounterList = {
-    "Counter_1": { 
-        type: "Counter", name: "Compteur 1", 
-        initDate:"", 
-        currentCount: 0, countTarget :0, countIncrement:0, 
-        displayOrder : 0,
-        color : "white"
-    }
-},
+        "Counter_1": { 
+            type: "Counter", name: "Compteur 1", 
+            initDate:"", 
+            currentCount: 0, countTarget :0, countIncrement:0, 
+            displayOrder : 0,
+            color : "white"
+        }
+    },
     maxCounter = 10;
 
 let counterColor = {
@@ -40,7 +40,7 @@ class Counter {
         this.element = document.createElement("div");
         this.element.classList.add("compteur-container");
         this.element.style.backgroundColor = this.color;
-
+        this.element.id = `counterContainer_${id}`;
 
         this.render();
     }
@@ -50,15 +50,21 @@ class Counter {
     // génération de l'élément
     render(){
         this.element.innerHTML = `
-            <p class="compteur-date" id="">${this.initDate}</p>
-            <p class="compteur-name" id="">${this.name}</p>
+            <p class="compteur-date" id="counterDate_${this.id}">${this.initDate}</p>
+            <p class="compteur-name" >${this.name}</p>
+            <p class="compteur-navigation">
+                <button class="btn-counter"><img src="./Icons/Icon-Up.webp" alt="" srcset=""></button>
+                <button class="btn-counter"><img src="./Icons/Icon-Down.webp" alt=""></button>
+            </p>
 
             <div class="compteur-content">
-                <span class="compteur-total" id="total-count">${this.currentCount}</span>
-                <input type="number" class="compteur" id="" placeholder="00">
-                <button class="btn-menu btnFocus"><img src="./Icons/Icon-Accepter.webp" alt="" srcset=""></button>
-                <button class="btn-counter"><img src="./Icons/Icon-Reset.webp" alt="" srcset=""></button>
-                <button class="btn-counter"><img src="./Icons/Icon-Delete-color.webp" alt="" srcset=""></button>
+                <span class="compteur-total" id="spanCurrentCount_${this.id}">${this.currentCount}</span>
+                <span class="compteur-total">/</span>
+                <input type="number" class="compteur-target" id="inputCountTarget_${this.id}" style="background-color: ${this.color};" placeholder="0" value=${this.countTarget} onChange="onChangeCounterTargetValue('${this.id}')">
+                <input type="number" class="compteur" id="inputCountIncrement_${this.id}" placeholder="00" value=${this.countIncrement} onchange="onChangeCounterIncrement('${this.id}')">
+                <button class="btn-menu btnFocus" onclick="onClickIncrementeCounter('${this.id}')"><img src="./Icons/Icon-Accepter.webp" alt="" srcset=""></button>
+                <button class="btn-counter" onclick="onClickResetCounter('${this.id}')"><img src="./Icons/Icon-Reset.webp" alt="" srcset=""></button>
+                <button class="btn-counter" onclick="onClickDeleteCounter('${this.id}')"><img src="./Icons/Icon-Delete-color.webp" alt="" srcset=""></button>
             </div>
         `;
 
@@ -153,7 +159,7 @@ async function onInsertNewCounterInDB(counterToInsert) {
 
 
 // Modification Compteur
-async function onInsertCounterModificationInDB(counterToUpdate,key) {
+async function onInsertCounterModificationInDB(modifiedData,key) {
 
     try {
         // Récupérer l'élément actuel depuis la base
@@ -162,7 +168,7 @@ async function onInsertCounterModificationInDB(counterToUpdate,key) {
         // Mettre à jour les champs nécessaires en conservant `_id` et `_rev`
         const updatedDoc = {
             ...existingDoc,  // Garde _id et _rev pour la mise à jour
-            ...counterToUpdate // Remplace les valeurs avec les nouvelles
+            ...modifiedData // Remplace les valeurs avec les nouvelles
         };
 
         // Enregistrer les modifications dans la base
@@ -208,6 +214,35 @@ async function deleteCounter(counterKey) {
 
 
 
+// ---------------------- configuration compteur --------------------
+
+
+// Valeur incrementation
+function onChangeCounterIncrement(idRef) {
+
+    // Actualise l'array
+    userCounterList[idRef].countIncrement = parseInt(document.getElementById(`inputCountIncrement_${idRef}`).value);
+
+    console.log(userCounterList[idRef]);
+
+    // Sauvegarde en base
+    onInsertCounterModificationInDB(userCounterList[idRef],idRef);
+}
+
+
+//Valeur cible
+function onChangeCounterTargetValue(idRef) {
+
+    // Actualise l'array
+    userCounterList[idRef].countTarget = parseInt(document.getElementById(`inputCountTarget_${idRef}`).value);
+
+    console.log(userCounterList[idRef]);
+
+    // Sauvegarde en base
+    onInsertCounterModificationInDB(userCounterList[idRef],idRef);
+}
+
+
 
 
 
@@ -220,7 +255,7 @@ function onClickAddCounter() {
     document.getElementById("newCounterName").value = "";
 
     // remet les éléments dans la couleur par défaut
-    counterColorSelected = counterColor["white"];
+    counterColorSelected = "white";
     document.getElementById("divCreateCounterContent").style.backgroundColor = counterColorSelected;
 
     // Affiche 
@@ -245,7 +280,7 @@ function onClickDivNewPopupContent(event) {
 
 function onChooseCounterColor(color) {
     document.getElementById("divCreateCounterContent").style.backgroundColor = counterColor[color];
-    counterColorSelected = counterColor[color];
+    counterColorSelected = color;
 }
 
 
@@ -330,8 +365,16 @@ function onDisplayCounter() {
     let counterKeysList = Object.keys(userCounterList);
 
 
-    counterKeysList.forEach(key=>{
-        new Counter(key,userCounterList[key].name,userCounterList[key].initDate,userCounterList[key].currentCount,userCounterList[key].countTarget,userCounterList[key].countIncrement,userCounterList[key].displayOrder,divCounterRef,userCounterList[key].color);
+    counterKeysList.forEach((key,index)=>{
+        new Counter(key,userCounterList[key].name,onDisplayUserFriendlyDate(userCounterList[key].initDate),userCounterList[key].currentCount,userCounterList[key].countTarget,userCounterList[key].countIncrement,userCounterList[key].displayOrder,divCounterRef,counterColor[userCounterList[key].color]);
+
+        // Creation de la ligne de fin pour le dernier index
+        if (index === (Object.keys(userCounterList).length - 1)) {
+            let newClotureList = document.createElement("span");
+            newClotureList.classList.add("last-container");
+            newClotureList.innerHTML = `ℹ️ Vous pouvez créer jusqu'à ${maxCounter} compteurs.`;
+            divCounterRef.appendChild(newClotureList);
+        }
     });
 
     
@@ -340,42 +383,33 @@ function onDisplayCounter() {
 
 
 
-
-
 // ------------------------- INCREMENTATION ---------------------------------
 
 
-// lorsque j'incremente, récupère la valeur dans total, ajoute la nouvelle valeur
+// lorsque j'incremente, récupère la valeur la variable (currentCount), ajoute la nouvelle valeur(increment)
 // et le nouveau résultat est mis dans total ainsi que sauvegardé en base
 function onClickIncrementeCounter(idRef) {
 
 
     // controle si valeur existe dans input
-    let inputRef = document.getElementById(`inputCounter_${idRef}`),
-        textTotalRef = document.getElementById(`counterTotal_${idRef}`);
+    let spanCurrentCountRef = document.getElementById(`spanCurrentCount_${idRef}`);
 
-
-    if (inputRef.value === "") {
-        if (devMode === true){console.log(" [COUNTER] Aucune valeur à ajouter");};
-        return
-    }
 
     // récupère ancien total et nouvelle valeur
-    let oldValue = userCounterList[idRef].count,
-        newValue = parseInt(inputRef.value);
+    let oldValue = userCounterList[idRef].currentCount,
+        newValue = userCounterList[idRef].countIncrement;
 
 
     // Addition
     let newTotal = oldValue + newValue;
 
 
-    // vite input, Set nouveau résultat dans html, variable et update base
-    inputRef.value = "";
-    textTotalRef.innerHTML = newTotal;//le html
-    userCounterList[idRef].count = newTotal;//le tableau
+    // Set nouveau résultat dans html, variable et update base
+    spanCurrentCountRef.innerHTML = newTotal;//le html
+    userCounterList[idRef].currentCount = newTotal;//le tableau
+
+
     //La base
-
-
     onInsertCounterModificationInDB(userCounterList[idRef],idRef);
 
     if (devMode === true){console.log(userCounterList);};
@@ -384,11 +418,11 @@ function onClickIncrementeCounter(idRef) {
     // ANIMATION
 
     // Ajouter la classe pour l'animation
-    textTotalRef.classList.add("count-animated");
+    spanCurrentCountRef.classList.add("count-animated");
 
     // Supprimer la classe après l'animation pour la rejouer à chaque changement
     setTimeout(() => {
-        textTotalRef.classList.remove("count-animated");
+        spanCurrentCountRef.classList.remove("count-animated");
     }, 300);
     
 }
@@ -404,49 +438,45 @@ function onClickIncrementeCounter(idRef) {
 
 function onClickResetCounter(idRef) {
 
-    // Récupère les références
-    let inputRef = document.getElementById(`inputCounter_${idRef}`),
-        textTotalRef = document.getElementById(`counterTotal_${idRef}`),
-        textDateRef = document.getElementById(`counterDate_${idRef}`);
-
-
     // Récupère la date du jours
     let newInitDate = onFindDateTodayUS();
 
+
+    // set les html
+    //current count
+    let spanCurrentCountRef = document.getElementById(`spanCurrentCount_${idRef}`);
+    spanCurrentCountRef.innerHTML = 0;
+
+    //Count increment
+    document.getElementById(`inputCountIncrement_${idRef}`).value = 0;
+
+    //count Target
+    document.getElementById(`inputCountTarget_${idRef}`).value = 0;
+    //date d'initialisation
+    document.getElementById(`counterDate_${idRef}`).innerHTML = onDisplayUserFriendlyDate(newInitDate);
+
+
+   
+
     // Set les variables
     userCounterList[idRef].initDate = newInitDate; 
-    userCounterList[idRef].count = 0;
-
-
-    // Set le html
-    inputRef.value = "";
-    textTotalRef.innerHTML = 0;
-    // Date
-    if (newInitDate === dateToday) {
-        textDateRef.innerHTML = "Auj.";
-    }else if (newInitDate === dateYesterday) {
-        textDateRef.innerHTML = "Hier";
-    }else{
-        const dateCounterFormated = onFormatDateToFr(newInitDate);
-        textDateRef.innerHTML = `${dateCounterFormated}`;
-    };
-
+    userCounterList[idRef].currentCount = 0;
+    userCounterList[idRef].countTarget = 0;
+    userCounterList[idRef].countIncrement = 0;
 
 
     // Actualise la base
-
     onInsertCounterModificationInDB(userCounterList[idRef],idRef);
 
     if (devMode === true){console.log(userCounterList);};
 
 
-
     // Ajouter la classe pour l'animation
-    textTotalRef.classList.add("anim-reset");
+    spanCurrentCountRef.classList.add("anim-reset");
 
     // Supprimer la classe après l'animation pour la rejouer à chaque changement
     setTimeout(() => {
-        textTotalRef.classList.remove("anim-reset");
+        spanCurrentCountRef.classList.remove("anim-reset");
     }, 300);
 
 }
