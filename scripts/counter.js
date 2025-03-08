@@ -1,7 +1,12 @@
 
 let userCounterList = {
-    "Counter_1": { "type": "Counter", "name": "Compteur 1", "count": 5 },
-    "Counter_2": { "type": "Counter", "name": "Compteur 2", "count": 10 }
+    "Counter_1": { 
+        type: "Counter", name: "Compteur 1", 
+        initDate:"", 
+        currentCount: 0, countTarget :0, countIncrement:0, 
+        displayOrder : 0,
+        color : "white"
+    }
 },
     maxCounter = 10;
 
@@ -15,6 +20,61 @@ let counterColor = {
 };
 
 let counterColorSelected = "#fff";//utiliser lors de la création d'un compteur
+
+
+
+// Objet compteur
+class Counter {
+    constructor(id, name, initDate, currentCount, countTarget, countIncrement,displayOrder,parentRef,color){
+        this.id = id;
+        this.name = name;
+        this.initDate = initDate;
+        this.currentCount = currentCount;
+        this.countTarget = countTarget;
+        this.countIncrement = countIncrement;
+        this.displayOrder = displayOrder;
+        this.parentRef = parentRef;
+        this.color = color;
+
+        // div container
+        this.element = document.createElement("div");
+        this.element.classList.add("compteur-container");
+        this.element.style.backgroundColor = this.color;
+
+
+        this.render();
+    }
+
+
+
+    // génération de l'élément
+    render(){
+        this.element.innerHTML = `
+            <p class="compteur-date" id="">${this.initDate}</p>
+            <p class="compteur-name" id="">${this.name}</p>
+
+            <div class="compteur-content">
+                <span class="compteur-total" id="total-count">${this.currentCount}</span>
+                <input type="number" class="compteur" id="" placeholder="00">
+                <button class="btn-menu btnFocus"><img src="./Icons/Icon-Accepter.webp" alt="" srcset=""></button>
+                <button class="btn-counter"><img src="./Icons/Icon-Reset.webp" alt="" srcset=""></button>
+                <button class="btn-counter"><img src="./Icons/Icon-Delete-color.webp" alt="" srcset=""></button>
+            </div>
+        `;
+
+        // Insertion
+        this.parentRef.appendChild(this.element);
+    }
+
+}
+
+
+
+
+
+
+
+
 
 
 
@@ -207,7 +267,13 @@ function onConfirmCreateCounter() {
         newCounterName += "_1";
     }
 
-    let newCounterToCreate = {name: newCounterName, initDate: newCounterDate, count: 0, color : counterColorSelected};
+    let newCounterToCreate = {
+        name: newCounterName, 
+        initDate: newCounterDate, 
+        currentCount: 0, countTarget:0, countIncrement:0,
+        displayOrder : 0,
+        color : counterColorSelected
+    };
 
     eventInsertNewCompteur(newCounterToCreate);
 }
@@ -263,126 +329,12 @@ function onDisplayCounter() {
 
     let counterKeysList = Object.keys(userCounterList);
 
-    // Génère les compteurs
-    counterKeysList.forEach((key,index)=>{
 
-        // le container du compteur
-        let newCounterContainer = document.createElement("div");
-            newCounterContainer.classList.add("compteur-container");
-            newCounterContainer.style.backgroundColor = userCounterList[key].color;
-            newCounterContainer.id = `counterContainer_${key}`;
-            
-            
-
-        // la date
-        let newCounterDate = document.createElement("p");
-            newCounterDate.classList.add("compteur-date");
-            newCounterDate.id = `counterDate_${key}`;
-            if (userCounterList[key].initDate === dateToday) {
-                newCounterDate.innerHTML = "Auj.";
-            }else if (userCounterList[key].initDate === dateYesterday) {
-                newCounterDate.innerHTML = "Hier";
-            }else{
-                const dateCounterFormated = onFormatDateToFr(userCounterList[key].initDate);
-                newCounterDate.innerHTML = `${dateCounterFormated}`;
-            };
-
-        // Le nom du compteur
-        let newCounterName = document.createElement("p");
-            newCounterName.classList.add("compteur-name");
-            newCounterName.innerHTML = userCounterList[key].name;
-
-        // la zone d'interaction
-        let newInterractionContent = document.createElement("div");
-            newInterractionContent.classList.add("compteur-content");
-
-        // AFFICHAGE DU TOTAL
-        let newSpanTotalCount = document.createElement("span");
-            newSpanTotalCount.classList.add("compteur-total");
-            newSpanTotalCount.id = `counterTotal_${key}`;
-            newSpanTotalCount.innerHTML = userCounterList[key].count;
-
-        // L'input de nombre à ajouter
-        let newInputCounter = document.createElement("input");
-            newInputCounter.type = "number";
-            newInputCounter.placeholder = "Ajout";
-            newInputCounter.classList.add("compteur");
-            newInputCounter.id= `inputCounter_${key}`;
-            // Pour pouvoir valider avec la touche "entré"
-            newInputCounter.addEventListener("keydown", function(event) {
-                if (event.key === "Enter") {  // ou event.code === "Enter"
-                    event.preventDefault();
-                    onClickIncrementeCounter(key);
-                }
-            });
-
-
-        // LES BOUTONS
-
-        // ajouter au compte
-        let newBtnCounterAdd = document.createElement("button");
-            newBtnCounterAdd.classList.add("btn-menu","btnFocus");
-            newBtnCounterAdd.onclick = function (){
-                onClickIncrementeCounter(key);
-            }
-        
-        let newBtnImgCounterAdd = document.createElement("img");
-            newBtnImgCounterAdd.src = "./Icons/Icon-Accepter.webp";
-
-        newBtnCounterAdd.appendChild(newBtnImgCounterAdd);
-
-
-        // Reset
-        let newBtnCounterReset = document.createElement("button");
-            newBtnCounterReset.classList.add("btn-counter");
-            newBtnCounterReset.onclick = function (){
-                onClickResetCounter(key);
-            }
-   
-        let newBtnImgCounterDelete = document.createElement("img");
-            newBtnImgCounterDelete.src = "./Icons/Icon-Reset.webp";
-
-        newBtnCounterReset.appendChild(newBtnImgCounterDelete);
-    
-    
-        // SUPPRIMER
-        let newBtnCounterDelete = document.createElement("button");
-            newBtnCounterDelete.classList.add("btn-counter");
-            newBtnCounterDelete.onclick = function (){
-                onClickDeleteCounter(key);
-            }
-   
-        let newBtnImgCounterReset = document.createElement("img");
-            newBtnImgCounterReset.src = "./Icons/Icon-Delete-color.webp";
-
-        newBtnCounterDelete.appendChild(newBtnImgCounterReset);
-
-
-
-
-        // Les insertions
-        newInterractionContent.appendChild(newSpanTotalCount);
-        newInterractionContent.appendChild(newInputCounter);
-        newInterractionContent.appendChild(newBtnCounterAdd);
-        newInterractionContent.appendChild(newBtnCounterReset);
-        newInterractionContent.appendChild(newBtnCounterDelete);
-
-        newCounterContainer.appendChild(newCounterDate);
-        newCounterContainer.appendChild(newCounterName);
-        newCounterContainer.appendChild(newInterractionContent);
-
-        divCounterRef.appendChild(newCounterContainer);
-
-
-        // Creation de la ligne de fin pour le dernier index
-        if (index === (Object.keys(userCounterList).length - 1)) {
-            let newClotureList = document.createElement("span");
-            newClotureList.classList.add("last-container");
-            newClotureList.innerHTML = `ℹ️ Vous pouvez créer jusqu'à ${maxCounter} compteurs.`;
-            divCounterRef.appendChild(newClotureList);
-        }
-
+    counterKeysList.forEach(key=>{
+        new Counter(key,userCounterList[key].name,userCounterList[key].initDate,userCounterList[key].currentCount,userCounterList[key].countTarget,userCounterList[key].countIncrement,userCounterList[key].displayOrder,divCounterRef,userCounterList[key].color);
     });
+
+    
 }
 
 
