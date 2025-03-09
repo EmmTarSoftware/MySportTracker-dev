@@ -51,14 +51,14 @@ class Counter {
     render(){
         this.element.innerHTML = `
             <p class="compteur-date" id="counterDate_${this.id}">${this.initDate}</p>
-            <p class="compteur-name" >${this.name}</p>
+            <p class="compteur-name" id="counterName_${this.id}">${this.name}</p>
             <p class="compteur-navigation">
                 <button class="btn-counter"><img src="./Icons/Icon-Up.webp" alt="" srcset=""></button>
                 <button class="btn-counter"><img src="./Icons/Icon-Down.webp" alt=""></button>
             </p>
-            <div class="compteur-content">
-                <span class="compteur-total" id="spanCurrentCount_${this.id}">${this.currentCount}</span>
-                <span>/</span>
+            <div class="compteur-content" id="divCounterCurrentCount_${this.id}">
+                <span class="current-count" id="spanCurrentCount_${this.id}">${this.currentCount}</span>
+                <span id="spanCounterSeparator_${this.id}">/</span>
                 <input type="number" class="compteur-target" id="inputCountTarget_${this.id}"  style="background-color: ${this.color};" placeholder="0" value=${this.countTarget} onChange="onChangeCounterTargetValue('${this.id}')">
             </div>
 
@@ -412,7 +412,9 @@ function onClickIncrementeCounter(idRef) {
 
     // Set nouveau résultat dans html, variable et update base
     // Referencement
-    let spanCurrentCountRef = document.getElementById(`spanCurrentCount_${idRef}`);
+    let spanCurrentCountRef = document.getElementById(`spanCurrentCount_${idRef}`),
+        divCounterCurrentCountRef = document.getElementById(`divCounterCurrentCount_${idRef}`);
+
     spanCurrentCountRef.innerHTML = newTotal;//le html
     userCounterList[idRef].currentCount = newTotal;//le tableau
 
@@ -423,16 +425,14 @@ function onClickIncrementeCounter(idRef) {
     if (devMode === true){console.log(userCounterList);};
 
 
+    // Si objectif atteind
+    let isTargetReach = onCheckTargetReach(idRef);
+
     // ANIMATION
+    onPlayIncrementAnimation(isTargetReach,spanCurrentCountRef,divCounterCurrentCountRef);
 
-    // Ajouter la classe pour l'animation
-    spanCurrentCountRef.classList.add("count-animated");
-
-    // Supprimer la classe après l'animation pour la rejouer à chaque changement
+    //déverrouille le bouton pour être a nouveau disponible
     setTimeout(() => {
-        spanCurrentCountRef.classList.remove("count-animated");
-
-        //déverrouille le bouton pour être a nouveau disponible
         document.getElementById(`btnCountIncrement_${idRef}`).disabled = false;
     }, 300);
     
@@ -440,11 +440,45 @@ function onClickIncrementeCounter(idRef) {
 
 
 
+// Si objectif non égale à zero atteind
+function onCheckTargetReach(idRef) {
+    let targetReach = false;
+
+    if (userCounterList[idRef].countTarget === 0) {
+       return targetReach;
+    } else if (userCounterList[idRef].currentCount >= userCounterList[idRef].countTarget){
+        targetReach = true;
+        document.getElementById(`inputCountTarget_${idRef}`).classList.add("target-reach");
+        document.getElementById(`spanCounterSeparator_${idRef}`).classList.add("target-reach");
+    }
+    return targetReach;
+}
+
+
+
+
+// ANIMATION
+function onPlayIncrementAnimation(isTargetReach,countIncrementRef,divCurrentCountRef) {
+    console.log(isTargetReach,countIncrementRef,divCurrentCountRef);
+
+    let itemToAnimRef = isTargetReach ? divCurrentCountRef : countIncrementRef;
+
+        // Ajouter la classe pour l'animation
+        itemToAnimRef.classList.add("count-animated");
+
+        // Supprimer la classe après l'animation pour la rejouer à chaque changement
+        setTimeout(() => {
+            itemToAnimRef.classList.remove("count-animated");
+        }, 300);
+}
+
+
+
 // ------------------------- RESET ---------------------------------
 
 // Lorsque je reset, recupère la date du jour
-// set la total à zero,
-// Actualise tous les éléments visual, dans la variable et en base
+// set le current count à zero,
+// Actualise les éléments visual, dans la variable et en base
 
 
 function onClickResetCounter(idRef) {
@@ -461,28 +495,30 @@ function onClickResetCounter(idRef) {
     let spanCurrentCountRef = document.getElementById(`spanCurrentCount_${idRef}`);
     spanCurrentCountRef.innerHTML = 0;
 
-    //Count increment
-    document.getElementById(`inputCountIncrement_${idRef}`).value = 0;
-
-    //count Target
-    document.getElementById(`inputCountTarget_${idRef}`).value = 0;
     //date d'initialisation
     document.getElementById(`counterDate_${idRef}`).innerHTML = onDisplayUserFriendlyDate(newInitDate);
 
 
-   
-
     // Set les variables
     userCounterList[idRef].initDate = newInitDate; 
     userCounterList[idRef].currentCount = 0;
-    userCounterList[idRef].countTarget = 0;
-    userCounterList[idRef].countIncrement = 0;
-
 
     // Actualise la base
     onInsertCounterModificationInDB(userCounterList[idRef],idRef);
 
+
+
     if (devMode === true){console.log(userCounterList);};
+
+    //retire la classe "reach" si necessaire pour le count target et le slash
+    let counterTargetRef = document.getElementById(`inputCountTarget_${idRef}`),
+        counterSeparatorRef = document.getElementById(`spanCounterSeparator_${idRef}`);
+
+    if (counterTargetRef.classList.contains("target-reach")) {
+        counterTargetRef.classList.remove("target-reach");
+        counterSeparatorRef.classList.remove("target-reach");
+    }
+
 
 
     // Ajouter la classe pour l'animation

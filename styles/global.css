@@ -1759,6 +1759,7 @@ p.compteur-navigation{
     width: 200px;
     top: 5px;
     text-align: right;
+    opacity: 0.5;
 }
 
 
@@ -1777,10 +1778,15 @@ p.compteur-name {
     gap: 5px; /* Ajoute un petit espace entre les éléments */
     margin-top: 10px;
     text-align: center;
+    transition: transform 0.2s ease-in-out, opacity 0.3s ease-in-out;
 }
 
-
-
+.compteur-content.count-animated {
+    animation: counterPop 0.3s ease-in-out;
+}
+.compteur-content.anim-reset {
+    animation: slideDown 0.4s ease-in-out;
+}
 
 /* ANIMATION COUNTER */
 
@@ -1801,7 +1807,7 @@ p.compteur-name {
     100% { transform: translateY(0); opacity: 1; }
 }
 
-.compteur-total {
+.current-count {
     font-size: 40px;
     font-weight: bold;
     width: 100px;
@@ -1809,12 +1815,11 @@ p.compteur-name {
     transition: transform 0.2s ease-in-out, opacity 0.3s ease-in-out;
 
 }
-.compteur-total.count-animated {
+.current-count.count-animated {
     animation: counterPop 0.3s ease-in-out;
-
 }
 
-.compteur-total.anim-reset {
+.current-count.anim-reset {
     animation: slideDown 0.4s ease-in-out;
 }
 
@@ -1848,11 +1853,12 @@ input.compteur::-webkit-inner-spin-button {
 
 input.compteur-target{
         width: 60px;
+        height: 40px;
         text-align: left;
         font-size: 18px;
         /* font-weight: bold; */
         outline: none;
-        color:#666;
+        color:#969696;
         /* -moz-appearance: textfield; */
         appearance: none; 
         border: none;
@@ -1867,7 +1873,15 @@ input.compteur-target::-webkit-inner-spin-button {
 }
 
 
+input.compteur-target.target-reach{
+    font-size: 40px;
+    font-weight: bold;
+}
 
+span.target-reach{
+    font-size: 40px;
+    font-weight: bold;
+}
 
 /* popup nommage nouveau compteur */
 div.popup-new-counter {
