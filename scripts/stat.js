@@ -711,7 +711,7 @@ function displayGeneralStats(activityList) {
                 Depuis le <b>${formattedDate}</b>, tu as pratiqué <b>${totalActivities} activité(s)</b>, 
                 parcouru environ <b>${totalDistance.toFixed(2)} km</b> et accumulé un total de <b>${formatDuration(totalDuration)} heure(s)</b> de sport. 
             </p>
-            <p>Ton activité préférée est : <b>${favouriteActivityName}</b>.</p>
+            <p>Activité la plus pratiquée : <b>${favouriteActivityName}</b>.</p>
 
             <p>Bravo ! 👍</p>
         </section>

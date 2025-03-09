@@ -13,7 +13,8 @@ let notifyTextArray = {
     templateModification : "Modèle modifié !",
     templateDeleted : "Modèle supprimé !",
     counterCreated : "Compteur créé !",
-    counterDeleted : "Compteur supprimé"
+    counterDeleted : "Compteur supprimé !",
+    counterTargetReach : "Compteur validé !"
 };
 
 

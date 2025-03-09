@@ -82,7 +82,7 @@ class Counter {
 
 
 
-async function onOpenMenuCounter(){
+async function onOpenMenuSession(){
 
     await onLoadCounterFromDB();
     onDisplayCounter(userCounterList);
@@ -352,14 +352,14 @@ function gestionMaxCounterReach() {
 function onDisplayCounter() {
     if (devMode === true){console.log(" [COUNTER] génération de la liste");};
 
-    let divCounterRef = document.getElementById("divCounter");
+    let divSessionRef = document.getElementById("divSession");
     // Reset
-    divCounterRef.innerHTML = "";
+    divSessionRef.innerHTML = "";
 
 
     // Affichage en cas d'aucune modèle
     if (Object.keys(userCounterList).length < 1) {
-        divCounterRef.innerHTML = "Aucun compteur à afficher !";
+        divSessionRef.innerHTML = "Aucun compteur à afficher !";
         return
     }
 
@@ -369,7 +369,7 @@ function onDisplayCounter() {
     counterKeysList.forEach((key,index)=>{
 
         // Generation
-        new Counter(key,userCounterList[key].name,onDisplayUserFriendlyDate(userCounterList[key].initDate),userCounterList[key].currentCount,userCounterList[key].countTarget,userCounterList[key].countIncrement,userCounterList[key].displayOrder,divCounterRef,counterColor[userCounterList[key].color]);
+        new Counter(key,userCounterList[key].name,onDisplayUserFriendlyDate(userCounterList[key].initDate),userCounterList[key].currentCount,userCounterList[key].countTarget,userCounterList[key].countIncrement,userCounterList[key].displayOrder,divSessionRef,counterColor[userCounterList[key].color]);
 
 
         // control des objectifs atteinds pour chaque compteur généré
@@ -380,7 +380,7 @@ function onDisplayCounter() {
             let newClotureList = document.createElement("span");
             newClotureList.classList.add("last-container");
             newClotureList.innerHTML = `ℹ️ Vous pouvez créer jusqu'à ${maxCounter} compteurs.`;
-            divCounterRef.appendChild(newClotureList);
+            divSessionRef.appendChild(newClotureList);
         }
     });
 
@@ -440,6 +440,11 @@ function onClickIncrementeCounter(idRef) {
 
     // ANIMATION
     onPlayIncrementAnimation(isTargetReach,spanCurrentCountRef,divCounterCurrentCountRef);
+
+    // Notification objectif atteind
+    if (isTargetReach) {
+        onShowNotifyPopup(`${userCounterList[idRef].name}  validé !`);
+    }
 
     //déverrouille le bouton pour être a nouveau disponible
     setTimeout(() => {
@@ -588,8 +593,8 @@ async function eventDeleteCounter(){
     
 
     if (Object.keys(userCounterList).length < 1) {
-        let divCounterRef = document.getElementById("divCounter");
-        divCounterRef.innerHTML = "Aucun compteur à afficher !";
+        let divSessionRef = document.getElementById("divSession");
+        divSessionRef.innerHTML = "Aucun compteur à afficher !";
     }
 
     // Popup notification
@@ -603,9 +608,9 @@ async function eventDeleteCounter(){
 
 
 // Retour depuis Info
-function onClickReturnFromCounter() {
+function onClickReturnFromSession() {
 
    
        // ferme le menu
-       onLeaveMenu("Counter");
+       onLeaveMenu("Session");
    };

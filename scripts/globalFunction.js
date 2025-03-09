@@ -636,11 +636,11 @@ function onChangeMenu(menuTarget) {
 
 
     switch (menuTarget) {
-        case "Counter":
+        case "Session":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Counter");};
-            pMenuTitleRef.innerHTML = "Compteur";
-            onChangeDisplay(allDivHomeToDisplayNone,["divBtnCounter"],["divCounter"],[],[],[],[]);
-            onOpenMenuCounter();
+            pMenuTitleRef.innerHTML = "Session";
+            onChangeDisplay(allDivHomeToDisplayNone,["divBtnSession"],["divSession"],[],[],[],[]);
+            onOpenMenuSession();
         break;
         
         case "Stat":
@@ -787,9 +787,9 @@ function onLeaveMenu(menuTarget) {
 
     switch (menuTarget) {
 
-        case "Counter":
-            if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Counter");};
-            onChangeDisplay(["divCounter","divBtnCounter"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
+        case "Session":
+            if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : Session");};
+            onChangeDisplay(["divSession","divBtnSession"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
         break;
         
         case "Stat":

@@ -3,7 +3,7 @@
  const conditionText = `
   <p>
                 <b>ℹ️ Ce prototype est gratuit </b>et mis à ta disposition pour
-                 suivre tes séances sportives. 
+                 suivre tes activités physiques. 
                  <b>Toutes tes données sont stockées dans ton navigateur</b> et rien n’est collecté ou envoyé 
                  sur un serveur.
             </p>
