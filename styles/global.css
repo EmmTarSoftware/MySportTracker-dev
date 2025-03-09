@@ -1763,8 +1763,8 @@ p.compteur-navigation{
 
 
 p.compteur-name {
-    font-size: 18px;
-    color: var(--colorMainTheme1);
+    font-size: 20px;
+    color: black;
     font-weight: bold;
     text-align: center;
     text-transform: uppercase;
@@ -1772,9 +1772,11 @@ p.compteur-name {
 
 .compteur-content {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    align-items: center; /* Centre verticalement */
+    justify-content: center; /* Centre horizontalement */
+    gap: 5px; /* Ajoute un petit espace entre les éléments */
     margin-top: 10px;
+    text-align: center;
 }
 
 
@@ -1803,7 +1805,7 @@ p.compteur-name {
     font-size: 40px;
     font-weight: bold;
     width: 100px;
-    text-align: center;
+    text-align: right;
     transition: transform 0.2s ease-in-out, opacity 0.3s ease-in-out;
 
 }
@@ -1817,17 +1819,16 @@ p.compteur-name {
 }
 
 input.compteur {
-    width: 80px;
-    height: 40px;
+    width: 60px;
+    height: 30px;
     text-align: center;
-    font-size: 18px;
-    font-weight: bold;
+    font-size: 12px;
     border: 2px solid #ccc;
     border-radius: 5px;
     outline: none;
     background: white;
     color: #555;
-    /* -moz-appearance: textfield; */
+    -moz-appearance: textfield;
     appearance: none; 
 }
 
@@ -1843,6 +1844,28 @@ input.compteur::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
+
+
+input.compteur-target{
+        width: 60px;
+        text-align: left;
+        font-size: 18px;
+        /* font-weight: bold; */
+        outline: none;
+        color:#666;
+        /* -moz-appearance: textfield; */
+        appearance: none; 
+        border: none;
+        margin: 0px; padding: 0px;
+}
+
+/* Supprimer les flèches des input number */
+input.compteur-target::-webkit-outer-spin-button,
+input.compteur-target::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
 
 
 
@@ -1906,8 +1929,6 @@ div.confirmationDeleteCounter.show button.deleteConfirm {
 
 /* Les boutons des différents menu */
 button.btn-counter{
-    text-align: center;
-    margin-left: 10px;margin-right: 10px;
     width: 40px; height: 40px;
     border: none;
     border-radius: 5px;
