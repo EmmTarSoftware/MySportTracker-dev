@@ -62,8 +62,8 @@ class Counter {
                 <span class="compteur-total">/</span>
                 <input type="number" class="compteur-target" id="inputCountTarget_${this.id}" style="background-color: ${this.color};" placeholder="0" value=${this.countTarget} onChange="onChangeCounterTargetValue('${this.id}')">
                 <input type="number" class="compteur" id="inputCountIncrement_${this.id}" placeholder="00" value=${this.countIncrement} onchange="onChangeCounterIncrement('${this.id}')">
-                <button class="btn-menu btnFocus" onclick="onClickIncrementeCounter('${this.id}')"><img src="./Icons/Icon-Accepter.webp" alt="" srcset=""></button>
-                <button class="btn-counter" onclick="onClickResetCounter('${this.id}')"><img src="./Icons/Icon-Reset.webp" alt="" srcset=""></button>
+                <button class="btn-menu btnFocus" id="btnCountIncrement_${this.id}" onclick="onClickIncrementeCounter('${this.id}')"><img src="./Icons/Icon-Accepter.webp" alt="" srcset=""></button>
+                <button class="btn-counter" id="btnCountReset_${this.id}" onclick="onClickResetCounter('${this.id}')"><img src="./Icons/Icon-Reset.webp" alt="" srcset=""></button>
                 <button class="btn-counter" onclick="onClickDeleteCounter('${this.id}')"><img src="./Icons/Icon-Delete-color.webp" alt="" srcset=""></button>
             </div>
         `;
@@ -221,7 +221,7 @@ async function deleteCounter(counterKey) {
 function onChangeCounterIncrement(idRef) {
 
     // Actualise l'array
-    userCounterList[idRef].countIncrement = parseInt(document.getElementById(`inputCountIncrement_${idRef}`).value);
+    userCounterList[idRef].countIncrement = parseInt(document.getElementById(`inputCountIncrement_${idRef}`).value) || 0;
 
     console.log(userCounterList[idRef]);
 
@@ -390,10 +390,19 @@ function onDisplayCounter() {
 // et le nouveau résultat est mis dans total ainsi que sauvegardé en base
 function onClickIncrementeCounter(idRef) {
 
+    // Ne fait rien si l'increment est à zero ou vide
+    if (userCounterList[idRef].countIncrement === 0) {
+        if (devMode === true){console.log("[COUNTER] increment vide ne fait rien");};
+        return
 
-    // controle si valeur existe dans input
-    let spanCurrentCountRef = document.getElementById(`spanCurrentCount_${idRef}`);
+    }
 
+
+    // Verrouille le bouton pour éviter action secondaire trop rapide
+    //sera déverrouillé après animation
+    document.getElementById(`btnCountIncrement_${idRef}`).disabled = true;
+
+    
 
     // récupère ancien total et nouvelle valeur
     let oldValue = userCounterList[idRef].currentCount,
@@ -405,6 +414,8 @@ function onClickIncrementeCounter(idRef) {
 
 
     // Set nouveau résultat dans html, variable et update base
+    // Referencement
+    let spanCurrentCountRef = document.getElementById(`spanCurrentCount_${idRef}`);
     spanCurrentCountRef.innerHTML = newTotal;//le html
     userCounterList[idRef].currentCount = newTotal;//le tableau
 
@@ -423,6 +434,9 @@ function onClickIncrementeCounter(idRef) {
     // Supprimer la classe après l'animation pour la rejouer à chaque changement
     setTimeout(() => {
         spanCurrentCountRef.classList.remove("count-animated");
+
+        //déverrouille le bouton pour être a nouveau disponible
+        document.getElementById(`btnCountIncrement_${idRef}`).disabled = false;
     }, 300);
     
 }
@@ -437,6 +451,9 @@ function onClickIncrementeCounter(idRef) {
 
 
 function onClickResetCounter(idRef) {
+
+    //bloc le bouton jusqu'à la fin de l'animation
+    document.getElementById(`btnCountReset_${idRef}`).disabled = true;
 
     // Récupère la date du jours
     let newInitDate = onFindDateTodayUS();
@@ -477,6 +494,9 @@ function onClickResetCounter(idRef) {
     // Supprimer la classe après l'animation pour la rejouer à chaque changement
     setTimeout(() => {
         spanCurrentCountRef.classList.remove("anim-reset");
+
+        //déverrouille le bouton à la fin de l'animation
+        document.getElementById(`btnCountReset_${idRef}`).disabled = false;
     }, 300);
 
 }
@@ -521,7 +541,6 @@ async function eventDeleteCounter(){
 
     // Gestion si max atteind ou non
     gestionMaxCounterReach();
-
 
     // Affichage en cas d'aucun compteur
     
