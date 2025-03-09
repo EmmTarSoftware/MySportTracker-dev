@@ -1754,12 +1754,14 @@ div.disabledEvent{
     left: 10px;
 }
 
+
+/* Pour les bouton de navigation haut et bas. Invisible pour le moment */
 p.compteur-navigation{
     position: absolute;
     width: 200px;
     top: 5px;
     text-align: right;
-    opacity: 0.5;
+    opacity: 0;
 }
 
 
@@ -1780,6 +1782,15 @@ p.compteur-name {
     text-align: center;
     transition: transform 0.2s ease-in-out, opacity 0.3s ease-in-out;
 }
+
+
+
+.compteur-content p.serieTextExplication{
+    font-size: 0.8rem;
+    color: #666;
+    width: 70px; margin: 0px;padding: 0px;
+}
+
 
 .compteur-content.count-animated {
     animation: counterPop 0.3s ease-in-out;
@@ -1852,7 +1863,7 @@ input.compteur::-webkit-inner-spin-button {
 
 
 input.compteur-target{
-        width: 60px;
+        width: 100px;
         height: 40px;
         text-align: left;
         font-size: 18px;
@@ -1863,6 +1874,7 @@ input.compteur-target{
         appearance: none; 
         border: none;
         margin: 0px; padding: 0px;
+        /* Le backgroud est set depuis le génération de l'élément */
 }
 
 /* Supprimer les flèches des input number */
@@ -1956,6 +1968,10 @@ button.btnChooseColor{
     height: 40px;width: 40px;
     font-size: 0.7rem;
 }
+
+
+
+
 
 /* ------------------------------------ FIN Compteur ----------------------------------*/
 

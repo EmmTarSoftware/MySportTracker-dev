@@ -7,6 +7,9 @@
 
 
 function onGenerateConditionUtilisation() {
+    // Insert les conditions dynamique dans l'emplacement
+    document.getElementById("divConditionDynamicText").innerHTML = conditionText;
+    // Affichage
     onChangeDisplay(allDivHomeToDisplayNone,["divConditionUtilisation"],[],[],[],["launch-btn"],[]);
     if (devMode === true){console.log("Génération du popup des conditions d'utilisation");};
 

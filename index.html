@@ -883,15 +883,27 @@
         <div class="release-licence">
             <p class="release-licence">Une application pour gérer vos activités sportives.</p>
             <p class="release-licence">Optimisée pour Google Chrome.</p>
-            <p class="release-licence"><strong>Version :</strong>  1.6.0</p>
+            <p class="release-licence"><strong>Version :</strong>1.6.2</p>
             <p class="release-licence"><strong>Développement/Conception :</strong> Emmanuel TARACONAT.</p>
             <p class="release-licence"><strong>Collaboration :</strong> Morgane C.</p>
             <p class="release-licence"><strong>Licence :</strong><a href="https://creativecommons.org/licenses/by-nc/4.0/"  target="_blank">CC BY-NC 4.0</a>.</p>
             <p class="release-licence"><strong>Icônes :</strong> créées par Freepik, Smashicons, Icongeek26, Vectorslab, afif fudin, 
                 alkhalifi design, Mayor Icons, juicy_fish, Google, disponibles sur <a href="https://www.flaticon.com/" target="_blank">Flaticon.</a></p>
-            <p class="release-licence"> © 2025 - taralab - Tous droits réservés.</p>    
+            <p class="release-licence"><strong>CONDITION D'UTILISATION :</strong></p>
+              
+        </div>
+
+        <!-- Condition d'utilisation -->
+        <div class="release-licence" id="divConditionDynamicTextInfo">
+            <!-- Injection des conditions -->
+        </div>
+
+        <div class="release-licence">
+            <p class="release-licence"> © 2025 - taralab - Tous droits réservés.</p>  
         </div>
     </div>
+
+
 
     <div id="divBtnInfo" class="button-editor">
         <button class="btn-menu" onclick="onClickReturnFromInfo()"><img src="./Icons/Icon-Return-cancel.webp" alt="Icone"></button>  
@@ -948,28 +960,11 @@
             <h3>Conditions d'utilisation</h3>
         </div>
         
-        <p>
-            <b>ℹ️ Ce prototype est gratuit </b>et mis à ta disposition pour
-             suivre tes séances sportives. 
-             <b>Toutes tes données sont stockées dans ton navigateur</b> et rien n’est collecté ou envoyé 
-             sur un serveur.
-        </p>
-        <p>
-            ⚠️ <b>ATTENTION : </b>
-            <ul>
-                <li>
-                    <b>Si tu effaces tes cookies </b>ou utilises un outil de nettoyage, <b>tes données seront supprimées</b>. 
-                    N'oublie pas d'<b>effectuer des sauvegardes</b> (menu "Paramètres") de temps en temps pour éviter toute perte.
-                </li>
-                <li>
-                    <b>Ne stocke pas d'informations sensibles</b> (mots de passe, informations bancaires ou personnelles, etc...) dans l'application.
-                </li>
-            </ul>
-        </p>
+        <div id="divConditionDynamicText">
+            <!-- Injection des conditions dynamiques -->
+        </div>
 
-        <p>
-            📌 Pour une expérience optimale, <b>installe-le via "Google Chrome"</b>.
-        </p>
+        
         <select class="conditionUtilisation" onchange="toggleLaunchButton()" name="" id="selectStatusCondition">
             <option value="Refused">Je décline.</option>
             <option value="Accepted">J'ai compris et j'accepte.</option>

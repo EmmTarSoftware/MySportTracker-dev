@@ -59,12 +59,13 @@ class Counter {
             <div class="compteur-content" id="divCounterCurrentCount_${this.id}">
                 <span class="current-count" id="spanCurrentCount_${this.id}">${this.currentCount}</span>
                 <span id="spanCounterSeparator_${this.id}">/</span>
-                <input type="number" class="compteur-target" id="inputCountTarget_${this.id}"  style="background-color: ${this.color};" placeholder="0" value=${this.countTarget} onChange="onChangeCounterTargetValue('${this.id}')">
+                <input type="number" class="compteur-target" id="inputCountTarget_${this.id}"  style="background-color: ${this.color};" placeholder="Objectif" value=${this.countTarget} onChange="onChangeCounterTargetValue('${this.id}')">
             </div>
 
             <div class="compteur-content">
                 <button class="btn-counter" onclick="onClickDeleteCounter('${this.id}')"><img src="./Icons/Icon-Delete-color.webp" alt="" srcset=""></button>
                 <button class="btn-counter" id="btnCountReset_${this.id}" onclick="onClickResetCounter('${this.id}')"><img src="./Icons/Icon-Reset.webp" alt="" srcset=""></button>
+                <p class="serieTextExplication">Série de :</p>
                 <input type="number" class="compteur" id="inputCountIncrement_${this.id}" placeholder="0" value=${this.countIncrement} onchange="onChangeCounterIncrement('${this.id}')">
                 <button class="btn-menu btnFocus" id="btnCountIncrement_${this.id}" onclick="onClickIncrementeCounter('${this.id}')"><img src="./Icons/Icon-Accepter.webp" alt="" srcset=""></button>  
            </div>
@@ -214,6 +215,9 @@ async function deleteCounter(counterKey) {
 // ---------------------- configuration compteur --------------------
 
 
+
+
+
 // Valeur incrementation
 function onChangeCounterIncrement(idRef) {
 
@@ -231,7 +235,7 @@ function onChangeCounterIncrement(idRef) {
 function onChangeCounterTargetValue(idRef) {
 
     // Actualise l'array
-    userCounterList[idRef].countTarget = parseInt(document.getElementById(`inputCountTarget_${idRef}`).value);
+    userCounterList[idRef].countTarget = parseInt(document.getElementById(`inputCountTarget_${idRef}`).value) || 0;
 
     console.log(userCounterList[idRef]);
 
@@ -363,7 +367,13 @@ function onDisplayCounter() {
 
 
     counterKeysList.forEach((key,index)=>{
+
+        // Generation
         new Counter(key,userCounterList[key].name,onDisplayUserFriendlyDate(userCounterList[key].initDate),userCounterList[key].currentCount,userCounterList[key].countTarget,userCounterList[key].countIncrement,userCounterList[key].displayOrder,divCounterRef,counterColor[userCounterList[key].color]);
+
+
+        // control des objectifs atteinds pour chaque compteur généré
+        onCheckTargetReach(key); 
 
         // Creation de la ligne de fin pour le dernier index
         if (index === (Object.keys(userCounterList).length - 1)) {
@@ -459,7 +469,6 @@ function onCheckTargetReach(idRef) {
 
 // ANIMATION
 function onPlayIncrementAnimation(isTargetReach,countIncrementRef,divCurrentCountRef) {
-    console.log(isTargetReach,countIncrementRef,divCurrentCountRef);
 
     let itemToAnimRef = isTargetReach ? divCurrentCountRef : countIncrementRef;
 
