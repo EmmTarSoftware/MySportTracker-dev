@@ -8,7 +8,7 @@ let userCounterList = {
             color : "white"
         }
     },
-    maxCounter = 10;
+    maxCounter = 20;
 
 let counterColor = {
     white: "#fff",
