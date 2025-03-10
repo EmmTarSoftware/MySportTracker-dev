@@ -171,7 +171,7 @@ async function onInsertCounterModificationInDB(modifiedData,key) {
 
         // Enregistrer les modifications dans la base
         await db.put(updatedDoc);
-
+        console.log("[COUNTER] Activité mis à jour :");
         if (devMode === true ) {console.log("[COUNTER] Activité mis à jour :", updatedDoc);};
 
         return updatedDoc; // Retourne l'objet mis à jour
@@ -224,7 +224,7 @@ function onChangeCounterIncrement(idRef) {
     // Actualise l'array
     userCounterList[idRef].countIncrement = parseInt(document.getElementById(`inputCountIncrement_${idRef}`).value) || 0;
 
-    console.log(userCounterList[idRef]);
+    console.log("[COUNTER] onchangeCounter Increment");
 
     // Sauvegarde en base
     onInsertCounterModificationInDB(userCounterList[idRef],idRef);
@@ -237,7 +237,7 @@ function onChangeCounterTargetValue(idRef) {
     // Actualise l'array
     userCounterList[idRef].countTarget = parseInt(document.getElementById(`inputCountTarget_${idRef}`).value) || 0;
 
-    console.log(userCounterList[idRef]);
+    console.log("[COUNTER] onChangeCounterTargetValue");
 
     // Sauvegarde en base
     onInsertCounterModificationInDB(userCounterList[idRef],idRef);
@@ -302,6 +302,9 @@ function onConfirmCreateCounter() {
         if (devMode === true){console.log(" [COUNTER] Doublon de nom détecté");};
         newCounterName += "_1";
     }
+
+    // Formatage du nom en majuscule
+        newCounterName = onSetToUppercase(newCounterName);
 
     let newCounterToCreate = {
         name: newCounterName, 
@@ -556,6 +559,9 @@ let idCounterToDelete = "";
 function onClickDeleteCounter(idTarget) {
 
     idCounterToDelete = idTarget;
+
+    // Set le texte de confirmation
+    document.getElementById("pTextConfirmDeleteCounter").innerHTML = `<b>Supprimer : ${userCounterList[idTarget].name} ?</b>`;
 
     // Affiche le popup
     document.getElementById("divConfirmDeleteCounter").classList.add("show");
