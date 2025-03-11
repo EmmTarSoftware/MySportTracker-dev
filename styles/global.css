@@ -1755,13 +1755,13 @@ div.disabledEvent{
 }
 
 
-/* Pour les bouton de navigation haut et bas. Invisible pour le moment */
+/* Pour les bouton de navigation haut et bas. */
 p.compteur-navigation{
     position: absolute;
     width: 200px;
     top: 5px;
     text-align: right;
-    opacity: 0;
+    opacity: 1;
 }
 
 

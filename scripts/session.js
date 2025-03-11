@@ -53,8 +53,8 @@ class Counter {
             <p class="compteur-date" id="counterDate_${this.id}">${this.initDate}</p>
             <p class="compteur-name" id="counterName_${this.id}">${this.name}</p>
             <p class="compteur-navigation">
-                <button class="btn-counter"><img src="./Icons/Icon-Up.webp" alt="" srcset=""></button>
-                <button class="btn-counter"><img src="./Icons/Icon-Down.webp" alt=""></button>
+                <button class="btn-counter" id="btn-counter-nav-up_${this.id}"><img src="./Icons/Icon-Up.webp" alt="" srcset=""></button>
+                <button class="btn-counter" id="btn-counter-nav-down_${this.id}"><img src="./Icons/Icon-Down.webp" alt=""></button>
             </p>
             <div class="compteur-content" id="divCounterCurrentCount_${this.id}">
                 <span class="current-count" id="spanCurrentCount_${this.id}">${this.currentCount}</span>
@@ -374,6 +374,17 @@ function onDisplayCounter() {
         // Generation
         new Counter(key,userCounterList[key].name,onDisplayUserFriendlyDate(userCounterList[key].initDate),userCounterList[key].currentCount,userCounterList[key].countTarget,userCounterList[key].countIncrement,userCounterList[key].displayOrder,divSessionRef,counterColor[userCounterList[key].color]);
 
+
+        // Gestion de l'affichage des boutons de navigation up/down
+        if (index === 0) {
+            //suppression du bouton up
+            document.getElementById(`btn-counter-nav-up_${key}`).remove();
+        }
+
+        if (index === (counterKeysList.length - 1)){
+            //suppression du bouton down
+            document.getElementById(`btn-counter-nav-down_${key}`).remove();
+        }
 
         // control des objectifs atteinds pour chaque compteur généré
         onCheckTargetReach(key); 
