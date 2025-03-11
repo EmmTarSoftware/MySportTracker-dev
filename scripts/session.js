@@ -180,6 +180,32 @@ async function onInsertCounterModificationInDB(modifiedData,key) {
     }
 }
 
+// Sauvegarde de modification multiple
+async function onInsertMultipleCounterModificationsInDB(allCountersToUpdate) {
+    try {
+        // Récupérer les documents existants en une seule requête
+        const keys = Object.keys(allCountersToUpdate);
+        const existingDocs = await db.allDocs({ keys, include_docs: true });
+
+        // Préparer les documents mis à jour
+        const updatedDocs = existingDocs.rows
+            .filter(row => row.doc) // Vérifier que le document existe
+            .map(row => ({
+                ...row.doc,  // Conserver `_id` et `_rev`
+                ...allCountersToUpdate[row.id] // Appliquer les nouvelles valeurs
+            }));
+
+        // Sauvegarder toutes les modifications en une seule opération
+        const result = await db.bulkDocs(updatedDocs);
+
+        console.log("[COUNTER] Modifications multiples enregistrées :", result);
+        return result;
+    } catch (err) {
+        console.error("Erreur lors de la mise à jour multiples des compteurs :", err);
+    }
+}
+
+
 // Suppression Compteur
 async function deleteCounter(counterKey) {
     try {
@@ -638,7 +664,7 @@ async function eventDeleteCounter(){
 // ----------------------------------- NAVIGATION -----------------------------------
 
 
-function onClickCounterNavDecrease(idOrigin) {
+async function onClickCounterNavDecrease(idOrigin) {
 
     // Fait un switch entre les deux éléments
 
@@ -656,12 +682,22 @@ function onClickCounterNavDecrease(idOrigin) {
     // réaffiche les compteurs
     onDisplayCounter();
 
+
+    // SAUVEGARDE
+
+    // Crée un objet avec les deux counters
+    const allCounterToSave = {};
+    allCounterToSave[idOrigin] = userCounterList[idOrigin];
+    allCounterToSave[keyItemToIncrease] = userCounterList[keyItemToIncrease];
+
     //sauvegarde les deux éléments en une seule fois
+    await onInsertMultipleCounterModificationsInDB(allCounterToSave);
+
 
 }
 
 
-function onClickCounterNavIncrease(idOrigin) {
+async function onClickCounterNavIncrease(idOrigin) {
 
     // Fait un switch entre les deux éléments
 
@@ -679,7 +715,17 @@ function onClickCounterNavIncrease(idOrigin) {
     // réaffiche les compteurs
     onDisplayCounter();
 
-    //sauvegarde les deux éléments en une seule fois
+
+
+    // SAUVEGARDE
+
+    // Crée un objet avec les deux counters
+    const allCounterToSave = {};
+    allCounterToSave[idOrigin] = userCounterList[idOrigin];
+    allCounterToSave[keyItemToDecrease] = userCounterList[keyItemToDecrease];
+
+    await onInsertMultipleCounterModificationsInDB(allCounterToSave);
+
 
 }
 
