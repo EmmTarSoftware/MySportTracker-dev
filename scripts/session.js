@@ -386,12 +386,12 @@ function onDisplayCounter() {
         // Gestion de l'affichage des boutons de navigation up/down
         if (index === 0) {
             //suppression du bouton up
-            document.getElementById(`btn-counter-nav-decrease_${key}`).remove();
+            document.getElementById(`btn-counter-nav-decrease_${key}`).disabled = true;
         }
 
         if (index === (counterKeysList.length - 1)){
             //suppression du bouton down
-            document.getElementById(`btn-counter-nav-increase_${key}`).remove();
+            document.getElementById(`btn-counter-nav-increase_${key}`).disabled = true;
         }
 
         // control des objectifs atteinds pour chaque compteur généré
@@ -642,42 +642,47 @@ function onClickCounterNavDecrease(idOrigin) {
 
     // Fait un switch entre les deux éléments
 
-    // Item to decrease
+    // Récupère l'id de l'élément que l'on va devoir incrementer
+    let keyItemToIncrease = onSearchCounterKeyByDisplayOrder(userCounterList[idOrigin].displayOrder -1);
 
+    // Item to decrease
+    userCounterList[idOrigin].displayOrder--;
 
 
     //Item to increase
+    userCounterList[keyItemToIncrease].displayOrder++;
 
 
-
-    //sauvegarde les deux éléments en une seule fois
-
-
-    // puis réaffiche les compteurs
-
-}
-
-
-
-
-function onClickCounterNavUp(idOrigin) {
-
-    eventInverseCounterUp(idOrigin);
-}
-
-
-function eventInverseCounterUp(idOrigin) {
-
-
-    //retire 1 et recupère l'id avec un 'order -1' pour la cible
-    //pour l'id avec order -1 ajouter + 1 à order
-
+    // réaffiche les compteurs
+    onDisplayCounter();
 
     //sauvegarde les deux éléments en une seule fois
 
-
-    // puis réaffiche les compteurs
 }
+
+
+function onClickCounterNavIncrease(idOrigin) {
+
+    // Fait un switch entre les deux éléments
+
+    // Récupère l'id de l'élément que l'on va devoir décrementer
+    let keyItemToDecrease = onSearchCounterKeyByDisplayOrder(userCounterList[idOrigin].displayOrder + 1);
+
+    // Item to Increase
+    userCounterList[idOrigin].displayOrder++;
+
+
+    //Item to decrease
+    userCounterList[keyItemToDecrease].displayOrder--;
+
+
+    // réaffiche les compteurs
+    onDisplayCounter();
+
+    //sauvegarde les deux éléments en une seule fois
+
+}
+
 
 
 
