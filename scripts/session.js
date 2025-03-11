@@ -53,8 +53,8 @@ class Counter {
             <p class="compteur-date" id="counterDate_${this.id}">${this.initDate}</p>
             <p class="compteur-name" id="counterName_${this.id}">${this.name}</p>
             <p class="compteur-navigation">
-                <button class="btn-counter" id="btn-counter-nav-up_${this.id}"><img src="./Icons/Icon-Up.webp" alt="" srcset=""></button>
-                <button class="btn-counter" id="btn-counter-nav-down_${this.id}"><img src="./Icons/Icon-Down.webp" alt=""></button>
+                <button class="btn-counter" id="btn-counter-nav-up_${this.id}" onclick="eventInverseCounterUp('btn-counter-nav-up_${this.id}')"><img src="./Icons/Icon-Up.webp" alt="" srcset=""></button>
+                <button class="btn-counter" id="btn-counter-nav-down_${this.id}" onclick="eventInverseCounterDown('btn-counter-nav-down_${this.id}')"><img src="./Icons/Icon-Down.webp" alt=""></button>
             </p>
             <div class="compteur-content" id="divCounterCurrentCount_${this.id}">
                 <span class="current-count" id="spanCurrentCount_${this.id}">${this.currentCount}</span>
@@ -295,6 +295,11 @@ function onConfirmCreateCounter() {
     let newCounterName = document.getElementById("newCounterName").value || "Nouveau Compteur",
         newCounterDate = onFindDateTodayUS();
 
+    
+    // Formatage du nom en majuscule
+    newCounterName = onSetToUppercase(newCounterName);
+
+
     // formatage du nom. Recherche de doublon
     let isCounterDoublonName = Object.values(userCounterList).some(counter => counter.name === newCounterName);
 
@@ -303,14 +308,16 @@ function onConfirmCreateCounter() {
         newCounterName += "_1";
     }
 
-    // Formatage du nom en majuscule
-        newCounterName = onSetToUppercase(newCounterName);
+
+    // définition du displayOrder
+    let newDisplayOrder = Object.keys(userCounterList).length || 0;
+
 
     let newCounterToCreate = {
         name: newCounterName, 
         initDate: newCounterDate, 
         currentCount: 0, countTarget:0, countIncrement:0,
-        displayOrder : 0,
+        displayOrder : newDisplayOrder,
         color : counterColorSelected
     };
 
@@ -617,6 +624,54 @@ async function eventDeleteCounter(){
     // Popup notification
     onShowNotifyPopup(notifyTextArray.counterDeleted);
 }
+
+
+
+
+
+
+// ----------------------------------- NAVIGATION -----------------------------------
+
+
+function onClickCounterNavDown() {
+    //récupère order de départ
+
+
+}
+
+
+function eventInverseCounterDown(idOrigin) {
+        //récupère l'ID d'origine et son 'order'
+
+    console.log
+
+        console.log(onSearchCounterByDisplayOrder(idOrigin));
+
+
+    //retire 1 et recupère l'id avec un 'order -1' pour la cible
+    //pour l'id avec order -1 ajouter + 1 à order
+
+
+    //sauvegarde les deux éléments en une seule fois
+
+
+    // puis réaffiche les compteurs
+}
+
+
+
+// Recherche un counter par son display order
+function onSearchCounterByDisplayOrder(displayOrderTarget) {
+    dis
+    const keyToReturn = Object.entries(userCounterList).find(([key, value]) => value.displayOrder === displayOrderTarget);
+    return keyToReturn;
+}
+
+
+
+
+
+
 
 
 
