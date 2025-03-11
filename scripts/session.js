@@ -50,11 +50,11 @@ class Counter {
     // génération de l'élément
     render(){
         this.element.innerHTML = `
-            <p class="compteur-date" id="counterDate_${this.id}">${this.initDate}</p>
+            <p class="compteur-date" id="counterDate_${this.id}">${this.initDate}</p>  
             <p class="compteur-name" id="counterName_${this.id}">${this.name}</p>
             <p class="compteur-navigation">
-                <button class="btn-counter" id="btn-counter-nav-up_${this.id}" onclick="eventInverseCounterUp('btn-counter-nav-up_${this.id}')"><img src="./Icons/Icon-Up.webp" alt="" srcset=""></button>
-                <button class="btn-counter" id="btn-counter-nav-down_${this.id}" onclick="eventInverseCounterDown('btn-counter-nav-down_${this.id}')"><img src="./Icons/Icon-Down.webp" alt=""></button>
+                <button class="btn-counter" id="btn-counter-nav-decrease_${this.id}" onclick="onClickCounterNavDecrease('${this.id}')"><img src="./Icons/Icon-nav-decrease.webp" alt="" srcset=""></button>
+                <button class="btn-counter" id="btn-counter-nav-increase_${this.id}" onclick="onClickCounterNavIncrease('${this.id}')"><img src="./Icons/Icon-nav-increase.webp" alt=""></button>
             </p>
             <div class="compteur-content" id="divCounterCurrentCount_${this.id}">
                 <span class="current-count" id="spanCurrentCount_${this.id}">${this.currentCount}</span>
@@ -373,8 +373,9 @@ function onDisplayCounter() {
         return
     }
 
-    let counterKeysList = Object.keys(userCounterList);
 
+    // récupère la liste des clé trié par displayOrder
+    let counterKeysList = getSortedKeysByDisplayOrder(userCounterList);
 
     counterKeysList.forEach((key,index)=>{
 
@@ -385,12 +386,12 @@ function onDisplayCounter() {
         // Gestion de l'affichage des boutons de navigation up/down
         if (index === 0) {
             //suppression du bouton up
-            document.getElementById(`btn-counter-nav-up_${key}`).remove();
+            document.getElementById(`btn-counter-nav-decrease_${key}`).remove();
         }
 
         if (index === (counterKeysList.length - 1)){
             //suppression du bouton down
-            document.getElementById(`btn-counter-nav-down_${key}`).remove();
+            document.getElementById(`btn-counter-nav-increase_${key}`).remove();
         }
 
         // control des objectifs atteinds pour chaque compteur généré
@@ -408,8 +409,12 @@ function onDisplayCounter() {
     
 }
 
-
-
+// Fonction de trie par displayOrder et ne retourner qu'un tableau de clé trié
+function getSortedKeysByDisplayOrder(counterList) {
+    return Object.entries(counterList)
+        .sort(([, a], [, b]) => a.displayOrder - b.displayOrder)
+        .map(([key]) => key);
+}
 
 // ------------------------- INCREMENTATION ---------------------------------
 
@@ -633,19 +638,35 @@ async function eventDeleteCounter(){
 // ----------------------------------- NAVIGATION -----------------------------------
 
 
-function onClickCounterNavDown() {
-    //récupère order de départ
+function onClickCounterNavDecrease(idOrigin) {
 
+    // Fait un switch entre les deux éléments
+
+    // Item to decrease
+
+
+
+    //Item to increase
+
+
+
+    //sauvegarde les deux éléments en une seule fois
+
+
+    // puis réaffiche les compteurs
 
 }
 
 
-function eventInverseCounterDown(idOrigin) {
-        //récupère l'ID d'origine et son 'order'
 
-    console.log
 
-        console.log(onSearchCounterByDisplayOrder(idOrigin));
+function onClickCounterNavUp(idOrigin) {
+
+    eventInverseCounterUp(idOrigin);
+}
+
+
+function eventInverseCounterUp(idOrigin) {
 
 
     //retire 1 et recupère l'id avec un 'order -1' pour la cible
@@ -660,11 +681,9 @@ function eventInverseCounterDown(idOrigin) {
 
 
 
-// Recherche un counter par son display order
-function onSearchCounterByDisplayOrder(displayOrderTarget) {
-    dis
-    const keyToReturn = Object.entries(userCounterList).find(([key, value]) => value.displayOrder === displayOrderTarget);
-    return keyToReturn;
+// Recherche la key d'un par son display order
+function onSearchCounterKeyByDisplayOrder(displayOrderTarget) {
+    return Object.keys(userCounterList).find(key => userCounterList[key].displayOrder === displayOrderTarget) || null;
 }
 
 
