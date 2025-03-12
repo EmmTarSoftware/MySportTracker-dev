@@ -8,7 +8,8 @@ let userCounterList = {
             color : "white"
         }
     },
-    maxCounter = 20;
+    maxCounter = 20,
+    counterSortedKey = [];//array des clé trié par "displayOrder"
 
 let counterColor = {
     white: "#fff",
@@ -85,6 +86,9 @@ class Counter {
 async function onOpenMenuSession(){
 
     await onLoadCounterFromDB();
+
+    console.log(userCounterList);
+
     onDisplayCounter(userCounterList);
     // Gestion si max atteind
     gestionMaxCounterReach();
@@ -383,7 +387,7 @@ function gestionMaxCounterReach() {
 
 
 
-
+// l'affichage des compteurs de fait sur le trie des "displayOrder"
 
 function onDisplayCounter() {
     if (devMode === true){console.log(" [COUNTER] génération de la liste");};
@@ -401,9 +405,11 @@ function onDisplayCounter() {
 
 
     // récupère la liste des clé trié par displayOrder
-    let counterKeysList = getSortedKeysByDisplayOrder(userCounterList);
+    counterSortedKey = [];
 
-    counterKeysList.forEach((key,index)=>{
+    counterSortedKey = getSortedKeysByDisplayOrder(userCounterList);
+
+    counterSortedKey.forEach((key,index)=>{
 
         // Generation
         new Counter(key,userCounterList[key].name,onDisplayUserFriendlyDate(userCounterList[key].initDate),userCounterList[key].currentCount,userCounterList[key].countTarget,userCounterList[key].countIncrement,userCounterList[key].displayOrder,divSessionRef,counterColor[userCounterList[key].color]);
@@ -415,7 +421,7 @@ function onDisplayCounter() {
             document.getElementById(`btn-counter-nav-decrease_${key}`).disabled = true;
         }
 
-        if (index === (counterKeysList.length - 1)){
+        if (index === (counterSortedKey.length - 1)){
             //suppression du bouton down
             document.getElementById(`btn-counter-nav-increase_${key}`).disabled = true;
         }
@@ -604,6 +610,10 @@ function onClickResetCounter(idRef) {
 
 // ------------------------------------ SUPPRESSION -----------------------
 
+//Lors d'une suppression, il faut également décrémenter les display order des counters suivants
+
+
+
 let idCounterToDelete = "";
 function onClickDeleteCounter(idTarget) {
 
@@ -644,9 +654,13 @@ async function eventDeleteCounter(){
     // Gestion si max atteind ou non
     gestionMaxCounterReach();
 
-    // Affichage en cas d'aucun compteur
-    
 
+
+    // traitement display order pour les counters suivants
+    onChangeDisplayOrderFromDelete(idCounterToDelete);
+
+
+    // Affichage en cas d'aucun compteur
     if (Object.keys(userCounterList).length < 1) {
         let divSessionRef = document.getElementById("divSession");
         divSessionRef.innerHTML = "Aucun compteur à afficher !";
@@ -657,7 +671,36 @@ async function eventDeleteCounter(){
 }
 
 
+async function onChangeDisplayOrderFromDelete(idOrigin) {
+    // recupère l'index d'origine dans l'array des key
+    let deletedCounterIndex = counterSortedKey.indexOf(idOrigin);
 
+    console.log("deletedCounterIndex :",deletedCounterIndex);
+
+
+    let allCounterToSave = {};//stocke les compteur modifié à sauvegarder
+
+    // Boucle jusquà la fin et décrémente les displayOrder et stocke en même temps les key to save
+    for (let i = (deletedCounterIndex + 1); i < counterSortedKey.length; i++) {
+        // Increment
+        userCounterList[counterSortedKey[i]].displayOrder--
+
+        // Enregistre pour sauvegarde
+        allCounterToSave[counterSortedKey[i]] = userCounterList[counterSortedKey[i]];
+
+    }
+
+    // retire la key concernée dans l'array
+    counterSortedKey.splice(deletedCounterIndex,1);
+
+    console.log(userCounterList);
+
+    console.log(counterSortedKey);
+    //stocke les key concernée dans un objet pour la sauvegarde
+
+    // sauvegarde groupé en base
+    await onInsertMultipleCounterModificationsInDB(allCounterToSave);
+}
 
 
 
@@ -720,7 +763,7 @@ async function onClickCounterNavIncrease(idOrigin) {
     // SAUVEGARDE
 
     // Crée un objet avec les deux counters
-    const allCounterToSave = {};
+    let allCounterToSave = {};
     allCounterToSave[idOrigin] = userCounterList[idOrigin];
     allCounterToSave[keyItemToDecrease] = userCounterList[keyItemToDecrease];
 
