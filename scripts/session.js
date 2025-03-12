@@ -51,16 +51,19 @@ class Counter {
     // génération de l'élément
     render(){
         this.element.innerHTML = `
-            <p class="compteur-date" id="counterDate_${this.id}">${this.initDate}</p>  
-            <p class="compteur-name" id="counterName_${this.id}">${this.name}</p>
-            <p class="compteur-navigation">
-                <button class="btn-counter" id="btn-counter-nav-decrease_${this.id}" onclick="onClickCounterNavDecrease('${this.id}')"><img src="./Icons/Icon-nav-decrease.webp" alt="" srcset=""></button>
-                <button class="btn-counter" id="btn-counter-nav-increase_${this.id}" onclick="onClickCounterNavIncrease('${this.id}')"><img src="./Icons/Icon-nav-increase.webp" alt=""></button>
-            </p>
+             <div class="compteur-content-line-1">
+                <p class="compteur-date" id="counterDate_${this.id}">${this.initDate}</p>  
+                <input type="text" class="compteur-name" id="inputCounterName_${this.id}" onchange="onChangeCounterNameValue('${this.id}')" value="${this.name}" maxlength="30"  style="background-color: ${this.color};" placeholder="NOUVEAU COMPTEUR">
+                <p class="compteur-navigation">
+                    <button class="btn-counter" id="btn-counter-nav-decrease_${this.id}" onclick="onClickCounterNavDecrease('${this.id}')"><img src="./Icons/Icon-nav-decrease.webp" alt="" srcset=""></button>
+                    <button class="btn-counter" id="btn-counter-nav-increase_${this.id}" onclick="onClickCounterNavIncrease('${this.id}')"><img src="./Icons/Icon-nav-increase.webp" alt=""></button>
+                </p>
+            </div>
+            
             <div class="compteur-content" id="divCounterCurrentCount_${this.id}">
                 <span class="current-count" id="spanCurrentCount_${this.id}">${this.currentCount}</span>
                 <span id="spanCounterSeparator_${this.id}">/</span>
-                <input type="number" class="compteur-target" id="inputCountTarget_${this.id}"  style="background-color: ${this.color};" placeholder="Objectif" value=${this.countTarget} onChange="onChangeCounterTargetValue('${this.id}')">
+                <input type="number" class="compteur-target" id="inputCountTarget_${this.id}" style="background-color: ${this.color};" placeholder="Objectif" value=${this.countTarget} onChange="onChangeCounterTargetValue('${this.id}')">
             </div>
 
             <div class="compteur-content">
@@ -274,8 +277,14 @@ function onChangeCounterTargetValue(idRef) {
 }
 
 
+//modification du nom du compteur
+function onChangeCounterNameValue(idRef) {
+     // Actualise l'array
+     userCounterList[idRef].name = document.getElementById(`inputCounterName_${idRef}`).value || "NOUVEAU COMPTEUR";
 
-
+      // Sauvegarde en base
+    onInsertCounterModificationInDB(userCounterList[idRef],idRef);
+}
 
 
 //----------------------------- NOUVEAU COMPTEUR------------------------------------
