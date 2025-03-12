@@ -1786,7 +1786,6 @@ p.compteur-navigation{
     align-items: center; /* Centre verticalement */
     justify-content: center; /* Centre horizontalement */
     gap: 5px; /* Ajoute un petit espace entre les éléments */
-    margin-top: 10px;
     text-align: center;
     transition: transform 0.2s ease-in-out, opacity 0.3s ease-in-out;
 }
