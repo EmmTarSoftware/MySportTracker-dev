@@ -9,7 +9,11 @@ let userCounterList = {
         }
     },
     maxCounter = 20,
-    counterSortedKey = [];//array des clé trié par "displayOrder"
+    counterSortedKey = [],//array des clé trié par "displayOrder"
+    counterEditorMode, //creation ou modification
+    currentCounterEditorID;//L'id du compteur en cours de modification
+
+
 
 let counterColor = {
     white: "#fff",
@@ -51,17 +55,18 @@ class Counter {
     // génération de l'élément
     render(){
         this.element.innerHTML = `
-            <p class="compteur-date" id="counterDate_${this.id}">${this.initDate}</p>  
-            <p class="compteur-name" id="counterName_${this.id}">${this.name}</p>
-            <p class="compteur-navigation">
-                <button class="btn-counter" id="btn-counter-nav-decrease_${this.id}" onclick="onClickCounterNavDecrease('${this.id}')"><img src="./Icons/Icon-nav-decrease.webp" alt="" srcset=""></button>
-                <button class="btn-counter" id="btn-counter-nav-increase_${this.id}" onclick="onClickCounterNavIncrease('${this.id}')"><img src="./Icons/Icon-nav-increase.webp" alt=""></button>
-            </p>
+            <div class="compteur-content-line-1">
+                <button class="btn-counter" onclick="onClickModifyCounter('${this.id}')"><img src="./Icons/Icon-Setting.webp" alt="" srcset=""></button>  
+                <p class="compteur-name" id="counterName_${this.id}">${this.name}</p>
+                <p class="compteur-navigation">
+                    <button class="btn-counter" id="btn-counter-nav-decrease_${this.id}" onclick="onClickCounterNavDecrease('${this.id}')"><img src="./Icons/Icon-nav-decrease.webp" alt="" srcset=""></button>
+                    <button class="btn-counter" id="btn-counter-nav-increase_${this.id}" onclick="onClickCounterNavIncrease('${this.id}')"><img src="./Icons/Icon-nav-increase.webp" alt=""></button>
+                </p>
+            </div>
             <div class="compteur-content" id="divCounterCurrentCount_${this.id}">
                 <span class="current-count" id="spanCurrentCount_${this.id}">${this.currentCount}</span>
-                <span id="spanCounterSeparator_${this.id}">/</span>
-                <input type="number" class="compteur-target" id="inputCountTarget_${this.id}"  style="background-color: ${this.color};" placeholder="Objectif" value=${this.countTarget} onChange="onChangeCounterTargetValue('${this.id}')">
-            </div>
+                <span class="counter-target" id="spanCountTarget_${this.id}">/${this.countTarget}</span>
+                </div>
 
             <div class="compteur-content">
                 <button class="btn-counter" onclick="onClickDeleteCounter('${this.id}')"><img src="./Icons/Icon-Delete-color.webp" alt="" srcset=""></button>
@@ -261,19 +266,6 @@ function onChangeCounterIncrement(idRef) {
 }
 
 
-//Valeur cible
-function onChangeCounterTargetValue(idRef) {
-
-    // Actualise l'array
-    userCounterList[idRef].countTarget = parseInt(document.getElementById(`inputCountTarget_${idRef}`).value) || 0;
-
-    console.log("[COUNTER] onChangeCounterTargetValue");
-
-    // Sauvegarde en base
-    onInsertCounterModificationInDB(userCounterList[idRef],idRef);
-}
-
-
 
 
 
@@ -282,21 +274,24 @@ function onChangeCounterTargetValue(idRef) {
 
 
 function onClickAddCounter() {
-    // Reset l'emplacement du nom
-    document.getElementById("newCounterName").value = "";
+    // Reset les éléments avant set
+    onResetCounterEditor();
 
-    // remet les éléments dans la couleur par défaut
-    counterColorSelected = "white";
-    document.getElementById("divCreateCounterContent").style.backgroundColor = counterColorSelected;
+    // Set le mode d'utilisation de l'éditeur de compteur
+    counterEditorMode = "creation";
+    
 
     // Affiche 
-    document.getElementById("divCreateCounter").style.display = "flex";
+    document.getElementById("divEditCounter").style.display = "flex";
 }
 
 
 
-function onAnnulAddCounter(){
-    document.getElementById("divCreateCounter").style.display = "none";
+
+
+
+function onAnnulCounterEditor(){
+    document.getElementById("divEditCounter").style.display = "none";
 }
 
 
@@ -310,21 +305,74 @@ function onClickDivNewPopupContent(event) {
 // Gestion des couleurs
 
 function onChooseCounterColor(color) {
-    document.getElementById("divCreateCounterContent").style.backgroundColor = counterColor[color];
+    document.getElementById("divEditCounterContent").style.backgroundColor = counterColor[color];
     counterColorSelected = color;
 }
 
 
 
-function onConfirmCreateCounter() {
+function onConfirmCounterEditor() {
+    
+    // filtre selon le mode d'utilisation de l'éditeur de compteur
+
+    if (counterEditorMode === "creation"){
+        eventCreateCounter();
+    }else if (counterEditorMode === "modification") {
+        eventModifyCounter();
+    }else{
+        console.log("erreur dans le mode d'édition du compteur")
+    }
+
+}
+
+
+function eventCreateCounter() {
     
     // masque le popup de création
-    document.getElementById("divCreateCounter").style.display = "none";
+    document.getElementById("divEditCounter").style.display = "none";
+
+    // Formatage
+    let counterData = onFormatCounter()
+
+    // Enregistrement
+    eventInsertNewCompteur(counterData);
+
+}
+
+
+function eventModifyCounter() {
+
+    // masque le popup de création
+    document.getElementById("divEditCounter").style.display = "none";
+
+    // Formatage
+    let counterData = onFormatCounter();
+
+    // Enregistrement en base
+    onInsertCounterModificationInDB(counterData,currentCounterEditorID);
+
+
+    // Enregistrement dans l'array
+    userCounterList[currentCounterEditorID].name = counterData.name;
+    userCounterList[currentCounterEditorID].countTarget = counterData.countTarget;
+    userCounterList[currentCounterEditorID].color = counterData.color;
+
+    // Actualisation de l'affichage
+    document.getElementById(`counterName_${currentCounterEditorID}`).innerHTML = counterData.name;
+    document.getElementById(`counterContainer_${currentCounterEditorID}`).style.backgroundColor = counterColor[counterData.color];
+    document.getElementById(`spanCountTarget_${currentCounterEditorID}`).innerHTML = counterData.countTarget;
+
+}
+
+
+
+
+
+function onFormatCounter() {
 
     // Récupère le nom du compteur ou set un nom par défaut
-    let newCounterName = document.getElementById("newCounterName").value || "Nouveau Compteur",
+    let newCounterName = document.getElementById("inputEditCounterName").value || "Nouveau Compteur",
         newCounterDate = onFindDateTodayUS();
-
     
     // Formatage du nom en majuscule
     newCounterName = onSetToUppercase(newCounterName);
@@ -338,23 +386,43 @@ function onConfirmCreateCounter() {
         newCounterName += "_1";
     }
 
+    // Récupère l'objectif ou set 0
+    let newCountTarget = parseInt(document.getElementById("inputEditCounterTarget").value) || 0;
+
+
 
     // définition du displayOrder
     let newDisplayOrder = Object.keys(userCounterList).length || 0;
 
 
-    let newCounterToCreate = {
+    let formatedCounter = {
         name: newCounterName, 
         initDate: newCounterDate, 
-        currentCount: 0, countTarget:0, countIncrement:0,
+        currentCount: 0, countTarget: newCountTarget, countIncrement:0,
         displayOrder : newDisplayOrder,
         color : counterColorSelected
     };
 
-    eventInsertNewCompteur(newCounterToCreate);
+    return formatedCounter;
+
 }
 
 
+
+// Modification de compteur
+function onClickModifyCounter(idRef) {
+    counterEditorMode = "modification";
+    currentCounterEditorID = idRef;
+
+    // set les éléments
+    document.getElementById("inputEditCounterName").value = userCounterList[idRef].name;
+    document.getElementById("inputEditCounterTarget").value = userCounterList[idRef].countTarget;
+    document.getElementById("divEditCounterContent").style.backgroundColor = counterColor[userCounterList[idRef].color];
+    counterColorSelected = userCounterList[idRef].color;
+
+    // Affiche 
+    document.getElementById("divEditCounter").style.display = "flex";
+}
 
 
 // Séquence d'insertion d'un nouveau compteur
@@ -521,8 +589,7 @@ function onCheckTargetReach(idRef) {
        return targetReach;
     } else if (userCounterList[idRef].currentCount >= userCounterList[idRef].countTarget){
         targetReach = true;
-        document.getElementById(`inputCountTarget_${idRef}`).classList.add("target-reach");
-        document.getElementById(`spanCounterSeparator_${idRef}`).classList.add("target-reach");
+        document.getElementById(`spanCountTarget_${idRef}`).classList.add("target-reach");
     }
     return targetReach;
 }
@@ -567,8 +634,8 @@ function onClickResetCounter(idRef) {
     let spanCurrentCountRef = document.getElementById(`spanCurrentCount_${idRef}`);
     spanCurrentCountRef.innerHTML = 0;
 
-    //date d'initialisation
-    document.getElementById(`counterDate_${idRef}`).innerHTML = onDisplayUserFriendlyDate(newInitDate);
+    //date d'initialisation désactivée
+    // document.getElementById(`counterDate_${idRef}`).innerHTML = onDisplayUserFriendlyDate(newInitDate);
 
 
     // Set les variables
@@ -583,12 +650,10 @@ function onClickResetCounter(idRef) {
     if (devMode === true){console.log(userCounterList);};
 
     //retire la classe "reach" si necessaire pour le count target et le slash
-    let counterTargetRef = document.getElementById(`inputCountTarget_${idRef}`),
-        counterSeparatorRef = document.getElementById(`spanCounterSeparator_${idRef}`);
+    let counterTargetRef = document.getElementById(`spanCountTarget_${idRef}`);
 
     if (counterTargetRef.classList.contains("target-reach")) {
         counterTargetRef.classList.remove("target-reach");
-        counterSeparatorRef.classList.remove("target-reach");
     }
 
 
@@ -788,6 +853,21 @@ function onSearchCounterKeyByDisplayOrder(displayOrderTarget) {
 
 
 
+
+
+
+// Reset les éléments de l'éditeur de compteur
+function onResetCounterEditor() {
+    // Reset l'emplacement du nom
+    document.getElementById("inputEditCounterName").value = "";
+
+    // Reset l'objectif
+    document.getElementById("inputEditCounterTarget").value = 0;
+
+    // remet les éléments dans la couleur par défaut
+    counterColorSelected = "white";
+    document.getElementById("divEditCounterContent").style.backgroundColor = counterColorSelected;
+}
 
 
 

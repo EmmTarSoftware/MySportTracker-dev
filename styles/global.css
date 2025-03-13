@@ -1746,32 +1746,34 @@ div.disabledEvent{
     margin-bottom: 20px;
 }
 
-.compteur-date {
-    font-size: 12px;
-    color: gray;
-    position: absolute;
-    top: 5px;
-    left: 10px;
+
+/* Ligne 1 */
+div.compteur-content-line-1{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%; 
 }
 
 
-/* Pour les bouton de navigation haut et bas. */
-p.compteur-navigation{
-    position: absolute;
-    width: 200px;
-    top: 5px;
-    text-align: right;
-    opacity: 1;
-}
 
 
-p.compteur-name {
+p.compteur-name{
+    width: 500px;
     font-size: 20px;
     color: black;
     font-weight: bold;
     text-align: center;
     text-transform: uppercase;
 }
+
+
+/* Pour les bouton de navigation haut et bas. */
+p.compteur-navigation{
+    width: 50px;
+    text-align: right;
+}
+
 
 .compteur-content {
     display: flex;
@@ -1782,6 +1784,7 @@ p.compteur-name {
     text-align: center;
     transition: transform 0.2s ease-in-out, opacity 0.3s ease-in-out;
 }
+
 
 
 
@@ -1862,33 +1865,14 @@ input.compteur::-webkit-inner-spin-button {
 }
 
 
-input.compteur-target{
+span.counter-target{
         width: 100px;
         height: 40px;
         text-align: left;
         font-size: 18px;
-        /* font-weight: bold; */
-        outline: none;
-        color:#969696;
-        /* -moz-appearance: textfield; */
-        appearance: none; 
-        border: none;
         margin: 0px; padding: 0px;
-        /* Le backgroud est set depuis le génération de l'élément */
 }
 
-/* Supprimer les flèches des input number */
-input.compteur-target::-webkit-outer-spin-button,
-input.compteur-target::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-
-input.compteur-target.target-reach{
-    font-size: 40px;
-    font-weight: bold;
-}
 
 span.target-reach{
     font-size: 40px;
