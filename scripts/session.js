@@ -318,7 +318,7 @@ function onConfirmCounterEditor() {
     if (counterEditorMode === "creation"){
         eventCreateCounter();
     }else if (counterEditorMode === "modification") {
-        eventModifyCounter();
+        eventSaveModifyCounter();
     }else{
         console.log("erreur dans le mode d'édition du compteur")
     }
@@ -332,7 +332,7 @@ function eventCreateCounter() {
     document.getElementById("divEditCounter").style.display = "none";
 
     // Formatage
-    let counterData = onFormatCounter()
+    let counterData = onFormatNewCounter()
 
     // Enregistrement
     eventInsertNewCompteur(counterData);
@@ -340,35 +340,31 @@ function eventCreateCounter() {
 }
 
 
-function eventModifyCounter() {
 
-    // masque le popup de création
-    document.getElementById("divEditCounter").style.display = "none";
+//Séquence d'insertion d'un nouveau compteur
 
-    // Formatage
-    let counterData = onFormatCounter();
+async function eventInsertNewCompteur(dataToInsert) {
 
-    // Enregistrement en base
-    onInsertCounterModificationInDB(counterData,currentCounterEditorID);
+    // Formatage du nouveau compteur (nom, date et count =0)
+
+    await onInsertNewCounterInDB(dataToInsert);
+    await onLoadCounterFromDB();
 
 
-    // Enregistrement dans l'array
-    userCounterList[currentCounterEditorID].name = counterData.name;
-    userCounterList[currentCounterEditorID].countTarget = counterData.countTarget;
-    userCounterList[currentCounterEditorID].color = counterData.color;
+    // fonction de création affichage des compteurs
+    onDisplayCounter(userCounterList);
+    
+    // Gestion si max atteind
+    gestionMaxCounterReach();
 
-    // Actualisation de l'affichage
-    document.getElementById(`counterName_${currentCounterEditorID}`).innerHTML = counterData.name;
-    document.getElementById(`counterContainer_${currentCounterEditorID}`).style.backgroundColor = counterColor[counterData.color];
-    document.getElementById(`spanCountTarget_${currentCounterEditorID}`).innerHTML = counterData.countTarget;
+    // Popup notification
+    onShowNotifyPopup(notifyTextArray.counterCreated);
 
 }
 
 
 
-
-
-function onFormatCounter() {
+function onFormatNewCounter() {
 
     // Récupère le nom du compteur ou set un nom par défaut
     let newCounterName = document.getElementById("inputEditCounterName").value || "Nouveau Compteur",
@@ -409,6 +405,7 @@ function onFormatCounter() {
 
 
 
+
 // Modification de compteur
 function onClickModifyCounter(idRef) {
     counterEditorMode = "modification";
@@ -425,27 +422,64 @@ function onClickModifyCounter(idRef) {
 }
 
 
-// Séquence d'insertion d'un nouveau compteur
-
-async function eventInsertNewCompteur(dataToInsert) {
-
-    // Formatage du nouveau compteur (nom, date et count =0)
-
-    await onInsertNewCounterInDB(dataToInsert);
-    await onLoadCounterFromDB();
 
 
-    // fonction de création affichage des compteurs
-    onDisplayCounter(userCounterList);
-    
-    // Gestion si max atteind
-    gestionMaxCounterReach();
 
-    // Popup notification
-    onShowNotifyPopup(notifyTextArray.counterCreated);
+function eventSaveModifyCounter() {
+
+    // masque le popup de création
+    document.getElementById("divEditCounter").style.display = "none";
+
+    // Formatage
+    let counterData = onFormatModifyCounter();
+
+    // Enregistrement dans l'array
+    userCounterList[currentCounterEditorID].name = counterData.name;
+    userCounterList[currentCounterEditorID].countTarget = counterData.countTarget;
+    userCounterList[currentCounterEditorID].color = counterData.color;
+
+    // Enregistrement en base
+    onInsertCounterModificationInDB(userCounterList[currentCounterEditorID],currentCounterEditorID);
+
+    // Actualisation de l'affichage
+    document.getElementById(`counterName_${currentCounterEditorID}`).innerHTML = counterData.name;
+    document.getElementById(`counterContainer_${currentCounterEditorID}`).style.backgroundColor = counterColor[counterData.color];
+    document.getElementById(`spanCountTarget_${currentCounterEditorID}`).innerHTML = `/${counterData.countTarget}`;
 
 }
 
+
+
+function onFormatModifyCounter() {
+
+    // Récupère le nom du compteur ou set un nom par défaut
+    let newCounterName = document.getElementById("inputEditCounterName").value || "Nouveau Compteur",
+        newCounterDate = onFindDateTodayUS();
+    
+    // Formatage du nom en majuscule
+    newCounterName = onSetToUppercase(newCounterName);
+
+    // Récupère l'objectif ou set 0
+    let newCountTarget = parseInt(document.getElementById("inputEditCounterTarget").value) || 0;
+
+
+    let formatedCounter = {
+        name: newCounterName, 
+        initDate: newCounterDate, 
+        currentCount: 0, countTarget: newCountTarget, countIncrement:0,
+        displayOrder : 0,
+        color : counterColorSelected
+    };
+
+    return formatedCounter;
+
+}
+
+
+
+
+
+//
 
 // Gestion si le nombre maximal de compteur atteints
 function gestionMaxCounterReach() {
