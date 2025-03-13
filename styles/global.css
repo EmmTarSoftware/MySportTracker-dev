@@ -1741,7 +1741,7 @@ div.disabledEvent{
     position: relative;
     width: calc(100% - 20px);             
     /* Le background est set selon la configuration utilisateur */
-    padding: 10px 5px 10px 5px;
+    padding: 0px 5px 10px 5px;
     border-radius: 10px;
     margin-bottom: 20px;
 }
@@ -1756,10 +1756,7 @@ div.compteur-content-line-1{
 }
 
 
-
-
 p.compteur-name{
-    width: 500px;
     font-size: 20px;
     color: black;
     font-weight: bold;
@@ -1769,8 +1766,8 @@ p.compteur-name{
 
 
 /* Pour les bouton de navigation haut et bas. */
-p.compteur-navigation{
-    width: 50px;
+div.compteur-content-line-1 p.compteur-navigation{
+    width: 120px;
     text-align: right;
 }
 
@@ -1780,7 +1777,6 @@ p.compteur-navigation{
     align-items: center; /* Centre verticalement */
     justify-content: center; /* Centre horizontalement */
     gap: 5px; /* Ajoute un petit espace entre les éléments */
-    margin-top: 10px;
     text-align: center;
     transition: transform 0.2s ease-in-out, opacity 0.3s ease-in-out;
 }
@@ -1871,12 +1867,14 @@ span.counter-target{
         text-align: left;
         font-size: 18px;
         margin: 0px; padding: 0px;
+        color: #6C757D;
 }
 
 
 span.target-reach{
     font-size: 40px;
     font-weight: bold;
+    color:black;
 }
 
 /* popup nommage nouveau compteur */
