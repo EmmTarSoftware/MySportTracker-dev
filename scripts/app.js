@@ -71,7 +71,7 @@ let db_old,
     templateStoreName = "Template",
     templateCountIDStoreName = "TemplateCount",
     favorisStoreName = "Favoris",
-    counterStoreName = "Counter",
+    SessionStoreName = "Sessions",
     counterCountIDStoreName = "CounterCount",
     // Nom des stores à importer et exporter dans les fonctions import export. 
     storeNames = [activityStoreName, profilStoreName, rewardsStoreName,settingStoreName,templateStoreName],//Ajouter tous les noms des stores ici
@@ -229,6 +229,7 @@ async function onCreateDBStore() {
         devMode:false
     });
     await createStore(rewardsStoreName, { type: rewardsStoreName, rewards: [] });
+    await createStore(SessionStoreName, { type: SessionStoreName, session: {} });
     await onInitActivityCountIDStore(); 
     await onInitTemplateCountIDStore();
     await onInitCounterCountIDStore();

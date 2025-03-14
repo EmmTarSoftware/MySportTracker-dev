@@ -90,7 +90,7 @@ class Counter {
 
 async function onOpenMenuSession(){
 
-    await onLoadCounterFromDB();
+    await onLoadSessionFromDB();
 
     console.log(userCounterList);
 
@@ -103,136 +103,44 @@ async function onOpenMenuSession(){
    
    
    
-async function onLoadCounterFromDB() {
+async function onLoadSessionFromDB() {
     userCounterList = {}; // Initialisation en objet
 
     try {
-        const result = await db.allDocs({ include_docs: true });
-
-        // Filtrer et transformer en objet avec _id comme clé sans _rev
-        userCounterList = result.rows
-            .map(row => row.doc)
-            .filter(doc => doc.type === counterStoreName)
-            .reduce((acc, { _id, _rev, ...rest }) => {
-                acc[_id] = rest; // Utilise _id comme clé et stocke le reste sans _id et _rev
-                return acc;
-            }, {});
-
-        if (devMode === true) {
-            console.log("[DATABASE] [ACTIVITY] Activités chargées :", counterStoreName);
-            console.log(userCounterList);
+        const sessions = await db.get(SessionStoreName).catch(() => null);
+        if (sessions) {
+            userCounterList = sessions.session;
         }
+        if (devMode === true){console.log("[DATABASE] Données chargées :", userCounterList);};
     } catch (err) {
-        console.error("[DATABASE] [ACTIVITY] Erreur lors du chargement:", err);
+        console.error("[DATABASE] Erreur lors du chargement des stores :", err);
     }
 }
 
-
-
-
-
-   
-   
-// Insertion nouveau Compteur
-async function onInsertNewCounterInDB(counterToInsert) {
-
-    console.log("counterToInsert",counterToInsert);
-
-    try {
-        // Obtenir le prochain ID
-        const nextId = await getNextIdNumber(counterCountIDStoreName);
-
-        // Créer l'objet avec le nouvel ID
-        const newCounter = {
-            _id: `${counterStoreName}_${nextId}`,
-            type: counterStoreName,
-            ...counterToInsert
-        };
-
-        // Insérer dans la base
-        await db.put(newCounter);
-
-        if (devMode === true ) {console.log("[DATABASE] [COUNTER Template inséré :", newCounter);};
-
-        return newCounter;
-    } catch (err) {
-        console.error("[DATABASE] [COUNTER] Erreur lors de l'insertion du template :", err);
-    }
-}
-   
-   
-   
+ 
    
 
 
 // Modification Compteur
-async function onInsertCounterModificationInDB(modifiedData,key) {
+async function onSaveSessionModificationInDB(sessionToInsert) {
 
     try {
-        // Récupérer l'élément actuel depuis la base
-        let existingDoc = await db.get(key);
+        // Récupérer le store "SESSION"
+        let SessionStore = await db.get(SessionStoreName);
 
-        // Mettre à jour les champs nécessaires en conservant `_id` et `_rev`
-        const updatedDoc = {
-            ...existingDoc,  // Garde _id et _rev pour la mise à jour
-            ...modifiedData // Remplace les valeurs avec les nouvelles
-        };
+        // Mettre à jour la liste des SESSION
+        SessionStore.session = sessionToInsert;
 
-        // Enregistrer les modifications dans la base
-        await db.put(updatedDoc);
-        console.log("[COUNTER] Activité mis à jour :");
-        if (devMode === true ) {console.log("[COUNTER] Activité mis à jour :", updatedDoc);};
+        // Sauvegarder les modifications
+        await db.put(SessionStore);
 
-        return updatedDoc; // Retourne l'objet mis à jour
+        if (devMode) console.log("Store SESSION mis à jour :", SessionStore);
+        return true; // Indique que la mise à jour est réussie
     } catch (err) {
-        console.error("Erreur lors de la mise à jour de l'activité :", err);
-    }
-}
-
-// Sauvegarde de modification multiple
-async function onInsertMultipleCounterModificationsInDB(allCountersToUpdate) {
-    try {
-        // Récupérer les documents existants en une seule requête
-        const keys = Object.keys(allCountersToUpdate);
-        const existingDocs = await db.allDocs({ keys, include_docs: true });
-
-        // Préparer les documents mis à jour
-        const updatedDocs = existingDocs.rows
-            .filter(row => row.doc) // Vérifier que le document existe
-            .map(row => ({
-                ...row.doc,  // Conserver `_id` et `_rev`
-                ...allCountersToUpdate[row.id] // Appliquer les nouvelles valeurs
-            }));
-
-        // Sauvegarder toutes les modifications en une seule opération
-        const result = await db.bulkDocs(updatedDocs);
-
-        console.log("[COUNTER] Modifications multiples enregistrées :", result);
-        return result;
-    } catch (err) {
-        console.error("Erreur lors de la mise à jour multiples des compteurs :", err);
-    }
-}
-
-
-// Suppression Compteur
-async function deleteCounter(counterKey) {
-    try {
-        // Récupérer le document à supprimer
-        let docToDelete = await db.get(counterKey);
-
-        // Supprimer le document
-        await db.remove(docToDelete);
-
-        if (devMode === true ) {console.log("[COUNTER] Activité supprimée :", counterKey);};
-
-        return true; // Indique que la suppression s'est bien passée
-    } catch (err) {
-        console.error("[COUNTER] Erreur lors de la suppression de l'activité :", err);
+        console.error("Erreur lors de la mise à jour du store SESSION :", err);
         return false; // Indique une erreur
     }
 }
-
 
 
 
@@ -254,7 +162,7 @@ async function deleteCounter(counterKey) {
 
 
 // Valeur incrementation
-function onChangeCounterIncrement(idRef) {
+async function onChangeCounterIncrement(idRef) {
 
     // Actualise l'array
     userCounterList[idRef].countIncrement = parseInt(document.getElementById(`inputCountIncrement_${idRef}`).value) || 0;
@@ -262,7 +170,7 @@ function onChangeCounterIncrement(idRef) {
     console.log("[COUNTER] onchangeCounter Increment");
 
     // Sauvegarde en base
-    onInsertCounterModificationInDB(userCounterList[idRef],idRef);
+    await onSaveSessionModificationInDB(userCounterList);
 }
 
 
@@ -326,7 +234,7 @@ function onConfirmCounterEditor() {
 }
 
 
-function eventCreateCounter() {
+async function eventCreateCounter() {
     
     // masque le popup de création
     document.getElementById("divEditCounter").style.display = "none";
@@ -334,8 +242,15 @@ function eventCreateCounter() {
     // Formatage
     let counterData = onFormatNewCounter()
 
+    // Obtenir le prochain ID
+    let nextId = await getNextIdNumber(counterCountIDStoreName);
+        nextId = `counter_${nextId}`;
+
+    // Ajout du nouveau compteur à l'array
+    userCounterList[nextId] = counterData;
+
     // Enregistrement
-    eventInsertNewCompteur(counterData);
+    eventInsertNewCompteur();
 
 }
 
@@ -343,13 +258,12 @@ function eventCreateCounter() {
 
 //Séquence d'insertion d'un nouveau compteur
 
-async function eventInsertNewCompteur(dataToInsert) {
+async function eventInsertNewCompteur() {
 
-    // Formatage du nouveau compteur (nom, date et count =0)
+    console.log(userCounterList);
 
-    await onInsertNewCounterInDB(dataToInsert);
-    await onLoadCounterFromDB();
-
+    // Sauvegarde en base
+    await onSaveSessionModificationInDB(userCounterList);
 
     // fonction de création affichage des compteurs
     onDisplayCounter(userCounterList);
@@ -425,7 +339,7 @@ function onClickModifyCounter(idRef) {
 
 
 
-function eventSaveModifyCounter() {
+async function eventSaveModifyCounter() {
 
     // masque le popup de création
     document.getElementById("divEditCounter").style.display = "none";
@@ -438,13 +352,15 @@ function eventSaveModifyCounter() {
     userCounterList[currentCounterEditorID].countTarget = counterData.countTarget;
     userCounterList[currentCounterEditorID].color = counterData.color;
 
-    // Enregistrement en base
-    onInsertCounterModificationInDB(userCounterList[currentCounterEditorID],currentCounterEditorID);
-
     // Actualisation de l'affichage
     document.getElementById(`counterName_${currentCounterEditorID}`).innerHTML = counterData.name;
     document.getElementById(`counterContainer_${currentCounterEditorID}`).style.backgroundColor = counterColor[counterData.color];
     document.getElementById(`spanCountTarget_${currentCounterEditorID}`).innerHTML = `/${counterData.countTarget}`;
+    
+
+    // Enregistrement en base
+    await onSaveSessionModificationInDB(userCounterList);
+
 
 }
 
@@ -555,7 +471,7 @@ function getSortedKeysByDisplayOrder(counterList) {
 
 // lorsque j'incremente, récupère la valeur la variable (currentCount), ajoute la nouvelle valeur(increment)
 // et le nouveau résultat est mis dans total ainsi que sauvegardé en base
-function onClickIncrementeCounter(idRef) {
+async function onClickIncrementeCounter(idRef) {
 
     // Ne fait rien si l'increment est à zero ou vide
     if (userCounterList[idRef].countIncrement === 0) {
@@ -589,9 +505,6 @@ function onClickIncrementeCounter(idRef) {
     userCounterList[idRef].currentCount = newTotal;//le tableau
 
 
-    //La base
-    onInsertCounterModificationInDB(userCounterList[idRef],idRef);
-
     if (devMode === true){console.log(userCounterList);};
 
 
@@ -606,11 +519,16 @@ function onClickIncrementeCounter(idRef) {
         onShowNotifyPopup(`${userCounterList[idRef].name}  validé !`);
     }
 
+    //La base
+    await onSaveSessionModificationInDB(userCounterList);
+
     //déverrouille le bouton pour être a nouveau disponible
     setTimeout(() => {
         document.getElementById(`btnCountIncrement_${idRef}`).disabled = false;
     }, 300);
+
     
+
 }
 
 
@@ -654,7 +572,7 @@ function onPlayIncrementAnimation(isTargetReach,countIncrementRef,divCurrentCoun
 // Actualise les éléments visual, dans la variable et en base
 
 
-function onClickResetCounter(idRef) {
+async function onClickResetCounter(idRef) {
 
     //bloc le bouton jusqu'à la fin de l'animation
     document.getElementById(`btnCountReset_${idRef}`).disabled = true;
@@ -668,7 +586,7 @@ function onClickResetCounter(idRef) {
     let spanCurrentCountRef = document.getElementById(`spanCurrentCount_${idRef}`);
     spanCurrentCountRef.innerHTML = 0;
 
-    //date d'initialisation désactivée
+    //affichage date d'initialisation désactivée
     // document.getElementById(`counterDate_${idRef}`).innerHTML = onDisplayUserFriendlyDate(newInitDate);
 
 
@@ -677,7 +595,7 @@ function onClickResetCounter(idRef) {
     userCounterList[idRef].currentCount = 0;
 
     // Actualise la base
-    onInsertCounterModificationInDB(userCounterList[idRef],idRef);
+    await onSaveSessionModificationInDB(userCounterList);
 
 
 
@@ -747,13 +665,9 @@ async function eventDeleteCounter(){
     // supression htlm
     document.getElementById(`counterContainer_${idCounterToDelete}`).remove();
 
-    // Suppression base
-    deleteCounter(idCounterToDelete);
 
     // Gestion si max atteind ou non
     gestionMaxCounterReach();
-
-
 
     // traitement display order pour les counters suivants
     onChangeDisplayOrderFromDelete(idCounterToDelete);
@@ -767,6 +681,10 @@ async function eventDeleteCounter(){
 
     // Popup notification
     onShowNotifyPopup(notifyTextArray.counterDeleted);
+
+    // Actualisation base
+    await onSaveSessionModificationInDB(userCounterList);
+
 }
 
 
@@ -776,17 +694,10 @@ async function onChangeDisplayOrderFromDelete(idOrigin) {
 
     console.log("deletedCounterIndex :",deletedCounterIndex);
 
-
-    let allCounterToSave = {};//stocke les compteur modifié à sauvegarder
-
     // Boucle jusquà la fin et décrémente les displayOrder et stocke en même temps les key to save
     for (let i = (deletedCounterIndex + 1); i < counterSortedKey.length; i++) {
         // Increment
         userCounterList[counterSortedKey[i]].displayOrder--
-
-        // Enregistre pour sauvegarde
-        allCounterToSave[counterSortedKey[i]] = userCounterList[counterSortedKey[i]];
-
     }
 
     // retire la key concernée dans l'array
@@ -798,7 +709,7 @@ async function onChangeDisplayOrderFromDelete(idOrigin) {
     //stocke les key concernée dans un objet pour la sauvegarde
 
     // sauvegarde groupé en base
-    await onInsertMultipleCounterModificationsInDB(allCounterToSave);
+    await onSaveSessionModificationInDB(userCounterList);
 }
 
 
@@ -824,16 +735,8 @@ async function onClickCounterNavDecrease(idOrigin) {
     // réaffiche les compteurs
     onDisplayCounter();
 
-
-    // SAUVEGARDE
-
-    // Crée un objet avec les deux counters
-    const allCounterToSave = {};
-    allCounterToSave[idOrigin] = userCounterList[idOrigin];
-    allCounterToSave[keyItemToIncrease] = userCounterList[keyItemToIncrease];
-
-    //sauvegarde les deux éléments en une seule fois
-    await onInsertMultipleCounterModificationsInDB(allCounterToSave);
+    //sauvegarde en base
+    await onSaveSessionModificationInDB(userCounterList);
 
 
 }
@@ -860,14 +763,7 @@ async function onClickCounterNavIncrease(idOrigin) {
 
 
     // SAUVEGARDE
-
-    // Crée un objet avec les deux counters
-    let allCounterToSave = {};
-    allCounterToSave[idOrigin] = userCounterList[idOrigin];
-    allCounterToSave[keyItemToDecrease] = userCounterList[keyItemToDecrease];
-
-    await onInsertMultipleCounterModificationsInDB(allCounterToSave);
-
+    await onSaveSessionModificationInDB(userCounterList);
 
 }
 
