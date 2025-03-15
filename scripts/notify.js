@@ -14,7 +14,8 @@ let notifyTextArray = {
     templateDeleted : "Modèle supprimé !",
     counterCreated : "Compteur créé !",
     counterDeleted : "Compteur supprimé !",
-    counterTargetReach : "Compteur validé !"
+    counterTargetReach : "Compteur validé !",
+    sessionReset : "Session réinitialisée !"
 };
 
 

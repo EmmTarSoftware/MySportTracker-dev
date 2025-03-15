@@ -125,6 +125,8 @@ async function onLoadSessionFromDB() {
 // Modification Compteur
 async function onSaveSessionModificationInDB(sessionToInsert) {
 
+    console.log("save")
+
     try {
         // Récupérer le store "SESSION"
         let sessionStore = await db.get(sessionStoreName);
@@ -598,8 +600,6 @@ async function onClickResetCounter(idRef) {
     // Actualise la base
     await onSaveSessionModificationInDB(userCounterList);
 
-
-
     if (devMode === true){console.log(userCounterList);};
 
     //retire la classe "reach" si necessaire pour le count target et le slash
@@ -608,8 +608,6 @@ async function onClickResetCounter(idRef) {
     if (counterTargetRef.classList.contains("target-reach")) {
         counterTargetRef.classList.remove("target-reach");
     }
-
-
 
     // Ajouter la classe pour l'animation
     spanCurrentCountRef.classList.add("anim-reset");
@@ -624,6 +622,36 @@ async function onClickResetCounter(idRef) {
 
 }
 
+
+// RESET ALL COUNTER
+
+
+function onClickResetAllCounter() {
+
+    // Set le mode de popup
+    onSetSessionPopupMode("resetAllCounter");
+}
+
+
+async function eventResetAllCounter() {
+    
+    // Boucle sur la liste des key
+    //Pour chaque éléments passe la variable à zero et set le texte
+    counterSortedKey.forEach(key=>{
+        userCounterList[key].currentCount = 0;
+        document.getElementById(`spanCurrentCount_${key}`).innerHTML = 0;
+    });
+
+
+    console.log(userCounterList);
+
+
+    //sauvegarde dans la base
+    await onSaveSessionModificationInDB(userCounterList);
+
+    // Notification utilisateur  
+    onShowNotifyPopup(notifyTextArray.sessionReset);
+}
 
 
 // ------------------------------------ SUPPRESSION -----------------------
@@ -761,7 +789,7 @@ function onConfirmPopupSession(event) {
             eventDeleteCounter();
             break;
         case "resetAllCounter":
-
+            eventResetAllCounter();
             break;
         case "clearSession":
 
