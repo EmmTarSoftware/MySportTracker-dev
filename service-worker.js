@@ -74,7 +74,8 @@ const ICONS = [
   `${basePath}Icons/Icon-Delete-color.webp`,
   `${basePath}Icons/Icon-nav-increase.webp`,
   `${basePath}Icons/Icon-nav-decrease.webp`,
-  `${basePath}Icons/Icon-Session.webp`
+  `${basePath}Icons/Icon-Session.webp`,
+  `${basePath}Icons/Icon-Send.webp`
 ];
 
 const IMAGES = [
