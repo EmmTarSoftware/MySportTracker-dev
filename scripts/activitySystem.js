@@ -690,7 +690,7 @@ function onFormatActivity() {
 
 
     if (activityEditorMode === "creation") {
-        eventInsertNewActivity(activityToInsertFormat);
+        eventInsertNewActivity(activityToInsertFormat,false);
     }else if(activityEditorMode === "modification"){
         onCheckIfModifiedRequired(activityToInsertFormat);
     };
@@ -762,8 +762,9 @@ function onInputDateChange() {
 
 
 // Séquence d'insertion d'une nouvelle activité
+//Soi depuis l'éditeur d'activité, soit une activité généré depuis les sessions
 
-async function eventInsertNewActivity(dataToInsert) {
+async function eventInsertNewActivity(dataToInsert,isFromSession) {
     await onInsertNewActivityInDB(dataToInsert);
     await onLoadActivityFromDB();
 
@@ -782,6 +783,14 @@ async function eventInsertNewActivity(dataToInsert) {
 
     // Lancement de l'actualisation sur le filtre en cours
     onFilterActivity(currentSortType,currentFilter,allUserActivityArray);
+
+
+    // Si c'est une activité généré depuis les session, met fin à la fonction
+    if (isFromSession) {
+        // Popup notification
+        onShowNotifyPopup(notifyTextArray.activityGenerated);
+        return
+    }
 
     // Popup notification
     onShowNotifyPopup(notifyTextArray.creation);

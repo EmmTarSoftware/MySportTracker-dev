@@ -116,11 +116,12 @@ div.confirmationDelete.show {
 }
 
 
-button.deleteConfirm{
-    background: var(--themeGradientPink);
+button.confirmPopup{
+    background: none;
     margin-bottom: -200px;
-    width: 70px;
-    height: 70px;
+    width: 70px;height: 70px;
+    border-radius: 20px;
+    border: solid 2px var(--colorMainTheme1);
 }
 
 
@@ -139,7 +140,7 @@ button.deleteConfirm{
 }
 
 /* Appliquez l'animation lorsque .show est présent */
-div.confirmationDelete.show button.deleteConfirm {
+div.confirmationDelete.show button.confirmPopup {
     animation: grow 200ms forwards; /* Ajoute l'animation explicite */
 }
 
@@ -149,8 +150,9 @@ button.deleteAnnul{
     height: 50px;
 }
 
-img.confirmSuppr{
+img.confirmPopup{
     width: 40px;
+    height: 40px;
 }
 
 
@@ -1786,6 +1788,14 @@ div.disabledEvent{
 
 /* ------------------------------------ Compteur ----------------------------------*/
 
+
+
+
+
+
+
+
+
 .compteur-container {
     padding: 15px;
     border-radius: 10px;
@@ -1820,6 +1830,7 @@ p.compteur-name{
 div.compteur-content-line-1 p.compteur-navigation{
     width: 120px;
     text-align: right;
+    display: block;
 }
 
 
@@ -1992,7 +2003,7 @@ div.confirmationDeleteCounter.show {
 
 
 /* Appliquez l'animation lorsque .show est présent */
-div.confirmationDeleteCounter.show button.deleteConfirm {
+div.confirmationDeleteCounter.show button.confirmPopup {
     animation: grow 200ms forwards; /* Ajoute l'animation explicite */
 }
 

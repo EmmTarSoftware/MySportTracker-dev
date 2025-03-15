@@ -642,10 +642,6 @@ async function eventResetAllCounter() {
         document.getElementById(`spanCurrentCount_${key}`).innerHTML = 0;
     });
 
-
-    console.log(userCounterList);
-
-
     //sauvegarde dans la base
     await onSaveSessionModificationInDB(userCounterList);
 
@@ -745,7 +741,7 @@ function onSetSessionPopupMode(mode) {
     switch (popupSessionMode) {
         case "removeCounter":
             textPopup = `<b>Supprimer : ${userCounterList[idCounterToDelete].name} ?</b>`;
-            imgPopupUrl = "./Icons/Icon-Delete.webp";
+            imgPopupUrl = "./Icons/Icon-Delete-color.webp";
             break;
         case "resetAllCounter":
             textPopup = "Réinitialiser tous les compteurs ?";
@@ -753,7 +749,7 @@ function onSetSessionPopupMode(mode) {
             break;
         case "clearSession":
             textPopup = "Supprimer la session ?";
-            imgPopupUrl ="./Icons/Icon-Delete.webp";
+            imgPopupUrl ="./Icons/Icon-Delete-color.webp";
             break;
     
         default:
@@ -884,6 +880,58 @@ function onResetCounterEditor() {
     counterColorSelected = "white";
     document.getElementById("divEditCounterContent").style.backgroundColor = counterColorSelected;
 }
+
+
+
+
+// ----------------------------- ENVOIE VERS ACTIVITE ------------------------------------
+
+
+
+
+
+
+
+async function onSendSessionToActivity() {
+    
+    let sessionText = "";
+
+    //Boucle sur les éléments
+    counterSortedKey.forEach(key=>{
+
+        // Pour chaque élément crée une ligne avec les données
+        let nameFormated = onSetToLowercase(userCounterList[key].name);
+        nameFormated = onSetFirstLetterUppercase(nameFormated);
+
+        let textToAdd = `${nameFormated} : ${userCounterList[key].currentCount}\n`;
+
+        sessionText = sessionText + textToAdd;
+
+    });
+
+    console.log(sessionText);
+
+    
+    //Remplit une variable avec des données pour une nouvelle activité
+    let activityGenerateToInsert = {
+        name :"FRACTIONNE",
+        date : onFindDateTodayUS(),
+        location : "",
+        distance : "",
+        duration : "00:00:00",
+        comment : sessionText,
+        divers:{},
+        isPlanned : false
+    };
+
+    // Lance la sauvegarde d'une nouvelle activité
+    await  eventInsertNewActivity(activityGenerateToInsert,true);
+ 
+
+}
+
+
+
 
 
 

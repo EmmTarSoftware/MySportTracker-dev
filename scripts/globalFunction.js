@@ -424,7 +424,7 @@ function onGetCurrentTime() {
 
 
 
-// Récupère les date du jours et de la veille
+// Récupère les date du jours
 
 function onFindDateTodayUS() {
     let today = new Date();
@@ -454,15 +454,18 @@ function onFindDateYesterdayUS() {
 
 //formatage =  tout en majuscule
 function onSetToUppercase(e) {
-    let upperCase = e.toUpperCase();
-    return upperCase;
+    return e.toUpperCase();
 };
 
 
+// Formatage = tout en minuscule
+function onSetToLowercase(e) {
+    return e.toLowerCase();
+}
+
 //Formatage = première lettre forcé majuscule
 function onSetFirstLetterUppercase(e) {
-    let firstLetterUpperCase = e.charAt(0).toUpperCase() + e.slice(1);
-    return firstLetterUpperCase;
+    return e.charAt(0).toUpperCase() + e.slice(1);
 };
 
 

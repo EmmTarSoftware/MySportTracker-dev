@@ -15,7 +15,8 @@ let notifyTextArray = {
     counterCreated : "Compteur créé !",
     counterDeleted : "Compteur supprimé !",
     counterTargetReach : "Compteur validé !",
-    sessionReset : "Session réinitialisée !"
+    sessionReset : "Session réinitialisée !",
+    activityGenerated : "Activité généré !"
 };
 
 
