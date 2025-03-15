@@ -887,12 +887,14 @@ function onResetCounterEditor() {
 // ----------------------------- ENVOIE VERS ACTIVITE ------------------------------------
 
 
+function onClickSendSessionToActivity() {
+    onGenerateFakeSelectSession();
+}
 
 
 
 
-
-async function onSendSessionToActivity() {
+async function onSendSessionToActivity(activityTarget) {
     
     let sessionText = "";
 
@@ -914,7 +916,7 @@ async function onSendSessionToActivity() {
     
     //Remplit une variable avec des données pour une nouvelle activité
     let activityGenerateToInsert = {
-        name :"FRACTIONNE",
+        name : activityTarget,
         date : onFindDateTodayUS(),
         location : "",
         distance : "",
@@ -936,10 +938,110 @@ async function onSendSessionToActivity() {
 
 
 
+
+
+// Objet fake option
+class FakeOptionSession {
+    constructor(activityName, displayName, imgRef, classList, parentRef, isLastFavourite) {
+        this.activityName = activityName;
+        this.displayName = displayName;
+        this.imgRef = imgRef;
+        this.classList = classList;
+        this.parentRef = parentRef;
+        this.isLastFavourite = isLastFavourite; 
+
+        // div container
+        this.element = document.createElement("div");
+        this.element.classList.add("fake-opt-item-container");
+
+        // Ajout des traits pour le dernier favori
+        if (this.isLastFavourite) {
+            this.element.classList.add("fake-opt-item-last-favourite");
+        }
+
+        // Fonction
+        this.element.onclick = (event) => {
+            event.stopPropagation();
+            onSendSessionToActivity(this.activityName);
+            // affichage
+            document.getElementById("divFakeSelectSession").style.display = "none";
+        };
+
+        this.render();
+    }
+
+    // génération de l'élément
+    render() {
+        this.element.innerHTML = `
+            <img class="fake-opt-item" src="${this.imgRef}">
+            <span class="${this.classList}">${this.displayName}</span>
+            <div class="radio-button-fake"></div>
+        `;
+
+        // Insertion
+        this.parentRef.appendChild(this.element);
+    }
+}
+
+
+
+
+// génération du fake selection d'activité pour l'envoie des compteurs
+
+function onGenerateFakeSelectSession() {
+    let parentRef = document.getElementById("divFakeSelectSessionList");
+
+    parentRef.innerHTML = "";
+
+
+    // Insert d'abord la liste des favoris
+    userFavoris.forEach((e,index)=>{
+
+        let displayName = `* ${activityChoiceArray[e].displayName}`,
+            imgRef = activityChoiceArray[e].imgRef,
+            classList = "fake-opt-item fake-opt-item-favoris";
+
+            isLastFavourite = index === (userFavoris.length - 1);
+
+        new FakeOptionSession(e,displayName,imgRef,classList,parentRef,isLastFavourite);
+    });
+
+
+
+    // Puis toutes les type d'activités
+    let activitySortedKey = Object.keys(activityChoiceArray);
+    activitySortedKey.sort();
+
+
+    activitySortedKey.forEach((e,index)=>{
+        let displayName = `${activityChoiceArray[e].displayName}`,
+            imgRef = activityChoiceArray[e].imgRef,
+            classList = "fake-opt-item";
+
+        new FakeOptionSession(e,displayName,imgRef,classList,parentRef,false);
+    });
+
+
+    // affichage
+    document.getElementById("divFakeSelectSession").style.display = "flex";
+}
+
+
+
+
+// Annule envoie vers activité
+function onCloseFakeSelectSession(event) {
+    document.getElementById("divFakeSelectSession").style.display = "none";
+}
+
+
 // Retour depuis Info
 function onClickReturnFromSession() {
 
    
-       // ferme le menu
-       onLeaveMenu("Session");
-   };
+    // ferme le menu
+    onLeaveMenu("Session");
+};
+
+
+
