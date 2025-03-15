@@ -11,7 +11,8 @@ let userCounterList = {
     maxCounter = 20,
     counterSortedKey = [],//array des clé trié par "displayOrder"
     counterEditorMode, //creation ou modification
-    currentCounterEditorID;//L'id du compteur en cours de modification
+    currentCounterEditorID,//L'id du compteur en cours de modification
+    popupSessionMode;//set le mode d'utilisation du popup (removeCounter,resetAllCounter,clearSession)
 
 
 
@@ -107,9 +108,9 @@ async function onLoadSessionFromDB() {
     userCounterList = {}; // Initialisation en objet
 
     try {
-        const sessions = await db.get(SessionStoreName).catch(() => null);
+        const sessions = await db.get(sessionStoreName).catch(() => null);
         if (sessions) {
-            userCounterList = sessions.session;
+            userCounterList = sessions.counterList;
         }
         if (devMode === true){console.log("[DATABASE] Données chargées :", userCounterList);};
     } catch (err) {
@@ -126,15 +127,15 @@ async function onSaveSessionModificationInDB(sessionToInsert) {
 
     try {
         // Récupérer le store "SESSION"
-        let SessionStore = await db.get(SessionStoreName);
+        let sessionStore = await db.get(sessionStoreName);
 
-        // Mettre à jour la liste des SESSION
-        SessionStore.session = sessionToInsert;
+        // Mettre à jour la liste des counter de la session
+        sessionStore.counterList = sessionToInsert;
 
         // Sauvegarder les modifications
-        await db.put(SessionStore);
+        await db.put(sessionStore);
 
-        if (devMode) console.log("Store SESSION mis à jour :", SessionStore);
+        if (devMode) console.log("Store SESSION mis à jour :", sessionStore);
         return true; // Indique que la mise à jour est réussie
     } catch (err) {
         console.error("Erreur lors de la mise à jour du store SESSION :", err);
@@ -627,6 +628,11 @@ async function onClickResetCounter(idRef) {
 
 // ------------------------------------ SUPPRESSION -----------------------
 
+
+
+
+
+
 //Lors d'une suppression, il faut également décrémenter les display order des counters suivants
 
 
@@ -636,24 +642,8 @@ function onClickDeleteCounter(idTarget) {
 
     idCounterToDelete = idTarget;
 
-    // Set le texte de confirmation
-    document.getElementById("pTextConfirmDeleteCounter").innerHTML = `<b>Supprimer : ${userCounterList[idTarget].name} ?</b>`;
-
-    // Affiche le popup
-    document.getElementById("divConfirmDeleteCounter").classList.add("show");
-}
-
-
-//Annule la suppression
-function onAnnulDeleteCounter(event) {
-    document.getElementById("divConfirmDeleteCounter").classList.remove("show");
-}
-
-// Confirme la suppression
-function onConfirmDeleteCounter(event) {
-    event.stopPropagation();
-    document.getElementById("divConfirmDeleteCounter").classList.remove("show");
-    eventDeleteCounter();
+    // Set le mode de popup
+    onSetSessionPopupMode("removeCounter");
 }
 
 
@@ -682,6 +672,7 @@ async function eventDeleteCounter(){
     // Popup notification
     onShowNotifyPopup(notifyTextArray.counterDeleted);
 
+
     // Actualisation base
     await onSaveSessionModificationInDB(userCounterList);
 
@@ -703,15 +694,84 @@ async function onChangeDisplayOrderFromDelete(idOrigin) {
     // retire la key concernée dans l'array
     counterSortedKey.splice(deletedCounterIndex,1);
 
-    console.log(userCounterList);
-
-    console.log(counterSortedKey);
-    //stocke les key concernée dans un objet pour la sauvegarde
-
-    // sauvegarde groupé en base
-    await onSaveSessionModificationInDB(userCounterList);
 }
 
+
+
+
+
+
+// ------------------------------- POPUP SESSION--------------------------------------
+
+
+
+
+
+function onSetSessionPopupMode(mode) {
+    
+    popupSessionMode = mode;
+
+    let textPopup,
+        imgPopupUrl;
+
+    switch (popupSessionMode) {
+        case "removeCounter":
+            textPopup = `<b>Supprimer : ${userCounterList[idCounterToDelete].name} ?</b>`;
+            imgPopupUrl = "./Icons/Icon-Delete.webp";
+            break;
+        case "resetAllCounter":
+            textPopup = "Réinitialiser tous les compteurs ?";
+            imgPopupUrl = "./Icons/Icon-Reset.webp";
+            break;
+        case "clearSession":
+            textPopup = "Supprimer la session ?";
+            imgPopupUrl ="./Icons/Icon-Delete.webp";
+            break;
+    
+        default:
+            break;
+    }
+
+    // Set le texte de confirmation
+    document.getElementById("pTextConfirmPopupSession").innerHTML = textPopup;
+
+    // Set l'icone
+    document.getElementById("imgComfirmPopupSession").src = imgPopupUrl;
+
+    // Affiche le popup
+    document.getElementById("divPopupConfirmSession").classList.add("show");
+
+}
+
+//Annule le popup de confirmation
+function onAnnulPopUPConfirmSession(event) {
+    document.getElementById("divPopupConfirmSession").classList.remove("show");
+}
+
+
+
+// Confirme le popup de session
+function onConfirmPopupSession(event) {
+    event.stopPropagation();
+    document.getElementById("divPopupConfirmSession").classList.remove("show");
+
+    // Filtre selon le mode d'ouverture du popup
+    switch (popupSessionMode) {
+        case "removeCounter":
+            eventDeleteCounter();
+            break;
+        case "resetAllCounter":
+
+            break;
+        case "clearSession":
+
+            break;
+    
+        default:
+            break;
+    }
+   
+}
 
 
 // ----------------------------------- NAVIGATION -----------------------------------
@@ -759,8 +819,6 @@ async function onClickCounterNavIncrease(idOrigin) {
 
     // réaffiche les compteurs
     onDisplayCounter();
-
-
 
     // SAUVEGARDE
     await onSaveSessionModificationInDB(userCounterList);
