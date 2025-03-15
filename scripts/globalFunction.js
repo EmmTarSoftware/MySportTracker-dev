@@ -610,8 +610,8 @@ function onDisplayUserFriendlyDate(date){
 
 
 let allDivHomeToDisplayNone = ["divMainBtnMenu","btnNewActivity","divFilterSort","divItemList"],
-    allDivHomeToDisplayBlock = ["divMainBtnMenu","btnNewActivity"],
-    allDivHomeToDisplayFlex = ["divFilterSort","divItemList"];
+    allDivHomeToDisplayBlock = ["btnNewActivity"],
+    allDivHomeToDisplayFlex = ["divMainBtnMenu","divFilterSort","divItemList"];
 
 
 
@@ -639,20 +639,20 @@ function onChangeMenu(menuTarget) {
         case "Session":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Counter");};
             pMenuTitleRef.innerHTML = "Session";
-            onChangeDisplay(allDivHomeToDisplayNone,["divBtnSession"],["divSession"],[],[],[],[]);
+            onChangeDisplay(allDivHomeToDisplayNone,[],["divBtnSession","divSession"],[],[],[],[]);
             onOpenMenuSession();
         break;
         
         case "Stat":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Stat");};
             pMenuTitleRef.innerHTML = "Statistiques";
-            onChangeDisplay(allDivHomeToDisplayNone,["divBtnStat"],["divStat"],[],[],[],[]);
+            onChangeDisplay(allDivHomeToDisplayNone,[],["divBtnStat","divStat"],[],[],[],[]);
             onOpenMenuStat();
         break;
         case "Rewards":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Rewards");};
             pMenuTitleRef.innerHTML = "Récompenses";
-            onChangeDisplay(allDivHomeToDisplayNone,["divBtnRewards"],["divRewards"],[],[],[],[]);
+            onChangeDisplay(allDivHomeToDisplayNone,[],["divBtnRewards","divRewards"],[],[],[],[]);
 
             // Enlève la couleur si il ya un reward en cours
             if (document.getElementById("btnMenuRewards").classList.contains("rewardAvailable")) {
@@ -664,18 +664,18 @@ function onChangeMenu(menuTarget) {
         case "NewActivity":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : New Activity");};
             pMenuTitleRef.innerHTML = "Créer une activité";
-            onChangeDisplay(allDivHomeToDisplayNone,["divBtnActivity"],["divActivityEditor"],[],[],["btnDeleteActivity"],[]);
+            onChangeDisplay(allDivHomeToDisplayNone,[],["divBtnActivity","divActivityEditor"],[],[],["btnDeleteActivity"],[]);
             onOpenNewActivity();
         break;
         case "NewActivityFromTemplate":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : NewActivityFromTemplate");};
             pMenuTitleRef.innerHTML = "Créer une activité";
-            onChangeDisplay(allDivHomeToDisplayNone,["divBtnActivity"],["divActivityEditor"],[],[],["btnDeleteActivity"],[]);
+            onChangeDisplay(allDivHomeToDisplayNone,[],["divBtnActivity","divActivityEditor"],[],[],["btnDeleteActivity"],[]);
         break;
         case "EditActivity":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : EditActivity");};
             pMenuTitleRef.innerHTML = "Editer une activité";
-            onChangeDisplay(allDivHomeToDisplayNone,["divBtnActivity"],["divActivityEditor"],[],[],[],["btnDeleteActivity"]);
+            onChangeDisplay(allDivHomeToDisplayNone,[],["divBtnActivity","divActivityEditor"],[],[],[],["btnDeleteActivity"]);
         break;
         case "TemplateChoice":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : TemplateChoice");};
@@ -689,48 +689,48 @@ function onChangeMenu(menuTarget) {
         case "Profil":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Profil");};
             pMenuTitleRef.innerHTML = "Mon profil";
-            onChangeDisplay(allDivHomeToDisplayNone,["divBtnProfil"],["divProfil"],[],[],[],[]);
+            onChangeDisplay(allDivHomeToDisplayNone,[],["divBtnProfil","divProfil"],[],[],[],[]);
             onOpenMenuProfil();
         break;
         case "Favoris":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Favoris");};
             pMenuTitleRef.innerHTML = "Activités / Favoris";
-            onChangeDisplay(allDivHomeToDisplayNone,["divFavoris","divBtnFavoris"],[],[],[],[],[]);
+            onChangeDisplay(allDivHomeToDisplayNone,["divFavoris"],["divBtnFavoris"],[],[],[],[]);
             onOpenMenuFavoris();
         break;
         case "GestData":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : GestData");};
             pMenuTitleRef.innerHTML = "Gestion des données";
-            onChangeDisplay(allDivHomeToDisplayNone,["divBtnGestData"],["divGestData"],[],[],[],[]);
+            onChangeDisplay(allDivHomeToDisplayNone,[],["divBtnGestData","divGestData"],[],[],[],[]);
             onOpenMenuGestData();
         break;
         case "GestTemplate":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : GestTemplate");};
             pMenuTitleRef.innerHTML = "Gestion des modèles";
-            onChangeDisplay(allDivHomeToDisplayNone,["divBtnGestTemplate"],["divGestTemplate"],[],[],[],[]);
+            onChangeDisplay(allDivHomeToDisplayNone,[],["divBtnGestTemplate","divGestTemplate"],[],[],[],[]);
             onOpenMenuGestTemplate();
         break;
         case "NewTemplate":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : NewTemplate");};
             pMenuTitleRef.innerHTML = "Création de modèle";
-            onChangeDisplay(["divBtnGestTemplate","divGestTemplate"],["divBtnTemplateEditor"],["divTemplateEditor"],[],[],["btnDeleteTemplate"],[]);
+            onChangeDisplay(["divBtnGestTemplate","divGestTemplate"],[],["divBtnTemplateEditor","divTemplateEditor"],[],[],["btnDeleteTemplate"],[]);
             onClickBtnCreateTemplate();
         break;
         case "ModifyTemplate":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : TemplateEditor");};
             pMenuTitleRef.innerHTML = "Modification de modèle";
-            onChangeDisplay(["divBtnGestTemplate","divGestTemplate"],["divBtnTemplateEditor"],["divTemplateEditor"],[],[],[],["btnDeleteTemplate"]);
+            onChangeDisplay(["divBtnGestTemplate","divGestTemplate"],[],["divBtnTemplateEditor","divTemplateEditor"],[],[],[],["btnDeleteTemplate"]);
         break;
         case "Setting":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Setting");};
             pMenuTitleRef.innerHTML = "Paramètres";
-            onChangeDisplay(allDivHomeToDisplayNone,["divBtnSetting"],["divSetting"],[],[],[],[]);
+            onChangeDisplay(allDivHomeToDisplayNone,[],["divBtnSetting","divSetting"],[],[],[],[]);
             onOpenMenuSetting();
         break;
         case "Info":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : Info");};
             pMenuTitleRef.innerHTML = "A propos";
-            onChangeDisplay(allDivHomeToDisplayNone,["divBtnInfo"],["divInfo"],[],[],[],[]);
+            onChangeDisplay(allDivHomeToDisplayNone,[],["divBtnInfo","divInfo"],[],[],[],[]);
             onOpenMenuInfo();
         break;
 
@@ -836,7 +836,7 @@ function onLeaveMenu(menuTarget) {
         break;
         case "TemplateEditor":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : TemplateEditor");};
-            onChangeDisplay(["divBtnTemplateEditor","divTemplateEditor"],["divBtnGestTemplate"],["divGestTemplate"],[],[],[],[]);
+            onChangeDisplay(["divBtnTemplateEditor","divTemplateEditor"],[],["divBtnGestTemplate","divGestTemplate"],[],[],[],[]);
             onUnlockDivDoubleClick(["divBtnTemplateEditor","divTemplateEditor"]);//retire la sécurité double click
             pMenuTitleRef.innerHTML = "Gestion des modèles";
             onResetBtnRadio();
