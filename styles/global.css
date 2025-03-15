@@ -73,7 +73,10 @@ button.btn-menu span {
     color: var(--colorMainTheme1);
 }
 
-
+/* Spécifique texte bouton menu blanc */
+button.btn-menu span.textWhite{
+    color: white;
+}
 
 
 
