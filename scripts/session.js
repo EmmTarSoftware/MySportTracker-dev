@@ -941,22 +941,22 @@ async function onSendSessionToActivity(activityTarget) {
 
 
 // Objet fake option
-class FakeOptionSession {
-    constructor(activityName, displayName, imgRef, classList, parentRef, isLastFavourite) {
+class fakeOptionSessionBasic {
+    constructor(activityName, displayName, imgRef, classList, parentRef, isLastIndex) {
         this.activityName = activityName;
         this.displayName = displayName;
         this.imgRef = imgRef;
         this.classList = classList;
         this.parentRef = parentRef;
-        this.isLastFavourite = isLastFavourite; 
+        this.isLastIndex = isLastIndex; 
 
         // div container
         this.element = document.createElement("div");
         this.element.classList.add("fake-opt-item-container");
 
         // Ajout des traits pour le dernier favori
-        if (this.isLastFavourite) {
-            this.element.classList.add("fake-opt-item-last-favourite");
+        if (this.isLastIndex) {
+            this.element.classList.add("fake-opt-item-last-container");
         }
 
         // Fonction
@@ -984,6 +984,49 @@ class FakeOptionSession {
 }
 
 
+// Objet fake option
+class fakeOptionSessionFavourite {
+    constructor(activityName, displayName, imgRef, classList, parentRef, isLastIndex) {
+        this.activityName = activityName;
+        this.displayName = displayName;
+        this.imgRef = imgRef;
+        this.classList = classList;
+        this.parentRef = parentRef;
+        this.isLastIndex = isLastIndex; 
+
+        // div container
+        this.element = document.createElement("div");
+        this.element.classList.add("fake-opt-item-container");
+
+        // pas de trait du bas pour le dernier élément
+        if (this.isLastIndex) {
+            this.element.classList.add("fake-opt-item-last-favourite");
+        }
+
+        // Fonction
+        this.element.onclick = (event) => {
+            event.stopPropagation();
+            onSendSessionToActivity(this.activityName);
+            // affichage
+            document.getElementById("divFakeSelectSession").style.display = "none";
+        };
+
+        this.render();
+    }
+
+    // génération de l'élément
+    render() {
+        this.element.innerHTML = `
+            <span class="favouriteSymbol">*</span>
+            <img class="fake-opt-item" src="${this.imgRef}">
+            <span class="${this.classList}">${this.displayName}</span>
+            <div class="radio-button-fake"></div>
+        `;
+
+        // Insertion
+        this.parentRef.appendChild(this.element);
+    }
+}
 
 
 // génération du fake selection d'activité pour l'envoie des compteurs
@@ -997,13 +1040,12 @@ function onGenerateFakeSelectSession() {
     // Insert d'abord la liste des favoris
     userFavoris.forEach((e,index)=>{
 
-        let displayName = `* ${activityChoiceArray[e].displayName}`,
+        let displayName = activityChoiceArray[e].displayName,
             imgRef = activityChoiceArray[e].imgRef,
-            classList = "fake-opt-item fake-opt-item-favoris";
-
+            classList = "fake-opt-item fake-opt-item-favoris",
             isLastFavourite = index === (userFavoris.length - 1);
 
-        new FakeOptionSession(e,displayName,imgRef,classList,parentRef,isLastFavourite);
+        new fakeOptionSessionFavourite(e,displayName,imgRef,classList,parentRef,isLastFavourite);
     });
 
 
@@ -1016,9 +1058,10 @@ function onGenerateFakeSelectSession() {
     activitySortedKey.forEach((e,index)=>{
         let displayName = `${activityChoiceArray[e].displayName}`,
             imgRef = activityChoiceArray[e].imgRef,
-            classList = "fake-opt-item";
+            classList = "fake-opt-item",
+            isLastIndex = index === (activitySortedKey.length -1);
 
-        new FakeOptionSession(e,displayName,imgRef,classList,parentRef,false);
+        new fakeOptionSessionBasic(e,displayName,imgRef,classList,parentRef,isLastIndex);
     });
 
 
