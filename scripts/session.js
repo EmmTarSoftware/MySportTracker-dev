@@ -75,7 +75,7 @@ class Counter {
                 <button class="btn-counter" onclick="onClickDeleteCounter('${this.id}')"><img src="./Icons/Icon-Delete-color.webp" alt="" srcset=""></button>
                 <button class="btn-counter" id="btnCountReset_${this.id}" onclick="onClickResetCounter('${this.id}')"><img src="./Icons/Icon-Reset.webp" alt="" srcset=""></button>
                 <p class="serieTextExplication">Rep. :</p>
-                <input type="number" class="compteur" id="inputRepIncrement_${this.id}" placeholder="0" value=${this.repIncrement} onchange="onChangeCounterIncrement('${this.id}')">
+                <input type="number" class="compteur" id="inputRepIncrement_${this.id}" placeholder="0" value=${this.repIncrement} onchange="onChangeCounterRepIncrement('${this.id}')">
                 <button class="btn-menu btnFocus" id="btnRepIncrement_${this.id}" onclick="onClickIncrementeCounter('${this.id}')"><img src="./Icons/Icon-Accepter.webp" alt="" srcset=""></button>  
            </div>
         `;
@@ -167,7 +167,7 @@ async function onSaveSessionModificationInDB(sessionToInsert) {
 
 
 // Valeur incrementation
-async function onChangeCounterIncrement(idRef) {
+async function onChangeCounterRepIncrement(idRef) {
 
     // Actualise l'array
     userCounterList[idRef].repIncrement = parseInt(document.getElementById(`inputRepIncrement_${idRef}`).value) || 0;
@@ -302,9 +302,10 @@ function onFormatNewCounter() {
     }
 
     // Récupère l'objectif ou set 0
-    let newserieTarget = parseInt(document.getElementById("inputEditSerieTarget").value) || 0;
+    let newserieTarget = parseInt(document.getElementById("inputEditSerieTarget").value) || 0,
+        newRepIncrement = parseInt(document.getElementById("inputEditRepIncrement").value) || 0;
 
-
+    
 
     // définition du displayOrder
     let newDisplayOrder = Object.keys(userCounterList).length || 0;
@@ -313,7 +314,7 @@ function onFormatNewCounter() {
     let formatedCounter = {
         name: newCounterName, 
         initDate: newCounterDate, 
-        currentSerie: 0, serieTarget: newserieTarget, repIncrement:0,totalCount:0,
+        currentSerie: 0, serieTarget: newserieTarget, repIncrement:newRepIncrement, totalCount:0,
         displayOrder : newDisplayOrder,
         color : counterColorSelected
     };
@@ -333,6 +334,7 @@ function onClickModifyCounter(idRef) {
     // set les éléments
     document.getElementById("inputEditCounterName").value = userCounterList[idRef].name;
     document.getElementById("inputEditSerieTarget").value = userCounterList[idRef].serieTarget;
+    document.getElementById("inputEditRepIncrement").value = userCounterList[idRef].repIncrement;
     document.getElementById("divEditCounterContent").style.backgroundColor = counterColor[userCounterList[idRef].color];
     counterColorSelected = userCounterList[idRef].color;
 
@@ -355,12 +357,14 @@ async function eventSaveModifyCounter() {
     // Enregistrement dans l'array
     userCounterList[currentCounterEditorID].name = counterData.name;
     userCounterList[currentCounterEditorID].serieTarget = counterData.serieTarget;
+    userCounterList[currentCounterEditorID].repIncrement = counterData.repIncrement;
     userCounterList[currentCounterEditorID].color = counterData.color;
 
     // Actualisation de l'affichage
     document.getElementById(`counterName_${currentCounterEditorID}`).innerHTML = counterData.name;
     document.getElementById(`counterContainer_${currentCounterEditorID}`).style.backgroundColor = counterColor[counterData.color];
     document.getElementById(`spanSerieTarget_${currentCounterEditorID}`).innerHTML = `/${counterData.serieTarget}`;
+    document.getElementById(`inputRepIncrement_${currentCounterEditorID}`).value = counterData.repIncrement;
     
 
     // Enregistrement en base
@@ -382,12 +386,12 @@ function onFormatModifyCounter() {
 
     // Récupère l'objectif ou set 0
     let newserieTarget = parseInt(document.getElementById("inputEditSerieTarget").value) || 0;
-
+        newRepIncrement = parseInt(document.getElementById("inputEditRepIncrement").value) || 0;
 
     let formatedCounter = {
         name: newCounterName, 
         initDate: newCounterDate, 
-        currentSerie: 0, serieTarget: newserieTarget, repIncrement:0, totalCount:0,
+        currentSerie: 0, serieTarget: newserieTarget, repIncrement:newRepIncrement, totalCount:0,
         displayOrder : 0,
         color : counterColorSelected
     };
@@ -670,7 +674,8 @@ async function eventResetAllCounter() {
         document.getElementById(`spanCurrentSerie_${key}`).innerHTML = 0;
 
         userCounterList[key].totalCount = 0;
-        document.getElementById(`spanTotalCount_${key}`).innerHTML = 0;
+        document.getElementById(`spanTotalCount_${key}`).innerHTML = "Total : 0";
+
     });
 
     //sauvegarde dans la base
@@ -904,8 +909,11 @@ function onResetCounterEditor() {
     // Reset l'emplacement du nom
     document.getElementById("inputEditCounterName").value = "";
 
-    // Reset l'objectif
+    // Reset le nombre de serie
     document.getElementById("inputEditSerieTarget").value = 0;
+
+    //Reset le nombre de répétition
+    document.getElementById("inputEditRepIncrement").value = 0;
 
     // remet les éléments dans la couleur par défaut
     counterColorSelected = "white";
@@ -936,7 +944,7 @@ async function onSendSessionToActivity(activityTarget) {
         let nameFormated = onSetToLowercase(userCounterList[key].name);
         nameFormated = onSetFirstLetterUppercase(nameFormated);
 
-        let textToAdd = `${nameFormated} : ${userCounterList[key].currentSerie} séries(s). Total rep.: ${userCounterList[key].totalCount}\n`;
+        let textToAdd = `${nameFormated}: ${userCounterList[key].currentSerie} séries(s). Total: ${userCounterList[key].totalCount}\n`;
 
         sessionText = sessionText + textToAdd;
 
