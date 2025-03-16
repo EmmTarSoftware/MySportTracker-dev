@@ -546,7 +546,7 @@ async function onClickIncrementeCounter(idRef) {
 
     // Notification objectif atteind
     if (isTargetReach) {
-        onShowNotifyPopup(`${userCounterList[idRef].name}  validé !`);
+        onShowNotifyPopup("compteur validé !");
     }
 
     //La base
@@ -569,7 +569,7 @@ function onCheckTargetReach(idRef) {
 
     if (userCounterList[idRef].serieTarget === 0) {
        return targetReach;
-    } else if (userCounterList[idRef].currentSerie >= userCounterList[idRef].serieTarget){
+    } else if (userCounterList[idRef].currentSerie === userCounterList[idRef].serieTarget){
         targetReach = true;
         document.getElementById(`spanSerieTarget_${idRef}`).classList.add("target-reach");
     }
@@ -944,7 +944,7 @@ async function onSendSessionToActivity(activityTarget) {
         let nameFormated = onSetToLowercase(userCounterList[key].name);
         nameFormated = onSetFirstLetterUppercase(nameFormated);
 
-        let textToAdd = `${nameFormated}: ${userCounterList[key].currentSerie} séries(s). Total: ${userCounterList[key].totalCount}\n`;
+        let textToAdd = `${nameFormated}: ${userCounterList[key].currentSerie} série(s). Total: ${userCounterList[key].totalCount}\n`;
 
         sessionText = sessionText + textToAdd;
 
