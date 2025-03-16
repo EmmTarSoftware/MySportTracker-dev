@@ -68,13 +68,13 @@ class Counter {
             <div class="compteur-content" id="divCounterCurrentSerie_${this.id}">
                 <span class="current-serie" id="spanCurrentSerie_${this.id}">${this.currentSerie}</span>
                 <span class="serie-target" id="spanSerieTarget_${this.id}">/${this.serieTarget}</span>
-                <span class="serie-target" id="spanTotalCount_${this.id}">/${this.totalCount}</span>
+                <span class="serie-target" id="spanTotalCount_${this.id}">Total : ${this.totalCount}</span>
             </div>
 
             <div class="compteur-content">
                 <button class="btn-counter" onclick="onClickDeleteCounter('${this.id}')"><img src="./Icons/Icon-Delete-color.webp" alt="" srcset=""></button>
                 <button class="btn-counter" id="btnCountReset_${this.id}" onclick="onClickResetCounter('${this.id}')"><img src="./Icons/Icon-Reset.webp" alt="" srcset=""></button>
-                <p class="serieTextExplication">Série de :</p>
+                <p class="serieTextExplication">Rep. :</p>
                 <input type="number" class="compteur" id="inputRepIncrement_${this.id}" placeholder="0" value=${this.repIncrement} onchange="onChangeCounterIncrement('${this.id}')">
                 <button class="btn-menu btnFocus" id="btnRepIncrement_${this.id}" onclick="onClickIncrementeCounter('${this.id}')"><img src="./Icons/Icon-Accepter.webp" alt="" srcset=""></button>  
            </div>
@@ -476,7 +476,18 @@ function getSortedKeysByDisplayOrder(counterList) {
         .map(([key]) => key);
 }
 
+
+
+
+
+
+
 // ------------------------- INCREMENTATION ---------------------------------
+
+
+
+
+
 
 
 // lorsque j'incremente, récupère la valeur la variable (currentSerie), ajoute la nouvelle valeur(increment)
@@ -515,7 +526,7 @@ async function onClickIncrementeCounter(idRef) {
         spanTotalCountRef = document.getElementById(`spanTotalCount_${idRef}`);
 
     // compte total
-    spanTotalCountRef.innerHTML = newTotal;//le html
+    spanTotalCountRef.innerHTML = `Total : ${newTotal}`;//le html
     userCounterList[idRef].totalCount = newTotal;//le tableau
 
     // compte serie
@@ -603,7 +614,7 @@ async function onClickResetCounter(idRef) {
 
     //totalcount
     let spanTotalCountRef = document.getElementById(`spanTotalCount_${idRef}`);
-    spanTotalCountRef.innerHTML = 0;
+    spanTotalCountRef.innerHTML = `Total : 0`;
 
     //affichage date d'initialisation désactivée
     // document.getElementById(`counterDate_${idRef}`).innerHTML = onDisplayUserFriendlyDate(newInitDate);
