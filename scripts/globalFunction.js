@@ -200,7 +200,7 @@ function onGenerateFakeOptionList(idParentTarget) {
 
 
 
-// Génère le prochain id pour template et activity
+// Génère le prochain id 
 async function getNextIdNumber(storeTarget) {
     try {
         let counterDoc = await db.get(storeTarget);
@@ -213,7 +213,7 @@ async function getNextIdNumber(storeTarget) {
 
         if (devMode === true ) {console.log(`Nouveau compteur pour ${storeTarget} :`, counterDoc.counter);};
 
-        return counterDoc.counter; // Retourne le nouveau numéro
+        return counterDoc.counter.toString().padStart(7,"0"); // Retourne le nouveau numéro au format 0 000 001
     } catch (err) {
         console.error("[TEMPLATE] Erreur lors de l'incrémentation du compteur :", err);
     }
