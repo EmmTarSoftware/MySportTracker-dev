@@ -1051,10 +1051,14 @@ div.entete-condition{
 }
 
 div.buttonAcceptation{
+
     width: 100%;
     margin-top: 40px;
     margin-bottom: 40px;
-    text-align: center;
+    display: flex;
+
+    justify-content: center; /* Centre les boutons horizontalement */
+    align-items: center; /* Centre les boutons verticalement */
 }
 
 /* -------------------------------- NOTIFICATION -------------------- */
@@ -1444,7 +1448,7 @@ div.fullScreenTrophy.show {
 }
 
 /* La div contenant l'ensemble des éléments du reward */
-div.fullScreenTrophy div{
+div.fullScreenTrophy div.fullScreenRewardContent{
     border: solid 2px var(--colorMainTheme1);
     background-color: var(--colorLightGray);
     border-radius: 20px;

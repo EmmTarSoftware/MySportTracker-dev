@@ -1008,6 +1008,7 @@
         </div>
     </div>
 
+    <!-- Menu Rewards -->
     <div id="divBtnRewards" class="button-editor">
         <button class="btn-menu" onclick="onClickReturnFromRewards()">
             <img src="./Icons/Icon-Return-cancel.webp" alt="Icone">
@@ -1016,15 +1017,22 @@
     </div>
 
 
+    <!-- Plein écran -->
     <div onclick="onHiddenFullscreenRewards()" id="divFullScreenRewards" class="fullScreenTrophy">
-        <div>
+        <div class="fullScreenRewardContent">
             <p>
                 <img id="imgRewardsFullScreen" src="./Badges/Badge-BASKETBALL-A.webp" alt="" class="trophyFullScreen">
             </p>
             
             <p id="pRewardsFullScreenTitle" class="trophy">Titre</p>
             <p id="pRewardsFullScreenText" class="trophyDetail">Tu as pratiqué 5 séances de basket ball</p>
-            <button class="btn-menu" onclick="shareImage(event)"><img src="./Icons/Icon-Share.webp" alt="Image Share" srcset=""></button>
+
+            <div class="custom-editor-btn-menu">
+                <button class="btn-menu" onclick="shareImage(event)">
+                    <img src="./Icons/Icon-Share.webp" alt="Image Share" srcset="">
+                </button>
+            </div>
+
             <!-- Canvas pour générer l'image à partager -->
             <canvas id="canvasCreateShareImg" style="display:none;"></canvas>
             <!-- image d'arrière plan fake pour eviter le problème d'interception du SW -->

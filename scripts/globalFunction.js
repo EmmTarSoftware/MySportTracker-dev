@@ -145,7 +145,7 @@ function onGenerateFakeOptionList(idParentTarget) {
 
     if (devMode === true){console.log(" [FAKE SELECTOR] ajout du reste des types d'activités")};
 
-    // Puis toutes les type d'activités
+    // Puis toutes les types d'activités
     let activitySortedKey = Object.keys(activityChoiceArray);
     activitySortedKey.sort();
 
