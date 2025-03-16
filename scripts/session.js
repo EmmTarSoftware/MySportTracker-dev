@@ -3,7 +3,7 @@ let userCounterList = {
         "Counter_1": { 
             type: "Counter", name: "Compteur 1", 
             initDate:"", 
-            currentCount: 0, countTarget :0, countIncrement:0, 
+            currentSerie: 0, serieTarget :0, repIncrement:0, totalCount:0,
             displayOrder : 0,
             color : "white"
         }
@@ -31,16 +31,17 @@ let counterColorSelected = "#fff";//utiliser lors de la création d'un compteur
 
 // Objet compteur
 class Counter {
-    constructor(id, name, initDate, currentCount, countTarget, countIncrement,displayOrder,parentRef,color){
+    constructor(id, name, initDate, currentSerie, serieTarget, repIncrement,displayOrder,parentRef,color,totalCount){
         this.id = id;
         this.name = name;
         this.initDate = initDate;
-        this.currentCount = currentCount;
-        this.countTarget = countTarget;
-        this.countIncrement = countIncrement;
+        this.currentSerie = currentSerie;
+        this.serieTarget = serieTarget;
+        this.repIncrement = repIncrement;
         this.displayOrder = displayOrder;
         this.parentRef = parentRef;
         this.color = color;
+        this.totalCount = totalCount;
 
         // div container
         this.element = document.createElement("div");
@@ -64,17 +65,18 @@ class Counter {
                     <button class="btn-counter" id="btn-counter-nav-increase_${this.id}" onclick="onClickCounterNavIncrease('${this.id}')"><img src="./Icons/Icon-nav-increase.webp" alt=""></button>
                 </p>
             </div>
-            <div class="compteur-content" id="divCounterCurrentCount_${this.id}">
-                <span class="current-count" id="spanCurrentCount_${this.id}">${this.currentCount}</span>
-                <span class="counter-target" id="spanCountTarget_${this.id}">/${this.countTarget}</span>
-                </div>
+            <div class="compteur-content" id="divCounterCurrentSerie_${this.id}">
+                <span class="current-serie" id="spanCurrentSerie_${this.id}">${this.currentSerie}</span>
+                <span class="serie-target" id="spanSerieTarget_${this.id}">/${this.serieTarget}</span>
+                <span class="serie-target" id="spanTotalCount_${this.id}">/${this.totalCount}</span>
+            </div>
 
             <div class="compteur-content">
                 <button class="btn-counter" onclick="onClickDeleteCounter('${this.id}')"><img src="./Icons/Icon-Delete-color.webp" alt="" srcset=""></button>
                 <button class="btn-counter" id="btnCountReset_${this.id}" onclick="onClickResetCounter('${this.id}')"><img src="./Icons/Icon-Reset.webp" alt="" srcset=""></button>
                 <p class="serieTextExplication">Série de :</p>
-                <input type="number" class="compteur" id="inputCountIncrement_${this.id}" placeholder="0" value=${this.countIncrement} onchange="onChangeCounterIncrement('${this.id}')">
-                <button class="btn-menu btnFocus" id="btnCountIncrement_${this.id}" onclick="onClickIncrementeCounter('${this.id}')"><img src="./Icons/Icon-Accepter.webp" alt="" srcset=""></button>  
+                <input type="number" class="compteur" id="inputRepIncrement_${this.id}" placeholder="0" value=${this.repIncrement} onchange="onChangeCounterIncrement('${this.id}')">
+                <button class="btn-menu btnFocus" id="btnRepIncrement_${this.id}" onclick="onClickIncrementeCounter('${this.id}')"><img src="./Icons/Icon-Accepter.webp" alt="" srcset=""></button>  
            </div>
         `;
 
@@ -168,7 +170,7 @@ async function onSaveSessionModificationInDB(sessionToInsert) {
 async function onChangeCounterIncrement(idRef) {
 
     // Actualise l'array
-    userCounterList[idRef].countIncrement = parseInt(document.getElementById(`inputCountIncrement_${idRef}`).value) || 0;
+    userCounterList[idRef].repIncrement = parseInt(document.getElementById(`inputRepIncrement_${idRef}`).value) || 0;
 
     console.log("[COUNTER] onchangeCounter Increment");
 
@@ -300,7 +302,7 @@ function onFormatNewCounter() {
     }
 
     // Récupère l'objectif ou set 0
-    let newCountTarget = parseInt(document.getElementById("inputEditCounterTarget").value) || 0;
+    let newserieTarget = parseInt(document.getElementById("inputEditSerieTarget").value) || 0;
 
 
 
@@ -311,7 +313,7 @@ function onFormatNewCounter() {
     let formatedCounter = {
         name: newCounterName, 
         initDate: newCounterDate, 
-        currentCount: 0, countTarget: newCountTarget, countIncrement:0,
+        currentSerie: 0, serieTarget: newserieTarget, repIncrement:0,totalCount:0,
         displayOrder : newDisplayOrder,
         color : counterColorSelected
     };
@@ -330,7 +332,7 @@ function onClickModifyCounter(idRef) {
 
     // set les éléments
     document.getElementById("inputEditCounterName").value = userCounterList[idRef].name;
-    document.getElementById("inputEditCounterTarget").value = userCounterList[idRef].countTarget;
+    document.getElementById("inputEditSerieTarget").value = userCounterList[idRef].serieTarget;
     document.getElementById("divEditCounterContent").style.backgroundColor = counterColor[userCounterList[idRef].color];
     counterColorSelected = userCounterList[idRef].color;
 
@@ -352,13 +354,13 @@ async function eventSaveModifyCounter() {
 
     // Enregistrement dans l'array
     userCounterList[currentCounterEditorID].name = counterData.name;
-    userCounterList[currentCounterEditorID].countTarget = counterData.countTarget;
+    userCounterList[currentCounterEditorID].serieTarget = counterData.serieTarget;
     userCounterList[currentCounterEditorID].color = counterData.color;
 
     // Actualisation de l'affichage
     document.getElementById(`counterName_${currentCounterEditorID}`).innerHTML = counterData.name;
     document.getElementById(`counterContainer_${currentCounterEditorID}`).style.backgroundColor = counterColor[counterData.color];
-    document.getElementById(`spanCountTarget_${currentCounterEditorID}`).innerHTML = `/${counterData.countTarget}`;
+    document.getElementById(`spanSerieTarget_${currentCounterEditorID}`).innerHTML = `/${counterData.serieTarget}`;
     
 
     // Enregistrement en base
@@ -379,13 +381,13 @@ function onFormatModifyCounter() {
     newCounterName = onSetToUppercase(newCounterName);
 
     // Récupère l'objectif ou set 0
-    let newCountTarget = parseInt(document.getElementById("inputEditCounterTarget").value) || 0;
+    let newserieTarget = parseInt(document.getElementById("inputEditSerieTarget").value) || 0;
 
 
     let formatedCounter = {
         name: newCounterName, 
         initDate: newCounterDate, 
-        currentCount: 0, countTarget: newCountTarget, countIncrement:0,
+        currentSerie: 0, serieTarget: newserieTarget, repIncrement:0, totalCount:0,
         displayOrder : 0,
         color : counterColorSelected
     };
@@ -433,7 +435,12 @@ function onDisplayCounter() {
     counterSortedKey.forEach((key,index)=>{
 
         // Generation
-        new Counter(key,userCounterList[key].name,onDisplayUserFriendlyDate(userCounterList[key].initDate),userCounterList[key].currentCount,userCounterList[key].countTarget,userCounterList[key].countIncrement,userCounterList[key].displayOrder,divSessionRef,counterColor[userCounterList[key].color]);
+        new Counter(
+            key,userCounterList[key].name,onDisplayUserFriendlyDate(userCounterList[key].initDate),
+            userCounterList[key].currentSerie,userCounterList[key].serieTarget,userCounterList[key].repIncrement,
+            userCounterList[key].displayOrder,divSessionRef,counterColor[userCounterList[key].color],
+            userCounterList[key].totalCount
+        );
 
 
         // Gestion de l'affichage des boutons de navigation up/down
@@ -472,12 +479,12 @@ function getSortedKeysByDisplayOrder(counterList) {
 // ------------------------- INCREMENTATION ---------------------------------
 
 
-// lorsque j'incremente, récupère la valeur la variable (currentCount), ajoute la nouvelle valeur(increment)
+// lorsque j'incremente, récupère la valeur la variable (currentSerie), ajoute la nouvelle valeur(increment)
 // et le nouveau résultat est mis dans total ainsi que sauvegardé en base
 async function onClickIncrementeCounter(idRef) {
 
     // Ne fait rien si l'increment est à zero ou vide
-    if (userCounterList[idRef].countIncrement === 0) {
+    if (userCounterList[idRef].repIncrement === 0) {
         if (devMode === true){console.log("[COUNTER] increment vide ne fait rien");};
         return
 
@@ -486,36 +493,41 @@ async function onClickIncrementeCounter(idRef) {
 
     // Verrouille le bouton pour éviter action secondaire trop rapide
     //sera déverrouillé après animation
-    document.getElementById(`btnCountIncrement_${idRef}`).disabled = true;
+    document.getElementById(`btnRepIncrement_${idRef}`).disabled = true;
 
     
 
     // récupère ancien total et nouvelle valeur
-    let oldValue = userCounterList[idRef].currentCount,
-        newValue = userCounterList[idRef].countIncrement;
-
+    let oldValue = userCounterList[idRef].totalCount,
+        newValue = userCounterList[idRef].repIncrement;
 
     // Addition
     let newTotal = oldValue + newValue;
 
+    // incrémente la série
+    userCounterList[idRef].currentSerie++
+
 
     // Set nouveau résultat dans html, variable et update base
     // Referencement
-    let spanCurrentCountRef = document.getElementById(`spanCurrentCount_${idRef}`),
-        divCounterCurrentCountRef = document.getElementById(`divCounterCurrentCount_${idRef}`);
+    let spanCurrentSerieRef = document.getElementById(`spanCurrentSerie_${idRef}`),
+        divCounterCurrentSerieRef = document.getElementById(`divCounterCurrentSerie_${idRef}`),
+        spanTotalCountRef = document.getElementById(`spanTotalCount_${idRef}`);
 
-    spanCurrentCountRef.innerHTML = newTotal;//le html
-    userCounterList[idRef].currentCount = newTotal;//le tableau
+    // compte total
+    spanTotalCountRef.innerHTML = newTotal;//le html
+    userCounterList[idRef].totalCount = newTotal;//le tableau
 
+    // compte serie
+    spanCurrentSerieRef.innerHTML = userCounterList[idRef].currentSerie;
 
     if (devMode === true){console.log(userCounterList);};
-
 
     // Si objectif atteind
     let isTargetReach = onCheckTargetReach(idRef);
 
     // ANIMATION
-    onPlayIncrementAnimation(isTargetReach,spanCurrentCountRef,divCounterCurrentCountRef);
+    onPlayIncrementAnimation(isTargetReach,spanCurrentSerieRef,divCounterCurrentSerieRef);
 
     // Notification objectif atteind
     if (isTargetReach) {
@@ -527,7 +539,7 @@ async function onClickIncrementeCounter(idRef) {
 
     //déverrouille le bouton pour être a nouveau disponible
     setTimeout(() => {
-        document.getElementById(`btnCountIncrement_${idRef}`).disabled = false;
+        document.getElementById(`btnRepIncrement_${idRef}`).disabled = false;
     }, 300);
 
     
@@ -540,11 +552,11 @@ async function onClickIncrementeCounter(idRef) {
 function onCheckTargetReach(idRef) {
     let targetReach = false;
 
-    if (userCounterList[idRef].countTarget === 0) {
+    if (userCounterList[idRef].serieTarget === 0) {
        return targetReach;
-    } else if (userCounterList[idRef].currentCount >= userCounterList[idRef].countTarget){
+    } else if (userCounterList[idRef].currentSerie >= userCounterList[idRef].serieTarget){
         targetReach = true;
-        document.getElementById(`spanCountTarget_${idRef}`).classList.add("target-reach");
+        document.getElementById(`spanSerieTarget_${idRef}`).classList.add("target-reach");
     }
     return targetReach;
 }
@@ -553,9 +565,9 @@ function onCheckTargetReach(idRef) {
 
 
 // ANIMATION
-function onPlayIncrementAnimation(isTargetReach,countIncrementRef,divCurrentCountRef) {
+function onPlayIncrementAnimation(isTargetReach,repIncrementRef,divCurrentSerieRef) {
 
-    let itemToAnimRef = isTargetReach ? divCurrentCountRef : countIncrementRef;
+    let itemToAnimRef = isTargetReach ? divCurrentSerieRef : repIncrementRef;
 
         // Ajouter la classe pour l'animation
         itemToAnimRef.classList.add("count-animated");
@@ -585,9 +597,13 @@ async function onClickResetCounter(idRef) {
 
 
     // set les html
-    //current count
-    let spanCurrentCountRef = document.getElementById(`spanCurrentCount_${idRef}`);
-    spanCurrentCountRef.innerHTML = 0;
+    //current serie
+    let spanCurrentSerieRef = document.getElementById(`spanCurrentSerie_${idRef}`);
+    spanCurrentSerieRef.innerHTML = 0;
+
+    //totalcount
+    let spanTotalCountRef = document.getElementById(`spanTotalCount_${idRef}`);
+    spanTotalCountRef.innerHTML = 0;
 
     //affichage date d'initialisation désactivée
     // document.getElementById(`counterDate_${idRef}`).innerHTML = onDisplayUserFriendlyDate(newInitDate);
@@ -595,7 +611,8 @@ async function onClickResetCounter(idRef) {
 
     // Set les variables
     userCounterList[idRef].initDate = newInitDate; 
-    userCounterList[idRef].currentCount = 0;
+    userCounterList[idRef].currentSerie = 0;
+    userCounterList[idRef].totalCount = 0;
 
     // Actualise la base
     await onSaveSessionModificationInDB(userCounterList);
@@ -603,18 +620,18 @@ async function onClickResetCounter(idRef) {
     if (devMode === true){console.log(userCounterList);};
 
     //retire la classe "reach" si necessaire pour le count target et le slash
-    let counterTargetRef = document.getElementById(`spanCountTarget_${idRef}`);
+    let counterTargetRef = document.getElementById(`spanSerieTarget_${idRef}`);
 
     if (counterTargetRef.classList.contains("target-reach")) {
         counterTargetRef.classList.remove("target-reach");
     }
 
     // Ajouter la classe pour l'animation
-    spanCurrentCountRef.classList.add("anim-reset");
+    spanCurrentSerieRef.classList.add("anim-reset");
 
     // Supprimer la classe après l'animation pour la rejouer à chaque changement
     setTimeout(() => {
-        spanCurrentCountRef.classList.remove("anim-reset");
+        spanCurrentSerieRef.classList.remove("anim-reset");
 
         //déverrouille le bouton à la fin de l'animation
         document.getElementById(`btnCountReset_${idRef}`).disabled = false;
@@ -638,8 +655,11 @@ async function eventResetAllCounter() {
     // Boucle sur la liste des key
     //Pour chaque éléments passe la variable à zero et set le texte
     counterSortedKey.forEach(key=>{
-        userCounterList[key].currentCount = 0;
-        document.getElementById(`spanCurrentCount_${key}`).innerHTML = 0;
+        userCounterList[key].currentSerie = 0;
+        document.getElementById(`spanCurrentSerie_${key}`).innerHTML = 0;
+
+        userCounterList[key].totalCount = 0;
+        document.getElementById(`spanTotalCount_${key}`).innerHTML = 0;
     });
 
     //sauvegarde dans la base
@@ -874,7 +894,7 @@ function onResetCounterEditor() {
     document.getElementById("inputEditCounterName").value = "";
 
     // Reset l'objectif
-    document.getElementById("inputEditCounterTarget").value = 0;
+    document.getElementById("inputEditSerieTarget").value = 0;
 
     // remet les éléments dans la couleur par défaut
     counterColorSelected = "white";
@@ -905,7 +925,7 @@ async function onSendSessionToActivity(activityTarget) {
         let nameFormated = onSetToLowercase(userCounterList[key].name);
         nameFormated = onSetFirstLetterUppercase(nameFormated);
 
-        let textToAdd = `${nameFormated} : ${userCounterList[key].currentCount}\n`;
+        let textToAdd = `${nameFormated} : ${userCounterList[key].currentSerie} séries(s). Total rep.: ${userCounterList[key].totalCount}\n`;
 
         sessionText = sessionText + textToAdd;
 

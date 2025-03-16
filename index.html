@@ -137,7 +137,7 @@
             
             <p>
                 <label for="">Commentaire : </label>
-                <textarea name="" id="textareaComment" maxlength="250"></textarea>
+                <textarea name="" id="textareaComment" maxlength="1000"></textarea>
             </p>
         </div>
 
@@ -211,8 +211,8 @@
             <p>
                 <label for="">Nom du compteur :</label>
                 <input class="counterName" type="text" name="" id="inputEditCounterName" placeholder="Nouveau compteur" maxlength="30">
-                <label for="">Objectif :</label>
-                <input class="compteur" type="number" id="inputEditCounterTarget">
+                <label for="">Nbre de série :</label>
+                <input class="compteur" type="number" id="inputEditSerieTarget">
                 <label for="">Couleur : </label>
                 <button class="btnChooseColor" type="button" style="background-color: white;" onclick="onChooseCounterColor('white')">Blanc</button>
                 <button class="btnChooseColor" type="button" style="background-color: #d3ffd0;" onclick="onChooseCounterColor('green')">Vert</button>
@@ -220,7 +220,7 @@
                 <button class="btnChooseColor" type="button" style="background-color: #ffd7d0;" onclick="onChooseCounterColor('red')">Rouge</button>
                 <button class="btnChooseColor" type="button" style="background-color: #d0ebff;" onclick="onChooseCounterColor('blue')">Bleu</button>
                 <button class="btnChooseColor" type="button" style="background-color: #f7d0ff;" onclick="onChooseCounterColor('violet')">Violet</button>
-               </p>
+            </p>
             
             <div class="custom-editor-btn-menu">
                 <button class="btn-menu" onclick="onAnnulCounterEditor(event)">

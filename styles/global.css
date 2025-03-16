@@ -1883,7 +1883,7 @@ div.compteur-content-line-1 p.compteur-navigation{
     100% { transform: translateY(0); opacity: 1; }
 }
 
-.current-count {
+.current-serie {
     font-size: 40px;
     font-weight: bold;
     width: 100px;
@@ -1891,11 +1891,12 @@ div.compteur-content-line-1 p.compteur-navigation{
     transition: transform 0.2s ease-in-out, opacity 0.3s ease-in-out;
 
 }
-.current-count.count-animated {
+
+.current-serie.count-animated {
     animation: counterPop 0.3s ease-in-out;
 }
 
-.current-count.anim-reset {
+.current-serie.anim-reset {
     animation: slideDown 0.4s ease-in-out;
 }
 
@@ -1927,7 +1928,7 @@ input.compteur::-webkit-inner-spin-button {
 }
 
 
-span.counter-target{
+span.serie-target{
         width: 100px;
         height: 40px;
         text-align: left;
