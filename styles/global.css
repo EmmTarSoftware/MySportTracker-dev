@@ -2032,6 +2032,74 @@ button.btnChooseColor{
 
 
 
+/* ----------------------------------------- Génération de session  ---------------------------*/
+
+
+
+div.popupCreateSession{
+    z-index: 10;
+    display: none;
+    justify-content: center;  /* Centre horizontalement */
+    align-items: center;  /* Centre verticalement */
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* La zone manipulable */
+div.createSessionArea{
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+}
+
+div.session-list {  
+    height: 70vh;
+    flex-direction: column;   /* Empile les items verticalement */
+    align-items: flex-start;  /* Aligne les items en haut */
+    flex-grow: 1; /* Remplit l'espace restant entre header et footer */
+    overflow-y: auto; /* Permet le défilement vertical si nécessaire */
+    
+    box-sizing: border-box; /* Inclut les bordures et padding dans les dimensions */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+th, td {
+    border: 1px solid #dddddd;
+    padding: 8px;
+    text-align: center;
+}
+th {
+    background-color: #f4f4f4;
+}
+.gen-session-col-nom { width: 60%; }
+.gen-session-col-objectif { width:100px;}
+.gen-session-col-serie { width:100px; }
+.gen-session-col-color { width:200px; }
+
+
+input.gen-session-col-nom{
+    /* background-color: orange; */
+    width: 100%;
+}
+
+input.gen-session-col-series{
+    /* background-color: aqua; */
+    width: 100%;
+}
+
+input.gen-session-col-rep{
+    /* background-color: rgb(154, 231, 231); */
+    width: 100%;
+}
+
+
+
 
 
 /* ------------------------------------ FIN Compteur ----------------------------------*/

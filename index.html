@@ -187,7 +187,7 @@
             <img src="./Icons/Icon-Return-cancel.webp" alt="Icone">
             <span>Retour</span>
         </button>
-        <button class="btn-menu">
+        <button class="btn-menu" onclick="onClickMenuCreateSession()">
             <img src="./Icons/Icon-Autres.webp" alt="Icone">
             <span>Session</span>
         </button>
@@ -205,7 +205,7 @@
         </button>
     </div>
 
-    <!-- Div newCompteur Name POPUP -->
+    <!-- Div Create new counter POPUP -->
     <div id="divEditCounter" onclick="onAnnulCounterEditor(event)" class="popup-new-counter">
         <div id="divEditCounterContent" class="popup-new-counter-content" onclick="onClickDivNewPopupContent(event)">
             <p>
@@ -236,9 +236,9 @@
             </div>
         </div>
     </div>
-    <!-- FIN Div newCompteur Name -->
+    <!-- FIN Div create new counter-->
      
-    <!-- ----------------------------Div confirmation session -------------------------------------->
+    <!-- ----------------------------Div confirmation session (suppression, modification etc )-------------------------------------->
     <div id="divPopupConfirmSession" onclick="onAnnulPopUPConfirmSession(event)" class="confirmationDeleteCounter">
         <p id="pTextConfirmPopupSession">
             <!-- Injection du texte de confirmation -->
@@ -256,6 +256,48 @@
             <!-- Injection des éléments -->
         </div>
     </div>
+
+
+    <!-- popup de création de session -->
+    <div id="divPopCreateSession" class="popupCreateSession" onclick="onCancelCreateSession(event)">
+        <!-- zone utilisable -->
+        <div class="createSessionArea" onclick="onClickOnCreateSessionArea(event)">
+            <!-- Titre -->
+            <p>
+                Générer une session.
+            </p>
+            <!-- Le selecteur de modèle -->
+            <select name="" id="selectSessionTableModelName">
+                <option value="">SEANCES MARDI</option>
+                <option value="">SEANCES JEUDI</option>
+            </select>
+            <div class="session-list">
+
+
+                <!-- Le tableau de création de session -->
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="gen-session-col-nom">Nom</th>
+                            <th class="gen-session-col-series">Série</th>
+                            <th class="gen-session-col-rep">Rep.</th>
+                            <th class="gen-session-col-color">Color</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bodyTableGenerateSession">
+                        <!-- Injection des lignes -->
+                    </tbody>
+                </table>
+            </div>
+            <!-- Fin de liste de session -->
+
+            <button class="btn-menu btnFocus" onclick="onGenerateSession(event)">
+                <img src="./Icons/Icon-Accepter.webp" alt="Icone">
+                <span class="textWhite">Génerer</span>
+            </button>  
+        </div>
+    </div>
+
 
     <!-- ----------------------------------  FIN    DIV SESSION     ------------------------------------------------>
 
