@@ -1186,9 +1186,7 @@ class TableLineSession{
 
 // Génération du tableau de création de session
 function onGenerateSessionTable() {
-    
-
-
+   
     // Reférence le parent
     let parentRef = document.getElementById("bodyTableGenerateSession");
 
@@ -1206,10 +1204,25 @@ function onGenerateSessionTable() {
 
 
 
+// Sequence de génération d'une session depuis le tableau de creation
+async function eventGenerateSessionList(){
+
+    // Centralise les éléments qui été dans le tableau de création
+    let itemForSession = onGetTableSessionItem();
+
+    // Retire le popup
+
+    // formate les nouveaux compteur et les sauvegardes
+    await onGenerateMultipleCounter(itemForSession);
+
+    // Lance l'affichage
+
+}
+
 
 // Génération de la session
 
-function onGenerateSession() {
+function onGetTableSessionItem() {
     let sessionList = [];
 
     for (let i = 0; i < maxCounter; i++) {
@@ -1233,8 +1246,55 @@ function onGenerateSession() {
         } 
     }
 
-    console.log(sessionList);
+    return sessionList;
 }
+
+
+
+// Fonction de création de la session
+async function onGenerateMultipleCounter(newSessionList) {
+
+    // Vide l'array
+    userCounterList = [];
+
+    //récupère le counterID de départ
+    let nextCount = await db.get(counterCountIDStoreName);
+
+    // Pour chaque élément de la liste
+    newSessionList.forEach((e,index)=>{
+
+        // génère un id incrementé et le formate
+        nextCount++;
+        nextCount.toString().padStart(7,"0"); // Retourne le nouveau numéro au format 0 000 001
+
+        let counterId = `counter_${nextCount}`;
+
+        //formatage du counter (majuscule etc)
+        let formatedCounter = {
+            name: e.name, 
+            currentSerie: 0, 
+            serieTarget: e.serieTarget, 
+            repIncrement: e.repIncrement, 
+            totalCount:0,
+            displayOrder : index,
+            color : e.color
+        }
+
+        // Inserte un nouveau compteur dans l'array
+        userCounterList[counterId] = formatedCounter;
+
+    })
+
+    // sauvegarde le nouveau countId et le nouveau userconterlist
+
+    // Essayer de faire une sauvegarde unique 
+
+}
+
+
+
+
+
 
 
 
