@@ -33,6 +33,7 @@ let defaultSetting = {
     lastManualSaveDate : "noSet",
     lastManualSaveTime :"",
     autoSaveFrequency : 7,
+    fromSessionToActivityMode : "MINIMAL",
     devMode : false
 };
 
@@ -52,7 +53,8 @@ let selectSettingCommentModePlannedRef,
     inputCheckboxDevModeRef,
     selectSettingAgendaRef,
     inputTimeSettingScheduleStartRef,
-    inputTimeSettingScheduleEndRef;
+    inputTimeSettingScheduleEndRef,
+    selectSettingSessionCommentModeRef;
 
 
 
@@ -66,6 +68,7 @@ function onReferenceItemsSetting() {
     selectSettingAgendaRef = document.getElementById("selectSettingAgenda");
     inputTimeSettingScheduleStartRef = document.getElementById("inputTimeSettingScheduleStart");
     inputTimeSettingScheduleEndRef = document.getElementById("inputTimeSettingScheduleEnd");
+    selectSettingSessionCommentModeRef = document.getElementById("selectSettingSessionCommentMode");
 }
 
 function onSetSettingItems() {
@@ -78,6 +81,7 @@ function onSetSettingItems() {
     selectSettingAgendaRef.value = userSetting.agenda;
     inputTimeSettingScheduleStartRef.value = userSetting.agendaScheduleStart;
     inputTimeSettingScheduleEndRef.value = userSetting.agendaScheduleEnd;
+    selectSettingSessionCommentModeRef.value = userSetting.fromSessionToActivityMode;
 
      // Set la date de la dernière sauvegarde auto
      document.getElementById("pSettingLastAutoSaveDate").innerHTML = userSetting.lastAutoSaveDate === "noSet" ? "Date Indisponible." : `Le ${onFormatDateToFr(userSetting.lastAutoSaveDate)} à ${userSetting.lastAutoSaveTime}`;
@@ -113,7 +117,8 @@ function onClickSaveFromSetting() {
         { oldValue: userSetting.devMode, newValue: inputCheckboxDevModeRef.checked },
         { oldValue: userSetting.agenda, newValue: selectSettingAgendaRef.value},
         { oldValue: userSetting.agendaScheduleStart,  newValue: inputTimeSettingScheduleStartRef.value},
-        { oldValue: userSetting.agendaScheduleEnd, newValue: inputTimeSettingScheduleEndRef.value}
+        { oldValue: userSetting.agendaScheduleEnd, newValue: inputTimeSettingScheduleEndRef.value},
+        { oldValue: userSetting.fromSessionToActivityMode, newValue:selectSettingSessionCommentModeRef.value}
     ];
 
     // Vérification si une différence est présente
@@ -142,6 +147,7 @@ function onSaveUserSetting() {
     userSetting.agenda = selectSettingAgendaRef.value;
     userSetting.agendaScheduleStart = inputTimeSettingScheduleStartRef.value;
     userSetting.agendaScheduleEnd = inputTimeSettingScheduleEndRef.value;
+    userSetting.fromSessionToActivityMode = selectSettingSessionCommentModeRef.value;
 
 
     // Met a jour le boolean devMode

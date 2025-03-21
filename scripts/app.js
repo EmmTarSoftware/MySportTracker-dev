@@ -227,6 +227,7 @@ async function onCreateDBStore() {
         lastManualSaveDate: "noSet",
         lastManualSaveTime: "",
         autoSaveFrequency: 7,
+        fromSessionToActivityMode : "MINIMAL",
         devMode:false
     });
     await createStore(rewardsStoreName, { type: rewardsStoreName, rewards: [] });
@@ -339,6 +340,7 @@ async function onLoadStores() {
                 lastManualSaveDate : settings.lastManualSaveDate,
                 lastManualSaveTime :settings.lastManualSaveTime,
                 autoSaveFrequency : settings.autoSaveFrequency,
+                fromSessionToActivityMode : settings.fromSessionToActivityMode || "MINIMAL",
                 devMode : settings.devMode
             };
         }

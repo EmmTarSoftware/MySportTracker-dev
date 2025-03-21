@@ -982,7 +982,27 @@ async function onSendSessionToActivity(activityTarget) {
         let nameFormated = onSetToLowercase(userCounterList[key].name);
         nameFormated = onSetFirstLetterUppercase(nameFormated);
 
-        let textToAdd = `${nameFormated}: ${userCounterList[key].currentSerie} série(s). Total: ${userCounterList[key].totalCount}\n`;
+        let textToAdd = "";
+
+        // Ecrite le texte selon le mode choisit dans setting
+        switch (userSetting.fromSessionToActivityMode) {
+            case "MINIMAL":
+                textToAdd = `${nameFormated}: ${userCounterList[key].totalCount}\n`;
+
+                break;
+            case "NORMAL":
+                textToAdd = `${nameFormated}: ${userCounterList[key].currentSerie} série(s) - ${userCounterList[key].repIncrement} rèp. - Total: ${userCounterList[key].totalCount}\n`;
+
+                break;
+            case "COMPLETE":
+                textToAdd = `${nameFormated}: Série(s) :${userCounterList[key].currentSerie}/${userCounterList[key].serieTarget} - Rèp.: ${userCounterList[key].repIncrement} - Total: ${userCounterList[key].totalCount}\n`;
+
+                break;
+        
+            default:
+                break;
+        }
+
 
         sessionText = sessionText + textToAdd;
 
