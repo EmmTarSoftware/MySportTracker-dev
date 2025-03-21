@@ -1262,17 +1262,17 @@ async function onGenerateMultipleCounter(newSessionList) {
 
     //récupère le counterID de départ
     let counterRef = await db.get(counterCountIDStoreName),
-    idCount = counterRef.counter;
+    newIDCount = counterRef.counter;
 
 
     // Pour chaque élément de la liste
     newSessionList.forEach((e,index)=>{
 
         // génère un id incrementé et le formate
-        idCount++;
+        newIDCount++;
 
-        console.log("valeur nextCount = ",idCount);
-        let idFormatedCount = idCount.toString().padStart(7,"0"); // Retourne le nouveau numéro au format 0 000 001
+        console.log("valeur nextCount = ",newIDCount);
+        let idFormatedCount = newIDCount.toString().padStart(7,"0"); // Retourne le nouveau numéro au format 0 000 001
 
         let counterId = `counter_${idFormatedCount}`;
 
@@ -1292,15 +1292,24 @@ async function onGenerateMultipleCounter(newSessionList) {
 
     })
 
-    // Sauvegarde le nouveau compteur d'id pour les compteurs
-
+    // Sauvegarde le compteur avec sa nouvelle valeur
+    counterRef.counter = newIDCount;
+    await db.put(counterRef);
 
     console.log(userCounterList);
-    return
 
     // Sauvegarde la nouvelle session
     onSaveSessionModificationInDB(userCounterList);
 }
+
+
+
+
+
+
+
+
+
 
 
 
