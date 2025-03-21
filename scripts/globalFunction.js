@@ -420,8 +420,16 @@ function onGetCurrentTime() {
     return `${formatedHours}:${formatedMinutes}`;
 }
 
+// retourne une l'heure actuel au format 00:00:00
+function onGetCurrentTimeAndSecond() {
+    let currentTime = new Date();
 
-
+    let formatedHours = currentTime.getHours() > 9 ? currentTime.getHours() : "0" + currentTime.getHours() ;
+    let formatedMinutes = currentTime.getMinutes() > 9 ? currentTime.getMinutes() : "0" + currentTime.getMinutes();
+    let formatedSeconds = currentTime.getSeconds() > 9 ? currentTime.getSeconds() : "0" + currentTime.getSeconds();
+    
+    return `${formatedHours}:${formatedMinutes}:${formatedSeconds}`;
+}
 
 
 // Récupère les date du jours
@@ -556,11 +564,6 @@ function timeFormatToInputNumber(timeString) {
     };
 }
 
-// Selectionne tout le contenu lorsque je clique dans la zone de l'input
-function selectAllText(input) {
-    input.select();  // Sélectionner tout le texte à l'intérieur de l'input
-}
-
 
 
 
@@ -577,6 +580,11 @@ function formatNumberInput(input, max, digits) {
     // Mettre à jour l'affichage de l'input time
 }
 
+
+// Selectionne tout le contenu lorsque je clique dans la zone de l'input
+function selectAllText(input) {
+    input.select();  // Sélectionner tout le texte à l'intérieur de l'input
+}
 
 // Empêche l'affichage du menu contextuel
 function disableContextMenu(event) {

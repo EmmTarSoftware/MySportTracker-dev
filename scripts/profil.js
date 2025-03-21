@@ -97,7 +97,7 @@ async function eventSaveProfil(profilToSave) {
 
     // Met a jour l'affichage de nom de l'utilisateur
     if (devMode === true){console.log("[ PROFIL ] Mise à jours du pseudo de l'utilisateur dans l'application.");};
-    document.getElementById("userPseudo").innerHTML = userInfo.pseudo;
+    document.getElementById("customInfo").innerHTML = userInfo.pseudo;
 
     // Popup notification
     onShowNotifyPopup(notifyTextArray.saveprofil);

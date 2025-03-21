@@ -73,6 +73,7 @@ let db_old,
     favorisStoreName = "Favoris",
     sessionStoreName = "Sessions",
     counterCountIDStoreName = "CounterCount",
+    sessionStartTimeStoreName = "SessionStartTime",
     // Nom des stores à importer et exporter dans les fonctions import export. 
     storeNames = [activityStoreName, profilStoreName, rewardsStoreName,settingStoreName,templateStoreName],//Ajouter tous les noms des stores ici
     currentBaseVersion = 7,
@@ -230,6 +231,7 @@ async function onCreateDBStore() {
     });
     await createStore(rewardsStoreName, { type: rewardsStoreName, rewards: [] });
     await createStore(sessionStoreName, { type: sessionStoreName, counterList: {} });
+    await createStore(sessionStartTimeStoreName,{type: sessionStartTimeStoreName, startTime:"00:00:00"});
     await onInitActivityCountIDStore(); 
     await onInitTemplateCountIDStore();
     await onInitCounterCountIDStore();
@@ -382,7 +384,7 @@ async function firstActualisation() {
     console.log("userInfo.ConditionAccepted : " + userInfo.conditionAccepted );
 
     //PROFIL : set dans le html, le nom de l'utilisateur
-    document.getElementById("userPseudo").innerHTML = userInfo.pseudo;
+    document.getElementById("customInfo").innerHTML = userInfo.pseudo;
 
     // FAVORIS
     onGenerateActivityOptionChoice("selectorCategoryChoice");

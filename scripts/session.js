@@ -11,8 +11,8 @@ let userCounterList = {
     counterSortedKey = [],//array des clé trié par "displayOrder"
     counterEditorMode, //creation ou modification
     currentCounterEditorID,//L'id du compteur en cours de modification
-    popupSessionMode;//set le mode d'utilisation du popup (removeCounter,resetAllCounter,clearSession)
-
+    popupSessionMode,//set le mode d'utilisation du popup (removeCounter,resetAllCounter,clearSession)
+    sessionStartTime = "00:00:00";//date-heure du début de session set lorsque clique sur reset all counter, ou générate session
 
 
 let counterColor = {
@@ -95,6 +95,9 @@ async function onOpenMenuSession(){
 
     console.log(userCounterList);
 
+    // set l'heure d'initialisation de session dans le texte
+    document.getElementById("customInfo").innerHTML = `Début : ${sessionStartTime}`;
+
     onDisplayCounter(userCounterList);
     // Gestion si max atteind
     gestionMaxCounterReach();
@@ -112,7 +115,13 @@ async function onLoadSessionFromDB() {
         if (sessions) {
             userCounterList = sessions.counterList;
         }
-        if (devMode === true){console.log("[DATABASE] Données chargées :", userCounterList);};
+
+        const startTimeStore = await db.get(sessionStartTimeStoreName).catch(() => null);
+        if (startTimeStore) {
+            sessionStartTime = startTimeStore.startTime || "00:00:00";
+        }
+
+        if (devMode === true){console.log("[DATABASE] Données chargées :", userCounterList, sessionStartTime);};
     } catch (err) {
         console.error("[DATABASE] Erreur lors du chargement des stores :", err);
     }
@@ -125,7 +134,7 @@ async function onLoadSessionFromDB() {
 // Modification Compteur
 async function onSaveSessionModificationInDB(sessionToInsert) {
 
-    console.log("save")
+    console.log("save");
 
     try {
         // Récupérer le store "SESSION"
@@ -146,8 +155,35 @@ async function onSaveSessionModificationInDB(sessionToInsert) {
 }
 
 
+// Sauvegarde de l'heure de début de session
+async function onSaveStartTimeSessionModificationInDB(newTime) {
+    console.log("save start time");
 
+    try {
+        // Récupérer le store "SESSION"
+        let sessionStartTimeStore = await db.get(sessionStartTimeStoreName);
 
+        // Mettre à jour la liste des counter de la session
+        sessionStartTimeStore.startTime = newTime;
+
+        // Sauvegarder les modifications
+        await db.put(sessionStartTimeStore);
+
+        if (devMode) console.log("Store SESSION start time mis à jour :", sessionStartTimeStore);
+        return true; // Indique que la mise à jour est réussie
+    } catch (err) {
+        console.error("Erreur lors de la mise à jour du store SESSION :", err);
+        return false; // Indique une erreur
+    }
+}
+
+// Initialise l'heure du début de session
+//lorsque reset all ou génénère la session
+function onSetSessionStartTime() {
+    sessionStartTime = onGetCurrentTimeAndSecond();
+    document.getElementById("customInfo").innerHTML = `Début : ${sessionStartTime}`;
+
+}
 
 // ---------------------------------------- FIN FONCTION GLOBAL -------------------------
 
@@ -593,7 +629,7 @@ function onPlayIncrementAnimation(isTargetReach,repIncrementRef,divCurrentSerieR
 
 // ------------------------- RESET ---------------------------------
 
-// Lorsque je reset, recupère la date du jour
+// Lorsque je reset, l'heure
 // set le current count à zero,
 // Actualise les éléments visual, dans la variable et en base
 
@@ -618,8 +654,12 @@ async function onClickResetCounter(idRef) {
     userCounterList[idRef].currentSerie = 0;
     userCounterList[idRef].totalCount = 0;
 
+
+
     // Actualise la base
     await onSaveSessionModificationInDB(userCounterList);
+
+
 
     if (devMode === true){console.log(userCounterList);};
 
@@ -669,6 +709,15 @@ async function eventResetAllCounter() {
 
     //sauvegarde dans la base
     await onSaveSessionModificationInDB(userCounterList);
+
+    
+    // reset également l'heure du début de session
+    onSetSessionStartTime();
+
+    // sauvegarde l'heure du début de session
+    await onSaveStartTimeSessionModificationInDB(sessionStartTime);
+
+
 
     // Notification utilisateur  
     onShowNotifyPopup(notifyTextArray.sessionReset);
@@ -942,13 +991,21 @@ async function onSendSessionToActivity(activityTarget) {
     console.log(sessionText);
 
     
+    // Calcul de la durée passé en session 
+    let sessionEndTime = onGetCurrentTimeAndSecond(),
+    sessionDuration = onGetSessionDuration(sessionStartTime,sessionEndTime);
+
+
+
+
+
     //Remplit une variable avec des données pour une nouvelle activité
     let activityGenerateToInsert = {
         name : activityTarget,
         date : onFindDateTodayUS(),
         location : "",
         distance : "",
-        duration : "00:00:00",
+        duration : sessionDuration,
         comment : sessionText,
         divers:{},
         isPlanned : false
@@ -959,13 +1016,6 @@ async function onSendSessionToActivity(activityTarget) {
  
 
 }
-
-
-
-
-
-
-
 
 
 // Objet fake option
@@ -1108,6 +1158,30 @@ function onCloseFakeSelectSession(event) {
 
 
 
+function onGetSessionDuration(heureDebut, heureFin) {
+    // Convertir HH:MM:SS en secondes
+    function enSecondes(h) {
+        let [hh, mm, ss] = h.split(':').map(Number);
+        return hh * 3600 + mm * 60 + ss;
+    }
+
+    let secondesDebut = enSecondes(heureDebut);
+    let secondesFin = enSecondes(heureFin);
+
+    // Gérer le cas où l'heure de fin est après minuit (jour suivant)
+    if (secondesFin < secondesDebut) {
+        secondesFin += 24 * 3600;
+    }
+
+    let duree = secondesFin - secondesDebut;
+
+    // Convertir les secondes en HH:MM:SS
+    let heures = String(Math.floor(duree / 3600)).padStart(2, '0');
+    let minutes = String(Math.floor((duree % 3600) / 60)).padStart(2, '0');
+    let secondes = String(duree % 60).padStart(2, '0');
+
+    return `${heures}:${minutes}:${secondes}`;
+}
 
 
 
@@ -1206,7 +1280,20 @@ async function eventGenerateSessionList(){
     // formate les nouveaux compteur et les sauvegardes
     await onGenerateMultipleCounter(itemForSession);
 
-    // Lance l'affichage
+
+    // reset également l'heure du début de session
+    onSetSessionStartTime();
+
+    // sauvegarde l'heure du début de session
+    await onSaveStartTimeSessionModificationInDB(sessionStartTime);
+    
+
+    // masque le popup
+    document.getElementById("divPopCreateSession").style.display = "none";
+
+    // Affiche les nouveaux compteurs
+    onDisplayCounter();
+
 
 }
 
@@ -1283,11 +1370,6 @@ async function onGenerateMultipleCounter(newSessionList) {
 
     console.log(userCounterList);
 
-    // masque le popup
-    document.getElementById("divPopCreateSession").style.display = "none";
-
-    // Affiche les nouveaux compteurs
-    onDisplayCounter();
 
     // Sauvegarde le compteur avec sa nouvelle valeur
     counterRef.counter = newIDCount;
@@ -1379,6 +1461,9 @@ function onCancelCreateSession(event) {
 function onClickReturnFromSession() {
 
    
+    // Affiche à nouveau le pseudo
+    document.getElementById("customInfo").innerHTML = userInfo.pseudo;;
+
     // ferme le menu
     onLeaveMenu("Session");
 };
