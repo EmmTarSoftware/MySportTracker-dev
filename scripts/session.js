@@ -1244,7 +1244,7 @@ class TableLineSession{
                 <input type="number" id="inputGenSessionRep_${this.idNumber}" class="gen-session-col-rep numberGenSession" placeholder="0">
             </td>
             <td class="gen-session-col-color"  id="tdGenSessionChooseColor_${this.idNumber}">
-                <select id="selectGenSessionColor_${this.idNumber}" onchange="onChangeColorInGenSessionTable(${this.idNumber})">
+                <select id="selectGenSessionColor_${this.idNumber}" onchange="onChangeColorInGenSessionTable(${this.idNumber})" class="gen-session-col-color">
                     <option value="white">Blanc</option>
                     <option value="green">Vert</option>
                     <option value="yellow">Jaune</option>
@@ -1461,7 +1461,7 @@ function onCancelCreateSession(event) {
     document.getElementById("divPopCreateSession").style.display = "none";
 
     //vide le tableau
-    document.getElementById("selectSessionTableModelName").innerHTML = "";
+    document.getElementById("bodyTableGenerateSession").innerHTML = "";
 
 
 }

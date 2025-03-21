@@ -2049,7 +2049,8 @@ div.popupCreateSession{
 
 /* La zone manipulable */
 div.createSessionArea{
-    background-color: white;
+    width: calc(100% - 20px);
+    background-color: #f4f4f9;
     display: flex;
     flex-direction: column;
     border-radius: 10px;
@@ -2071,21 +2072,22 @@ table {
 }
 th, td {
     border: 1px solid #dddddd;
-    padding: 8px;
+    /* padding: 8px; */
+    padding-top: 5px;padding-bottom: 5px;
     text-align: center;
 }
 th {
     background-color: #f4f4f4;
 }
-.gen-session-col-nom { width: 60%; }
+.gen-session-col-nom { width: 50%; }
 .gen-session-col-objectif { width:100px;}
 .gen-session-col-serie { width:100px; }
-.gen-session-col-color { width:200px; }
+.gen-session-col-color { width:100px; }
+
 
 /* Les inputs number du générateur de session */
 
 input.numberGenSession { 
-    /* width: 60px; */
     height: 30px;
     text-align: center;
     font-size: 12px;
@@ -2114,22 +2116,22 @@ input.numberGenSession::-webkit-inner-spin-button {
 
 
 input.gen-session-col-nom{
-    /* background-color: orange; */
-    width: 100%;
+    width: 90%;
 }
 
 input.gen-session-col-series{
-    /* background-color: aqua; */
-    width: 100%;
+    width: 90%;margin: 0px; padding: 0px;
 }
 
 input.gen-session-col-rep{
-    /* background-color: rgb(154, 231, 231); */
-    width: 100%;
+    width: 90%;margin: 0px;padding: 0px;
 }
 
 
-
+select.gen-session-col-color{
+    width: 80px;
+    border-radius: 5px;
+}
 
 
 /* ------------------------------------ FIN Compteur ----------------------------------*/
