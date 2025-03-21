@@ -2082,6 +2082,36 @@ th {
 .gen-session-col-serie { width:100px; }
 .gen-session-col-color { width:200px; }
 
+/* Les inputs number du générateur de session */
+
+input.numberGenSession { 
+    /* width: 60px; */
+    height: 30px;
+    text-align: center;
+    font-size: 12px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    background: white;
+    color: #555;
+    -moz-appearance: textfield;
+    appearance: none; 
+}
+
+input.numberGenSession:focus {
+    border-color: var(--colorMainTheme1);
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Supprimer les flèches des input number */
+input.numberGenSession::-webkit-outer-spin-button,
+input.numberGenSession::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+
+
 
 input.gen-session-col-nom{
     /* background-color: orange; */

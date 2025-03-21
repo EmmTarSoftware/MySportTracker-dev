@@ -1144,10 +1144,10 @@ class TableLineSession{
                 <input type="text" id="inputGenSessionNom_${this.idNumber}" class="gen-session-col-nom" placeholder="Compteur ${this.idNumber}">
             </td>
             <td class="gen-session-col-series">
-                <input type="number" id="inputGenSessionSerie_${this.idNumber}" class="gen-session-col-series" placeholder="0">
+                <input type="number" id="inputGenSessionSerie_${this.idNumber}" class="gen-session-col-series numberGenSession" placeholder="0">
             </td>
             <td class="gen-session-col-rep">
-                <input type="number" id="inputGenSessionRep_${this.idNumber}" class="gen-session-col-rep" placeholder="0">
+                <input type="number" id="inputGenSessionRep_${this.idNumber}" class="gen-session-col-rep numberGenSession" placeholder="0">
             </td>
             <td class="gen-session-col-color"  id="tdGenSessionChooseColor_${this.idNumber}">
                 <select id="selectGenSessionColor_${this.idNumber}" onchange="onChangeColorInGenSessionTable(${this.idNumber})">
