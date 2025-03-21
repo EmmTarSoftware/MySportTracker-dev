@@ -1242,8 +1242,8 @@ function onGetTableSessionItem() {
             // récupère les éléments de la ligne 
             sessionList.push( {
                 name: inputName.value, 
-                serieTarget: inputSerie.value || 0,
-                repIncrement:inputRep.value || 0,
+                serieTarget: parseInt(inputSerie.value) || 0,
+                repIncrement: parseInt(inputRep.value) || 0,
                 color : selectColor.value
             })
         } 
@@ -1282,7 +1282,7 @@ async function onGenerateMultipleCounter(newSessionList) {
             currentSerie: 0, 
             serieTarget: e.serieTarget, 
             repIncrement: e.repIncrement, 
-            totalCount:0,
+            totalCount: 0,
             displayOrder : index,
             color : e.color
         }
@@ -1290,13 +1290,20 @@ async function onGenerateMultipleCounter(newSessionList) {
         // Inserte un nouveau compteur dans l'array
         userCounterList[counterId] = formatedCounter;
 
-    })
+    });
+
+
+    console.log(userCounterList);
+
+    // masque le popup
+    document.getElementById("divPopCreateSession").style.display = "none";
+
+    // Affiche les nouveaux compteurs
+    onDisplayCounter();
 
     // Sauvegarde le compteur avec sa nouvelle valeur
     counterRef.counter = newIDCount;
     await db.put(counterRef);
-
-    console.log(userCounterList);
 
     // Sauvegarde la nouvelle session
     onSaveSessionModificationInDB(userCounterList);

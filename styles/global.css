@@ -2056,7 +2056,7 @@ div.createSessionArea{
 }
 
 div.session-list {  
-    height: 70vh;
+    height: 60vh;
     flex-direction: column;   /* Empile les items verticalement */
     align-items: flex-start;  /* Aligne les items en haut */
     flex-grow: 1; /* Remplit l'espace restant entre header et footer */
