@@ -8,7 +8,7 @@ let userCounterList = {
             color : "white"
         }
     },
-    maxCounter = 20,
+    maxCounter = 5,
     counterSortedKey = [],//array des clé trié par "displayOrder"
     counterEditorMode, //creation ou modification
     currentCounterEditorID,//L'id du compteur en cours de modification
@@ -249,7 +249,8 @@ async function eventCreateCounter() {
 
     // Obtenir le prochain ID
     let nextId = await getNextIdNumber(counterCountIDStoreName);
-        nextId = `counter_${nextId}`;
+
+    nextId = `counter_${nextId}`;
 
     // Ajout du nouveau compteur à l'array
     userCounterList[nextId] = counterData;
@@ -1210,6 +1211,8 @@ async function eventGenerateSessionList(){
     // Centralise les éléments qui été dans le tableau de création
     let itemForSession = onGetTableSessionItem();
 
+    console.log(itemForSession);
+
     // Retire le popup
 
     // formate les nouveaux compteur et les sauvegardes
@@ -1255,19 +1258,23 @@ function onGetTableSessionItem() {
 async function onGenerateMultipleCounter(newSessionList) {
 
     // Vide l'array
-    userCounterList = [];
+    userCounterList = {};
 
     //récupère le counterID de départ
-    let nextCount = await db.get(counterCountIDStoreName);
+    let counterRef = await db.get(counterCountIDStoreName),
+    idCount = counterRef.counter;
+
 
     // Pour chaque élément de la liste
     newSessionList.forEach((e,index)=>{
 
         // génère un id incrementé et le formate
-        nextCount++;
-        nextCount.toString().padStart(7,"0"); // Retourne le nouveau numéro au format 0 000 001
+        idCount++;
 
-        let counterId = `counter_${nextCount}`;
+        console.log("valeur nextCount = ",idCount);
+        let idFormatedCount = idCount.toString().padStart(7,"0"); // Retourne le nouveau numéro au format 0 000 001
+
+        let counterId = `counter_${idFormatedCount}`;
 
         //formatage du counter (majuscule etc)
         let formatedCounter = {
@@ -1285,15 +1292,15 @@ async function onGenerateMultipleCounter(newSessionList) {
 
     })
 
-    // sauvegarde le nouveau countId et le nouveau userconterlist
+    // Sauvegarde le nouveau compteur d'id pour les compteurs
 
-    // Essayer de faire une sauvegarde unique 
 
+    console.log(userCounterList);
+    return
+
+    // Sauvegarde la nouvelle session
+    onSaveSessionModificationInDB(userCounterList);
 }
-
-
-
-
 
 
 
