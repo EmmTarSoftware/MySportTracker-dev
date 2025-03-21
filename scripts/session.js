@@ -2,7 +2,6 @@
 let userCounterList = {
         "Counter_1": { 
             type: "Counter", name: "Compteur 1", 
-            initDate:"", 
             currentSerie: 0, serieTarget :0, repIncrement:0, totalCount:0,
             displayOrder : 0,
             color : "white"
@@ -31,10 +30,9 @@ let counterColorSelected = "#fff";//utiliser lors de la création d'un compteur
 
 // Objet compteur
 class Counter {
-    constructor(id, name, initDate, currentSerie, serieTarget, repIncrement,displayOrder,parentRef,color,totalCount){
+    constructor(id, name, currentSerie, serieTarget, repIncrement,displayOrder,parentRef,color,totalCount){
         this.id = id;
         this.name = name;
-        this.initDate = initDate;
         this.currentSerie = currentSerie;
         this.serieTarget = serieTarget;
         this.repIncrement = repIncrement;
@@ -287,8 +285,8 @@ async function eventInsertNewCompteur() {
 function onFormatNewCounter() {
 
     // Récupère le nom du compteur ou set un nom par défaut
-    let newCounterName = document.getElementById("inputEditCounterName").value || "Nouveau Compteur",
-        newCounterDate = onFindDateTodayUS();
+    let newCounterName = document.getElementById("inputEditCounterName").value || "Nouveau Compteur";
+
     
     // Formatage du nom en majuscule
     newCounterName = onSetToUppercase(newCounterName);
@@ -314,7 +312,6 @@ function onFormatNewCounter() {
 
     let formatedCounter = {
         name: newCounterName, 
-        initDate: newCounterDate, 
         currentSerie: 0, serieTarget: newserieTarget, repIncrement:newRepIncrement, totalCount:0,
         displayOrder : newDisplayOrder,
         color : counterColorSelected
@@ -379,8 +376,7 @@ async function eventSaveModifyCounter() {
 function onFormatModifyCounter() {
 
     // Récupère le nom du compteur ou set un nom par défaut
-    let newCounterName = document.getElementById("inputEditCounterName").value || "Nouveau Compteur",
-        newCounterDate = onFindDateTodayUS();
+    let newCounterName = document.getElementById("inputEditCounterName").value || "Nouveau Compteur";
     
     // Formatage du nom en majuscule
     newCounterName = onSetToUppercase(newCounterName);
@@ -391,7 +387,6 @@ function onFormatModifyCounter() {
 
     let formatedCounter = {
         name: newCounterName, 
-        initDate: newCounterDate, 
         currentSerie: 0, serieTarget: newserieTarget, repIncrement:newRepIncrement, totalCount:0,
         displayOrder : 0,
         color : counterColorSelected
@@ -441,7 +436,7 @@ function onDisplayCounter() {
 
         // Generation
         new Counter(
-            key,userCounterList[key].name,onDisplayUserFriendlyDate(userCounterList[key].initDate),
+            key,userCounterList[key].name,
             userCounterList[key].currentSerie,userCounterList[key].serieTarget,userCounterList[key].repIncrement,
             userCounterList[key].displayOrder,divSessionRef,counterColor[userCounterList[key].color],
             userCounterList[key].totalCount
@@ -608,9 +603,6 @@ async function onClickResetCounter(idRef) {
     //bloc le bouton jusqu'à la fin de l'animation
     document.getElementById(`btnCountReset_${idRef}`).disabled = true;
 
-    // Récupère la date du jours
-    let newInitDate = onFindDateTodayUS();
-
 
     // set les html
     //current serie
@@ -621,12 +613,8 @@ async function onClickResetCounter(idRef) {
     let spanTotalCountRef = document.getElementById(`spanTotalCount_${idRef}`);
     spanTotalCountRef.innerHTML = `Total : 0`;
 
-    //affichage date d'initialisation désactivée
-    // document.getElementById(`counterDate_${idRef}`).innerHTML = onDisplayUserFriendlyDate(newInitDate);
-
 
     // Set les variables
-    userCounterList[idRef].initDate = newInitDate; 
     userCounterList[idRef].currentSerie = 0;
     userCounterList[idRef].totalCount = 0;
 
