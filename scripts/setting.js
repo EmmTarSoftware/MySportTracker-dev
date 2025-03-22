@@ -54,7 +54,8 @@ let selectSettingCommentModePlannedRef,
     selectSettingAgendaRef,
     inputTimeSettingScheduleStartRef,
     inputTimeSettingScheduleEndRef,
-    selectSettingSessionCommentModeRef;
+    selectSettingSessionCommentModeRef,
+    pSettingSessionCommentModeExempleRef;
 
 
 
@@ -69,6 +70,7 @@ function onReferenceItemsSetting() {
     inputTimeSettingScheduleStartRef = document.getElementById("inputTimeSettingScheduleStart");
     inputTimeSettingScheduleEndRef = document.getElementById("inputTimeSettingScheduleEnd");
     selectSettingSessionCommentModeRef = document.getElementById("selectSettingSessionCommentMode");
+    pSettingSessionCommentModeExempleRef = document.getElementById("pSettingSessionCommentModeExemple");
 }
 
 function onSetSettingItems() {
@@ -83,8 +85,11 @@ function onSetSettingItems() {
     inputTimeSettingScheduleEndRef.value = userSetting.agendaScheduleEnd;
     selectSettingSessionCommentModeRef.value = userSetting.fromSessionToActivityMode;
 
-     // Set la date de la dernière sauvegarde auto
-     document.getElementById("pSettingLastAutoSaveDate").innerHTML = userSetting.lastAutoSaveDate === "noSet" ? "Date Indisponible." : `Le ${onFormatDateToFr(userSetting.lastAutoSaveDate)} à ${userSetting.lastAutoSaveTime}`;
+    //set le texte d'exmple du mode d'affichage
+    onChangeSettingSettionCommentMode(userSetting.fromSessionToActivityMode);
+
+    // Set la date de la dernière sauvegarde auto
+    document.getElementById("pSettingLastAutoSaveDate").innerHTML = userSetting.lastAutoSaveDate === "noSet" ? "Date Indisponible." : `Le ${onFormatDateToFr(userSetting.lastAutoSaveDate)} à ${userSetting.lastAutoSaveTime}`;
     
 };
 
@@ -311,6 +316,37 @@ function onResetSettingItems() {
     // Retire la class css field required au cas ou pour l'input saveFrequency
     inputSettingSaveFrequencyRef.classList.remove("fieldRequired");
 }
+
+
+
+
+
+
+
+// Session
+function onChangeSettingSettionCommentMode(value) {
+    
+    switch (value) {
+        case "MINIMAL":
+            pSettingSessionCommentModeExempleRef.innerHTML = "Tractions: 36";
+
+            break;
+        case "NORMAL":
+            pSettingSessionCommentModeExempleRef.innerHTML = "Tractions: 36 (Séries: 3*12 rép.)";
+
+            break;
+        case "COMPLETE":
+            pSettingSessionCommentModeExempleRef.innerHTML = "Tractions: 36 (Séries :3/5 - 12 Rép.)";
+
+            break;
+        default:
+            break;
+    }
+}
+
+
+
+
 
 
 

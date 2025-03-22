@@ -198,7 +198,7 @@ function onClickOpenSessionMenuSup(){
     document.getElementById("divSessionMenuSup").style.display = "flex";
 };
 
-
+// Choix d'un menu supplémentaire
 function onChooseSessionMenuSup(event,target) {
     event.stopPropagation();
     document.getElementById("divSessionMenuSup").style.display = "none";
@@ -218,6 +218,8 @@ function onChooseSessionMenuSup(event,target) {
     onChangeMenu(target);
 };
 
+
+// Annulation du menu suplémentaire
 function onAnnulSessionMenuSup(){
     document.getElementById("divSessionMenuSup").style.display = "none";
 };
@@ -1032,11 +1034,11 @@ async function onSendSessionToActivity(activityTarget) {
 
                 break;
             case "NORMAL":
-                textToAdd = `${nameFormated}: ${userCounterList[key].currentSerie} série(s) - ${userCounterList[key].repIncrement} rèp. - Total: ${userCounterList[key].totalCount}\n`;
+                textToAdd = `${nameFormated}: ${userCounterList[key].totalCount} (Séries: ${userCounterList[key].currentSerie}*${userCounterList[key].repIncrement} rép.)\n`;
 
                 break;
             case "COMPLETE":
-                textToAdd = `${nameFormated}: Série(s) :${userCounterList[key].currentSerie}/${userCounterList[key].serieTarget} - Rèp.: ${userCounterList[key].repIncrement} - Total: ${userCounterList[key].totalCount}\n`;
+                textToAdd = `${nameFormated}: ${userCounterList[key].totalCount} (Séries :${userCounterList[key].currentSerie}/${userCounterList[key].serieTarget} - ${userCounterList[key].repIncrement} Rép.)\n`;
 
                 break;
         
