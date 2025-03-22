@@ -27,7 +27,8 @@ const CRITICAL_ASSETS = [
   `${basePath}scripts/sortAndFilter.js`,
   `${basePath}scripts/stat.js`,
   `${basePath}scripts/rewards.js`,
-  `${basePath}scripts/session.js`
+  `${basePath}scripts/session.js`,
+  `${basePath}scripts/templateSession.js`
 ];
 
 // Fichiers à mettre en cache (non critiques : Cache First)
