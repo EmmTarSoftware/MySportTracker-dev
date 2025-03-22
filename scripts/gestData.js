@@ -313,18 +313,24 @@ async function importBdD(dataToImport) {
             
             await onInsertProfilModificationInDB(userInfo);
 
-        // COMPTEUR    
-        } else if (e.type === counterStoreName){
-            let counterToInsert = {};
-            Object.assign(counterToInsert,{
-                name : e.name,
-                count : e.count,
-                initDate: e.initDate,
-                color: e.color
-            });
+        // Session ne fonctionne pas comme les autres.(pas de génération d'id lors de l'import)     
+        // on import la session et les compteurs avec leur ID, puis on import également le countID pour compteur
+        } else if (e.type === sessionStoreName){
+            await onSaveSessionModificationInDB(e.counterList);
 
-            await onInsertNewCounterInDB(counterToInsert);
+        // Et récupère également  le numéro d'ID pour les compteurs de session
+        } else if (e.type === counterCountIDStoreName){
+
+            let counterRef = await db.get(counterCountIDStoreName);
+            counterRef.counter = e.counter;
+            await db.put(counterRef);
+
+        // L'heure d'initialisation d'une session
+        } else if (e.type === sessionStartTimeStoreName) {
+            await onSaveStartTimeSessionModificationInDB(e.startTime)
         }
+
+        
 
 
 
