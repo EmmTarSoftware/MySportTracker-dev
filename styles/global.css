@@ -2117,6 +2117,8 @@ input.numberGenSession::-webkit-inner-spin-button {
 
 input.gen-session-col-nom{
     width: 90%;
+    border-radius: 5px;
+
 }
 
 input.gen-session-col-series{

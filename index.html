@@ -212,9 +212,9 @@
                 <label for="">Nom du compteur :</label>
                 <input class="counterName" type="text" name="" id="inputEditCounterName" placeholder="Nouveau compteur" maxlength="30">
                 <label for="">Nbre de série :</label>
-                <input class="compteur" type="number" id="inputEditSerieTarget">
+                <input class="compteur" type="number" id="inputEditSerieTarget"  onfocus="selectAllText(this)" oncontextmenu="disableContextMenu(event)">
                 <label for="">Nbre de répétition :</label>
-                <input class="compteur" type="number" id="inputEditRepIncrement">
+                <input class="compteur" type="number" id="inputEditRepIncrement"  onfocus="selectAllText(this)" oncontextmenu="disableContextMenu(event)">
                 <label for="">Couleur : </label>
                 <button class="btnChooseColor" type="button" style="background-color: white;" onclick="onChooseCounterColor('white')">Blanc</button>
                 <button class="btnChooseColor" type="button" style="background-color: #d3ffd0;" onclick="onChooseCounterColor('green')">Vert</button>
@@ -263,9 +263,13 @@
         <!-- zone utilisable -->
         <div class="createSessionArea" onclick="onClickOnCreateSessionArea(event)">
             <!-- Titre -->
-            <p>
-                Générer une session.
-            </p>
+            <div class="custom-editor-btn-menu">
+             <p>
+                <label>
+                    Générer une session.
+                </label>
+             </p>
+        </div>
             <!-- Le selecteur de modèle -->
             <select name="" id="selectSessionTableModelName">
                 <option value="">PERSONNALISE</option>

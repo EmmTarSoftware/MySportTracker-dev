@@ -73,7 +73,8 @@ class Counter {
                 <button class="btn-counter" onclick="onClickDeleteCounter('${this.id}')"><img src="./Icons/Icon-Delete-color.webp" alt="" srcset=""></button>
                 <button class="btn-counter" id="btnCountReset_${this.id}" onclick="onClickResetCounter('${this.id}')"><img src="./Icons/Icon-Reset.webp" alt="" srcset=""></button>
                 <p class="serieTextExplication">Rep. :</p>
-                <input type="number" class="compteur" id="inputRepIncrement_${this.id}" placeholder="0" value=${this.repIncrement} onchange="onChangeCounterRepIncrement('${this.id}')">
+                <input type="number" class="compteur" id="inputRepIncrement_${this.id}" placeholder="0" value=${this.repIncrement} 
+                onchange="onChangeCounterRepIncrement('${this.id}')" onfocus="selectAllText(this)" oncontextmenu="disableContextMenu(event)">
                 <button class="btn-menu btnFocus" id="btnRepIncrement_${this.id}" onclick="onClickIncrementeCounter('${this.id}')"><img src="./Icons/Icon-Accepter.webp" alt="" srcset=""></button>  
            </div>
         `;
@@ -1238,10 +1239,10 @@ class TableLineSession{
                 <input type="text" id="inputGenSessionNom_${this.idNumber}" class="gen-session-col-nom" placeholder="Compteur ${this.idNumber}">
             </td>
             <td class="gen-session-col-series">
-                <input type="number" id="inputGenSessionSerie_${this.idNumber}" class="gen-session-col-series numberGenSession" placeholder="0">
+                <input type="number" id="inputGenSessionSerie_${this.idNumber}" class="gen-session-col-series numberGenSession" placeholder="0"  onfocus="selectAllText(this)" oncontextmenu="disableContextMenu(event)">
             </td>
             <td class="gen-session-col-rep">
-                <input type="number" id="inputGenSessionRep_${this.idNumber}" class="gen-session-col-rep numberGenSession" placeholder="0">
+                <input type="number" id="inputGenSessionRep_${this.idNumber}" class="gen-session-col-rep numberGenSession" placeholder="0"  onfocus="selectAllText(this)" oncontextmenu="disableContextMenu(event)">
             </td>
             <td class="gen-session-col-color"  id="tdGenSessionChooseColor_${this.idNumber}">
                 <select id="selectGenSessionColor_${this.idNumber}" onchange="onChangeColorInGenSessionTable(${this.idNumber})" class="gen-session-col-color">
