@@ -182,28 +182,7 @@
         <!-- Injection de la liste des compteurs -->
     </div>
 
-    <div id="divBtnSession" class="button-editor">
-        <button class="btn-menu" onclick="onClickReturnFromSession()">
-            <img src="./Icons/Icon-Return-cancel.webp" alt="Icone">
-            <span>Retour</span>
-        </button>
-        <button class="btn-menu" onclick="onClickMenuCreateSession()">
-            <img src="./Icons/Icon-Autres.webp" alt="Icone">
-            <span>Session</span>
-        </button>
-        <button id="btnAddNewCounter" class="btn-menu" onclick="onClickAddCounter()">
-            <img src="./Icons/Icon-Counter.webp" alt="Icone">
-            <span>Compteur</span>
-        </button>           
-        <button class="btn-menu" onclick="onClickResetAllCounter()">
-            <img src="./Icons/Icon-Reset.webp" alt="Icone">
-            <span>Reset</span>
-        </button>
-        <button class="btn-menu" onclick="onClickSendSessionToActivity()">
-            <img src="./Icons/Icon-Send.webp" alt="Icone">
-            <span>Activité</span>
-        </button>
-    </div>
+
 
     <!-- Div Create new counter POPUP -->
     <div id="divEditCounter" onclick="onAnnulCounterEditor(event)" class="popup-new-counter">
@@ -271,12 +250,12 @@
              </p>
         </div>
             <!-- Le selecteur de modèle -->
-            <select name="" id="selectSessionTableModelName">
+            <!-- <select name="" id="selectSessionTableModelName">
                 <option value="">PERSONNALISE</option>
                 <option value="">SEANCES CROSSFIT 1</option>
                 <option value="">SEANCES RENFORCEMENT HAUT</option>
                 <option value="">SEANCES RENFORCEMENT BAS</option>
-            </select>
+            </select> -->
             <div class="session-list">
 
 
@@ -310,6 +289,35 @@
         </div>
     </div>
 
+
+
+    <!-- Menu SESSION -->
+    <div id="divBtnSession" class="button-editor">
+        <button class="btn-menu" onclick="onClickReturnFromSession()">
+            <img src="./Icons/Icon-Return-cancel.webp" alt="Icone">
+            <span>Retour</span>
+        </button>
+        <button id="btnAddNewCounter" class="btn-menu" onclick="onClickAddCounter()">
+            <img src="./Icons/Icon-Counter.webp" alt="Icone">
+            <span>Compteur</span>
+        </button>           
+        <button class="btn-menu" onclick="onClickResetAllCounter()">
+            <img src="./Icons/Icon-Reset.webp" alt="Icone">
+            <span>Reset</span>
+        </button>
+        <button class="btn-menu" onclick="onClickOpenSessionMenuSup()">
+            <img src="./Icons/Icon-Autres.webp" alt="Icone">
+            <span>Actions</span>
+        </button>
+    </div>
+
+    <!-- Menu SUP SESSION -->
+    <div id="divSessionMenuSup" class="main-menu-sup" onclick="onAnnulSessionMenuSup(event)">
+        <div class="main-menu-sup-button-area">
+            <button onclick="onChooseSessionMenuSup(event,'generateSession')">Générer une session</button>
+            <button onclick="onChooseSessionMenuSup(event,'sendToActivity')">Envoyer vers une activité</button>
+        </div>
+    </div>
 
     <!-- ----------------------------------  FIN    DIV SESSION     ------------------------------------------------>
 

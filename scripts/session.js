@@ -186,6 +186,46 @@ function onSetSessionStartTime() {
 
 }
 
+
+
+
+
+
+
+
+// Les menus supplémentaires de sessoin
+function onClickOpenSessionMenuSup(){
+    document.getElementById("divSessionMenuSup").style.display = "flex";
+};
+
+
+function onChooseSessionMenuSup(event,target) {
+    event.stopPropagation();
+    document.getElementById("divSessionMenuSup").style.display = "none";
+
+    switch (target) {
+        case "sendToActivity":
+            onClickSendSessionToActivity();
+            break;
+        case "generateSession":
+            onClickMenuCreateSession();
+            break;
+    
+        default:
+            break;
+    }
+
+    onChangeMenu(target);
+};
+
+function onAnnulSessionMenuSup(){
+    document.getElementById("divSessionMenuSup").style.display = "none";
+};
+
+
+
+
+
 // ---------------------------------------- FIN FONCTION GLOBAL -------------------------
 
 
@@ -579,7 +619,7 @@ async function onClickIncrementeCounter(idRef) {
 
     // Notification objectif atteind
     if (isTargetReach) {
-        onShowNotifyPopup("compteur validé !");
+        onShowNotifyPopup(notifyTextArray.counterTargetReach);
     }
 
     //La base
