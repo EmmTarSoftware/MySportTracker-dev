@@ -97,7 +97,7 @@ async function onOpenMenuSession(){
     console.log(userCounterList);
 
     // set l'heure d'initialisation de session dans le texte
-    document.getElementById("customInfo").innerHTML = `Début : ${sessionStartTime}`;
+    document.getElementById("customInfo").innerHTML = `<b>Début : ${sessionStartTime}<b>`;
 
     onDisplayCounter(userCounterList);
     // Gestion si max atteind
@@ -182,7 +182,7 @@ async function onSaveStartTimeSessionModificationInDB(newTime) {
 //lorsque reset all ou génénère la session
 function onSetSessionStartTime() {
     sessionStartTime = onGetCurrentTimeAndSecond();
-    document.getElementById("customInfo").innerHTML = `Début : ${sessionStartTime}`;
+    document.getElementById("customInfo").innerHTML = `<b>Début : ${sessionStartTime}<b>`;
 
 }
 
