@@ -1038,7 +1038,7 @@ async function onSendSessionToActivity(activityTarget) {
 
                 break;
             case "COMPLETE":
-                textToAdd = `${nameFormated}: ${userCounterList[key].totalCount} (Séries :${userCounterList[key].currentSerie}/${userCounterList[key].serieTarget} - ${userCounterList[key].repIncrement} Rép.)\n`;
+                textToAdd = `${nameFormated}: ${userCounterList[key].totalCount} (Séries: ${userCounterList[key].currentSerie}/${userCounterList[key].serieTarget} - ${userCounterList[key].repIncrement} Rép.)\n`;
 
                 break;
         

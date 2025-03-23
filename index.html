@@ -261,7 +261,7 @@
                         <tr>
                             <th class="gen-session-col-nom">Nom</th>
                             <th class="gen-session-col-series">Série</th>
-                            <th class="gen-session-col-rep">Rep.</th>
+                            <th class="gen-session-col-rep">Rép.</th>
                             <th class="gen-session-col-color">Color</th>
                         </tr>
                     </thead>
@@ -322,7 +322,7 @@
     <div id="divMenuTemplateSession" class="new-interface">
         <!-- Contient la liste des template -->
         <div id="divTemplateSessionListMenu" class="templateList">
-            <div class="item-container">
+            <div class="item-container" onclick="onModifyTemplateSession(idTarget)">
                 <span>Crossfit Haut</span>
             </div>
         </div>
@@ -353,7 +353,7 @@
         <div class="divEditorTemplateSessionArea">
             <!-- Le tableau de création de session -->
             <label for="">Nom :</label>
-            <input type="text" placeholder="Nom du modèle">
+            <input type="text" placeholder="Nom du modèle" id="inputTemplateSessionName">
 
             <label for="">Compteurs :</label>
             <table>
@@ -361,7 +361,7 @@
                     <tr>
                         <th class="gen-session-col-nom">Nom</th>
                         <th class="gen-session-col-series">Série</th>
-                        <th class="gen-session-col-rep">Rep.</th>
+                        <th class="gen-session-col-rep">Rép.</th>
                         <th class="gen-session-col-color">Color</th>
                     </tr>
                 </thead>
