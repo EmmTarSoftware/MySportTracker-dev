@@ -735,7 +735,7 @@ function onChangeMenu(menuTarget) {
         case "MenuTemplateSession":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour nouveau menu : MenuTemplateSession");};
             pMenuTitleRef.innerHTML = "Modèle de session";
-            onChangeDisplay(allDivHomeToDisplayNone,[],["divBtnMenuTemplateSession","divMenuTemplateSession"],[],[],[],[]);
+            onChangeDisplay(["divBtnSession","divSession"],[],["divBtnMenuTemplateSession","divMenuTemplateSession"],[],[],[],[]);
             onOpenMenuTemplateSession();
         break;
         case "NewTemplateSession":
@@ -871,7 +871,8 @@ function onLeaveMenu(menuTarget) {
         break;
         case "MenuTemplateSession":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : MenuTemplateSession");};
-            onChangeDisplay(["divMenuTemplateSession","divBtnMenuTemplateSession"],allDivHomeToDisplayBlock,allDivHomeToDisplayFlex,[],[],[],[]);
+            onChangeDisplay(["divMenuTemplateSession","divBtnMenuTemplateSession"],[],["divBtnSession","divSession"],[],[],[],[]);
+            pMenuTitleRef.innerHTML = "Session";
         break;
         case "TemplateSessionEditor":
             if (devMode === true){console.log("[ NAVIGATION ] Traitement pour quitter le menu :  : TemplateSessionEditor");};
