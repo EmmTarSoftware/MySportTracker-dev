@@ -102,6 +102,13 @@ async function onOpenMenuSession(){
     onDisplayCounter(userCounterList);
     // Gestion si max atteind
     gestionMaxCounterReach();
+
+
+    // Charge également les listes des modèles et leur clé dans l'ordre alphabétique
+    await onLoadTemplateSessionNameFromDB();
+    // Récupère les clé triées
+    templateSessionNameListSortedKey = Object.keys(templateSessionsNameList);
+    templateSessionNameListSortedKey.sort();
 }
    
    
@@ -215,7 +222,6 @@ function onChooseSessionMenuSup(event,target) {
             break;
     }
 
-    onChangeMenu(target);
 };
 
 
@@ -1260,7 +1266,8 @@ function onGetSessionDuration(heureDebut, heureFin) {
 function onClickMenuCreateSession() {    
     onGenerateSessionTable();
 
-    // onGenerateModelSelectList(); A activer lorsque j'aurai les modèles
+    // actualise la liste des modèles dans le tableau
+    onGenerateModelSelectList(); 
 }
 
 // Classe d'une ligne de session
@@ -1464,7 +1471,10 @@ function onChangeColorInGenSessionTable(idRef) {
 
 
 // Génération des options du selecteur de session
-function onGenerateModelSelectList(params) {
+function onGenerateModelSelectList() {
+
+    console.log("generation de la liste des modèles");
+
     // Referencement
     let parentRef = document.getElementById("selectSessionTableModelName");
     
@@ -1479,12 +1489,12 @@ function onGenerateModelSelectList(params) {
     parentRef.appendChild(defaultOption);
 
     // Pour chaque nom de model
-    counterModelName.forEach(e=>{
+    templateSessionNameListSortedKey.forEach(key=>{
 
         // crée une option et l'insere
         let newOption = document.createElement("option");
-        newOption.value = e;
-        newOption.innerHTML = e;
+        newOption.value = key;
+        newOption.innerHTML = templateSessionsNameList[key].name;
 
         parentRef.appendChild(newOption);
     });

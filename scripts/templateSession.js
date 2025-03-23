@@ -3,7 +3,8 @@ let templateSessionsNameList = {
     "id1":{name:"saucisse"},
     "id2":{name:"tomate"}
 },
-templateSessionNameListSortedKey = [];//liste des clé trié par ordre alphabétique
+templateSessionNameListSortedKey = [],//liste des clé trié par ordre alphabétique
+maxTemplateSession = 20;
 
 
 
@@ -33,11 +34,11 @@ async function onInsertNewTemplateSessionInDB(templateSessionToInsert) {
         // Insérer dans la base
         await db.put(newTemplateSession);
 
-        if (devMode === true ) {console.log("[DATABASE] [ACTIVITY] Activité insérée :", newTemplateSession);};
+        if (devMode === true ) {console.log("[DATABASE] [TEMPLATE] [SESSION] modèle de session inséré :", newTemplateSession);};
 
         return newTemplateSession;
     } catch (err) {
-        console.error("[DATABASE] [ACTIVITY] Erreur lors de l'insertion de l'activité :", err);
+        console.error("[DATABASE] [TEMPLATE] [SESSION] Erreur lors de l'insertion du modèle de session :", err);
     }
 }
 
@@ -57,13 +58,18 @@ async function onLoadTemplateSessionNameFromDB() {
         });
 
         if (devMode === true) {
-            console.log("[DATABASE] [TEMPLATE] Templates chargés :", templateSessionsNameList);
+            console.log("[DATABASE] [TEMPLATE] [SESSION] Templates chargés :", templateSessionsNameList);
         }
     } catch (err) {
-        console.error("[DATABASE] [TEMPLATE] Erreur lors du chargement:", err);
+        console.error("[DATABASE] [TEMPLATE] [SESSION] Erreur lors du chargement:", err);
     }
 }
 
+// Gestion si le nombre maximal de modèle de session atteints
+function gestionMaxTemplateSessionReach() {
+    // Gestion bouton new compteur
+    document.getElementById("btnCreateTemplateSession").disabled = Object.keys(templateSessionsNameList).length >= maxTemplateSession ? true : false;
+}
 
 
 // class d'une div de modèle de session à inserer dans la liste
@@ -106,7 +112,17 @@ class TemplateSessionItemList {
 async function onOpenMenuTemplateSession() {
     console.log("ouverture de menu template session");
 
+    // Actualisation de la liste d'affichage
+    eventUpdateTemplateSessionList();
+    
+}
 
+
+
+
+// Sequence d'actualisation de la liste d'affichage des modèles de session
+
+async function eventUpdateTemplateSessionList() {
     // Récupère la liste des modèle de session depuis la base
     await onLoadTemplateSessionNameFromDB();
 
@@ -115,11 +131,12 @@ async function onOpenMenuTemplateSession() {
     templateSessionNameListSortedKey = Object.keys(templateSessionsNameList);
     templateSessionNameListSortedKey.sort();
 
+    // Traitement du bouton de limite de création
+    gestionMaxTemplateSessionReach();
 
     // Affiche la liste des modèles de sessions
     onSetTemplateSessionNameList();
 }
-
 
 
 
@@ -188,8 +205,9 @@ function onCreateTemplateSessionTableLine() {
     // Reférence le parent
     let parentRef = document.getElementById("bodyTableGenerateSessionEditor");
 
-    // Reset le contenu du parent
+    // Reset le contenu du parent et le nom
     parentRef.innerHTML = "";
+    document.getElementById("inputTemplateSessionName").value = "";
 
     // Génère le tableau
     for (let i = 0; i < maxCounter; i++) {
@@ -203,6 +221,7 @@ function onCreateTemplateSessionTableLine() {
 async function onClickSaveFromTemplateSessionEditor() {
 
     // Masque le popup
+    onLeaveMenu("TemplateSessionEditor");
 
     // Récupère les éléments de la liste
     let newCounterList = onGetTableTemplateSessionItem();
@@ -216,13 +235,16 @@ async function onClickSaveFromTemplateSessionEditor() {
     }
     console.log(templateSessionTosave);
 
+
     // Sauvegarde
     await onInsertNewTemplateSessionInDB(templateSessionTosave);
 
 
     // actualise la liste des templates
+    eventUpdateTemplateSessionList();
 
     // Notification
+    onShowNotifyPopup(notifyTextArray.templateSessionCreated);
 }
 
 
