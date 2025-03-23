@@ -1362,7 +1362,7 @@ async function eventGenerateSessionList(){
 
 
 // Génération de la session
-
+// Récupère les éléments créés dans  le tableau
 function onGetTableSessionItem() {
     let sessionList = [];
 
@@ -1523,9 +1523,11 @@ function onCancelCreateSession(event) {
 // Retour depuis Info
 function onClickReturnFromSession() {
 
-   
     // Affiche à nouveau le pseudo
-    document.getElementById("customInfo").innerHTML = userInfo.pseudo;;
+    document.getElementById("customInfo").innerHTML = userInfo.pseudo;
+
+    //vide le tableau
+    document.getElementById("bodyTableGenerateSession").innerHTML = "";
 
     // ferme le menu
     onLeaveMenu("Session");

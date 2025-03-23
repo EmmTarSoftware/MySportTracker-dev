@@ -130,11 +130,7 @@
                     onblur="formatNumberInput(this, 59, 2)"
                     oncontextmenu="disableContextMenu(event)">
             </div>
-                
-
-
-    
-            
+           
             <p>
                 <label for="">Commentaire : </label>
                 <textarea name="" id="textareaComment" maxlength="1000"></textarea>
@@ -354,8 +350,26 @@
         <!-- ---------------------------------- DIV edit TEMPLATE SESSION  ------------------------------------------------>
 
     <div id="divTemplateSessionEditor" class="new-interface">
-           EDITEUR DE modele de session
-    
+        <div class="divEditorTemplateSessionArea">
+            <!-- Le tableau de création de session -->
+            <label for="">Nom :</label>
+            <input type="text" placeholder="Nom du modèle">
+
+            <label for="">Compteurs :</label>
+            <table>
+                <thead>
+                    <tr>
+                        <th class="gen-session-col-nom">Nom</th>
+                        <th class="gen-session-col-series">Série</th>
+                        <th class="gen-session-col-rep">Rep.</th>
+                        <th class="gen-session-col-color">Color</th>
+                    </tr>
+                </thead>
+                <tbody id="bodyTableGenerateSessionEditor">
+                    <!-- Injection des lignes -->
+                </tbody>
+            </table>
+        </div>
     </div>
 
 

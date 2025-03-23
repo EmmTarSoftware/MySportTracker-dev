@@ -2136,7 +2136,25 @@ select.gen-session-col-color{
 }
 
 
-/* ------------------------------------ FIN Compteur ----------------------------------*/
+/* ------------------------------------ FIN Génération session ----------------------------------*/
+
+
+
+
+
+div.divEditorTemplateSessionArea{
+    background-color: rgb(211, 208, 203);
+    width: 100%;
+}
+
+
+
+
+
+
+
+
+
 
 .dev{
  display: flex;
