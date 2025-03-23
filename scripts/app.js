@@ -74,6 +74,8 @@ let db_old,
     sessionStoreName = "Sessions",
     counterCountIDStoreName = "CounterCount",
     sessionStartTimeStoreName = "SessionStartTime",
+    templateSessionStoreName = "TemplateSession",
+    templateSessionCountIDStoreName = "templateSessionCount",
     // Nom des stores à importer et exporter dans les fonctions import export. 
     storeNames = [activityStoreName, profilStoreName, rewardsStoreName,settingStoreName,templateStoreName],//Ajouter tous les noms des stores ici
     currentBaseVersion = 7,
@@ -236,6 +238,7 @@ async function onCreateDBStore() {
     await onInitActivityCountIDStore(); 
     await onInitTemplateCountIDStore();
     await onInitCounterCountIDStore();
+    await onInitSessionTemplateCountIDStore();
 }
 
 
@@ -290,6 +293,26 @@ async function onInitCounterCountIDStore() {
         if (!counterDoc) {
             // Créer le store avec un compteur initial
             counterDoc = { _id: counterCountIDStoreName, type: counterCountIDStoreName, counter: 0 };
+            await db.put(counterDoc);
+            console.log("[DATABASE] [ACTIVITY] Store Compteur activité créé :", counterDoc);
+        }else{
+            console.log("[DATABASE] [ACTIVITY] Store Compteur activité Existe déjà :", counterDoc);
+        }
+    } catch (err) {
+        console.error("[DATABASE] [ACTIVITY] Erreur lors de l'initialisation du compteur :", err);
+    }
+}
+
+
+// Pour la création du store de compteur d'ID pour les modèles de sessions 
+async function onInitSessionTemplateCountIDStore() {
+    try {
+        // Vérifier si le compteur existe déjà
+        let counterDoc = await db.get(templateSessionCountIDStoreName).catch(() => null);
+
+        if (!counterDoc) {
+            // Créer le store avec un compteur initial
+            counterDoc = { _id: templateSessionCountIDStoreName, type: templateSessionCountIDStoreName, counter: 0 };
             await db.put(counterDoc);
             console.log("[DATABASE] [ACTIVITY] Store Compteur activité créé :", counterDoc);
         }else{

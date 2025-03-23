@@ -322,7 +322,7 @@
     <!-- ----------------------------------  FIN    DIV SESSION     ------------------------------------------------>
 
 
-    <!-- ----------------------------------      DIV TEMPLATE SESSION        ------------------------------------------------>
+    <!-- ----------------------------------      DIV MENU TEMPLATE SESSION        ------------------------------------------------>
     <div id="divMenuTemplateSession" class="new-interface">
         <!-- Contient la liste des template -->
         <div id="divTemplateSessionListMenu" class="templateList">
@@ -332,12 +332,14 @@
         </div>
     </div>
 
+
+    <!-- Menu principale modele de session -->
     <div id="divBtnMenuTemplateSession" class="button-editor">
         <button class="btn-menu" onclick="onClickReturnFromMenuTemplateSession()">
             <img src="./Icons/Icon-Return-cancel.webp" alt="Icone">
             <span>Retour</span>
         </button>  
-        <button class="btn-menu btnFocus" id="btnCreateTemplateSession" onclick="onChangeMenu('xxxxxxx')">
+        <button class="btn-menu btnFocus" id="btnCreateTemplateSession" onclick="onChangeMenu('NewTemplateSession')">
             <img src="./Icons/Icon-Plus.webp" alt="Icone">
             <span class="textWhite">Nouveau</span>
         </button>
@@ -345,8 +347,37 @@
 
 
 
-    <!-- ----------------------------------      FIN DIV TEMPLATE SESSION        ------------------------------------------------>
+
+
+    <!-- ----------------------------------      FIN DIV MENU TEMPLATE SESSION        ------------------------------------------------>
     
+        <!-- ---------------------------------- DIV edit TEMPLATE SESSION  ------------------------------------------------>
+
+    <div id="divTemplateSessionEditor" class="new-interface">
+           EDITEUR DE modele de session
+    
+    </div>
+
+
+    <div id="divBtnTemplateSessionEditor" class="button-editor">
+        <button class="btn-menu" onclick="onClickReturnFromTemplateSessionEditor()">
+            <img src="./Icons/Icon-Return-cancel.webp" alt="Icone">
+            <span>Retour</span>
+        </button>
+        <button id="btnDeleteTemplateSession" class="btn-menu delete" onclick="onClickDeleteFromTemplateSessionEditor()">
+            <img src="./Icons/Icon-Delete.webp" alt="Icone">
+            <span class="textWhite">Supprimer</span>
+        </button>
+        <button class="btn-menu btnFocus" onclick="onClickSaveFromTemplateSessionEditor()">
+            <img src="./Icons/Icon-Valider.webp" alt="Icone">
+            <span class="textWhite">Sauver</span>
+        </button>            
+    </div>
+
+    <!-- ---------------------------------- FIN div edit TEMPLATE SESSION ------------------------------------------------>
+
+
+
 
     <!-- ----------------------------------      DIV PROFIL        ------------------------------------------------>
     <div id="divProfil" class="new-interface">
@@ -725,12 +756,7 @@
                     onfocus="selectAllText(this)" 
                     onblur="formatNumberInput(this, 59, 2)"
                     oncontextmenu="disableContextMenu(event)">
-            </div>
-
-                
-
-    
-            
+            </div>            
             <p>
                 <label for="">Commentaire : </label>
                 <textarea name="" id="textareaTemplateComment" maxlength="250"></textarea>
