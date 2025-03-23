@@ -106,9 +106,7 @@ async function onOpenMenuSession(){
 
     // Charge également les listes des modèles et leur clé dans l'ordre alphabétique
     await onLoadTemplateSessionNameFromDB();
-    // Récupère les clé triées
-    templateSessionNameListSortedKey = Object.keys(templateSessionsNameList);
-    templateSessionNameListSortedKey.sort();
+
 }
    
    
@@ -1340,35 +1338,6 @@ function onGenerateSessionTable() {
 
 
 
-// Sequence de génération d'une session depuis le tableau de creation
-async function eventGenerateSessionList(){
-
-    // Centralise les éléments qui été dans le tableau de création
-    let itemForSession = onGetTableSessionItem();
-
-    console.log(itemForSession);
-
-    // Retire le popup
-
-    // formate les nouveaux compteur et les sauvegardes
-    await onGenerateMultipleCounter(itemForSession);
-
-
-    // reset également l'heure du début de session
-    onSetSessionStartTime();
-
-    // sauvegarde l'heure du début de session
-    await onSaveStartTimeSessionModificationInDB(sessionStartTime);
-    
-
-    // masque le popup
-    document.getElementById("divPopCreateSession").style.display = "none";
-
-    // Affiche les nouveaux compteurs
-    onDisplayCounter();
-
-
-}
 
 
 // Génération de la session
@@ -1401,6 +1370,66 @@ function onGetTableSessionItem() {
 }
 
 
+
+// Génération des options du selecteur de session
+function onGenerateModelSelectList() {
+
+    console.log("generation de la liste des modèles");
+
+    // Referencement
+    let parentRef = document.getElementById("selectSessionTableModelName");
+    
+    // Vide les enfants
+    parentRef.innerHTML = "";
+
+    // Insert l'option "Personnalisé"
+    let defaultOption = document.createElement("option");
+        defaultOption.value = "CUSTOM";
+        defaultOption.innerHTML = "Personnalisé";
+
+    parentRef.appendChild(defaultOption);
+
+    // Pour chaque nom de model
+    Object.keys(templateSessionsNameList).forEach(key=>{
+
+        // crée une option et l'insere
+        let newOption = document.createElement("option");
+        newOption.value = key;
+        newOption.innerHTML = templateSessionsNameList[key].name;
+
+        parentRef.appendChild(newOption);
+    });
+}
+
+// Sequence de génération d'une session depuis le tableau de creation
+async function eventGenerateSessionList(){
+
+    // Centralise les éléments qui été dans le tableau de création
+    let itemForSession = onGetTableSessionItem();
+
+    console.log(itemForSession);
+
+    // Retire le popup
+
+    // formate les nouveaux compteur et les sauvegardes
+    await onGenerateMultipleCounter(itemForSession);
+
+
+    // reset également l'heure du début de session
+    onSetSessionStartTime();
+
+    // sauvegarde l'heure du début de session
+    await onSaveStartTimeSessionModificationInDB(sessionStartTime);
+    
+
+    // masque le popup
+    document.getElementById("divPopCreateSession").style.display = "none";
+
+    // Affiche les nouveaux compteurs
+    onDisplayCounter();
+
+
+}
 
 // Fonction de création de la session
 async function onGenerateMultipleCounter(newSessionList) {
@@ -1473,35 +1502,7 @@ function onChangeColorInGenSessionTable(idRef) {
 
 
 
-// Génération des options du selecteur de session
-function onGenerateModelSelectList() {
 
-    console.log("generation de la liste des modèles");
-
-    // Referencement
-    let parentRef = document.getElementById("selectSessionTableModelName");
-    
-    // Vide les enfants
-    parentRef.innerHTML = "";
-
-    // Insert l'option "Personnalisé"
-    let defaultOption = document.createElement("option");
-        defaultOption.value = "CUSTOM";
-        defaultOption.innerHTML = "Personnalisé";
-
-    parentRef.appendChild(defaultOption);
-
-    // Pour chaque nom de model
-    templateSessionNameListSortedKey.forEach(key=>{
-
-        // crée une option et l'insere
-        let newOption = document.createElement("option");
-        newOption.value = key;
-        newOption.innerHTML = templateSessionsNameList[key].name;
-
-        parentRef.appendChild(newOption);
-    });
-}
 
 
 // Fonction pour empecher la div de se ferme lorsqu'on se trouve dans sa zone.

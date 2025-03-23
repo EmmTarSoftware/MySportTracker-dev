@@ -3,7 +3,6 @@ let templateSessionsNameList = {
     "id1":{name:"saucisse"},
     "id2":{name:"tomate"}
 },
-templateSessionNameListSortedKey = [],//liste des clé trié par ordre alphabétique
 maxTemplateSession = 20;
 
 
@@ -50,12 +49,22 @@ async function onLoadTemplateSessionNameFromDB() {
     try {
         const result = await db.allDocs({ include_docs: true }); // Récupère tous les documents
 
-        // Filtrer et extraire uniquement les champs nécessaires
-        result.rows.forEach(row =>{
-            if (row.doc.type === templateSessionStoreName){
-                templateSessionsNameList[row.doc._id] = { name: row.doc.sessionName };
-            }
-        });
+        // Filtrer et extraire uniquement les champs nécessaires sous forme de tableau
+        let sessionsArray = result.rows
+            .filter(row => row.doc.type === templateSessionStoreName)
+            .map(row => ({
+                id: row.doc._id,
+                name: row.doc.sessionName
+            }));
+
+        // Trier alphabétique par sessionName
+        sessionsArray.sort((a, b) => a.name.localeCompare(b.name, 'fr', { sensitivity: 'base' }));
+
+        // Reconstruire l'objet trié
+        templateSessionsNameList = sessionsArray.reduce((acc, session) => {
+            acc[session.id] = { name: session.name };
+            return acc;
+        }, {});
 
         if (devMode === true) {
             console.log("[DATABASE] [TEMPLATE] [SESSION] Templates chargés :", templateSessionsNameList);
@@ -64,6 +73,7 @@ async function onLoadTemplateSessionNameFromDB() {
         console.error("[DATABASE] [TEMPLATE] [SESSION] Erreur lors du chargement:", err);
     }
 }
+
 
 // Gestion si le nombre maximal de modèle de session atteints
 function gestionMaxTemplateSessionReach() {
@@ -127,9 +137,7 @@ async function eventUpdateTemplateSessionList() {
     await onLoadTemplateSessionNameFromDB();
 
 
-    // Récupère les clé triées
-    templateSessionNameListSortedKey = Object.keys(templateSessionsNameList);
-    templateSessionNameListSortedKey.sort();
+    console.log(templateSessionsNameList);
 
     // Traitement du bouton de limite de création
     gestionMaxTemplateSessionReach();
@@ -149,13 +157,14 @@ function onSetTemplateSessionNameList() {
     parentRef.innerHTML = "";
 
     //Affichage si aucun modèle de session
-    if (templateSessionNameListSortedKey.length === 0 ) {
+    if (Object.keys(templateSessionsNameList).length === 0 ) {
        parentRef.innerHTML = "Aucun modèle à afficher !";
        return
     }
 
     // Pour chaque ligne dans le tableau
-    templateSessionNameListSortedKey.forEach(key=>{
+    
+    Object.keys(templateSessionsNameList).forEach(key=>{
         // Crée une div
         new TemplateSessionItemList(key,templateSessionsNameList[key].name,parentRef);
     });
