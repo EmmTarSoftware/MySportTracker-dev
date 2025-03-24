@@ -3,8 +3,10 @@ let templateSessionsNameList = {
     "id1":{name:"saucisse"},
     "id2":{name:"tomate"}
 },
-maxTemplateSession = 20;
-
+maxTemplateSession = 20,
+templateSessionEditorMode = "", // le mode d'ouverture de l'éditeur (creation,modification)
+currentTemplateSessionID = "",
+currentTemplateSessionData;//pour comparer si ça a été modifié ou non
 
 
 
@@ -82,6 +84,19 @@ function gestionMaxTemplateSessionReach() {
 }
 
 
+
+// Recherche de template de session par son id/key
+async function findTemplateSessionById(templateId) {
+    try {
+        const template = await db.get(templateId); // Recherche dans la base
+        if (devMode) console.log("Template trouvé :", template);
+        return template; // Retourne l'objet trouvé
+    } catch (err) {
+        console.error("Erreur lors de la recherche du template :", err);
+        return null; // Retourne null si non trouvé
+    }
+}
+
 // class d'une div de modèle de session à inserer dans la liste
 class TemplateSessionItemList {
     constructor(id,sessionName,parentRef){
@@ -93,8 +108,9 @@ class TemplateSessionItemList {
         this.element.classList.add("item-container");
         // Utilisation d'une fonction fléchée pour conserver le bon "this"
         this.element.onclick = () => {
-            alert(this.id);
-            // onModifyTemplateSession(this.id);
+            currentTemplateSessionID = this.id;
+            onChangeMenu("ModifyTemplateSession");
+            eventOpenTemplateSessionEditor("modification");
         };
 
         this.render();
@@ -110,6 +126,13 @@ class TemplateSessionItemList {
         this.parentRef.appendChild(this.element);
     };
 }
+
+
+
+
+
+
+
 
 
 // ------------------------ FIN Fonction générales ----------------------------------------------------
@@ -194,16 +217,60 @@ function onClickReturnFromMenuTemplateSession() {
 
 // ----------------------------------------- editeur de modèle de session-------------------------------------------------
 
+
+
+
+
+
+
+
+
+
 // lance d'éditeur de sesion
 
 function onClickBtnCreateTemplateSession(){
 
-    // Demande de création du tableau vide
-    onCreateTemplateSessionTableLine();
+    // Demande l'ouverture de l'éditeur en paramétrant le mode
+    eventOpenTemplateSessionEditor("creation");
+
+
+
 };
 
 
 
+// Sequence d'ouverture de l'editeur de modele de session selon le mode choisi(creation ou modification)
+
+async function eventOpenTemplateSessionEditor(mode){
+    // Enregistre le mode d'ouverture
+    templateSessionEditorMode = mode;
+
+
+
+    switch (templateSessionEditorMode) {
+        case "creation":
+            // Demande de création du tableau vide
+            onCreateTemplateSessionTableLine();
+            break;
+        case "modification":
+            // Demande de création du tableau vide
+            onCreateTemplateSessionTableLine();
+
+            // Recherche les éléments dans la base
+            let result = await findTemplateSessionById(currentTemplateSessionID);
+            currentTemplateSessionData = {
+                sessionName :result.sessionName,
+                counterList: result.counterList
+            };
+            // Puis remplit le tableau 
+            onSetTemplateSessionTableLine(currentTemplateSessionData);
+            break;
+    
+        default:
+            break;
+    }
+
+}
 
 
 
@@ -224,7 +291,27 @@ function onCreateTemplateSessionTableLine() {
     }
 }
 
+// Fonction pour remplir les lignes du tableau
+function onSetTemplateSessionTableLine(templateData) {
+    console.log(templateData);
 
+    // Set le nom de la session
+    document.getElementById("inputTemplateSessionName").value = templateData.sessionName;
+
+    //Boucle pour remplir les différents compteurs
+    templateData.counterList.forEach((counter,index)=>{
+        document.getElementById(`inputGenSessionNom_${index}`).value = counter.counterName;
+        document.getElementById(`inputGenSessionSerie_${index}`).value = counter.serieTarget;
+        document.getElementById(`inputGenSessionRep_${index}`).value = counter.repIncrement;
+        // Couleur
+        document.getElementById(`selectGenSessionColor_${index}`).value = counter.color;
+        onChangeColorInGenSessionTable(index);
+    }); 
+    
+    
+    
+    
+}
 
 
 async function onClickSaveFromTemplateSessionEditor() {
