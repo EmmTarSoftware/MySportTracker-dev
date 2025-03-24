@@ -215,9 +215,6 @@ function onChooseSessionMenuSup(event,target) {
         case "generateSession":
             onClickMenuCreateSession();
             break;
-        case "MenuTemplateSession":
-            onChangeMenu("MenuTemplateSession");
-            break
     
         default:
             break;
