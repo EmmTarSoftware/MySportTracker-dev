@@ -11,7 +11,7 @@ let userCounterList = {
     counterSortedKey = [],//array des clé trié par "displayOrder"
     counterEditorMode, //creation ou modification
     currentCounterEditorID,//L'id du compteur en cours de modification
-    popupSessionMode,//set le mode d'utilisation du popup (removeCounter,resetAllCounter,clearSession)
+    popupSessionMode,//set le mode d'utilisation du popup (removeCounter,resetAllCounter,clearSession,deleteModel)
     sessionStartTime = "00:00:00";//date-heure du début de session set lorsque clique sur reset all counter, ou générate session
 
 
@@ -875,7 +875,10 @@ function onSetSessionPopupMode(mode) {
             textPopup = "Supprimer la session ?";
             imgPopupUrl ="./Icons/Icon-Delete-color.webp";
             break;
-    
+        case "deleteTemplateSession":
+            textPopup = "Supprimer le modele ?";
+            imgPopupUrl ="./Icons/Icon-Delete-color.webp";
+            break;
         default:
             break;
     }
@@ -914,7 +917,9 @@ function onConfirmPopupSession(event) {
         case "clearSession":
 
             break;
-    
+        case "deleteTemplateSession":
+            eventDeleteTemplateSessionModel();
+            break;
         default:
             break;
     }

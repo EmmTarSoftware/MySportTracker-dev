@@ -99,6 +99,27 @@ async function onLoadTemplateSessionNameFromDB() {
 }
 
 
+
+// Suppression template
+async function deleteTemplateSession(templateKey) {
+    try {
+        // Récupérer le document à supprimer
+        let docToDelete = await db.get(templateKey);
+
+        // Supprimer le document
+        await db.remove(docToDelete);
+
+        if (devMode === true ) {console.log("[TEMPLATE] Template supprimé :", templateKey);};
+
+        return true; // Indique que la suppression s'est bien passée
+    } catch (err) {
+        console.error("[TEMPLATE] Erreur lors de la suppression du template session :", err);
+        return false; // Indique une erreur
+    }
+}
+
+
+
 // Gestion si le nombre maximal de modèle de session atteints
 function gestionMaxTemplateSessionReach() {
     // Gestion bouton new compteur
@@ -361,13 +382,13 @@ async function onClickSaveFromTemplateSessionEditor() {
             // Sauvegarde la création
             await onInsertNewTemplateSessionInDB(templateSessionTosave);
             // Notification
-            onShowNotifyPopup(notifyTextArray.templateSessionCreated);
+            onShowNotifyPopup(notifyTextArray.templateCreation);
             break;
         case "modification":
             // Sauvegarde la modification
             await  onInsertTemplateSessionModificationInDB(templateSessionTosave,currentTemplateSessionID);
             // Notification
-            onShowNotifyPopup(notifyTextArray.templateSessionModified);
+            onShowNotifyPopup(notifyTextArray.templateModification);
             break;
     
         default:
@@ -423,12 +444,33 @@ function onGetTableTemplateSessionItem() {
 
 
 
+// -------------------------------- SUPPRIMER -------------------------------
+
+
+function onClickDeleteFromTemplateSessionEditor() {
+    onSetSessionPopupMode("deleteTemplateSession");
+}
 
 
 
 
+// Sequence de suppression d'un modèle
+async function eventDeleteTemplateSessionModel() {
+    
+    // ferme l'editeur
+    onLeaveMenu("TemplateSessionEditor");
 
 
+    // supprime en base
+    await deleteTemplateSession(currentTemplateSessionID);
+
+    // Notification
+    onShowNotifyPopup(notifyTextArray.templateDeleted);
+
+    // Actualise la liste
+    eventUpdateTemplateSessionList();
+
+}
 
 
 

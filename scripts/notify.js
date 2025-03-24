@@ -16,9 +16,7 @@ let notifyTextArray = {
     counterDeleted : "Compteur supprimé !",
     counterTargetReach : "Compteur validé !",
     sessionReset : "Session réinitialisée !",
-    activityGenerated : "Activité généré !",
-    templateSessionCreated :"Modèle sauvegardé !",
-    templateSessionModified :"Modèle modifié !"
+    activityGenerated : "Activité généré !"
 };
 
 
