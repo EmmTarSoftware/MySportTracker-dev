@@ -7,7 +7,7 @@ let userCounterList = {
             color : "white"
         }
     },
-    maxCounter = 5,
+    maxCounter = 20,
     counterSortedKey = [],//array des clé trié par "displayOrder"
     counterEditorMode, //creation ou modification
     currentCounterEditorID,//L'id du compteur en cours de modification
@@ -1529,6 +1529,60 @@ function onCancelCreateSession(event) {
 
 
 
+
+
+
+
+// --------------------------------- utilisation d'un modèle ------------------------------
+
+
+async function onChangeSelectorChooseTemplateSession(modelIdTarget) {
+
+    // vide la liste
+    let parentRef = document.getElementById("bodyTableGenerateSession");
+    parentRef.innerHTML = "";
+
+    // Crée à nouveau une liste vide
+    for (let i = 0; i < maxCounter; i++) {
+        new TableLineSession(parentRef,i); 
+    }
+
+    // pour modèle "personnalisé" ne vas pas plus loin
+    if (modelIdTarget === "CUSTOM") {
+        return
+    }
+
+    // Récupère les items selon l'ID dans la base
+    let result = await findTemplateSessionById(modelIdTarget);
+    sessionData = {
+        sessionName :result.sessionName,
+        counterList: result.counterList
+    };
+    // Puis remplit le tableau 
+    onSetSessionTableLineFromTemplate(sessionData);
+
+}
+
+
+
+// Fonction pour remplir les lignes du tableau
+function onSetSessionTableLineFromTemplate(templateData) {
+    console.log(templateData);
+
+    //Boucle pour remplir les différents compteurs
+    templateData.counterList.forEach((counter,index)=>{
+        document.getElementById(`inputGenSessionNom_${index}`).value = counter.counterName;
+        document.getElementById(`inputGenSessionSerie_${index}`).value = counter.serieTarget;
+        document.getElementById(`inputGenSessionRep_${index}`).value = counter.repIncrement;
+        // Couleur
+        document.getElementById(`selectGenSessionColor_${index}`).value = counter.color;
+        onChangeColorInGenSessionTable(index);
+    }); 
+    
+    
+    
+    
+}
 
 
 
