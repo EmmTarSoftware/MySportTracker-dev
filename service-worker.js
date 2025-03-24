@@ -5,7 +5,7 @@ const basePath = serviceWorkerUrl.replace(/service-worker\.js$/, '');
 console.log(`[SERVICE WORKER] : BasePath = ${basePath}`);
 
 // Nom de la version du cache
-const CACHE_VERSION = "V1.6.16"; // Incrémente la version à chaque mise à jour
+const CACHE_VERSION = "V1.6.17"; // Incrémente la version à chaque mise à jour
 const STATIC_CACHE = `static-${CACHE_VERSION}`;
 
 // Les js et css (fichiers critiques : Network First)
@@ -76,7 +76,8 @@ const ICONS = [
   `${basePath}Icons/Icon-nav-increase.webp`,
   `${basePath}Icons/Icon-nav-decrease.webp`,
   `${basePath}Icons/Icon-Session.webp`,
-  `${basePath}Icons/Icon-Send.webp`
+  `${basePath}Icons/Icon-Send.webp`,
+   `${basePath}Icons/Icon-Counter-Done.webp`
 ];
 
 const IMAGES = [
@@ -121,7 +122,7 @@ const IMAGES = [
 ];
 
 const BADGES = [
-   `${basePath}Badges/Badge-1-an.webp`,
+  `${basePath}Badges/Badge-1-an.webp`,
   `${basePath}Badges/Badge-ACTIVITE-100.webp`,
   `${basePath}Badges/BADGE-ACTIVITE-FIRST.webp`,
   `${basePath}Badges/Badge-ACTIVITE-NAUTIQUE-A.webp`,

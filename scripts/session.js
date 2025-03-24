@@ -77,6 +77,8 @@ class Counter {
                 onchange="onChangeCounterRepIncrement('${this.id}')" onfocus="selectAllText(this)" oncontextmenu="disableContextMenu(event)">
                 <button class="btn-menu btnFocus" id="btnRepIncrement_${this.id}" onclick="onClickIncrementeCounter('${this.id}')"><img src="./Icons/Icon-Accepter.webp" alt="" srcset=""></button>  
            </div>
+            <!-- Image de rature -->
+            <img src="./Icons/Icon-Counter-Done.webp" class="overlay-image-rayure" id="imgCounterTargetDone_${this.id}" alt="Rature">
         `;
 
         // Insertion
@@ -651,6 +653,7 @@ function onCheckTargetReach(idRef) {
     } else if (userCounterList[idRef].currentSerie === userCounterList[idRef].serieTarget){
         targetReach = true;
         document.getElementById(`spanSerieTarget_${idRef}`).classList.add("target-reach");
+        document.getElementById(`imgCounterTargetDone_${idRef}`).classList.add("counterTargetDone");
     }
     return targetReach;
 }
@@ -715,6 +718,7 @@ async function onClickResetCounter(idRef) {
 
     if (counterTargetRef.classList.contains("target-reach")) {
         counterTargetRef.classList.remove("target-reach");
+        document.getElementById(`imgCounterTargetDone_${idRef}`).classList.remove("counterTargetDone");
     }
 
     // Ajouter la classe pour l'animation

@@ -1812,6 +1812,23 @@ div.disabledEvent{
 }
 
 
+/* rayure lorsque validé */
+img.overlay-image-rayure {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Ajuste la taille sans déformation */
+    pointer-events: none; /* Permet de cliquer à travers */
+    z-index: 1; /* S'assure que l'image est bien au-dessus */
+    opacity: 0; /* Mets 0 pour cacher, et 1 pour afficher la rature */
+}
+
+img.counterTargetDone{
+    opacity: 1;
+}
+
 /* Ligne 1 */
 div.compteur-content-line-1{
     display: flex;
