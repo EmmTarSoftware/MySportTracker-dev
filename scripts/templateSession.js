@@ -43,7 +43,29 @@ async function onInsertNewTemplateSessionInDB(templateSessionToInsert) {
     }
 }
 
+// Modification template
+async function onInsertTemplateSessionModificationInDB(templateToUpdate,key) {
 
+    try {
+        // Récupérer l'élément actuel depuis la base
+        let existingDoc = await db.get(key);
+
+        // Mettre à jour les champs nécessaires en conservant `_id` et `_rev`
+        const updatedDoc = {
+            ...existingDoc,  // Garde _id et _rev pour la mise à jour
+            ...templateToUpdate // Remplace les valeurs avec les nouvelles
+        };
+
+        // Enregistrer les modifications dans la base
+        await db.put(updatedDoc);
+
+        if (devMode === true ) {console.log("[TEMPLATE] Template mis à jour :", updatedDoc);};
+
+        return updatedDoc; // Retourne l'objet mis à jour
+    } catch (err) {
+        console.error("Erreur lors de la mise à jour du template :", err);
+    }
+}
 
 async function onLoadTemplateSessionNameFromDB() {
     templateSessionsNameList = {}; // Initialisation en objet
@@ -332,15 +354,33 @@ async function onClickSaveFromTemplateSessionEditor() {
     console.log(templateSessionTosave);
 
 
-    // Sauvegarde
-    await onInsertNewTemplateSessionInDB(templateSessionTosave);
+    // Filtre selon le type du mode d'éditeur
+
+    switch (templateSessionEditorMode) {
+        case "creation":    
+            // Sauvegarde la création
+            await onInsertNewTemplateSessionInDB(templateSessionTosave);
+            // Notification
+            onShowNotifyPopup(notifyTextArray.templateSessionCreated);
+            break;
+        case "modification":
+            // Sauvegarde la modification
+            await  onInsertTemplateSessionModificationInDB(templateSessionTosave,currentTemplateSessionID);
+            // Notification
+            onShowNotifyPopup(notifyTextArray.templateSessionModified);
+            break;
+    
+        default:
+            break;
+    }
 
 
     // actualise la liste des templates
     eventUpdateTemplateSessionList();
 
-    // Notification
-    onShowNotifyPopup(notifyTextArray.templateSessionCreated);
+
+
+    
 }
 
 
