@@ -230,9 +230,17 @@ function onSetTemplateSessionNameList() {
 
     // Pour chaque ligne dans le tableau
     
-    Object.keys(templateSessionsNameList).forEach(key=>{
+    Object.keys(templateSessionsNameList).forEach((key,index)=>{
         // Crée une div
         new TemplateSessionItemList(key,templateSessionsNameList[key].name,parentRef);
+
+        // Creation de la ligne de fin pour le dernier index
+        if (index === (Object.keys(templateSessionsNameList).length - 1)) {
+            let newClotureList = document.createElement("span");
+            newClotureList.classList.add("last-container");
+            newClotureList.innerHTML = `ℹ️ Vous pouvez créer jusqu'à ${maxTemplateSession} modèles.`;
+            parentRef.appendChild(newClotureList);
+        }
     });
 
 }
